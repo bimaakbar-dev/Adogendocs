@@ -1,0 +1,58 @@
+---
+// src/layouts/DocsLayout.astro
+import { SITE, type buildMeta as BuildMetaFn } from "@/consts";
+
+import Head from "@/components/Head.astro";
+import Container from "@/components/ui/Container.astro";
+import Footer from "@/components/Footer.astro";
+import DocsNavbar from "@/components/docs/DocsNavbar.astro";
+import DocsSidebar from "@/components/docs/DocsSidebar.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import SkipLink from "@/components/SkipLink.astro";
+import DocsMobileToc from "@/components/docs/DocsMobileToc.astro";
+
+interface Props {
+  meta?: Partial<ReturnType<typeof BuildMetaFn>>;
+  schema?: object | object[];
+  isHome?: boolean;
+  canonical?: string;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+  sidebarProps: any;
+}
+
+const {
+  meta,
+  schema,
+  isHome = false,
+  canonical,
+  hideHeader = false,
+  hideFooter = false,
+  sidebarProps,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.lang} dir={SITE.dir}>
+  <Head {meta} {schema} {isHome} {canonical}>
+    <ThemeProvider />
+  </Head>
+  <body>
+    <SkipLink />
+    <div class="min-h-screen flex-col">
+      {!hideHeader && <DocsNavbar />}
+      <Container size="full" class="mx-auto grid min-h-screen w-full grid-cols-1 gap-6 px-0! lg:grid-cols-[16rem_minmax(0,1fr)_16rem]">
+        <aside class="hidden bg-(--bg-subtle) flex-col border-r border-(--border-subtle) lg:sticky lg:top-(--header-height) lg:block lg:h-[calc(100vh-54px)] lg:overflow-y-auto lg:px-4 lg:py-6">
+          {sidebarProps && <DocsSidebar {...sidebarProps} />}
+        </aside>
+        <main id="main-content" class="w-full min-w-0">
+          <slot />
+        </main>
+        <aside class="hidden flex-col lg:sticky lg:top-(--header-height) lg:block lg:h-[calc(100vh-54px)] lg:overflow-y-auto lg:px-4 lg:py-4">
+          <slot name="right" />
+        </aside>
+      </Container>
+      {!hideFooter && <Footer />}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+/* src/styles/prose/components/table.css */
+.prose .table-wrapper {
+  margin: 2rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.01),
+    0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--prose-table-border);
+  border-radius: var(--prose-radius-md);
+}
+
+.prose table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  color: var(--prose-table-text);
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.prose > table {
+  margin: 2rem 0;
+  border: 1px solid var(--prose-table-border);
+  border-radius: var(--prose-radius-md);
+  overflow: hidden;
+}
+
+.prose .table-wrapper table {
+  margin: 0;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+}
+
+.prose thead {
+  background: var(--prose-table-header-bg);
+}
+
+.prose thead th {
+  border-bottom: 1px solid var(--prose-table-border);
+  color: var(--prose-table-header-text);
+  text-align: start;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.prose thead tr {
+  color: var(--prose-fg-subtle);
+}
+
+.prose th {
+  color: var(--prose-table-header-text);
+}
+
+.prose tbody {
+  background: var(--prose-table-row-bg);
+}
+
+.prose tbody tr {
+  transition: background-color var(--prose-duration) var(--prose-ease-out);
+  background: var(--prose-table-row-bg);
+}
+
+@media (hover: hover) {
+  .prose tbody tr:hover {
+    background: var(--prose-table-row-hover);
+  }
+}
+
+.prose th,
+.prose td {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.prose td code,
+.prose th code {
+  white-space: nowrap;
+}
+
+.prose tbody td {
+  border-bottom: 1px solid var(--prose-table-border);
+  background: transparent;
+  color: var(--prose-table-text);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody td strong {
+  color: var(--prose-fg-strong);
+  font-weight: 600;
+}
+
+.prose tbody td small {
+  @apply text-label-14;
+  color: var(--prose-fg-subtle);
+  font-weight: 500;
+}
+
+.prose th:not(:last-child),
+.prose td:not(:last-child) {
+  border-inline-end: 1px solid var(--prose-table-border);
+}
+
+@media (max-width: 767px) {
+  .prose .table-wrapper,
+  .prose > table {
+    margin: 1.5rem 0;
+  }
+
+  .prose thead th,
+  .prose tbody td {
+    @apply text-numeric-14;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .prose thead th,
+  .prose tbody td {
+    @apply text-numeric-14;
+    padding: 0.625rem 1rem;
+  }
+}
