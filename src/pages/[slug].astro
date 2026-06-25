@@ -1,10 +1,10 @@
 ---
 // src/pages/[slug].astro
-export const prerender = true;
-
 import { getCollection, render } from "astro:content";
 
-import { buildMeta, schemaWebPage, SITE, formatDate } from "../consts";
+import { buildMeta, schemaWebPage, SITE } from "../consts";
+
+import {formatDate} '@lib/utils';
 
 import { components } from "@/components/mdx/MDXComponents";
 
