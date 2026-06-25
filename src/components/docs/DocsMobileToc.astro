@@ -1,0 +1,228 @@
+---
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  title?: string;
+  headings: { depth: number; text: string; slug: string }[];
+}
+
+const { title, headings } = Astro.props;
+const filteredToc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+
+const defaultLabel = title || "Dihalaman ini";
+const openLabel = title || "Daftar Isi";
+---
+
+<div
+  class="sticky top-(--header-height) z-50 flex w-full items-center rounded-md px-0 md:hidden"
+>
+  {
+    filteredToc.length > 0 && (
+      <details
+        id="m-toc-details"
+        data-page-title={title}
+        class="group/toc relative w-full border-b border-(--border-subtle)/40 bg-(--bg-subtle)"
+      >
+        <summary class="flex list-none items-center gap-2 px-4 py-2 text-[14px] font-medium text-(--fg-strong) select-none hover:bg-(--bg-muted)/30 focus:ring-2 focus:ring-transparent focus:outline-none active:bg-(--bg-muted)/30 [&::-webkit-details-marker]:hidden">
+          <span
+            role="progressbar"
+            aria-label="Reading progress"
+            class="inline-flex shrink-0"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+              <circle
+                cx="12"
+                cy="12"
+                r="11"
+                stroke="currentColor"
+                stroke-width="1.5"
+                opacity="0.25"
+              />
+              <circle
+                id="m-toc-progress-ring"
+                cx="12"
+                cy="12"
+                r="11"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-dasharray="69.115"
+                stroke-dashoffset="69.115"
+                stroke-linecap="round"
+                transform="rotate(-90 12 12)"
+                class="text-(--accent) transition-all duration-150"
+              />
+            </svg>
+          </span>
+          <span class="relative inline-flex h-6 flex-1 shrink-0 items-center justify-center overflow-hidden">
+            <span
+              id="m-toc-active-text"
+              class="absolute inset-0 translate-y-0 items-center truncate text-left font-medium opacity-100 transition-all duration-300 ease-out group-open/toc:-translate-y-full group-open/toc:opacity-0"
+            >
+              {defaultLabel}
+            </span>
+            <span class="absolute inset-0 translate-y-full items-center truncate text-left font-medium text-(--fg-strong) opacity-0 transition-all duration-300 ease-out group-open/toc:translate-y-0 group-open/toc:opacity-100">
+              {openLabel}
+            </span>
+          </span>
+          <span class="h-6 w-6 p-1 text-(--fg-muted) transition-transform duration-300 group-open/toc:rotate-90">
+            <Icon name="chevron-right" className="w-full h-full" />
+          </span>
+        </summary>
+        <nav class="animate-in fade-in zoom-in-95 absolute top-full right-0 left-0 z-40 max-h-[60vh] w-full origin-top overflow-y-auto border-y border-(--border-subtle)/40 bg-(--bg-subtle) px-4 pt-2 pb-3.5 shadow-xl duration-200">
+          <ul id="m-toc-list" class="relative z-10 flex flex-col" role="list">
+            {filteredToc.map((h) => {
+              const isSub = h.depth === 3;
+              return (
+                <li class="relative">
+                  <a
+                    href={`#${h.slug}`}
+                    aria-label={h.text}
+                    class:list={[
+                      "toc-mobile-link block truncate rounded-md px-3 py-2 text-[14px] font-medium no-underline transition-colors duration-200",
+                      isSub
+                        ? "pl-6 text-(--fg-muted) hover:text-(--fg-strong)"
+                        : "pl-3 text-(--fg-muted) hover:text-(--fg-strong)",
+                    ]}
+                    data-toc-mobile-slug={h.slug}
+                    data-is-sub={isSub.toString()}
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </details>
+    )
+  }
+</div>
+
+<script>
+  const initMobileToc = () => {
+    const tocLinks = document.querySelectorAll(
+      "[data-toc-mobile-slug]",
+    ) as NodeListOf<HTMLElement>;
+
+    if (!tocLinks.length) return;
+
+    const tocDetails = document.getElementById(
+      "m-toc-details",
+    ) as HTMLElement | null;
+    const activeText = document.getElementById(
+      "m-toc-active-text",
+    ) as HTMLElement | null;
+    const progressRing = document.getElementById(
+      "m-toc-progress-ring",
+    ) as HTMLElement | null;
+
+    if (!tocDetails || !activeText || !progressRing) return;
+
+    const pageTitle = tocDetails.dataset.pageTitle || "Dihalaman ini";
+
+    const linksArray = Array.from(tocLinks);
+    const targets = linksArray
+      .map((link) => document.getElementById(link.dataset.tocMobileSlug!))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let active = "";
+    let isClickScrolling = false;
+    const circumference = 69.115;
+
+    const updateRingProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight <= 0 ? 0 : Math.min(scrollTop / docHeight, 1);
+      progressRing.style.strokeDashoffset = String(
+        circumference * (1 - progress),
+      );
+    };
+
+    const updateActiveLinks = () => {
+      linksArray.forEach((link) => {
+        const isActive = link.dataset.tocMobileSlug === active;
+        link.classList.toggle("text-(--fg-strong)", isActive);
+        link.classList.toggle("bg-(--bg-muted)", isActive);
+        link.classList.toggle("text-(--fg-muted)", !isActive);
+      });
+    };
+
+    const updateSummaryText = () => {
+      const label =
+        window.scrollY < 100 && !active
+          ? pageTitle
+          : (active
+              ? linksArray
+                  .find((l) => l.dataset.tocMobileSlug === active)
+                  ?.textContent?.trim()
+              : null) || pageTitle;
+      activeText.textContent = label;
+    };
+
+    updateRingProgress();
+    updateSummaryText();
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        updateRingProgress();
+        updateSummaryText();
+      },
+      { passive: true },
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (isClickScrolling) return;
+        const visibleEntries = entries.filter((e) => e.isIntersecting);
+        if (visibleEntries.length) {
+          const topMostEntry = visibleEntries.reduce((a, b) =>
+            a.boundingClientRect.top <= b.boundingClientRect.top ? a : b,
+          );
+          active = (topMostEntry.target as HTMLElement).id;
+        } else if (window.scrollY < 100) {
+          active = "";
+        }
+        updateSummaryText();
+        updateActiveLinks();
+      },
+      { rootMargin: "-124px 0px -65% 0px", threshold: 0 },
+    );
+
+    targets.forEach((t) => observer.observe(t));
+
+    const closeToc = () => tocDetails.removeAttribute("open");
+
+    linksArray.forEach((link) => {
+      link.addEventListener("click", () => {
+        isClickScrolling = true;
+        active = link.dataset.tocMobileSlug || "";
+        updateSummaryText();
+        updateActiveLinks();
+        closeToc();
+        setTimeout(() => {
+          isClickScrolling = false;
+        }, 500);
+      });
+    });
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        tocDetails.hasAttribute("open") &&
+        !tocDetails.contains(event.target as Node)
+      )
+        closeToc();
+    };
+    document.addEventListener("click", handleOutsideClick);
+
+    const cleanup = () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateRingProgress);
+      document.removeEventListener("click", handleOutsideClick);
+    };
+    document.addEventListener("astro:before-swap", cleanup, { once: true });
+    document.addEventListener("astro:page-load", initMobileToc);
+  };
+  initMobileToc();
+</script>

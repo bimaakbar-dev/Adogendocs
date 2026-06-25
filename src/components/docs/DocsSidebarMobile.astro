@@ -1,0 +1,155 @@
+---
+// src/components/docs/DocsMobileNav.astro
+import type { CollectionEntry } from "astro:content";
+import Icon from "../ui/Icon.astro";
+import { ROUTES, SITE } from "../../consts";
+import Button from "../ui/Button.astro";
+
+interface Props {
+  sidebarItems: CollectionEntry<"docs">[];
+  primaryRootId: string;
+  cleanSlug: string | undefined;
+}
+
+const { sidebarItems, primaryRootId, cleanSlug } = Astro.props;
+
+const generalLinks = [
+  { label: "Home", href: ROUTES.home },
+  { label: "Docs", href: ROUTES.docs },
+  { label: "Privacy Policy", href: ROUTES.privacy },
+  { label: "Terms of Service", href: ROUTES.terms },
+];
+---
+
+<Button
+  type="button"
+  id="mobile-menu-open"
+  aria-label="Open menu"
+  variant="icon-outline"
+  size="sm"
+  class="inline-flex shrink-0 cursor-pointer items-center p-1.5 md:hidden"
+>
+  <Icon name="menu" className="h-full w-full" />
+</Button>
+
+<div
+  id="mobile-menu-drawer"
+  class="pointer-events-none invisible fixed inset-0 z-50 flex flex-col bg-(--bg) opacity-0 transition-all duration-300"
+>
+  <header
+    class="flex h-(--header-height) shrink-0 items-center justify-between border-b border-(--border)/50 px-4"
+  >
+    <a
+      href={ROUTES.home}
+      aria-label={SITE.name}
+      class="inline-flex shrink-0 items-center gap-1.5 text-xl font-medium text-(--fg) transition-opacity hover:opacity-80"
+    >
+      <Icon name="logo" className="h-6 w-6" />
+    </a>
+    <Button
+      type="button"
+      id="mobile-menu-close"
+      aria-label="Close menu"
+      variant="icon-outline"
+      size="sm"
+      class="inline-flex shrink-0 cursor-pointer items-center p-1.5 md:hidden"
+    >
+      <Icon name="close" className="h-full w-full" />
+    </Button>
+  </header>
+  <nav class="flex flex-1 flex-col gap-6 overflow-y-auto px-4 py-6">
+    <p class="font-mono text-[13px] font-medium text-(--fg) uppercase">Docs</p>
+    <ul class="flex flex-col gap-0.5 border-l border-(--border)/60">
+      {
+        sidebarItems.map((item) => {
+          const itemSlug = item.data.slug || item.id;
+          const isItemRoot = item.id === primaryRootId;
+          const targetHref = isItemRoot ? "/docs" : `/docs/${itemSlug}`;
+          const isActive = isItemRoot ? !cleanSlug : cleanSlug === itemSlug;
+          return (
+            <li>
+              <a
+                href={targetHref}
+                aria-label={item.data.title}
+                class:list={[
+                  "mobile-nav-link -ml-px flex items-center justify-between gap-2 rounded-r-md border-l-2 px-3 py-1.5 text-[14px] no-underline transition-all",
+                  isActive
+                    ? "border-(--accent) bg-(--accent)/10 font-medium text-(--accent) shadow-xs"
+                    : "border-transparent text-(--fg-muted) hover:bg-(--bg-muted)/40 hover:text-(--fg-strong)",
+                ]}
+              >
+                <span class="truncate leading-snug">{item.data.title}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <div class="border-t border-(--border-subtle) pt-4">
+      <p
+        class="mb-2 px-3 font-mono text-[13px] font-medium text-(--fg) uppercase"
+      >
+        General
+      </p>
+      <ul class="flex flex-col gap-0.5">
+        {
+          generalLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-label={link.label}
+                class="mobile-nav-link flex items-center justify-between gap-2 rounded-md px-3 py-1.5 text-[14px] font-medium text-(--fg-muted) no-underline transition-all hover:bg-(--bg-muted)/40 hover:text-(--fg-strong)"
+              >
+                <span class="truncate leading-snug">{link.label}</span>
+                <span class="h-3 w-3 shrink-0 text-(--fg-dim)">
+                  <Icon name="logo" className="w-full h-full" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<script>
+  function initDocsMobileNav() {
+    const openBtn = document.getElementById("mobile-menu-open");
+    const closeBtn = document.getElementById("mobile-menu-close");
+    const drawer = document.getElementById("mobile-menu-drawer");
+    const links = document.querySelectorAll(".mobile-nav-link");
+
+    if (!openBtn || !closeBtn || !drawer) return;
+
+    if (drawer.parentElement !== document.body) {
+      document.body.appendChild(drawer);
+    }
+
+    const openMenu = () => {
+      drawer.classList.remove("opacity-0", "pointer-events-none", "invisible");
+      drawer.classList.add("opacity-100", "pointer-events-auto", "visible");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeMenu = () => {
+      drawer.classList.remove("opacity-100", "pointer-events-auto", "visible");
+      drawer.classList.add("opacity-0", "pointer-events-none", "invisible");
+      document.body.style.overflow = "";
+    };
+
+    openBtn.onclick = openMenu;
+    closeBtn.onclick = closeMenu;
+    links.forEach((link) => {
+      (link as HTMLElement).onclick = closeMenu;
+    });
+
+    const mq = window.matchMedia("(min-width: 640px)");
+    mq.onchange = (e) => {
+      if (e.matches) closeMenu();
+    };
+  }
+  initDocsMobileNav();
+  document.addEventListener("astro:page-load", initDocsMobileNav);
+  if (document.readyState !== "loading") initDocsMobileNav();
+</script>

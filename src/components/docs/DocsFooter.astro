@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DocsPager from "@/components/docs/DocsPager.astro";
+import { formatDate } from "@/consts";
+
+interface Props {
+    prev?: CollectionEntry<"docs"> | null;
+    next?: CollectionEntry<"docs"> | null;
+    primaryRootId: string;
+    lastUpdated?: Date;
+}
+
+const { prev, next, primaryRootId, lastUpdated } = Astro.props;
+---
+<div class="grid grid-col-1 items-center gap-2">
+    {lastUpdated && (
+        <time datetime={lastUpdated.toISOString()} class="text-(--fg-muted)/80">
+            <span>Updated: </span>
+            {formatDate(lastUpdated)}
+        </time>
+    )}
+    <DocsPager
+        prev={prev}
+        next={next}
+        primaryRootId={primaryRootId}
+    />
+</div>
