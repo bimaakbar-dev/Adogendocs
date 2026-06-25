@@ -12,8 +12,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@ui/*": ["./src/components/ui/*"],
-      "@adogen/*": ["./src/components/adogen/*"],
-      "@lib/*": ["./src/components/lib/*"]
+      "@lib/*": ["./src/lib/*"]
     }
   }
 }
