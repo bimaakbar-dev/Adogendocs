@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import DocsPager from "@/components/docs/DocsPager.astro";
-import { formatDate } from "@/consts";
+import { formatDate } from "@lib/utils";
 
 interface Props {
     prev?: CollectionEntry<"docs"> | null;
