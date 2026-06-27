@@ -1,0 +1,61 @@
+---
+// src/components/Theme.astro
+import Button from "@ui/Button.astro";
+import Icon from "@ui/Icon.astro";
+---
+
+<Button
+  id="theme-toggle"
+  variant="icon"
+  size="sm"
+  aria-label="Toggle tema"
+>
+  <Icon name="moon" className="block h-4 w-4 dark:hidden" />
+  <Icon name="sun" className="hidden h-4 w-4 dark:block" />
+</Button>
+
+<script is:inline>
+  (() => {
+    const btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+
+    const html = document.documentElement;
+
+    function setTheme(isDark) {
+      if (isDark) {
+        html.classList.add("dark");
+        html.style.colorScheme = "dark";
+      } else {
+        html.classList.remove("dark");
+        html.style.colorScheme = "light";
+      }
+      localStorage.setItem("a0-theme", isDark ? "dark" : "light");
+    }
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === "a0-theme") {
+        setTheme(e.newValue === "dark");
+      }
+    });
+
+    window.addEventListener("theme-changed", (e) => {
+      setTheme(e.detail.isDark);
+    });
+
+    const stored = localStorage.getItem("a0-theme");
+    let isDark;
+    if (stored === "dark" || stored === "light") {
+      isDark = stored === "dark";
+    } else {
+      isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      localStorage.setItem("a0-theme", isDark ? "dark" : "light");
+    }
+    setTheme(isDark);
+
+    btn.addEventListener("click", () => {
+      const newIsDark = !html.classList.contains("dark");
+      setTheme(newIsDark);
+      window.dispatchEvent(new CustomEvent("theme-changed", { detail: { isDark: newIsDark } }));
+    });
+  })();
+</script>

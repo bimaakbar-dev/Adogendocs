@@ -3,6 +3,7 @@ type NavItem = {
   label: string;
   href: string;
   isExternal?: boolean;
+  icon?: string;
   children?: NavItem[];
 };
 
@@ -11,10 +12,11 @@ type FooterNav = {
   items: NavItem[];
 };
 
-type ToolsNav = {
-  label: string;
+type Socials = {
   href: string;
+  label?: string;
   icon?: string;
+  isExternal?: boolean;
 };
 
 const LOGO = "/org/c0desk1-logo.svg";
@@ -60,6 +62,7 @@ export const ORG = {
 
 export const ROUTES = {
   home: "/",
+  novel: "/novels",
   about: "/about",
   docs: "/docs",
   privacy: "/privacy",
@@ -74,8 +77,9 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Docs", href: ROUTES.docs },
-    { label: "About", href: ROUTES.about },
+    { label: "Novel", href: ROUTES.novel, icon: "blog" },
+    { label: "Docs", href: ROUTES.docs, icon: "blog" },
+    { label: "About", href: ROUTES.about, icon: "logo" },
   ] as NavItem[],
   mobileNavBar: [
     { label: "Docs", href: ROUTES.docs },
@@ -97,7 +101,11 @@ export const NAV = {
         { label: "Terms of Service", href: ROUTES.terms },
       ],
     },
-  ] as FooterNav[]
+  ] as FooterNav[],
+  Social: [
+    { label: "Github", href: ROUTES.docs, icon: "github" },
+    { label: "X", href: ROUTES.about, icon: "twitter" },
+  ] as Socials[]
 } as const;
 
 export const SEO = {
