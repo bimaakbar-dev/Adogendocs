@@ -2,64 +2,51 @@
 // src/components/ui/Select.astro
 import Icon from "./Icon.astro";
 
-interface Props {
-  options: { label: string; value: string }[];
-  placeholder?: string;
-  id: string;
+interface SelectOption {
+  label: string;
+  value: string;
+  icon?: string;
+  href?: string;
+  isExternal?: boolean;
 }
 
-const { options, placeholder = "Select...", id } = Astro.props;
+interface Props {
+  options: SelectOption[];
+  selectedValue?: string;
+  placeholder?: string;
+  id?: string;
+}
+
+const { options, selectedValue, placeholder = "Pilih...", id = "select-" + Math.random().toString(36).slice(2, 7) } = Astro.props;
 ---
 
-<bima-select id={id}>
-  <div class="select-container relative w-full">
-    <button type="button" class="select-trigger flex w-full items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm">
-      <span class="select-label">{placeholder}</span>
-      <Icon name="select" className="w-4 h-4 transition-transform duration-200" />
-    </button>
-
-    <select class="hidden-select sr-only">
-      <option value="" disabled selected>{placeholder}</option>
-      {options.map(opt => <option value={opt.value}>{opt.label}</option>)}
-    </select>
-
-    <div class="select-dropdown absolute left-0 right-0 top-full z-50 mt-2 hidden rounded-md border border-(--border) bg-(--bg) p-2 shadow-lg">
-      {options.map(opt => (
-        <button type="button" data-value={opt.value} class="block w-full px-3 py-2 text-sm text-left hover:bg-(--bg-subtle)">
-          {opt.label}
-        </button>
-      ))}
-    </div>
+<label class="select-wrapper relative block w-full cursor-pointer">
+  <span class="sr-only">Select option</span>
+  <div class="select-trigger flex w-full items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm text-(--fg)">
+    <span class="flex items-center gap-2">
+      <span data-label-text>{placeholder}</span>
+    </span>
+    <Icon name="select" className="w-4 h-4 text-(--fg-muted)" />
   </div>
-</bima-select>
 
-<script>
-  class BimaSelect extends HTMLElement {
-    constructor() {
-      super();
-      const trigger = this.querySelector('.select-trigger') as HTMLButtonElement;
-      const select = this.querySelector('.hidden-select') as HTMLSelectElement;
-      const dropdown = this.querySelector('.select-dropdown') as HTMLDivElement;
-      const label = this.querySelector('.select-label') as HTMLSpanElement;
+  <select id={id} class="absolute inset-0 w-full opacity-0 cursor-pointer">
+    <option value="" disabled selected>{placeholder}</option>
+    {options.map(opt => (
+      <option value={opt.value} data-href={opt.href}>{opt.label}</option>
+    ))}
+  </select>
+</label>
 
-      trigger.addEventListener('click', () => {
-        dropdown.classList.toggle('hidden');
-        trigger.querySelector('svg')?.classList.toggle('rotate-180');
-      });
+<script is:inline define:vars={{ id }}>
+  const select = document.getElementById(id);
+  const label = select.parentElement.querySelector('[data-label-text]');
 
-      this.querySelectorAll('.select-dropdown button').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const val = (e.currentTarget as HTMLElement).dataset.value!;
-          const text = (e.currentTarget as HTMLElement).textContent!;
-          
-          select.value = val;
-          label.textContent = text;
-          dropdown.classList.add('hidden');
-          
-          this.dispatchEvent(new CustomEvent('change', { detail: { value: val } }));
-        });
-      });
+  select.addEventListener('change', (e) => {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    label.textContent = selectedOption.text;
+
+    if (selectedOption.dataset.href) {
+      window.location.href = selectedOption.dataset.href;
     }
-  }
-  customElements.define('bima-select', BimaSelect);
+  });
 </script>
