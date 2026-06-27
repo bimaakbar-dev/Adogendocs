@@ -5,7 +5,7 @@ import Icon from "@ui/Icon.astro";
 ---
 
 <Button
-  id="theme-toggle"
+  class="theme-toggle"
   variant="icon"
   size="sm"
   aria-label="Toggle tema"
@@ -16,12 +16,10 @@ import Icon from "@ui/Icon.astro";
 
 <script is:inline>
   (() => {
-    const btn = document.getElementById("theme-toggle");
-    if (!btn) return;
-
     const html = document.documentElement;
 
-    function setTheme(isDark) {
+    // Fungsi update UI agar semua tombol sync
+    function updateTheme(isDark) {
       if (isDark) {
         html.classList.add("dark");
         html.style.colorScheme = "dark";
@@ -32,30 +30,33 @@ import Icon from "@ui/Icon.astro";
       localStorage.setItem("a0-theme", isDark ? "dark" : "light");
     }
 
+    // Inisialisasi awal
+    const stored = localStorage.getItem("a0-theme");
+    const isDark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    updateTheme(isDark);
+
+    // Event Delegation: Tangani klik pada tombol apapun yang punya class .theme-toggle
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".theme-toggle");
+      if (!btn) return;
+
+      const newIsDark = !html.classList.contains("dark");
+      updateTheme(newIsDark);
+      
+      // Kirim event ke seluruh tab agar sync jika buka di window lain
+      window.dispatchEvent(new CustomEvent("theme-changed", { detail: { isDark: newIsDark } }));
+    });
+
+    // Sinkronisasi antar tab
     window.addEventListener("storage", (e) => {
       if (e.key === "a0-theme") {
-        setTheme(e.newValue === "dark");
+        updateTheme(e.newValue === "dark");
       }
     });
 
+    // Listener jika ada event theme-changed dari source lain
     window.addEventListener("theme-changed", (e) => {
-      setTheme(e.detail.isDark);
-    });
-
-    const stored = localStorage.getItem("a0-theme");
-    let isDark;
-    if (stored === "dark" || stored === "light") {
-      isDark = stored === "dark";
-    } else {
-      isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      localStorage.setItem("a0-theme", isDark ? "dark" : "light");
-    }
-    setTheme(isDark);
-
-    btn.addEventListener("click", () => {
-      const newIsDark = !html.classList.contains("dark");
-      setTheme(newIsDark);
-      window.dispatchEvent(new CustomEvent("theme-changed", { detail: { isDark: newIsDark } }));
+      updateTheme(e.detail.isDark);
     });
   })();
 </script>
