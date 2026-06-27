@@ -7,12 +7,12 @@ import Icon from "./Icon.astro";
   type="button"
   data-search-trigger
   aria-label="Buka pencarian"
-  class="group flex w-full items-center gap-2 rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm text-(--fg-muted) transition-all duration-200 hover:bg-(--bg-subtle) hover:text-(--fg-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring)"
+  class="group flex w-full items-center gap-2 rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm text-(--fg-muted) transition-opacity duration-200 hover:bg-(--bg-subtle) hover:text-(--fg-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring)"
 >
   <Icon name="search" className="h-4 w-4 shrink-0 transition-colors group-hover:text-(--fg-strong)" />
   <span class="flex-1 text-left truncate">Cari...</span>
-  <kbd class="hidden items-center gap-1 rounded border border-(--border) bg-(--bg-muted) px-1.5 py-0.5 font-mono text-[10px] font-medium text-(--fg-muted) transition-colors group-hover:text-(--fg) lg:flex">
-    <span class="text-xs leading-none">⌘</span>K
+  <kbd class="hidden items-center gap-1 rounded border border-(--border) bg-(--bg-muted) px-1.5 py-0.5 font-mono text-[10px] font-medium text-(--fg-muted) transition-opacity group-hover:text-(--fg) lg:flex">
+    <span class="text-xs leading-none">CTRL</span> + K
   </kbd>
 </button>
 
