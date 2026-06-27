@@ -4,38 +4,35 @@ import Button from "@ui/Button.astro";
 import Icon from "@ui/Icon.astro";
 ---
 
-<bima-theme-toggle>
+<adogen-theme-toggle>
   <Button class="theme-btn" variant="icon" size="sm" aria-label="Toggle tema">
     <Icon name="moon" className="block h-4 w-4 dark:hidden" />
     <Icon name="sun" className="hidden h-4 w-4 dark:block" />
   </Button>
-</bima-theme-toggle>
+</adogen-theme-toggle>
 
 <script>
-  class BimaThemeToggle extends HTMLElement {
+  class adogenThemeToggle extends HTMLElement {
     constructor() {
       super();
       const btn = this.querySelector('.theme-btn');
       const html = document.documentElement;
 
-      // 1. Fungsi Update
       const updateTheme = (isDark: boolean) => {
         html.classList.toggle('dark', isDark);
         html.style.colorScheme = isDark ? 'dark' : 'light';
         localStorage.setItem('a0-theme', isDark ? 'dark' : 'light');
       };
 
-      // 2. Inisialisasi dari localStorage
       const saved = localStorage.getItem('a0-theme');
       const isDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
       updateTheme(isDark);
 
-      // 3. Listener Klik
       btn?.addEventListener('click', () => {
         const isDark = html.classList.contains('dark');
         updateTheme(!isDark);
       });
     }
   }
-  customElements.define('bima-theme-toggle', BimaThemeToggle);
+  customElements.define('adogen-theme-toggle', adogenThemeToggle);
 </script>
