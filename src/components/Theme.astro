@@ -4,35 +4,39 @@ import Button from "@ui/Button.astro";
 import Icon from "@ui/Icon.astro";
 ---
 
-<adogen-theme-toggle>
+<bima-theme-toggle>
   <Button class="theme-btn" variant="icon" size="sm" aria-label="Toggle tema">
     <Icon name="moon" className="block h-4 w-4 dark:hidden" />
     <Icon name="sun" className="hidden h-4 w-4 dark:block" />
   </Button>
-</adogen-theme-toggle>
+</bima-theme-toggle>
 
 <script>
-  class adogenThemeToggle extends HTMLElement {
+  class BimaThemeToggle extends HTMLElement {
     constructor() {
       super();
       const btn = this.querySelector('.theme-btn');
-      const html = document.documentElement;
-
-      const updateTheme = (isDark: boolean) => {
-        html.classList.toggle('dark', isDark);
-        html.style.colorScheme = isDark ? 'dark' : 'light';
-        localStorage.setItem('a0-theme', isDark ? 'dark' : 'light');
+      
+      const updateTheme = (newTheme: string) => {
+        document.documentElement.dataset.theme = newTheme;
+        document.documentElement.style.colorScheme = newTheme;
+        localStorage.setItem('a0-theme', newTheme);
       };
 
-      const saved = localStorage.getItem('a0-theme');
-      const isDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-      updateTheme(isDark);
-
       btn?.addEventListener('click', () => {
-        const isDark = html.classList.contains('dark');
-        updateTheme(!isDark);
+        const currentTheme = document.documentElement.dataset.theme;
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        updateTheme(newTheme);
+        
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+      });
+
+      window.addEventListener('theme-changed', (e: any) => {
+        if (e.detail.theme !== document.documentElement.dataset.theme) {
+          updateTheme(e.detail.theme);
+        }
       });
     }
   }
-  customElements.define('adogen-theme-toggle', adogenThemeToggle);
+  customElements.define('bima-theme-toggle', BimaThemeToggle);
 </script>
