@@ -6,18 +6,23 @@ interface Props {
 const { id } = Astro.props;
 ---
 
-<dialog 
+{/* Kita gunakan DIV biasa, ini 100% lebih mudah dikontrol CSS-nya */}
+<div 
   id={id} 
-  class="drawer-dialog m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-(--bg-strong)/80 backdrop:backdrop-blur-sm z-999"
+  class="drawer-overlay fixed inset-0 z-[9999] hidden items-end justify-center"
 >
+  {/* Backdrop */}
+  <div 
+    data-drawer-backdrop 
+    class="absolute inset-0 bg-(--bg-strong)/80 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+  ></div>
+
+  {/* Panel */}
   <aside 
     data-drawer-panel 
-    class="absolute bottom-0 left-0 right-0 flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-out will-change-transform translate-y-full"
+    class="relative flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-out translate-y-full"
   >
-    <div 
-      data-drag-handle 
-      class="flex w-full cursor-grab items-center justify-center pb-6 pt-4 touch-none active:cursor-grabbing"
-    >
+    <div data-drag-handle class="flex w-full cursor-grab items-center justify-center pb-6 pt-4 touch-none">
       <div class="h-1.5 w-12 rounded-full bg-(--border-strong)"></div>
     </div>
     
@@ -25,85 +30,55 @@ const { id } = Astro.props;
       <slot />
     </div>
   </aside>
-</dialog>
-
-<style>
-  /* Mengatur animasi masuk/keluar panel */
-  dialog[open] [data-drawer-panel] {
-    transform: translateY(0);
-  }
-  
-  /* Animasi backdrop */
-  dialog::backdrop {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  dialog[open]::backdrop {
-    opacity: 1;
-  }
-</style>
+</div>
 
 <script>
-  (() => {
-    const initDrawers = () => {
-      const triggers = document.querySelectorAll('[data-drawer-trigger]');
-      
-      const openDrawer = (dialog: HTMLDialogElement) => {
-        dialog.showModal();
-        document.body.style.overflow = "hidden";
-      };
+  // Menggunakan fungsi standar yang dipanggil di akhir halaman
+  const initDrawers = () => {
+    const triggers = document.querySelectorAll('[data-drawer-trigger]');
+    
+    triggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const targetId = trigger.getAttribute('data-drawer-trigger');
+        const drawer = document.getElementById(targetId || "");
+        if (!drawer) return;
 
-      const closeDrawer = (dialog: HTMLDialogElement) => {
-        const panel = dialog.querySelector('[data-drawer-panel]') as HTMLElement;
+        const backdrop = drawer.querySelector('[data-drawer-backdrop]') as HTMLElement;
+        const panel = drawer.querySelector('[data-drawer-panel]') as HTMLElement;
+
+        // 1. Tampilkan Overlay
+        drawer.classList.remove("hidden");
+        drawer.classList.add("flex");
+
+        // 2. Animasikan masuk
+        requestAnimationFrame(() => {
+          backdrop.classList.remove("opacity-0");
+          panel.classList.remove("translate-y-full");
+        });
+        
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    // Event listener penutup
+    document.querySelectorAll('.drawer-overlay').forEach(drawer => {
+      const backdrop = drawer.querySelector('[data-drawer-backdrop]');
+      const panel = drawer.querySelector('[data-drawer-panel]') as HTMLElement;
+
+      const close = () => {
+        backdrop?.classList.add("opacity-0");
         panel.classList.add("translate-y-full");
         
         setTimeout(() => {
-          dialog.close();
-          panel.classList.remove("translate-y-full");
+          drawer.classList.add("hidden");
+          drawer.classList.remove("flex");
           document.body.style.overflow = "";
         }, 300);
       };
 
-      document.querySelectorAll('.drawer-dialog').forEach(el => {
-        const dialog = el as HTMLDialogElement;
-        const panel = dialog.querySelector('[data-drawer-panel]') as HTMLElement;
-        const content = dialog.querySelector('[data-drawer-content]') as HTMLElement;
+      backdrop?.addEventListener('click', close);
+    });
+  };
 
-        // Klik Backdrop untuk menutup
-        dialog.addEventListener('click', (e) => {
-          if (e.target === dialog) closeDrawer(dialog);
-        });
-
-        // Logika Drag
-        let startY = 0;
-        panel.addEventListener('touchstart', (e) => {
-          if (content && content.scrollTop > 0) return;
-          startY = e.touches[0].clientY;
-          panel.style.transition = 'none';
-        }, { passive: true });
-
-        panel.addEventListener('touchmove', (e) => {
-          const deltaY = e.touches[0].clientY - startY;
-          if (deltaY > 0) panel.style.transform = `translateY(${deltaY}px)`;
-        }, { passive: true });
-
-        panel.addEventListener('touchend', (e) => {
-          const deltaY = e.changedTouches[0].clientY - startY;
-          panel.style.transition = '';
-          if (deltaY > 150) closeDrawer(dialog);
-          else panel.style.transform = '';
-        });
-      });
-
-      triggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-          const targetId = trigger.getAttribute('data-drawer-trigger');
-          const dialog = document.getElementById(targetId || "") as HTMLDialogElement;
-          if (dialog) openDrawer(dialog);
-        });
-      });
-    };
-
-    document.addEventListener("astro:page-load", initDrawers);
-  })();
+  initDrawers();
 </script>
