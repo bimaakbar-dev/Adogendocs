@@ -1,0 +1,13 @@
+---
+title: "Chapter 1: Awal Perjalanan"
+novelTitle: "Chronicles of the Void"
+volume: "Volume 1: Awakening"
+pubDate: 2026-06-01
+order: 1
+author: "C0desk1"
+description: "Sebuah takdir baru dimulai di dunia yang gelap."
+---
+
+Ini adalah konten chapter pertama dari novel **Chronicles of the Void**. 
+
+Sistem akan otomatis mengelompokkan ini di bawah kategori "Chronicles of the Void" pada sidebar Anda.
