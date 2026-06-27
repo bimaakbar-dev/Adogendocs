@@ -12,7 +12,7 @@ const { id } = Astro.props;
 >
   <aside 
     data-drawer-panel 
-    class="absolute bottom-0 left-0 right-0 flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-out will-change-transform"
+    class="absolute bottom-0 left-0 right-0 flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-out will-change-transform translate-y-full"
   >
     <div 
       data-drag-handle 
@@ -26,6 +26,22 @@ const { id } = Astro.props;
     </div>
   </aside>
 </dialog>
+
+<style>
+  /* Mengatur animasi masuk/keluar panel */
+  dialog[open] [data-drawer-panel] {
+    transform: translateY(0);
+  }
+  
+  /* Animasi backdrop */
+  dialog::backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  dialog[open]::backdrop {
+    opacity: 1;
+  }
+</style>
 
 <script>
   (() => {
@@ -53,10 +69,12 @@ const { id } = Astro.props;
         const panel = dialog.querySelector('[data-drawer-panel]') as HTMLElement;
         const content = dialog.querySelector('[data-drawer-content]') as HTMLElement;
 
+        // Klik Backdrop untuk menutup
         dialog.addEventListener('click', (e) => {
           if (e.target === dialog) closeDrawer(dialog);
         });
 
+        // Logika Drag
         let startY = 0;
         panel.addEventListener('touchstart', (e) => {
           if (content && content.scrollTop > 0) return;
