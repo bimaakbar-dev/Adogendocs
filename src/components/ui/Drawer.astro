@@ -3,18 +3,16 @@
 interface Props {
   id: string;
 }
-
 const { id } = Astro.props;
 ---
 
-<div id={id} class="drawer-wrapper fixed inset-0 z-50 hidden" aria-modal="true" role="dialog">
-  <div 
-    data-drawer-backdrop 
-    class="absolute inset-0 bg-(--bg-strong)/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"
-  ></div>
+<dialog 
+  id={id} 
+  class="drawer-dialog m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-(--bg-strong)/80 backdrop:backdrop-blur-sm"
+>
   <aside 
     data-drawer-panel 
-    class="absolute bottom-0 left-0 right-0 flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl translate-y-full transition-transform duration-300 ease-out will-change-transform"
+    class="absolute bottom-0 left-0 right-0 flex h-[85vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-out will-change-transform"
   >
     <div 
       data-drag-handle 
@@ -22,105 +20,72 @@ const { id } = Astro.props;
     >
       <div class="h-1.5 w-12 rounded-full bg-(--border-strong)"></div>
     </div>
+    
     <div data-drawer-content class="flex flex-1 flex-col overflow-y-auto px-4 pb-4">
       <slot />
     </div>
   </aside>
-</div>
+</dialog>
 
 <script>
   (() => {
     const initDrawers = () => {
       const triggers = document.querySelectorAll('[data-drawer-trigger]');
       
-      const openDrawer = (drawer: HTMLElement) => {
-        const backdrop = drawer.querySelector('[data-drawer-backdrop]');
-        const panel = drawer.querySelector('[data-drawer-panel]') as HTMLElement;
-
-        drawer.classList.remove("hidden");
-        void drawer.offsetWidth;
-        
-        backdrop?.classList.remove("opacity-0");
-        panel?.classList.remove("translate-y-full"); 
-        document.body.style.overflow = "hidden"; 
+      const openDrawer = (dialog: HTMLDialogElement) => {
+        dialog.showModal();
+        document.body.style.overflow = "hidden";
       };
 
-      const closeDrawer = (drawer: HTMLElement) => {
-        const backdrop = drawer.querySelector('[data-drawer-backdrop]');
-        const panel = drawer.querySelector('[data-drawer-panel]') as HTMLElement;
-
-        backdrop?.classList.add("opacity-0");
-        panel?.classList.add("translate-y-full");
+      const closeDrawer = (dialog: HTMLDialogElement) => {
+        const panel = dialog.querySelector('[data-drawer-panel]') as HTMLElement;
+        panel.classList.add("translate-y-full");
         
         setTimeout(() => {
-          drawer.classList.add("hidden");
-          panel.style.transform = '';
+          dialog.close();
+          panel.classList.remove("translate-y-full");
           document.body.style.overflow = "";
         }, 300);
       };
 
-      document.querySelectorAll('.drawer-wrapper').forEach(drawer => {
-        const wrapper = drawer as HTMLElement;
-        const panel = wrapper.querySelector('[data-drawer-panel]') as HTMLElement;
-        const content = wrapper.querySelector('[data-drawer-content]') as HTMLElement;
-        const backdrop = wrapper.querySelector('[data-drawer-backdrop]') as HTMLElement;
-        
-        let startY = 0;
-        let currentY = 0;
-        let isDragging = false;
+      document.querySelectorAll('.drawer-dialog').forEach(el => {
+        const dialog = el as HTMLDialogElement;
+        const panel = dialog.querySelector('[data-drawer-panel]') as HTMLElement;
+        const content = dialog.querySelector('[data-drawer-content]') as HTMLElement;
 
+        dialog.addEventListener('click', (e) => {
+          if (e.target === dialog) closeDrawer(dialog);
+        });
+
+        let startY = 0;
         panel.addEventListener('touchstart', (e) => {
           if (content && content.scrollTop > 0) return;
-
           startY = e.touches[0].clientY;
-          isDragging = true;
-          panel.style.transition = 'none'; 
+          panel.style.transition = 'none';
         }, { passive: true });
 
         panel.addEventListener('touchmove', (e) => {
-          if (!isDragging) return;
-          currentY = e.touches[0].clientY;
-          const deltaY = currentY - startY;
-
-          if (deltaY > 0) {
-            panel.style.transform = `translateY(${deltaY}px)`;
-          }
+          const deltaY = e.touches[0].clientY - startY;
+          if (deltaY > 0) panel.style.transform = `translateY(${deltaY}px)`;
         }, { passive: true });
 
-        panel.addEventListener('touchend', () => {
-          if (!isDragging) return;
-          isDragging = false;
-          
-          panel.style.transition = ''; 
-
-          const deltaY = currentY - startY;
-          if (deltaY > 150) {
-            closeDrawer(wrapper);
-          } else {
-            panel.style.transform = '';
-          }
+        panel.addEventListener('touchend', (e) => {
+          const deltaY = e.changedTouches[0].clientY - startY;
+          panel.style.transition = '';
+          if (deltaY > 150) closeDrawer(dialog);
+          else panel.style.transform = '';
         });
-
-        backdrop?.addEventListener('click', () => closeDrawer(wrapper));
       });
 
       triggers.forEach(trigger => {
-        const newTrigger = trigger.cloneNode(true) as HTMLElement;
-        trigger.parentNode?.replaceChild(newTrigger, trigger);
-        
-        newTrigger.addEventListener('click', () => {
-          const targetId = newTrigger.getAttribute('data-drawer-trigger');
-          const targetDrawer = document.getElementById(targetId || "");
-          if (targetDrawer) openDrawer(targetDrawer);
+        trigger.addEventListener('click', () => {
+          const targetId = trigger.getAttribute('data-drawer-trigger');
+          const dialog = document.getElementById(targetId || "") as HTMLDialogElement;
+          if (dialog) openDrawer(dialog);
         });
       });
     };
 
     document.addEventListener("astro:page-load", initDrawers);
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initDrawers);
-    } else {
-      initDrawers();
-    }
   })();
 </script>
