@@ -11,19 +11,17 @@ import {
   SITE 
 } from "@/consts";
 
-import { components } from "@/components/mdx/MDXComponents";
+import { components } from "@components/mdx/MDXComponents";
 
 import DocsLayout from "@/layouts/DocsLayout.astro";
-import Container from "@/components/ui/Container.astro";
-import Section from "@/components/ui/Section.astro";
-import DocsToc from "@/components/docs/DocsToc.astro";
-import DocsMobileToc from "@/components/docs/DocsMobileToc.astro";
-import DocsHeader from "@/components/docs/DocsHeader.astro";
-import DocsPager from "@/components/docs/DocsPager.astro";
-import ScrollToTopFloating from "@/components/docs/ScrollToTopFloating.astro";
-import DocsAskAi from "@/components/docs/DocsAskAi.astro";
-import ScrollToTop from "@/components/docs/ScrollToTop.astro";
-import DocsFooter from "@/components/docs/DocsFooter.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+import DocsToc from "@docs/DocsToc.astro";
+import DocsMobileToc from "@docs/mobile/DocsMobileToc.astro";
+import DocsHeader from "@docs/DocsHeader.astro";
+import DocsAskAi from "@docs/DocsAskAi.astro";
+import ScrollToTop from "@docs/ScrollToTop.astro";
+import DocsFooter from "@docs/DocsFooter.astro";
 
 export async function getStaticPaths() {
   const docsEntries = await getCollection("docs");
@@ -57,10 +55,26 @@ const sidebarItems = allDocs.sort(
   (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
 );
 
+const currentPath = Astro.url.pathname;
+
+const mappedSidebarItems = sidebarItems.map((item) => {
+  const slugParts = (item.data.slug || item.id).split("/");
+  const category = slugParts.length > 1 ? slugParts[0] : "General";
+  const isRoot = item.id === primaryRootId;
+  
+  return {
+    id: item.id,
+    title: item.data.title,
+    href: isRoot ? "/docs" : `/docs/${item.data.slug || item.id}`,
+    category: category,
+    order: item.data.order ?? 999,
+  };
+});
+
 const sidebarProps = {
-  sidebarItems,
-  primaryRootId,
-  cleanSlug: Astro.params.slug,
+  items: mappedSidebarItems,
+  currentPath: currentPath,
+  storagePrefix: "docs",
 };
 
 const cleanSlug = Astro.params.slug;
@@ -89,7 +103,7 @@ const nextEntry =
 <DocsLayout meta={metaProps} schema={pageSchema} sidebarProps={sidebarProps}>
   <DocsMobileToc title={entry.data.title} headings={headings} />
   <Fragment>
-    <div class="mx-auto w-full min-w-0 px-0 lg:px-4">
+    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--pb-safe-bottom)">
       <Section size="md">
         <Container size="full">
           <DocsHeader
@@ -110,23 +124,17 @@ const nextEntry =
       </Section>
     </div>
   </Fragment>
-  <Fragment slot="right">
-    <ScrollToTop label="Scroll to top" />
-    <DocsAskAi
-      label="Ask AI about this page"
-      pageTitle={entry.data.title}
-      pageContent={entry.body || ""}
-    />
+  <Fragment slot="right" class="flex items-center gap-4">
+    <div class="sticky top-0 right-0">
+      <ScrollToTop label="Scroll to top" />
+      <DocsAskAi
+        label="Ask AI about this page"
+        pageTitle={entry.data.title}
+        pageContent={entry.body || ""}
+      />
+    </div>
+    <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
+      <DocsToc headings={headings} />
+    </div>
   </Fragment>
-  <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 md:block">
-    <DocsToc headings={headings} />
-  </div>
-  <ScrollToTopFloating />
 </DocsLayout>
-
-<style is:global>
-  .prose h2,
-  .prose h3 {
-    scroll-margin-top: calc(var(--header-height) - 2rem) !important;
-  }
-</style>

@@ -75,6 +75,11 @@
   color: var(--fg-muted);
 }
 
+.prose h2,
+.prose h3 {
+  scroll-margin-top: calc(var(--header-height) - 1rem) !important;
+}
+
 .prose p {
   @apply text-body-16;
   margin-top: 0;
@@ -119,6 +124,11 @@
     @apply text-heading-32;
   }
 
+  .prose h2,
+  .prose h3 {
+    scroll-margin-top: calc(var(--header-height) - 6rem) !important;
+  }
+
   .prose p {
     @apply text-body-16;
   }
@@ -132,5 +142,10 @@
 @media (min-width: 1024px) {
   .prose h1 {
     @apply text-heading-48;
+  }
+
+  .prose h2,
+  .prose h3 {
+    scroll-margin-top: calc(var(--header-height) - 6rem) !important;
   }
 }

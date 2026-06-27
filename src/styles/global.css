@@ -514,7 +514,7 @@
     animation: fadeIn 0.15s ease-out forwards;
   }
 
-  .pb-safe-bottom {
+  .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
