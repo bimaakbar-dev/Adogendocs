@@ -4,7 +4,7 @@ import { getCollection, render } from "astro:content";
 import { buildMeta, schemaWebPage, SITE } from "@/consts";
 import NovelLayout from "@/layouts/NovelLayout.astro";
 import Pager from "@/components/ui/Pager.astro";
-import { components } from "@components/mdx/MDXComponents";
+import { components } from "@/components/mdx/MDXComponents";
 
 export async function getStaticPaths() {
   const novelsEntries = await getCollection("novels");
@@ -98,7 +98,7 @@ const pageSchema = schemaWebPage({
       </time>
     </div>
   </header>
-  <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:text-[17px]">
+  <div class="prose max-w-none">
     <Content components={components} />
   </div>
   <Pager prev={prevPager} next={nextPager} />
