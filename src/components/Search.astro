@@ -1,0 +1,247 @@
+---
+// src/components/SearchModal.astro
+import Icon from "./ui/icons/Icon.astro";
+import { getCollection } from "astro:content";
+
+const docs = await getCollection("docs");
+const legal = await getCollection("legal");
+
+const allContent = [...docs, ...legal].map((entry) => {
+  const slug = entry.data.slug || entry.id;
+  return {
+    title: entry.data.title,
+    description: entry.data.description || "",
+    slug,
+    category: entry.collection === "docs" ? "Docs" : "Legal",
+    url: `/${entry.collection}/${slug}`,
+  };
+});
+
+const categories = ["Semua", ...new Set(allContent.map((item) => item.category))];
+---
+
+<div
+  id="search-overlay"
+  class="fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70"
+>
+  <div id="search-modal" class="fixed left-1/2 top-[10%] w-[90%] max-w-2xl -translate-x-1/2 rounded-xl border border-(--border) bg-(--bg-subtle) shadow-2xl transition-all duration-200 scale-95 opacity-0">
+    <div class="flex items-center gap-2 border-b border-(--border) px-4 py-3">
+      <Icon name="search" className="h-4 w-4 shrink-0 text-(--fg-muted)" />
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Ketik untuk mencari..."
+        class="w-full bg-transparent text-sm text-(--fg) outline-none placeholder:text-(--fg-muted)"
+        autofocus
+      />
+      <button id="search-close" aria-label="Tutup" class="rounded-md px-2 py-1 text-xs font-mono text-(--fg-muted) hover:bg-(--bg-subtle) border border-(--border-subtle)">
+        ESC
+      </button>
+    </div>
+    <div id="search-results" class="max-h-[60vh] overflow-y-auto">
+      <div id="search-empty" class="hidden text-center text-sm text-(--fg-muted) border-b border-(--border) p-8"></div>
+      <ul id="search-list" class="hidden space-y-1 border-b border-(--border) p-2"></ul>
+    </div>
+    <div class="relative flex items-center gap-2 px-4 py-2 text-xs">
+      <button id="category-toggle" class="flex items-center gap-2 rounded-md px-3 py-1.5 text-xs text-(--fg) hover:bg-(--bg-muted) transition-colors">
+        <span>Filter: </span>
+        <div class="flex items-center gap-1">
+          <span id="category-label">Semua</span>
+          <Icon name="chevron-down" className="h-4 w-4 text-(--fg-muted)" />
+        </div>
+      </button>
+      <div
+        id="category-dropdown"
+        class="absolute left-4 top-full mt-1 hidden w-[calc(100%-2rem)] rounded-md border border-(--border) bg-(--bg-subtle) shadow-lg z-10 p-1"
+      >
+        {categories.map((cat) => (
+          <button
+            data-category-value={cat === "Semua" ? "" : cat}
+            class="category-option block w-full rounded-sm px-3 py-1.5 text-left text-sm text-(--fg) transition-colors hover:bg-(--bg-muted)"
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ allContent }}>
+  (() => {
+    const contentData = allContent;
+
+    const overlay = document.getElementById("search-overlay");
+    const modal = document.getElementById("search-modal");
+    const input = document.getElementById("search-input");
+    const list = document.getElementById("search-list");
+    const empty = document.getElementById("search-empty");
+    const closeBtn = document.getElementById("search-close");
+
+    const toggleBtn = document.getElementById("category-toggle");
+    const dropdown = document.getElementById("category-dropdown");
+    const categoryLabel = document.getElementById("category-label");
+    const categoryOptions = dropdown?.querySelectorAll(".category-option");
+
+    let isOpen = false;
+    let debounceTimer;
+    let selectedCategory = "";
+
+    function openSearch() {
+      if (!overlay || !modal) return;
+      overlay.classList.remove("hidden");
+      isOpen = true;
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        modal.classList.remove("scale-95", "opacity-0");
+        modal.classList.add("scale-100", "opacity-100");
+      });
+      setTimeout(() => input?.focus(), 150);
+    }
+
+    function closeSearch() {
+      if (!overlay || !modal) return;
+      modal.classList.remove("scale-100", "opacity-100");
+      modal.classList.add("scale-95", "opacity-0");
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+        isOpen = false;
+        document.body.style.overflow = "";
+      }, 150);
+      if (input) input.value = "";
+      if (list) list.classList.add("hidden");
+      if (empty) {
+        empty.classList.remove("hidden");
+        empty.innerHTML = "";
+      }
+    }
+
+    document.addEventListener("open-search", openSearch);
+    if (closeBtn) closeBtn.addEventListener("click", closeSearch);
+    if (overlay) {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeSearch();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        isOpen ? closeSearch() : openSearch();
+      }
+      if (e.key === "Escape" && isOpen) closeSearch();
+    });
+
+    if (toggleBtn && dropdown) {
+      toggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+      });
+
+      dropdown.addEventListener("click", (e) => {
+        const target = e.target.closest(".category-option");
+        if (!target) return;
+        const value = target.dataset.categoryValue || "";
+        const label = target.textContent?.trim() || "Semua";
+        selectedCategory = value;
+
+        if (categoryLabel) categoryLabel.textContent = label;
+        dropdown.classList.add("hidden");
+        categoryOptions?.forEach((opt) => {
+          const isActive = opt.dataset.categoryValue === value;
+          opt.classList.toggle("bg-(--bg-muted)", isActive);
+        });
+        performSearch();
+      });
+
+      document.addEventListener("click", () => {
+        dropdown.classList.add("hidden");
+      });
+    }
+
+    function renderResults(items) {
+      if (!list || !empty) return;
+
+      if (!items.length) {
+        list.classList.add("hidden");
+        empty.classList.remove("hidden");
+        empty.innerHTML = `<p class="text-(--fg-muted)">Tidak ada hasil</p>`;
+        return;
+      }
+
+      list.classList.remove("hidden");
+      empty.classList.add("hidden");
+
+      let html = "";
+      items.forEach((item) => {
+        html += `
+          <li>
+            <a href="${item.url}" class="result-item flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-(--bg-muted)">
+              <div class="flex items-center gap-1.5 shrink-0 text-(--fg-muted)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+                  <path d="M5 12h14"/>
+                  <path d="M12 5l7 7-7 7"/>
+                </svg>
+                <span class="text-xs">Jump to</span>
+              </div>
+              <span class="truncate text-(--fg-strong)">${item.title}</span>
+            </a>
+          </li>
+        `;
+      });
+      list.innerHTML = html;
+    }
+
+    function performSearch() {
+      const query = input?.value?.toLowerCase().trim() || "";
+
+      if (!query) {
+        if (list) list.classList.add("hidden");
+        if (empty) {
+          empty.classList.remove("hidden");
+          empty.innerHTML = "";
+        }
+        return;
+      }
+
+      const filtered = contentData.filter((item) => {
+        const title = item.title.toLowerCase();
+        const desc = item.description.toLowerCase();
+        const matchTitle = title.includes(query) || desc.includes(query);
+        const matchCategory = selectedCategory === "" || item.category === selectedCategory;
+        return matchTitle && matchCategory;
+      });
+
+      renderResults(filtered.slice(0, 10));
+    }
+
+    if (input) {
+      input.addEventListener("input", () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(performSearch, 200);
+      });
+    }
+
+    categoryOptions?.forEach((opt) => {
+      if (opt.dataset.categoryValue === "") {
+        opt.classList.add("bg-(--accent)/20");
+      }
+    });
+  })();
+</script>
+
+<style is:global>
+  .result-item {
+    transition: background-color 0.15s;
+  }
+  .result-item:hover {
+    background-color: var(--bg-muted);
+  }
+  #search-modal {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.2s ease;
+  }
+  #search-overlay {
+    transition: opacity 0.2s ease;
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+// src/components/Hero.astro
+import { SITE } from "@/consts";
+---
+
+<section
+  class="relative flex flex-col items-center justify-center overflow-hidden px-4 pt-20 pb-12"
+>
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    <svg
+      class="h-full w-full"
+      viewBox="0 0 1200 600"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"
+          ></stop>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.03"
+          ></stop>
+        </linearGradient>
+      </defs>
+      <g class="animate-diagonal-scroll">
+        {
+          Array.from({ length: 12 }).map((_, i) => (
+            <line
+              x1={-100 + i * 120}
+              y1={-100}
+              x2={200 + i * 120}
+              y2={700}
+              stroke="url(#lineGrad)"
+              stroke-width="2"
+              stroke-linecap="round"
+              opacity={0.6 - i * 0.03}
+            />
+          ))
+        }
+      </g>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <h1
+    class="relative z-10 text-4xl font-extrabold tracking-tight text-(--fg-strong) sm:text-5xl"
+  >
+    {SITE.name}
+  </h1>
+  <p
+    class="z-10 mt-3 max-w-2xl text-center text-lg leading-relaxed text-(--fg-muted)"
+  >
+    {SITE.tagline}
+  </p>
+  <p class="z-10 mt-2 max-w-xl text-center text-sm text-(--fg-dim)">
+    {SITE.description}
+  </p>
+</section>
+
+<style is:global>
+  @keyframes diagonal-scroll {
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    100% {
+      transform: translateY(-60px) rotate(0deg);
+    }
+  }
+  .animate-diagonal-scroll {
+    animation: diagonal-scroll 8s linear infinite;
+  }
+</style>
