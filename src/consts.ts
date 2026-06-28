@@ -77,7 +77,6 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Novel", href: ROUTES.novel, icon: "blog" },
     { label: "Docs", href: ROUTES.docs, icon: "blog" },
     { label: "About", href: ROUTES.about, icon: "logo" },
   ] as NavItem[],
