@@ -1,103 +1,103 @@
 ---
-// src/components/mdx/FileTree.astro
-import { fileIcons } from "@/components/ui/icons/file";
+// src/components/ui/Figure.astro
+import { Image } from 'astro:assets';
+import { cdnImage, isCdnUrl } from '@/lib/utils';
+import { IMAGE } from '@/consts';
 
-const svg = fileIcons;
-const extIcons = fileIcons;
-
-const s = {
-  wrapper: 'my-6 md:my-8 border border-(--border-subtle)/80 rounded-md bg-(--bg-subtle) px-4 py-2 overflow-x-auto font-mono',
-  fileTree: 'file-tree text-code-14'
+interface Props {
+  src?: string;
+  alt?: string;
+  title?: string;
+  caption?: string;
+  href?: string;
 }
+
+const { src, alt = '', title, caption, href } = Astro.props;
+
+const isPlaceholder = !src;
+const optimizedSrc = !isPlaceholder && isCdnUrl(src) 
+  ? cdnImage(src, { w: IMAGE.thumbnail.width, h: IMAGE.thumbnail.height, q: IMAGE.thumbnail.quality }) 
+  : src || IMAGE.thumbnail.placeholder;
+  
+const hasLink = !!href;
+
+const imageClass = `relative w-full h-auto object-cover block rounded-lg border border-(--prose-image-border) bg-(--prose-image-bg) transition-all duration-300 ${!hasLink ? 'zoomable-image cursor-zoom-in hover:brightness-95' : ''}`;
 ---
-<div class={s.wrapper}>
-  <div class={s.fileTree}>
-    <slot />
-  </div>
-</div>
 
-<script define:vars={{ svg, extIcons }}>
-  (() => {
-    function getIcon(filename) {
-      const ext = filename.split(".").pop()?.toLowerCase() || "";
-      return extIcons[ext] ?? svg.file;
-    }
+<figure class="full-width-figure not-prose">
+  {hasLink ? (
+    <a href={href} target="_blank" rel="nofollow noopener noreferrer" title={title} class="block focus:outline-none rounded-lg overflow-hidden">
+      <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+    </a>
+  ) : (
+    <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+  )}
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
 
-    const initFileTreeEngine = () => {
-      const trees = document.querySelectorAll(".file-tree:not(.is-processed)");
+<script>
+  let overlay: HTMLElement | null = null;
+  let lightboxImg: HTMLImageElement | null = null;
 
-      trees.forEach((root) => {
-        root.classList.add("is-processed");
+  function createLightboxSingleton() {
+    let existingOverlay = document.getElementById('global-lightbox-overlay');
+    if (existingOverlay) return existingOverlay;
 
-        function processList(list) {
-          list.classList.add("file-tree-list");
+    const node = document.createElement('div');
+    node.id = 'global-lightbox-overlay';
+    node.className = 'lightbox-overlay';
+    node.setAttribute('aria-hidden', 'true');
+    node.innerHTML = `
+      <button id="global-lightbox-close" class="lightbox-close p-2 rounded-full focus:outline-none" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="lightbox-zoom-container">
+        <img id="global-lightbox-image" src="" alt="" class="lightbox-image" />
+      </div>
+    `;
+    document.body.appendChild(node);
+    return node;
+  }
 
-          for (const item of list.children) {
-            if (!(item instanceof HTMLLIElement)) continue;
+  const openLightbox = (src: string, alt: string) => {
+    if (!overlay || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
 
-            let rawText = "";
-            const childNodesToRemove = [];
+  const closeLightbox = () => {
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
 
-            for (const node of item.childNodes) {
-              if (node.nodeName === "UL" || node.nodeName === "OL") break;
-              rawText += node.textContent;
-              childNodesToRemove.push(node);
-            }
+  function setupLightboxEngine() {
+    overlay = createLightboxSingleton();
+    lightboxImg = overlay.querySelector('#global-lightbox-image') as HTMLImageElement;
+    const closeBtn = overlay.querySelector('#global-lightbox-close') as HTMLButtonElement;
 
-            rawText = rawText.trim();
-            if (!rawText) continue;
+    if (!overlay || !lightboxImg || !closeBtn) return;
 
-            const isFolder = rawText.endsWith("/");
-            const name = isFolder ? rawText.slice(0, -1) : rawText;
-            childNodesToRemove.forEach((n) => n.remove());
+    closeBtn.onclick = closeLightbox;
+    overlay.onclick = (e) => { if (e.target === overlay) closeLightbox(); };
+    lightboxImg.onclick = closeLightbox;
 
-            if (isFolder) {
-              const details = document.createElement("details");
-              details.className = "file-tree-folder open";
-              details.open = true;
+    document.querySelectorAll('.zoomable-image').forEach(img => {
+      (img as HTMLElement).onclick = (e) => {
+        const target = e.currentTarget as HTMLImageElement;
+        openLightbox(target.src, target.alt);
+      };
+    });
+  }
 
-              const summary = document.createElement("summary");
-              summary.className = "file-tree-label";
-              summary.innerHTML = `
-                <span class="icon folder-icon">${svg["folder-open"]}</span>
-                <span class="file-name">${name}</span>
-              `;
-              
-              details.addEventListener("toggle", () => {
-                const iconEl = summary.querySelector(".folder-icon");
-                iconEl.innerHTML = details.open ? (svg["folder-open"] || svg.folder) : svg.folder;
-              });
+  document.addEventListener('astro:page-load', setupLightboxEngine);
+  if (document.readyState !== 'loading') setupLightboxEngine();
 
-              details.appendChild(summary);
-
-              while (item.firstChild) {
-                const child = item.firstChild;
-                if (child.nodeName === "UL" || child.nodeName === "OL") {
-                  const div = document.createElement("div");
-                  div.className = "file-tree-children";
-                  div.appendChild(child);
-                  details.appendChild(div);
-                } else {
-                  details.appendChild(child);
-                }
-              }
-              item.appendChild(details);
-            } else {
-              item.classList.add("file-tree-file");
-              item.innerHTML = `
-                <div class="file-tree-label">
-                  <span class="icon file-icon">${getIcon(rawText)}</span>
-                  <span class="file-name">${rawText}</span>
-                </div>
-              `;
-            }
-          }
-        }
-        root.querySelectorAll("ul, ol").forEach(processList);
-      });
-    };
-
-    document.addEventListener("astro:page-load", initFileTreeEngine);
-    initFileTreeEngine();
-  })();
+  document.onkeydown = (e) => {
+    if (e.key === 'Escape' && overlay?.classList.contains('active')) closeLightbox();
+  };
 </script>
