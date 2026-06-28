@@ -160,7 +160,7 @@ time {
 }
 
 .prose address .contact-label {
-  color: var(--prose-fg-strong);
+  color: var(--fg-strong);
   font-weight: 600;
 }
 
@@ -168,7 +168,7 @@ time {
   @apply text-code-16;
   display: inline-block;
   border: 1px solid var(--prose-code-border);
-  border-radius: var(--prose-radius-sm);
+  border-radius: var(--radius-md);
   background-color: var(--prose-code-bg);
   padding: 0.15rem 0.35rem;
   color: var(--prose-code-text);
@@ -177,20 +177,8 @@ time {
 .prose hr {
   margin: 2rem 0;
   border: none;
-  border-top: 1px solid var(--prose-hr);
-}
-
-.prose hr.ornamental {
-  margin: 2rem 0;
-  border: none;
-  text-align: center;
-}
-
-.prose hr.ornamental::before {
-  content: "· · ·";
-  color: var(--prose-border-strong);
-  font-size: 14px;
-  letter-spacing: 0.5em;
+  border-top: 1px solid color-mix(in srgb, var(--border-subtle) 60%, transparent);
+  
 }
 
 @media (max-width: 767px) {
@@ -200,10 +188,6 @@ time {
 
   .prose abbr[title] {
     font-size: 14px;
-  }
-
-  .prose hr {
-    margin: 2rem 0;
   }
 
   .prose address {
@@ -225,5 +209,9 @@ time {
     @apply text-body-14;
     margin: 1.5rem 0;
     padding: 0.75rem 1rem;
+  }
+
+  .prose hr {
+    margin: 2.5rem 0;
   }
 }
