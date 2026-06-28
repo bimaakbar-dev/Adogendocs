@@ -1,0 +1,19 @@
+---
+// src/components/Footer.astro
+import { 
+  SITE, 
+  NAV 
+} from "@/consts";
+
+const currentYear = new Date().getFullYear();
+const copyrightYear =
+  currentYear > SITE.foundingYear
+    ? `${SITE.foundingYear}–${currentYear}`
+    : SITE.foundingYear;
+---
+
+<footer class="mt-auto shrink-0 pt-4 pb-2 mb-(--safe-bottom)">
+  <div class="mt-4 text-center text-xs uppercase tracking-wider text-(--fg-muted)/70">
+    &copy; {copyrightYear} {SITE.name}
+  </div>
+</footer>
