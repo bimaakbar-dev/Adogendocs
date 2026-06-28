@@ -16,7 +16,7 @@ const { title, description, pubDate, content = "" } = Astro.props;
 const readingTime = getReadingTime(content);
 
 const copyItems = [
-  { label: "Copy as Markdown", value: "md", icon: "file-text" },
+  { label: "Copy as Markdown", value: "md", icon: "file" },
   { label: "Copy Page URL", value: "url", icon: "link" },
   { label: "Open in AI Agent", value: "ai", icon: "sparkles" },
 ];
@@ -32,7 +32,7 @@ const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
-  <div class="flex items-center justify-between flex-wrap">
+  <div class="flex items-center justify-between wrap">
     <h1 class={Title}>{title}</h1>
     <Select 
       options={copyItems}
