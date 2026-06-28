@@ -12,13 +12,15 @@ interface Props {
 
 const { prev, next, primaryRootId, lastUpdated } = Astro.props;
 ---
-<div class="grid grid-col-1 items-center gap-2">
-    {lastUpdated && (
-        <time datetime={lastUpdated.toISOString()} class="text-(--fg-muted)/80">
-            <span>Updated: </span>
-            {formatDate(lastUpdated)}
-        </time>
-    )}
+<div class="items-center w-full shrink-0 mt-8 pt-4 mb-(--safe-bottom)">
+    <p class="py-2 border-t border-(--border-subtle)/80 w-full">
+        {lastUpdated && (
+            <time datetime={lastUpdated.toISOString()} class="text-(--fg-muted)">
+                <span>Updated: </span>
+                {formatDate(lastUpdated)}
+            </time>
+        )}
+    </p>
     <DocsPager
         prev={prev}
         next={next}
