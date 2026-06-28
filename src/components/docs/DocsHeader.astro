@@ -1,8 +1,12 @@
 ---
 // src/components/ui/DocsHeader.astro
-import { formatDate, getReadingTime } from "@lib/utils";
+import { 
+  formatDate, 
+  getReadingTime 
+} from "@lib/utils";
+
 import Icon from "@ui/Icon.astro";
-import Select from "../ui/Select.astro";
+import Select from "@ui/Select.astro";
 
 interface Props {
   title: string;
@@ -23,12 +27,12 @@ const copyItems = [
 
 const Header = "mb-8 pb-4 space-y-4 border-b border-(--border-subtle)/80";
 const Title = "text-heading-32 md:text-heading-40 leading-tight font-semibold tracking-tight text-(--fg-strong) flex-1 mb-4";
-const itemGroup = "text-body-14 flex items-center gap-2 text-(--fg-muted)";
+const itemGroup = "text-body-14 flex items-center gap-2 text-(--fg-muted) hidden";
 const Meta = "flex items-center gap-1.5";
 const Icons = "w-4 h-4 text-muted";
 const Text = "text-(--fg-muted)/80";
 const Spacer = 'text-(--fg-muted)/60';
-const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
+const Description = "text-body-14 md:text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
@@ -58,5 +62,5 @@ const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
       suffix="chevron-down"
     />
   </div>
-  { description && (<p class={Lead}>{description}</p>)}
+  { description && (<p class={Description}>{description}</p>)}
 </header>
