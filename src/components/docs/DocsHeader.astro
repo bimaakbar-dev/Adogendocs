@@ -22,7 +22,7 @@ const copyItems = [
 ];
 
 const Header = "mb-8 pb-4 space-y-4 border-b border-(--border-subtle)/80";
-const Title = "text-heading-32 md:text-heading-40 leading-tight font-semibold tracking-tight text-(--fg-strong) flex-1";
+const Title = "text-heading-32 md:text-heading-40 leading-tight font-semibold tracking-tight text-(--fg-strong)";
 const itemGroup = "text-body-14 flex items-center gap-2 text-(--fg-muted)";
 const Meta = "flex items-center gap-1.5";
 const Icons = "w-4 h-4 text-muted";
@@ -33,7 +33,7 @@ const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 
 <header class={Header}>
   <div class="flex items-center justify-between flex-wrap gap-4">
-    <div>
+    <div class="flex-1 gap-2">
       <h1 class={Title}>{title}</h1>
       {
         pubDate && (
