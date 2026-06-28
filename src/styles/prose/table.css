@@ -58,7 +58,6 @@
 }
 
 .prose tbody tr {
-  transition: background-color var(--prose-duration) var(--prose-ease-out);
   background: var(--prose-table-row-bg);
 }
 
