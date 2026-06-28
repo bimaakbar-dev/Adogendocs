@@ -16,10 +16,9 @@ import { components } from "@components/mdx/MDXComponents";
 import DocsLayout from "@/layouts/DocsLayout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
-import DocsToc from "@docs/DocsToc.astro";
-import DocsMobileToc from "@docs/mobile/DocsMobileToc.astro";
+import Toc from "@components/Toc.astro";
+import MobileToc from "@components/MobileToc.astro";
 import DocsHeader from "@docs/DocsHeader.astro";
-import DocsAskAi from "@docs/DocsAskAi.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 import DocsFooter from "@docs/DocsFooter.astro";
 
@@ -101,9 +100,9 @@ const nextEntry =
 ---
 
 <DocsLayout meta={metaProps} schema={pageSchema} sidebarProps={sidebarProps}>
-  <DocsMobileToc title={entry.data.title} headings={headings} />
+  <MobileToc title={entry.data.title} headings={headings} />
   <Fragment>
-    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--safe-bottom)">
+    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--pb-safe-bottom)">
       <Section size="md">
         <Container size="full">
           <DocsHeader
@@ -116,9 +115,10 @@ const nextEntry =
             <Content components={components} />
           </article>
           <DocsFooter 
-      lastUpdated={entry.data.lastUpdated}
+            lastUpdated={entry.data.lastUpdated}
             prev={prevEntry}
-            next={nextEntry}primaryRootId={primaryRootId} />
+            next={nextEntry}
+            primaryRootId={primaryRootId} />
         </Container>
       </Section>
     </div>
@@ -126,21 +126,9 @@ const nextEntry =
   <Fragment slot="right" class="flex items-center gap-4">
     <div class="sticky top-0 right-0">
       <ScrollToTop label="Scroll to top" />
-      <DocsAskAi
-        label="Ask AI about this page"
-        pageTitle={entry.data.title}
-        pageContent={entry.body || ""}
-      />
     </div>
     <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
-      <DocsToc headings={headings} />
+      <Toc headings={headings} />
     </div>
   </Fragment>
 </DocsLayout>
-
-<style is:global>
-  .prose h2, 
-  .prose h3 {
-    scroll-margin-top: calc(var(--header-height) - 2rem) !important;
-  }
-</style>

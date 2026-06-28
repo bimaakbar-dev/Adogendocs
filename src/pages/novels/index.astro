@@ -5,6 +5,8 @@ import { buildMeta, schemaWebPage, SITE } from "@/consts";
 
 import NovelLayout from "@/layouts/NovelLayout.astro";
 import Icon from "@ui/Icon.astro";
+import Section from "@/components/ui/Section.astro";
+import Container from "@/components/ui/Container.astro";
 
 const allNovels = await getCollection("novels");
 
@@ -52,51 +54,56 @@ const groupedByNovel = sortedNovels.reduce((acc, item) => {
 ---
 
 <NovelLayout meta={metaProps} schema={pageSchema} sidebarProps={sidebarProps}>
-  
-  <header class="mb-10 border-b border-(--border-subtle) pb-8">
-    <h1 class="text-3xl font-semibold tracking-tight text-(--fg-strong)">Library Novel</h1>
-    <p class="mt-2 text-(--fg-muted)">Jelajahi koleksi chapter dan volume terbaru.</p>
-  </header>
+  <Fragment>
+    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--pb-safe-bottom)">
+      <Section size="md">
+        <Container size="full">
+          <header class="mb-10 border-b border-(--border-subtle) pb-8">
+            <h1 class="text-3xl font-semibold tracking-tight text-(--fg-strong)">Library Novel</h1>
+            <p class="mt-2 text-(--fg-muted)">Jelajahi koleksi chapter dan volume terbaru.</p>
+          </header>
 
-  <div class="space-y-12">
-    {Object.entries(groupedByNovel).map(([volume, chapters]) => (
-      <section>
-        <h2 class="mb-4 flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-wider text-(--fg-strong)">
-          <Icon name="folder" className="h-4 w-4 text-(--fg-muted)" />
-          {volume.replace(/-/g, " ")}
-        </h2>
-        
-        <div class="overflow-hidden rounded-md border border-(--border-subtle) bg-(--bg)">
-          <ul class="divide-y divide-(--border-subtle)">
-            {chapters.map((chapter) => (
-              <li>
-                <a 
-                  href={`/novels/${chapter.data.slug || chapter.id}`}
-                  class="group flex items-center justify-between p-4 transition-colors hover:bg-(--bg-subtle)"
-                >
-                  <div class="flex flex-col gap-1">
-                    <span class="font-medium text-(--fg) group-hover:text-(--fg-strong)">
-                      {chapter.data.title}
-                    </span>
-                    {chapter.data.description && (
-                      <span class="text-sm text-(--fg-muted) line-clamp-1">
-                        {chapter.data.description}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div class="flex items-center gap-4 text-sm text-(--fg-muted)">
-                    {/* Tampilkan Author dan Tanggal (jika dibutuhkan) */}
-                    <span class="hidden md:block">{chapter.data.author}</span>
-                    <Icon name="chevron-right" className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:text-(--fg-strong)" />
-                  </div>
-                </a>
-              </li>
+          <div class="space-y-12">
+            {Object.entries(groupedByNovel).map(([volume, chapters]) => (
+              <section>
+                <h2 class="mb-4 flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-wider text-(--fg-strong)">
+                  <Icon name="folder" className="h-4 w-4 text-(--fg-muted)" />
+                  {volume.replace(/-/g, " ")}
+                </h2>
+                
+                <div class="overflow-hidden rounded-md border border-(--border-subtle) bg-(--bg)">
+                  <ul class="divide-y divide-(--border-subtle)">
+                    {chapters.map((chapter) => (
+                      <li>
+                        <a 
+                          href={`/novels/${chapter.data.slug || chapter.id}`}
+                          class="group flex items-center justify-between p-4 transition-colors hover:bg-(--bg-subtle)"
+                        >
+                          <div class="flex flex-col gap-1">
+                            <span class="font-medium text-(--fg) group-hover:text-(--fg-strong)">
+                              {chapter.data.title}
+                            </span>
+                            {chapter.data.description && (
+                              <span class="text-sm text-(--fg-muted) line-clamp-1">
+                                {chapter.data.description}
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div class="flex items-center gap-4 text-sm text-(--fg-muted)">
+                            <span class="hidden md:block">{chapter.data.author}</span>
+                            <Icon name="chevron-right" className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:text-(--fg-strong)" />
+                          </div>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
             ))}
-          </ul>
-        </div>
-      </section>
-    ))}
-  </div>
-
+          </div>
+        </Container>
+      </Section>
+    </div>
+  </Fragment>
 </NovelLayout>

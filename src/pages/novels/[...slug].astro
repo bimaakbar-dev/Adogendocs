@@ -5,6 +5,11 @@ import { buildMeta, schemaWebPage, SITE } from "@/consts";
 import NovelLayout from "@/layouts/NovelLayout.astro";
 import Pager from "@/components/ui/Pager.astro";
 import { components } from "@/components/mdx/MDXComponents";
+import MobileToc from "@/components/MobileToc.astro";
+import Toc from "@/components/Toc.astro";
+import ScrollToTop from "@/components/docs/ScrollToTop.astro";
+import Section from "@/components/ui/Section.astro";
+import Container from "@/components/ui/Container.astro";
 
 export async function getStaticPaths() {
   const novelsEntries = await getCollection("novels");
@@ -26,7 +31,7 @@ if (!entry) {
   return new Response(null, { status: 404, statusText: "Not Found" });
 }
 
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 
 const currentPath = Astro.url.pathname;
 
@@ -80,26 +85,43 @@ const pageSchema = schemaWebPage({
 ---
 
 <NovelLayout meta={metaProps} schema={pageSchema} sidebarProps={sidebarProps}>
-  <header class="mb-10 text-center">
-    {entry.data.volume && (
-      <span class="mb-2 block font-mono text-sm font-medium uppercase tracking-wider text-(--accent)">
-        {entry.data.volume}
-      </span>
-    )}
-    <h1 class="text-3xl font-bold tracking-tight text-(--fg-strong) sm:text-4xl">
-      {entry.data.title}
-    </h1>
-    
-    <div class="mt-4 flex items-center justify-center gap-4 text-sm text-(--fg-muted)">
-      <span>Oleh: {entry.data.author}</span>
-      <span>&bull;</span>
-      <time datetime={entry.data.pubDate.toISOString()}>
-        {entry.data.pubDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </time>
+  <MobileToc title={entry.data.title} headings={headings} />
+  <Fragment>
+    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--pb-safe-bottom)">
+      <Section size="md">
+        <Container size="full">
+          <header class="mb-10 text-center">
+            {entry.data.volume && (
+              <span class="mb-2 block font-mono text-sm font-medium uppercase tracking-wider text-(--accent)">
+                {entry.data.volume}
+              </span>
+            )}
+            <h1 class="text-3xl font-bold tracking-tight text-(--fg-strong) sm:text-4xl">
+              {entry.data.title}
+            </h1>
+            
+            <div class="mt-4 flex items-center justify-center gap-4 text-sm text-(--fg-muted)">
+              <span>Oleh: {entry.data.author}</span>
+              <span>&bull;</span>
+              <time datetime={entry.data.pubDate.toISOString()}>
+                {entry.data.pubDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
+          </header>
+          <div class="prose max-w-none">
+            <Content components={components} />
+          </div>
+          <Pager prev={prevPager} next={nextPager} />
+        </Container>
+      </Section>
     </div>
-  </header>
-  <div class="prose max-w-none">
-    <Content components={components} />
-  </div>
-  <Pager prev={prevPager} next={nextPager} />
+  </Fragment>
+  <Fragment slot="right" class="flex items-center gap-4">
+    <div class="sticky top-0 right-0">
+      <ScrollToTop label="Scroll to top" />
+    </div>
+    <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
+      <Toc headings={headings} />
+    </div>
+  </Fragment>
 </NovelLayout>
