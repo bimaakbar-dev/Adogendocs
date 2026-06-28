@@ -66,15 +66,15 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-xs gap-1.5 rounded-(--radius-md)',
-  md: 'h-10 px-4 text-sm gap-2 rounded-(--radius-full)',
-  lg: 'h-12 px-6 text-base gap-2.5 rounded-(--radius-full)',
+  sm: 'h-6 px-2 md:h-8 md:px-3 text-xs gap-1.5 rounded-(--radius-md)',
+  md: 'h-8 px-3 md:h-10 md:px-4 text-sm gap-2 rounded-(--radius-full)',
+  lg: 'h-10 px-4 md:h-12 md:px-6 text-base gap-2.5 rounded-(--radius-full)',
 };
 
 const iconSizeClasses: Record<ButtonSize, string> = {
-  sm: 'w-8 h-8 p-0 rounded-(--radius-full)',
-  md: 'w-10 h-10 p-0 rounded-(--radius-full)',
-  lg: 'w-12 h-12 p-0 rounded-(--radius-full)',
+  sm: 'w-6 h-6 md:w-8 md:h-8 p-0 rounded-(--radius-full)',
+  md: 'w-8 h-8 md:w-10 md:h-10 p-0 rounded-(--radius-full)',
+  lg: 'w-10 h-10 md:w-12 md:h-12 p-0 rounded-(--radius-full)',
 };
 
 const sizeClass = isIconOnly ? iconSizeClasses[size] : sizeClasses[size];
