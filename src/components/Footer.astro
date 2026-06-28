@@ -1,0 +1,43 @@
+---
+// src/components/Footer.astro
+import { 
+  SITE, 
+  NAV 
+} from "@/consts";
+
+import Icon from "@ui/Icon.astro";
+import Button from "@ui/Button.astro";
+import Theme from "./Theme.astro";
+
+const socials = NAV.Social || [];
+
+const currentYear = new Date().getFullYear();
+const copyrightYear =
+  currentYear > SITE.foundingYear
+    ? `${SITE.foundingYear}–${currentYear}`
+    : SITE.foundingYear;
+---
+
+<footer class="mt-auto shrink-0 pt-4 pb-2 mb-(--safe-bottom)">
+  <div class="flex items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) px-2 py-1">
+    <div class="flex items-center gap-1">
+      {socials.map((item) => (
+        <Button
+          href={item.href}
+          target={item.isExternal ? "_blank" : undefined}
+          rel={item.isExternal ? "noopener noreferrer" : undefined}
+          variant="icon"
+          size="md"
+          aria-label={item.label}
+          class="inline-flex shrink-0 items-center justify-center p-1.5"
+        >
+          <Icon name={item.icon as any} className="h-full w-full" />
+        </Button>
+      ))}
+    </div>
+    <Theme />
+  </div>
+  <div class="mt-4 text-center text-xs uppercase tracking-wider text-(--fg-muted)/70">
+    &copy; {copyrightYear} {SITE.name}
+  </div>
+</footer>

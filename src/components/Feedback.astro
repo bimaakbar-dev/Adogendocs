@@ -1,0 +1,45 @@
+---
+// src/components/docs/Feedback.astro
+import Button from "@ui/Button.astro";
+import Icon from "@ui/Icon.astro";
+
+interface Props {
+    label?: string;
+}
+
+const { label = "Apakah ini membantu?" } = Astro.props;
+---
+
+<div class="feedback-bar flex items-center gap-4 py-2 border-y border-(--border-subtle)/80">
+    <span class="text-sm text-(--fg-muted)">{label}</span>
+    <div class="flex gap-2">
+        <Button 
+            variant="outline" 
+            size='md' 
+            aria-label="Yes"
+            class="feedback-btn rounded-full! text-(--fg-muted)" 
+            prefix={<Icon name="thumbsUP" className="w-4 h-4" />}>
+            Yes
+        </Button>
+        <Button 
+            variant="outline" 
+            size='md' 
+            aria-label="No"
+            class="feedback-btn rounded-full! text-(--fg-muted)"
+            prefix={<Icon name="thumbsDown" className="w-4 h-4" />}>
+            No   
+        </Button>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const parent = btn.parentElement;
+            
+            if (parent) {
+                parent.innerHTML = '<span class="text-sm text-(--accent)">Terima kasih atas masukannya!</span>';
+            }
+        });
+    });
+</script>
