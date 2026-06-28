@@ -1,69 +1,44 @@
 /* src/styles/prose/components/table.css */
-.prose .table-wrapper {
-  margin: 2rem 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.01),
-    0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--prose-table-border);
-  border-radius: var(--prose-radius-md);
-}
-
 .prose table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  color: var(--prose-table-text);
+  color: var(--fg);
   font-size: inherit;
   line-height: inherit;
 }
 
 .prose > table {
   margin: 2rem 0;
-  border: 1px solid var(--prose-table-border);
-  border-radius: var(--prose-radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-.prose .table-wrapper table {
-  margin: 0;
-  box-shadow: none;
-  border: none;
-  border-radius: 0;
-}
-
 .prose thead {
-  background: var(--prose-table-header-bg);
+  background: var(--bg-subtle);
 }
 
 .prose thead th {
-  border-bottom: 1px solid var(--prose-table-border);
-  color: var(--prose-table-header-text);
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-strong);
   text-align: start;
   text-transform: none;
   white-space: nowrap;
 }
-
+.prose th,
 .prose thead tr {
-  color: var(--prose-fg-subtle);
+  color: var(--fg-strong);
 }
 
-.prose th {
-  color: var(--prose-table-header-text);
-}
-
-.prose tbody {
-  background: var(--prose-table-row-bg);
-}
-
+.prose tbody,
 .prose tbody tr {
-  background: var(--prose-table-row-bg);
+  background: var(--bg);
 }
 
 @media (hover: hover) {
   .prose tbody tr:hover {
-    background: var(--prose-table-row-hover);
+    background: var(--bg-subtle);
   }
 }
 
@@ -79,9 +54,9 @@
 }
 
 .prose tbody td {
-  border-bottom: 1px solid var(--prose-table-border);
+  border-bottom: 1px solid var(--border);
   background: transparent;
-  color: var(--prose-table-text);
+  color: var(--fg);
 }
 
 .prose tbody tr:last-child td {
@@ -89,23 +64,22 @@
 }
 
 .prose tbody td strong {
-  color: var(--prose-fg-strong);
+  color: var(--fg-strong);
   font-weight: 600;
 }
 
 .prose tbody td small {
   @apply text-label-14;
-  color: var(--prose-fg-subtle);
+  color: var(--fg-subtle);
   font-weight: 500;
 }
 
 .prose th:not(:last-child),
 .prose td:not(:last-child) {
-  border-inline-end: 1px solid var(--prose-table-border);
+  border-inline-end: 1px solid var(--border);
 }
 
 @media (max-width: 767px) {
-  .prose .table-wrapper,
   .prose > table {
     margin: 1.5rem 0;
   }

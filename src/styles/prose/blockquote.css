@@ -1,7 +1,7 @@
 /* src/styles/prose/blockquote.css */
 .prose blockquote {
   margin: 2rem 0;
-  border-left: 2px solid var(--accent);
+  border-left: 2px solid var(--bg-subtle);
   padding-left: 1.25rem;
   color: var(--fg-strong);
 }
@@ -17,7 +17,7 @@
 .prose blockquote p + p {
   margin-top: 12px;
 }
-
+.prose .quote-cite,
 .prose blockquote cite,
 .prose blockquote footer {
   @apply text-body-14;
@@ -25,8 +25,9 @@
   margin-top: 1rem;
   color: var(--fg-muted);
   font-style: normal;
+  text-align: start;
 }
-
+.prose .quote-cite::before,
 .prose blockquote cite::before {
   content: "— ";
   color: var(--border);

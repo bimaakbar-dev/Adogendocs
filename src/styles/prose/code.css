@@ -106,10 +106,10 @@
   background-color: var(--prose-code-line-highlighted-bg) !important;
 }
 
-.dark .astro-code {
+[data-theme='dark'] .astro-code {
   background-color: var(--prose-code-bg) !important;
 }
-.dark .astro-code span {
+[data-theme='dark'] .astro-code span {
   background: transparent !important;
   color: var(--shiki-dark, inherit) !important;
 }

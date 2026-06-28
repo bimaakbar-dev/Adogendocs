@@ -290,28 +290,28 @@
   --callout-note-title: var(--fg);
 
   --callout-info-bg: transparent;
-  --callout-info-border: var(--border);
-  --callout-info-text: var(--fg-muted);
-  --callout-info-icon: var(--fg-muted);
-  --callout-info-title: var(--fg-muted);
+  --callout-info-border: var(--accent);
+  --callout-info-text: var(--accent);
+  --callout-info-icon: var(--accent);
+  --callout-info-title: var(--accent);
 
   --callout-tip-bg: transparent;
-  --callout-tip-border: var(--success);
-  --callout-tip-text: var(--success);
-  --callout-tip-icon: var(--success);
-  --callout-tip-title: var(--success);
+  --callout-tip-border: var(--color-success);
+  --callout-tip-text: var(--color-success);
+  --callout-tip-icon: var(--color-success);
+  --callout-tip-title: var(--color-success);
 
   --callout-warning-bg: transparent;
-  --callout-warning-border: var(--warning);
-  --callout-warning-text: var(--warning);
-  --callout-warning-icon: var(--warning);
-  --callout-warning-title: var(--warning);
+  --callout-warning-border: var(--color-warning);
+  --callout-warning-text: var(--color-warning);
+  --callout-warning-icon: var(--color-warning);
+  --callout-warning-title: var(--color-warning);
 
   --callout-danger-bg: transparent;
-  --callout-danger-border: var(--error);
-  --callout-danger-text: var(--error);
-  --callout-danger-icon: var(--error);
-  --callout-danger-title: var(--error);
+  --callout-danger-border: var(--color-error);
+  --callout-danger-text: var(--color-error);
+  --callout-danger-icon: var(--color-error);
+  --callout-danger-title: var(--color-error);
 
   --callout-important-bg: transparent;
   --callout-important-border: var(--accent);
