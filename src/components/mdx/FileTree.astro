@@ -24,15 +24,6 @@ const s = {
       return extIcons[ext] ?? svg.file;
     }
 
-    function refreshFolderIcon(folderItem) {
-      const label = folderItem.querySelector(":scope > .file-tree-label");
-      const iconEl = label?.querySelector(".folder-icon");
-      if (!iconEl) return;
-
-      const isOpen = folderItem.classList.contains("open");
-      iconEl.innerHTML = isOpen ? svg["folder-open"] || svg.folder : svg.folder;
-    }
-
     const initFileTreeEngine = () => {
       const trees = document.querySelectorAll(".file-tree:not(.is-processed)");
 
@@ -46,29 +37,10 @@ const s = {
             if (!(item instanceof HTMLLIElement)) continue;
 
             let rawText = "";
-            let isHighlighted = false;
-            let isRemoved = false;
             const childNodesToRemove = [];
 
             for (const node of item.childNodes) {
               if (node.nodeName === "UL" || node.nodeName === "OL") break;
-
-              if (
-                node.nodeName === "STRONG" ||
-                node.nodeName === "B" ||
-                node.nodeName === "MARK"
-              ) {
-                isHighlighted = true;
-              }
-
-              if (
-                node.nodeName === "DEL" ||
-                node.nodeName === "S" ||
-                node.nodeName === "STRIKE"
-              ) {
-                isRemoved = true;
-              }
-
               rawText += node.textContent;
               childNodesToRemove.push(node);
             }
@@ -77,66 +49,56 @@ const s = {
             if (!rawText) continue;
 
             const isFolder = rawText.endsWith("/");
-            const label = document.createElement("div");
-            label.className = "file-tree-label";
-
-            if (isRemoved) {
-              label.classList.add("is-removed");
-            } else if (isHighlighted) {
-              label.classList.add("is-highlighted");
-            }
-
+            const name = isFolder ? rawText.slice(0, -1) : rawText;
             childNodesToRemove.forEach((n) => n.remove());
 
             if (isFolder) {
-              const name = rawText.slice(0, -1);
-              item.classList.add("file-tree-folder");
-              item.classList.add("open");
+              const details = document.createElement("details");
+              details.className = "file-tree-folder open";
+              details.open = true;
 
-              label.innerHTML = `
-                <span class="icon folder-icon">${svg["folder-open"] || svg.folder}</span>
+              const summary = document.createElement("summary");
+              summary.className = "file-tree-label";
+              summary.innerHTML = `
+                <span class="icon folder-icon">${svg["folder-open"]}</span>
                 <span class="file-name">${name}</span>
               `;
-
-              label.addEventListener("click", (e) => {
-                e.stopPropagation();
-                item.classList.toggle("open");
-                refreshFolderIcon(item);
+              
+              details.addEventListener("toggle", () => {
+                const iconEl = summary.querySelector(".folder-icon");
+                iconEl.innerHTML = details.open ? (svg["folder-open"] || svg.folder) : svg.folder;
               });
 
-              const childrenContainer = document.createElement("div");
-              childrenContainer.className = "file-tree-children";
+              details.appendChild(summary);
 
-              while (
-                item.firstChild &&
-                (item.firstChild.nodeName === "UL" ||
-                  item.firstChild.nodeName === "OL")
-              ) {
-                childrenContainer.appendChild(item.firstChild);
+              while (item.firstChild) {
+                const child = item.firstChild;
+                if (child.nodeName === "UL" || child.nodeName === "OL") {
+                  const div = document.createElement("div");
+                  div.className = "file-tree-children";
+                  div.appendChild(child);
+                  details.appendChild(div);
+                } else {
+                  details.appendChild(child);
+                }
               }
-
-              item.appendChild(childrenContainer);
+              item.appendChild(details);
             } else {
               item.classList.add("file-tree-file");
-              label.innerHTML = `
-                <span class="icon file-icon">${getIcon(rawText)}</span>
-                <span class="file-name">${rawText}</span>
+              item.innerHTML = `
+                <div class="file-tree-label">
+                  <span class="icon file-icon">${getIcon(rawText)}</span>
+                  <span class="file-name">${rawText}</span>
+                </div>
               `;
             }
-
-            item.prepend(label);
           }
         }
-
         root.querySelectorAll("ul, ol").forEach(processList);
       });
     };
 
     document.addEventListener("astro:page-load", initFileTreeEngine);
-    if (document.readyState !== "loading") {
-      initFileTreeEngine();
-    } else {
-      document.addEventListener("DOMContentLoaded", initFileTreeEngine);
-    }
+    initFileTreeEngine();
   })();
 </script>
