@@ -9,7 +9,7 @@ import Head from "@/components/Head.astro";
 import Container from "@ui/Container.astro";
 import Footer from "@/components/Footer.astro";
 import DocsNavbar from "@docs/DocsNavbar.astro";
-import DocsMobileNavbar from "@docs/mobile/DocsMobileNavbar.astro";
+import MobileSidebar from "@components/MobileSidebar.astro";
 import Sidebar from "@ui/Sidebar.astro"; 
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
@@ -46,7 +46,7 @@ const {
     <SkipLink />
     <Search />
     <div class="min-h-screen flex-col">
-      <DocsMobileNavbar
+      <MobileSidebar
         sidebarProps={sidebarProps} 
         hideHeader={hideHeader} 
         hideFooter={hideFooter} 
