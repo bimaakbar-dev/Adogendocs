@@ -41,15 +41,13 @@ const {
     <div class="min-h-screen flex-col">
       <DocsMobileHeader sidebarProps={sidebarProps} />
       <Container size="full" class="mx-auto grid min-h-screen w-full grid-cols-1 gap-0 px-0! lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-6">
-        <aside class="hidden lg:sticky lg:top-0 lg:block lg:h-[calc(100vh)] lg:border-r lg:border-(--border-subtle) lg:bg-(--bg) lg:px-4 lg:py-6">
-          <div class="flex h-full flex-col">
+        <aside class="hidden lg:sticky lg:top-0 lg:block lg:h-[calc(100vh)] lg:border-r lg:border-(--border-subtle) lg:bg-(--bg) lg:px-4 lg:pt-4">
+          <div class="flex h-full flex-col flex-1">
             <DocsNavbar />
-            <div class="mt-4 flex-1 overflow-y-auto">
+            <div class="flex-1 overflow-y-auto mb-0">
               {sidebarProps && <Sidebar {...sidebarProps} />}
             </div>
-            <div class="mt-4 border-t border-(--border-subtle) pt-8">
-              <Footer />
-            </div>
+            <Footer />
           </div>
         </aside>
         <main id="main-content" class="w-full min-w-0 px-4 py-8 lg:px-8 lg:py-12 flex justify-center">
