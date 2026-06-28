@@ -2,6 +2,7 @@
 // src/components/ui/DocsHeader.astro
 import { formatDate, getReadingTime } from "@lib/utils";
 import Icon from "@ui/Icon.astro";
+import Select from "../ui/Select.astro";
 
 interface Props {
   title: string;
@@ -14,8 +15,14 @@ const { title, description, pubDate, content = "" } = Astro.props;
 
 const readingTime = getReadingTime(content);
 
+const copyItems = [
+  { label: "Copy as Markdown", value: "md", icon: "file-text" },
+  { label: "Copy Page URL", value: "url", icon: "link" },
+  { label: "Open in AI Agent", value: "ai", icon: "sparkles" },
+];
+
 const Header = "mb-8 pb-4 space-y-4 border-b border-(--border-subtle)/80";
-const Title = "text-heading-32 md:text-heading-40 leading-tight font-semibold tracking-tight text-(--fg-strong)";
+const Title = "text-heading-32 md:text-heading-40 leading-tight font-semibold tracking-tight text-(--fg-strong) flex-1";
 const itemGroup = "text-body-14 flex items-center gap-2 text-(--fg-muted)";
 const Meta = "flex items-center gap-1.5";
 const Icons = "w-4 h-4 text-muted";
@@ -25,9 +32,15 @@ const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
-  <h1 class={Title}>
-    {title}
-  </h1>
+  <div class="flex items-center justify-between">
+    <h1 class={Title}>{title}</h1>
+    <Select 
+      options={copyItems}
+      placeholder="Copy page"
+      preffix="copy"
+      suffix="chevron-down"
+    />
+  </div>
   {
     pubDate && (
       <div class={itemGroup}>
