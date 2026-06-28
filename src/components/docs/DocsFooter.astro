@@ -4,16 +4,16 @@ import DocsPager from "./DocsPager.astro";
 import { formatDate } from "@lib/utils";
 
 interface Props {
-    prev?: CollectionEntry<"docs"> | null;
-    next?: CollectionEntry<"docs"> | null;
+    prev: CollectionEntry<"docs"> | null;
+    next: CollectionEntry<"docs"> | null;
     primaryRootId: string;
     lastUpdated?: Date;
 }
 
 const { prev, next, primaryRootId, lastUpdated } = Astro.props;
 ---
-<div class="items-center w-full shrink-0 mt-8 pt-4 mb-(--safe-bottom)">
-    <p class="py-2 border-t border-(--border-subtle)/80 w-full">
+<div class="items-center w-full shrink-0 mt-8 py-4 mb-(--safe-bottom)">
+    <p class="py-4 border-t border-(--border-subtle)/80">
         {lastUpdated && (
             <time datetime={lastUpdated.toISOString()} class="text-(--fg-muted)">
                 <span>Updated: </span>
@@ -21,9 +21,5 @@ const { prev, next, primaryRootId, lastUpdated } = Astro.props;
             </time>
         )}
     </p>
-    <DocsPager
-        prev={prev}
-        next={next}
-        primaryRootId={primaryRootId}
-    />
+    <DocsPager primaryRootId={primaryRootId} prev={prev} next={next} />
 </div>
