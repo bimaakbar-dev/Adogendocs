@@ -16,25 +16,28 @@ interface Props {
   placeholder?: string;
   class?: string;
   id?: string;
+  suffix?: string;
+  preffix?: string;
 }
 
-const { options, selectedValue, placeholder = "Pilih opsi...", class: className, id = "custom-select" } = Astro.props;
+const { options, selectedValue, placeholder = "Pilih opsi...", class: className, id = "custom-select", preffix = '', suffix = 'select' } = Astro.props;
 const activeOption = options.find((opt) => opt.value === selectedValue);
 ---
 
-<div data-select-wrapper data-select-id={id} class:list={["custom-select relative w-full", className]}>
+<div data-select-wrapper data-select-id={id} class:list={["custom-select relative", className]}>
   <button
     data-select-trigger
     aria-haspopup="listbox"
     aria-expanded="false"
     type="button"
-    class="flex w-full items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm text-(--fg) transition-opacity hover:bg-(--bg-muted) focus:bg-(--bg-muted)"
+    class="flex w-full items-center justify-between gap-2 rounded-md border border-(--border-subtle) bg-(--bg) px-3 py-2 text-sm text-(--fg) transition-opacity hover:bg-(--bg-muted) focus:bg-(--bg-muted)"
   >
-    <span class="flex items-center gap-2 truncate" data-select-label-container>
+    <span class="flex items-center shrink-0 gap-2 truncate" data-select-label-container>
+      {preffix && <Icon name={preffix as any} className="h-4 w-4 shrink-0 text-(--fg-muted) transition-transform duration-200" data-select-icon />}
       {activeOption?.icon && <Icon name={activeOption.icon as any} className="h-4 w-4 shrink-0" />}
       <span data-select-label>{activeOption?.label || placeholder}</span>
     </span>
-    <Icon name="select" className="h-4 w-4 shrink-0 text-(--fg-muted) transition-transform duration-200" data-select-icon />
+    <Icon name={suffix as any} className="h-4 w-4 shrink-0 text-(--fg-muted) transition-transform duration-200" data-select-icon />
   </button>
 
   <div data-select-dropdown role="listbox" class="absolute left-0 right-0 top-full z-50 mt-2 hidden max-h-60 overflow-y-auto rounded-md border border-(--border) bg-(--bg) p-2 shadow-lg space-y-1">
