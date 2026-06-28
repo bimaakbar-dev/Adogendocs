@@ -32,30 +32,32 @@ const Lead = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
-  <div class="flex items-center justify-between wrap">
-    <h1 class={Title}>{title}</h1>
+  <div class="flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h1 class={Title}>{title}</h1>
+      {
+        pubDate && (
+          <div class={itemGroup}>
+            <div class={Meta}>
+              <Icon name="progress" className={Icons} />
+              <span class={Text}>
+                {readingTime}
+              </span>
+            </div>
+            <span class={Spacer}>|</span>
+            <time datetime={pubDate.toISOString()} class={Text}>
+              {formatDate(pubDate)}
+            </time>
+          </div>
+        )
+      }
+    </div>
     <Select 
       options={copyItems}
       placeholder="Copy page"
       preffix="copy"
       suffix="chevron-down"
     />
-  </div>
-  {
-    pubDate && (
-      <div class={itemGroup}>
-        <div class={Meta}>
-          <Icon name="progress" className={Icons} />
-          <span class={Text}>
-            {readingTime}
-          </span>
-        </div>
-        <span class={Spacer}>|</span>
-        <time datetime={pubDate.toISOString()} class={Text}>
-          {formatDate(pubDate)}
-        </time>
-      </div>
-    )
-  }
+  </div> 
   { description && (<p class={Lead}>{description}</p>)}
 </header>
