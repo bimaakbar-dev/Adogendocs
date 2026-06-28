@@ -18,7 +18,7 @@ interface Props {
 const { sidebarProps, hideHeader, hideFooter } = Astro.props;
 ---
 
-<header class="sticky top-0 z-50 flex h-(--header-height) w-full items-center justify-between border-b border-(--border-subtle)/40 bg-(--bg)/80 px-4 backdrop-blur-md lg:hidden">
+<header class="sticky top-0 z-50 flex h-14 w-full items-center justify-between border-b border-(--border-subtle)/40 bg-(--bg)/80 px-4 backdrop-blur-md lg:hidden">
   <Logo />
   <Button variant="icon" size="sm" data-drawer-trigger="mobile-nav-drawer" aria-label="Buka Menu" class="border border-(--border)/80">
     <Icon name="menu" className="h-4 w-4" />
