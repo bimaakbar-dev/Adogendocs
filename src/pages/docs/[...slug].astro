@@ -59,7 +59,9 @@ const currentPath = Astro.url.pathname;
 
 const mappedSidebarItems = sidebarItems.map((item) => {
   const slugParts = (item.data.slug || item.id).split("/");
-  const category = slugParts.length > 1 ? slugParts[0] : "General";
+  const folderName = slugParts.length > 1 ? slugParts[0] : null;
+  const category = item.data.category || folderName || "General";
+
   const isRoot = item.id === primaryRootId;
   
   return {
