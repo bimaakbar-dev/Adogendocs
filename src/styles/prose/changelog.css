@@ -1,57 +1,14 @@
 /* src/styles/prose/changelog.css */
-
-.prose .changelog-item :first-child {
-  margin-top: 0 !important;
-}
-.prose .changelog-item :last-child {
-  margin-bottom: 0 !important;
-}
-
 .prose .changelog-version h2,
 .prose .changelog-version h3,
 .prose .changelog-version h4 {
   @apply text-heading-16;
   color: var(--fg-strong);
 }
-.prose .changelog-items li,
-.prose .changelog-items ul,
-.prose .changelog-items ol,
-.prose .changelog-items p {
-  @apply text-body-16;
-  color: var(--fg-muted);
-}
-
-.prose .changelog-items ul {
-  margin: 0 !important;
-  padding-left: 0;
-  list-style: none;
-}
-
-.prose .changelog-items li {
-  position: relative;
-  margin-bottom: 0.5rem !important;
-  padding-left: 1.25rem;
-  color: var(--fg-muted);
-}
-
-.prose .changelog-items li::before {
-  position: absolute;
-  left: 0;
-  content: "—";
-  color: var(--fg-dim);
-  font-weight: 500;
-}
-
-@media (min-width: 768px) {
-  .prose .changelog-version h2,
-  .prose .changelog-version h3,
-  .prose .changelog-version h4 {
-    @apply text-heading-18;
-  }
-  .prose .changelog-items ul,
-  .prose .changelog-items ol,
-  .prose .changelog-items p,
-  .prose .changelog-items li {
-    @apply text-body-16;
-  }
+.prose .changelog-item li,
+.prose .changelog-item ul,
+.prose .changelog-item ol,
+.prose .changelog-item p {
+  @apply text-body-14;
+  color: var(--fg);
 }
