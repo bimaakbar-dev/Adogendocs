@@ -9,6 +9,7 @@ const currentPath = Astro.url.pathname;
 
 const navItems = NAV.navBar.map((item) => ({
   label: item.label,
+  subtitle: item.label,
   value: item.label.toLowerCase(),
   href: item.href,
   icon: item.icon,
@@ -29,7 +30,7 @@ const activeNavItem = navItems.find((item) => {
       size="md"
       options={navItems} 
       selectedValue={activeNavItem?.value} 
-      placeholder="Select page"
+      placeholder="Select Page"
     />
     <SearchBar />
   </div>
