@@ -36,27 +36,25 @@ const Description = "text-body-14 md:text-body-16 max-w-3xl leading-relaxed text
 ---
 
 <header class={Header}>
+  { title && (<h1 class={Title}>{title}</h1>) }
   <div class="flex items-center justify-between flex-wrap">
-    <div>
-      <h1 class={Title}>{title}</h1>
-      {pubDate && (
-        <div class={itemGroup}>
-          <!--<div class={Meta}>
-            <Icon name="progress" className={Icons} />
-            <span class={Text}>
-              {readingTime}
-            </span>
-          </div>-->
-          <!--<span class={Spacer}>|</span>-->
-          <p>
-            <time datetime={pubDate.toISOString()} class={Text}>
-              {formatDate(pubDate)}
-            </time>
-          </p>
-        </div>
-      )}
-    </div>
-    <!--<Select 
+    <!--{pubDate && (
+      <div class={itemGroup}>
+    <div class={Meta}>
+          <Icon name="progress" className={Icons} />
+          <span class={Text}>
+            {readingTime}
+          </span>
+        </div>-->
+    <!--<span class={Spacer}>|</span>
+        <p>
+          <time datetime={pubDate.toISOString()} class={Text}>
+            {formatDate(pubDate)}
+          </time>
+        </p>
+      </div>
+    )}
+    <Select 
       size="sm"
       options={copyItems}
       placeholder="Copy page"
