@@ -10,7 +10,7 @@
 
 .prose ul ::marker,
 .prose ol ::marker {
-  color: var(--fg-dim);
+  color: var(--fg-subtle);
 }
 
 .prose li {
