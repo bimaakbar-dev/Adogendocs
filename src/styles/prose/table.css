@@ -10,7 +10,7 @@
 
 .prose > table {
   margin: 2rem 0;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -20,7 +20,7 @@
 }
 
 .prose thead th {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-subtle);
   color: var(--fg-strong);
   text-align: start;
   text-transform: none;
@@ -46,6 +46,11 @@
 .prose td {
   vertical-align: top;
   /*white-space: nowrap;*/
+}
+
+.prose th a,
+.prose td a {
+  white-space: nowarp;
 }
 
 .prose td code,
