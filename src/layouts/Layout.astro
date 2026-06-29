@@ -1,5 +1,6 @@
 ---
 // src/layouts/Layout.astro
+import Alert from "@/components/ui/Alert.astro";
 import { SITE, type buildMeta as BuildMetaFn } from "@/consts";
 
 import Head from "@components/Head.astro";
@@ -32,6 +33,13 @@ const {
   <body>
     <SkipLink />
     <div class="min-h-screen flex-col">
+      <Alert
+        title="ALERT"
+        message="Docs Khusus A0"
+        icon="virus"
+        actionLabel="Read docs"
+        actionHref="/docs"
+      />
       {!hideHeader && <Header />}
       <main
         id="main-content"
