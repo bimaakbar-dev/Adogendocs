@@ -9,13 +9,8 @@ import {
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/ui/Container.astro";
-import Icon from "@/components/ui/Icon.astro";
-import Alert from "@/components/ui/Alert.astro";
 import Card from "@/components/ui/Card.astro";
-import Button from "@/components/ui/Button.astro";
 import Section from "@/components/ui/Section.astro";
-import heroImage from "@/assets/images/Adogen-hero.jpeg";
-import { Image } from "astro:assets";
 import Hero from "@/components/Hero.astro";
 
 const meta = buildMeta({
@@ -27,7 +22,16 @@ const meta = buildMeta({
 ---
 
 <Layout {meta} isHome>
-  <div class="relative flex w-full flex-1 flex-col items-center">
-    <Hero />
+  <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+    <Container size="full">
+      <Section size="sm">
+        <Hero />
+      </Section>
+    </Container>
+    <Container size="xl">
+      <Section size="sm">
+        <p class="text-heading-32 font-normal">Adogendocs is a Astro documentation framework for Developers, beautifully designed by Fuma Nama. Bringing powerful features for your docs workflows, with high customizability to fit your preferences, works seamlessly with any React.js framework, CMS — anything.</p>
+      </Section>
+    </Container>
   </div>
 </Layout>
