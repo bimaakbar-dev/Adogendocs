@@ -21,6 +21,7 @@ import MobileToc from "@components/MobileToc.astro";
 import DocsHeader from "@docs/DocsHeader.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 import DocsFooter from "@docs/DocsFooter.astro";
+import Select from "@/components/ui/Select.astro";
 
 export async function getStaticPaths() {
   const docsEntries = await getCollection("docs");
@@ -79,6 +80,19 @@ const sidebarProps = {
 const cleanSlug = Astro.params.slug;
 const currentUrl = `${SITE.url}/docs${cleanSlug ? `/${cleanSlug}` : ""}`;
 
+const currentIndex = sidebarItems.findIndex((item) => item.id === entry.id);
+const prevEntry = currentIndex > 0 ? sidebarItems[currentIndex - 1] : null;
+const nextEntry =
+  currentIndex < sidebarItems.length - 1
+    ? sidebarItems[currentIndex + 1]
+    : null;
+
+const copyItems = [
+  { label: "Copy as Markdown", value: "md", icon: "file" },
+  { label: "Copy Page URL", value: "url", icon: "link" },
+  { label: "Open in AI Agent", value: "ai", icon: "sparkles" },
+];
+
 const metaProps = buildMeta({
   title: entry.data.title,
   description: entry.data.description || SITE.description,
@@ -90,13 +104,6 @@ const pageSchema = schemaWebPage({
   description: entry.data.description || SITE.description,
   url: currentUrl,
 });
-
-const currentIndex = sidebarItems.findIndex((item) => item.id === entry.id);
-const prevEntry = currentIndex > 0 ? sidebarItems[currentIndex - 1] : null;
-const nextEntry =
-  currentIndex < sidebarItems.length - 1
-    ? sidebarItems[currentIndex + 1]
-    : null;
 ---
 
 <DocsLayout meta={metaProps} schema={pageSchema} sidebarProps={sidebarProps}>
@@ -124,7 +131,14 @@ const nextEntry =
     </div>
   </Fragment>
   <Fragment slot="right" class="flex items-center gap-4">
-    <div class="sticky top-0 right-0">
+    <div class="sticky top-0 right-0 space-y-2">
+      <Select 
+        size="md"
+        options={copyItems}
+        placeholder="Copy page"
+        prefix="copy"
+        suffix="chevron-down"
+      />
       <ScrollToTop label="Scroll to top" />
     </div>
     <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
