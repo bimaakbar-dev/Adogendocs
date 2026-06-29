@@ -3,9 +3,9 @@
 .prose ul,
 .prose ol {
   @apply text-body-16;
-  margin: 24px 0;
+  margin: 2rem 0;
   padding-left: 0;
-  color: var(--prose-fg);
+  color: var(--fg);
 }
 
 .prose li {
@@ -29,6 +29,7 @@
 
 .prose ul {
   list-style: none;
+  padding-left: 1.75rem;
 }
 
 .prose ul > li {
