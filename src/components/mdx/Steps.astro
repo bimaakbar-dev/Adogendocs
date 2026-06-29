@@ -1,117 +1,66 @@
 ---
-// src/components/mdx/Steps.astro
-import Icon from "@ui/icons/Icon.astro";
-
 const html =
   typeof Astro !== "undefined" && Astro.slots
     ? await Astro.slots.render("default")
     : "";
 
-const stepRegex = /(<h[234][^>]*>[\s\S]*?<\/h[234]>)([\s\S]*?)(?=<h[234]|$)/gi;
-const steps: { heading: string; content: string }[] = [];
+const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+const steps: string[] = [];
 
 let match;
-
 if (html) {
-  while ((match = stepRegex.exec(html)) !== null) {
-    steps.push({ heading: match[1], content: match[2].trim() });
+  while ((match = liRegex.exec(html)) !== null) {
+    steps.push(match[1].trim());
   }
-}
-
-if (steps.length === 0) {
-  steps.push({
-    heading: "",
-    content: html,
-  });
-}
-
-const s = {
-  stepsWrapper: 'steps-wrapper relative my-6 md:my-8 pl-[1.75rem]',
-  stepsLine: 'steps-line absolute left-2 w-px rounded-full bg-(--border-subtle)',
-  stepsCounter: 'step-bullet absolute inline-flex shrink-0 items-center justify-center p-0.5 z-10 -left-8 h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) font-semibold ring-4 ring-(--bg)',
-  stepsLabel: 'steps-heading-content mt-0! pl-2',
-  stepsContent: 'steps-body-content space-y-1 pl-2'
 }
 ---
 
-<div class={s.stepsWrapper}>
-  <div
-    class={s.stepsLine}"
-    style="top:0; bottom:0;"
-  >
-  </div>
-  <div class="space-y-7 md:space-y-8">
-    {
-      steps.map((step, idx) => {
-        return (
-          <div class="step-item relative">
-            {step.heading ? (
-              <div class="relative mb-1.5 flex items-center">
-                <div class={s.stepsCounter}>
-                  <span class="text-[13px] text-(--fg-strong) items-center justify-center">
-                    {idx + 1}
-                  </span>
-                </div>
-                <div
-                  class={s.stepsLabel}
-                  set:html={step.heading}
-                />
-              </div>
-            ) : null}
-            {step.content ? (
-              <div
-                class={s.stepsContent}
-                set:html={step.content}
-              />
-            ) : null}
-          </div>
-        );
-      })
-    }
-  </div>
+<div class="my-6 md:my-8">
+  {
+    steps.map((step, idx) => (
+      <div class="step-item relative flex items-start gap-3 mb-7 last:mb-0 pl-0">
+        <span class="step-bullet relative z-10 inline-flex shrink-0 items-center justify-center h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) text-[13px] font-semibold text-(--fg-strong)">
+          {idx + 1}
+        </span>
+        <div class="step-content flex-1 leading-6" set:html={step} />
+      </div>
+    ))
+  }
 </div>
 
-<style>
-  .step-item :global(h2),
-  .step-item :global(h3),
-  .step-item :global(h4) {
+<style is:global>
+  .step-content * :first-child {
     margin-top: 0 !important;
+  }
+
+  .step-content * :last-child {
     margin-bottom: 0 !important;
   }
+
+  .step-content :global(h3),
+  .step-content :global(ul),
+  .step-content :global(ol)
+  .step-content :global(p) {
+    margin: 0 !important;
+  }
+
+  .step-content :global(> * + *) {
+    margin-top: 0.25rem;
+  }
+  
+  .step-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    top: 1.5rem;
+    bottom: -1.75rem;
+    width: 1px;
+    transform: translateX(-50%);
+    background-color: var(--border-subtle);
+    border-radius: 9999px;
+  }
+
+  .step-bullet {
+    box-shadow: 0 0 0 4px var(--bg);
+  }
 </style>
-
-<script>
-  function adjustLines() {
-    const wrappers = document.querySelectorAll(".steps-wrapper");
-
-    wrappers.forEach((wrapper) => {
-      const line = wrapper.querySelector(".steps-line") as HTMLElement | null;
-      const bullets = wrapper.querySelectorAll(".step-item .step-bullet");
-      if (!line || bullets.length === 0) return;
-
-      const firstBullet = bullets[0] as HTMLElement;
-      const lastBullet = bullets[bullets.length - 1] as HTMLElement;
-
-      const wrapperRect = wrapper.getBoundingClientRect();
-      const firstBulletRect = firstBullet.getBoundingClientRect();
-      const lastBulletRect = lastBullet.getBoundingClientRect();
-
-      const top =
-        firstBulletRect.top - wrapperRect.top + firstBullet.offsetHeight / 2;
-      const bottom =
-        wrapperRect.bottom -
-        (lastBulletRect.bottom - lastBullet.offsetHeight / 2);
-
-      line.style.top = `${top}px`;
-      line.style.bottom = `${bottom}px`;
-    });
-  }
-
-  document.addEventListener("astro:page-load", adjustLines);
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", adjustLines);
-  } else {
-    adjustLines();
-  }
-  window.addEventListener("resize", adjustLines);
-</script>
