@@ -24,11 +24,18 @@ if (steps.length === 0) {
     content: html,
   });
 }
+
+const s = {
+  stepsWrapper: 'steps-wrapper relative my-6 md:my-8 pl-[1.75rem]',
+  stepsLine: 'steps-line absolute left-2 md:left-4 w-px rounded-full bg-(--border-subtle)',
+  stepsCounter: 'step-bullet absolute inline-flex shrink-0 items-center justify-center p-0.5 -left-6 sm:-left-11 z-10 h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) font-semibold ring-4 ring-(--bg)',
+  stepsLabel: 'steps-heading-content mt-0!'
+}
 ---
 
-<div class="steps-wrapper relative my-6 pl-6 sm:pl-11 md:my-8">
+<div class={s.stepsWrapper}>
   <div
-    class="steps-line absolute left-1 w-px rounded-full bg-(--border) sm:left-3"
+    class={s.stepsLine}"
     style="top:0; bottom:0;"
   >
   </div>
@@ -39,13 +46,13 @@ if (steps.length === 0) {
           <div class="step-item relative">
             {step.heading ? (
               <div class="relative mb-1.5 flex items-center">
-                <div class="step-bullet absolute -left-8 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-(--border) bg-(--bg-subtle) p-0.5 font-semibold ring-4 ring-(--bg) sm:-left-11">
+                <div class={s.stepsCounter}>
                   <span class="text-[13px] text-(--fg-strong) items-center justify-center">
                     {idx + 1}
                   </span>
                 </div>
                 <div
-                  class="steps-heading-content mt-0!"
+                  class={s.stepsLabel}
                   set:html={step.heading}
                 />
               </div>
