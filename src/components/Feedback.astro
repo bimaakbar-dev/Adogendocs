@@ -1,5 +1,4 @@
 ---
-// src/components/docs/Feedback.astro
 import Button from "@ui/Button.astro";
 import Icon from "@ui/Icon.astro";
 
@@ -10,35 +9,45 @@ interface Props {
 const { label = "Apakah ini membantu?" } = Astro.props;
 ---
 
-<div class="feedback-bar flex items-center gap-4 py-2 border-y border-(--border-subtle)/80">
-    <span class="text-sm text-(--fg-muted)">{label}</span>
-    <div class="flex gap-2">
-        <Button 
-            variant="outline" 
-            size='md' 
-            aria-label="Yes"
-            class="feedback-btn rounded-full! text-(--fg-muted)" 
-            prefix={<Icon name="thumbsUP" className="w-4 h-4" />}>
-            Yes
-        </Button>
-        <Button 
-            variant="outline" 
-            size='md' 
-            aria-label="No"
-            class="feedback-btn rounded-full! text-(--fg-muted)"
-            prefix={<Icon name="thumbsDown" className="w-4 h-4" />}>
-            No   
-        </Button>
+<div class="feedback-bar relative flex items-center gap-4 px-3 py-1.5 border border-(--border-subtle)/60 bg-(--bg) rounded-md mt-4">
+    <svg 
+      viewBox="0 0 16 8" 
+      fill="var(--bg)" 
+      stroke="currentColor"     
+      stroke-width="1"  
+      preserveAspectRatio="none" 
+      class="absolute -top-2 left-6 w-4 h-2 overflow-visible text-(--border-subtle)/60">
+        <path d="M0 8 L8 0 L16 8" />
+    </svg>
+    <div class="feedback-content flex items-center gap-4 w-full">
+        <span class="text-sm text-(--fg-muted)">{label}</span>
+        <div class="flex gap-2">
+            <Button 
+                variant="outline" 
+                size='md' 
+                aria-label="Yes"
+                class="feedback-btn rounded-full! text-(--fg-muted)" 
+                prefix={<Icon name="thumbsUP" className="w-4 h-4" />}>
+                Yes
+            </Button>
+            <Button 
+                variant="outline" 
+                size='md' 
+                aria-label="No"
+                class="feedback-btn rounded-full! text-(--fg-muted)"
+                prefix={<Icon name="thumbsDown" className="w-4 h-4" />}>
+                No   
+            </Button>
+        </div>
     </div>
 </div>
 
 <script>
     document.querySelectorAll('.feedback-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const parent = btn.parentElement;
-            
-            if (parent) {
-                parent.innerHTML = '<span class="text-sm text-(--accent)">Terima kasih atas masukannya!</span>';
+            const container = btn.closest('.feedback-content');
+            if (container) {
+                container.innerHTML = '<span class="text-sm text-(--accent)">Terima kasih atas masukannya!</span>';
             }
         });
     });
