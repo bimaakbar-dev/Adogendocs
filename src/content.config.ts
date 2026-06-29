@@ -11,7 +11,7 @@ const novels = defineCollection({
     title: z.string(),
     novelTitle: z.string(),
     description: z.string().optional(),
-    pubDate: z.coerce.date(),
+    pubDate: z.coerce.date().optional(),
     order: z.number(),
     cover: z.object({
       src: z.string(),
