@@ -24,38 +24,50 @@ if (releases.length === 0) {
 }
 ---
 
-<div class="changelog-wrapper relative my-6 pl-6 sm:pl-11 md:my-8">
-  <div
-    class="changelog-line absolute left-1 w-px border-l border-dashed border-(--border) sm:left-3"
-    style="top:0; bottom:0;"
-  >
-  </div>
-  <div class="space-y-8">
-    {
-      releases.map((release) => (
-        <div class="changelog-item relative">
-          {release.heading && (
-            <div class="relative mb-1.5 flex items-center">
-              <div class="changelog-bullet absolute -left-6 z-10 h-2.5 w-2.5 rounded-full border border-(--accent)/40 bg-(--accent) sm:-left-9" />
-              <div
-                class="changelog-version mt-0! font-medium text-(--prose-fg-strong)"
-                set:html={release.heading}
-              />
-            </div>
-          )}
-          {release.content && (
+<div class="my-6 md:my-8 pl-6 sm:pl-11">
+  {
+    releases.map((release) => (
+      <div class="changelog-item relative pb-8 last:pb-0">
+        {release.heading && (
+          <div class="relative mb-1.5 flex items-center">
+            <div class="changelog-bullet absolute -left-6 z-10 h-2.5 w-2.5 rounded-full border border-(--accent)/40 bg-(--accent) sm:-left-9" />
             <div
-              class="changelog-items mt-1 space-y-1"
-              set:html={release.content}
+              class="changelog-version mt-0! font-medium text-(--fg-strong)"
+              set:html={release.heading}
             />
-          )}
-        </div>
-      ))
-    }
-  </div>
+          </div>
+        )}
+        {release.content && (
+          <div class="mt-1 space-y-1" set:html={release.content} />
+        )}
+      </div>
+    ))
+  }
 </div>
 
-<style>
+<style is:global>
+  .changelog-item :first-child {
+    margin-top: 0 !important;
+  }
+  .changelog-item :last-child {
+    margin-bottom: 0 !important;
+  }
+  .changelog-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: calc(-1.5rem + 0.3125rem);
+    top: 0.3125rem;
+    bottom: 0;
+    width: 1px;
+    border-left: 1px dashed var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .changelog-item:not(:last-child)::before {
+      left: calc(-2.25rem + 0.3125rem);
+    }
+  }
+
   .changelog-item :global(h2),
   .changelog-item :global(h3),
   .changelog-item :global(h4) {
@@ -63,43 +75,3 @@ if (releases.length === 0) {
     margin-bottom: 0 !important;
   }
 </style>
-
-<script>
-  function adjustChangelogLines() {
-    const wrappers = document.querySelectorAll(".changelog-wrapper");
-
-    wrappers.forEach((wrapper) => {
-      const line = wrapper.querySelector(
-        ".changelog-line",
-      ) as HTMLElement | null;
-      const bullets = wrapper.querySelectorAll(
-        ".changelog-item .changelog-bullet",
-      );
-      if (!line || bullets.length === 0) return;
-
-      const firstBullet = bullets[0] as HTMLElement;
-      const lastBullet = bullets[bullets.length - 1] as HTMLElement;
-
-      const wrapperRect = wrapper.getBoundingClientRect();
-      const firstBulletRect = firstBullet.getBoundingClientRect();
-      const lastBulletRect = lastBullet.getBoundingClientRect();
-
-      const top =
-        firstBulletRect.top - wrapperRect.top + firstBullet.offsetHeight / 2;
-      const bottom =
-        wrapperRect.bottom -
-        (lastBulletRect.bottom - lastBullet.offsetHeight / 2);
-
-      line.style.top = `${top}px`;
-      line.style.bottom = `${bottom}px`;
-    });
-  }
-
-  document.addEventListener("astro:page-load", adjustChangelogLines);
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", adjustChangelogLines);
-  } else {
-    adjustChangelogLines();
-  }
-  window.addEventListener("resize", adjustChangelogLines);
-</script>
