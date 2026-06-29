@@ -3,6 +3,7 @@
 import { NAV } from "@/consts";
 
 import Container from "./ui/Container.astro";
+import Socials from "./Socials.astro";
 import Mobile from "./MobileNav.astro";
 import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
@@ -36,6 +37,7 @@ const currentPath = Astro.url.pathname;
         </nav>
       </div>
       <div class="flex items-center shrink-0 gap-2">
+        <Socials />
         <Theme />
         <Mobile />
       </div>
