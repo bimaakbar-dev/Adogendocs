@@ -16,6 +16,7 @@ import Button from "@/components/ui/Button.astro";
 import Section from "@/components/ui/Section.astro";
 import heroImage from "@/assets/images/Adogen-hero.jpeg";
 import { Image } from "astro:assets";
+import Hero from "@/components/Hero.astro";
 
 const meta = buildMeta({
   description: SITE.description,
@@ -27,12 +28,6 @@ const meta = buildMeta({
 
 <Layout {meta} isHome>
   <div class="relative flex w-full flex-1 flex-col items-center">
-    <Alert
-      title="ALERT"
-      message="Docs Khusus A0"
-      icon="askAIAgent"
-      actionLabel="Read docs"
-      actionHref="/docs"
-    />
+    <Hero />
   </div>
 </Layout>
