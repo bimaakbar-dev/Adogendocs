@@ -27,7 +27,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
 <Tag
   id={id}
   class:list={[
-    "heading-group has-anchor", 
+    "heading-group has-anchor",
     "relative flex flex-wrap items-baseline gap-x-1",
     classes,
     className,
@@ -69,8 +69,8 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     justify-content: center;
     align-items: center;
     vertical-align: baseline;
-    transform: translateX(-6px);
     opacity: 0;
+    transform: translateX(-6px);
     transition:
       opacity 0.15s var(--prose-ease, ease-out),
       transform 0.15s var(--prose-ease, ease-out),
@@ -87,8 +87,21 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     pointer-events: none;
   }
 
-  @media (max-width: 767px) {
-    .anchor-link {
+  @media (hover: hover) {
+    .heading-group.has-anchor:hover .anchor-link {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+      color: var(--fg-subtle, #888);
+    }
+
+    .anchor-link:hover {
+      color: var(--fg-strong, #111);
+    }
+  }
+
+  @media (hover: none) {
+    .heading-group.is-tapped .anchor-link {
       transform: translateX(0);
       opacity: 1;
       pointer-events: auto;
@@ -102,16 +115,47 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     }
   }
 
-  @media (min-width: 1024px) {
-    .heading-group.has-anchor:hover .anchor-link {
-      transform: translateX(0);
-      opacity: 1;
-      pointer-events: auto;
-      color: var(--fg-subtle, #888);
-    }
-
-    .anchor-link:hover {
-      color: var(--fg-strong, #111);
-    }
+  :global(html:has(:target)) {
+    scroll-behavior: auto !important;
   }
 </style>
+
+<script>
+  function initHeadingTap() {
+    if (window.matchMedia("(hover: hover)").matches) return;
+
+    document.querySelectorAll(".heading-group.has-anchor").forEach((heading) => {
+      heading.addEventListener("click", (e) => {
+        const anchor = heading.querySelector(".anchor-link") as HTMLAnchorElement | null;
+        if (!anchor) return;
+
+        if (!anchor.contains(e.target as Node)) {
+          e.preventDefault();
+
+          const isAlreadyTapped = heading.classList.contains("is-tapped");
+
+          document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
+            el.classList.remove("is-tapped");
+          });
+
+          if (!isAlreadyTapped) {
+            heading.classList.add("is-tapped");
+          }
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node;
+      const clickedHeading = (target as Element).closest?.(".heading-group");
+      if (!clickedHeading) {
+        document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
+          el.classList.remove("is-tapped");
+        });
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initHeadingTap);
+  initHeadingTap();
+</script>
