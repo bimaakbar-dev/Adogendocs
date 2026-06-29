@@ -2,11 +2,10 @@
 // src/layouts/Layout.astro
 import { SITE, type buildMeta as BuildMetaFn } from "@/consts";
 
-import Head from "../components/Head.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/DoFooter.astro";
-import SkipLink from "@/components/SkipLink.astro";
-import ThemeProvider from "@/components/ThemeProvider.astro";
+import Head from "@components/Head.astro";
+import Header from "@components/Header.astro";
+import SkipLink from "@components/SkipLink.astro";
+import ThemeProvider from "@components/ThemeProvider.astro";
 
 interface Props {
   meta?: Partial<ReturnType<typeof BuildMetaFn>>;
@@ -14,7 +13,6 @@ interface Props {
   isHome?: boolean;
   canonical?: string;
   hideHeader?: boolean;
-  hideFooter?: boolean;
 }
 
 const {
@@ -23,7 +21,6 @@ const {
   isHome = false,
   canonical,
   hideHeader = false,
-  hideFooter = false,
 } = Astro.props;
 ---
 
@@ -42,9 +39,6 @@ const {
       >
         <slot />
       </main>
-      <div class="px-4">
-        {!hideFooter && <Footer />}
-      </div>
     </div>
   </body>
 </html>
