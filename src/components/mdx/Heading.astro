@@ -34,17 +34,15 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   ]}
 >
   <span class="heading-text-content"><slot /></span>
-  {
-    id && (
-      <a
-        href={`#${id}`}
-        class="anchor-link"
-        aria-label={anchorLabel}
-      >
-        <Icon name="link" className="w-4 h-4" />
-      </a>
-    )
-  }
+  {id && (level === 2 || level === 3) && (
+    <a
+      href={`#${id}`}
+      aria-label={anchorLabel}
+      class="anchor-link"
+    >
+      <Icon name="link" className="w-4 h-4" />
+    </a>
+  )}
 </Tag>
 
 <style>
@@ -155,7 +153,5 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
       }
     });
   }
-
-  document.addEventListener("astro:page-load", initHeadingTap);
   initHeadingTap();
 </script>
