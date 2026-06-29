@@ -1,33 +1,21 @@
 ---
 // src/components/Header.astro
-import { SITE, NAV, ROUTES } from "@/consts";
+import { NAV } from "@/consts";
 
 import Container from "./ui/Container.astro";
-import Icon from "./ui/icons/Icon.astro";
 import Mobile from "./MobileNav.astro";
 import Theme from "./Theme.astro";
+import Logo from "./ui/Logo.astro";
 
 const currentPath = Astro.url.pathname;
 ---
 
 <header id="main-header" class="sticky top-0 z-50 border-b">
   <Container size="full">
-    <div
-      class="mx-auto flex h-(--header-height) w-full items-center justify-between"
-    >
-      <a
-        href={ROUTES.home}
-        class="inline-flex shrink-0 items-center gap-1.5 text-xl font-bold tracking-wider text-(--fg) transition-opacity hover:opacity-80"
-      >
-        <Icon name="c0deks1" className="h-6 w-6" />
-        <span class="font-normal text-(--fg-dim)">/</span>
-        <Icon name="logo" className="h-6 w-6" />
-        <span class="hidden sm:flex">{SITE.name}</span>
-      </a>
-      <div class="flex items-center gap-3">
-        <nav
-          class="text-label-14 hidden items-center gap-6 font-medium sm:flex"
-        >
+    <div class="mx-auto flex h-(--header-height) w-full items-center justify-between">
+      <div class="flex items-center shrink-0 gap-4">
+        <Logo />
+        <nav class="text-label-14 hidden items-center gap-6 font-medium sm:flex">
           {
             NAV.navBar.map((item) => (
               <a
@@ -46,9 +34,8 @@ const currentPath = Astro.url.pathname;
             ))
           }
         </nav>
-        <span class="hidden text-xl font-normal text-(--fg-dim) sm:inline-flex"
-          >|</span
-        >
+      </div>
+      <div class="flex items-center shrink-0 gap-2">
         <Theme />
         <Mobile />
       </div>
