@@ -4,8 +4,13 @@
 .prose ol {
   @apply text-body-16;
   margin: 2rem 0;
-  padding-left: 0;
+  padding-left: 1.75rem;
   color: var(--fg);
+}
+
+.prose ul ::marker,
+.prose ol ::marker {
+  color: var(--fg-dim);
 }
 
 .prose li {
@@ -25,74 +30,6 @@
 .prose ul ol,
 .prose ol ul {
   margin: 8px 0;
-}
-
-.prose ul {
-  list-style: none;
-  padding-left: 1.75rem;
-}
-
-.prose ul > li {
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.prose ul > li::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: "—";
-  color: var(--prose-list-marker);
-}
-
-.prose ul ul > li {
-  padding-left: 1.5rem;
-}
-.prose ul ul > li::before {
-  content: "–";
-  color: var(--prose-list-marker);
-}
-
-.prose ul ul ul > li {
-  padding-left: 1.5rem;
-}
-.prose ul ul ul > li::before {
-  top: 0.1em;
-  content: "•";
-  color: var(--prose-list-marker);
-  font-size: 0.8em;
-}
-
-.prose ol {
-  counter-reset: prose-counter;
-  padding-left: 1.75rem;
-  list-style-type: decimal;
-}
-
-.prose ol > li {
-  counter-increment: prose-counter;
-  padding-left: 0.25rem;
-}
-
-.prose ol ol {
-  counter-reset: prose-counter-nested;
-  list-style-type: lower-alpha;
-}
-
-.prose ol ol ol {
-  list-style-type: lower-roman;
-}
-
-.prose ol ol > li {
-  counter-increment: prose-counter-nested;
-}
-
-.prose ol ::marker {
-  color: var(--prose-list-marker);
-}
-
-.prose ol ::marker:hover {
-  color: var(--prose-list-marker-hover);
 }
 
 .prose ul:has(input[type="checkbox"]) {
@@ -117,23 +54,23 @@
   flex-shrink: 0;
   appearance: none;
   -webkit-appearance: none;
-  transition: all var(--prose-duration) var(--prose-ease-out);
+  transition: all var(--prose-duration) var(--ease-out);
   cursor: pointer;
   margin-top: 0.2rem;
   border: 1px solid var(--prose-border-strong);
-  border-radius: var(--prose-radius-sm);
-  background-color: var(--prose-bg-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
   width: 1.125rem;
   height: 1.125rem;
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:hover {
-  border-color: var(--prose-fg-muted);
+  border-color: var(--fg-muted);
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked {
-  border-color: var(--prose-fg-strong);
-  background-color: var(--prose-fg-strong);
+  border-color: var(--fg-strong);
+  background-color: var(--fg-strong);
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked::after {
@@ -141,7 +78,7 @@
   top: 1px;
   left: 5px;
   transform: rotate(45deg);
-  border: solid var(--prose-bg);
+  border: solid var(--bg);
   border-width: 0 2px 2px 0;
   width: 5px;
   height: 10px;
@@ -151,25 +88,19 @@
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  border-color: var(--prose-border);
-  background-color: var(--prose-bg-muted);
+  border-color: var(--border);
+  background-color: var(--bg-muted);
 }
 
 .prose
   ul:has(input[type="checkbox"])
   li
   input[type="checkbox"]:disabled:checked {
-  border-color: var(--prose-fg-dim);
-  background-color: var(--prose-fg-dim);
+  border-color: var(--fg-subtle);
+  background-color: var(--fg-subtle);
 }
 
 @media (max-width: 767px) {
-  .prose ul > li,
-  .prose ul ul > li,
-  .prose ul ul ul > li {
-    padding-left: 1.25rem;
-  }
-
   .prose ul:has(input[type="checkbox"]) li input[type="checkbox"] {
     margin-top: 0.2rem;
   }
