@@ -5,14 +5,20 @@ import {
     ROUTES 
 } from "@/consts";
 
+interface Props {
+  label?: boolean;
+}
+
+const { label = false } = Astro.props;
+
 import Icon from "@ui/Icon.astro";
 ---
 <div class="flex items-center justify-between w-full">
     <a
         href={ROUTES.home}
         aria-label={SITE.name}
-        class="inline-flex shrink-0 items-center gap-1.5 text-lg font-medium text-(--fg)">
+        class="inline-flex shrink-0 items-center gap-1.5 text-lg font-semibold text-(--fg)">
         <Icon name="logo" className="h-5 w-5" />
-        <span>{SITE.name}</span>
+        {label && ( <span>{SITE.name}</span> )}
     </a>
 </div>
