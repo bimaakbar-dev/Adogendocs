@@ -7,7 +7,6 @@ interface Props {
   title?: string;
 }
 
-// PERBAIKAN: Amankan pengecekan objek Astro sebelum membaca props
 const props = typeof Astro !== "undefined" && Astro.props ? Astro.props : {};
 const { title = "" } = props as Props;
 

@@ -13,19 +13,24 @@ if (html) {
     steps.push(match[1].trim());
   }
 }
+
+const s = {
+  stepsWrapper: 'my-6 md:my-8',
+  stepsItem: 'step-item relative flex items-start gap-3 mb-7 last:mb-0 pl-0',
+  stepsCounter: 'step-bullet relative z-10 inline-flex shrink-0 items-center justify-center h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) text-[13px] font-semibold text-(--fg-strong)',
+  stepsContent: 'step-content flex-1 leading-6 pl-2'
+}
 ---
 
-<div class="my-6 md:my-8">
-  {
-    steps.map((step, idx) => (
-      <div class="step-item relative flex items-start gap-3 mb-7 last:mb-0 pl-0">
-        <span class="step-bullet relative z-10 inline-flex shrink-0 items-center justify-center h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) text-[13px] font-semibold text-(--fg-strong)">
-          {idx + 1}
-        </span>
-        <div class="step-content flex-1 leading-6" set:html={step} />
-      </div>
-    ))
-  }
+<div class={s.stepsWrapper}>
+  {steps.map((step, idx) => (
+    <div class={s.stepsItem}>
+      <span class={s.stepsCounter}>
+        {idx + 1}
+      </span>
+      <div class={s.stepsContent} set:html={step} />
+    </div>
+  ))}
 </div>
 
 <style is:global>

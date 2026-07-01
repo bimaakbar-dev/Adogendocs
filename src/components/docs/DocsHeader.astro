@@ -29,7 +29,7 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
-<!--{pubDate && (
+  {pubDate && (
     <div class={itemGroup}>
       <div class={Meta}>
         <Icon name="progress" className={Icons} />
@@ -44,7 +44,7 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
           </time>
         </p>
     </div>
-  )}-->
+  )}
   { title && (<h1 class={Title}>{title}</h1>) }
   { description && (<p class={Description}>{description}</p>)}
 </header>

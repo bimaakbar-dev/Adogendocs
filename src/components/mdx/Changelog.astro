@@ -22,23 +22,29 @@ if (html) {
 if (releases.length === 0) {
   releases.push({ heading: "", content: html });
 }
+
+const s = {
+  changelogWrapper: 'my-6 md:my-8 pl-6 sm:pl-11',
+  changelogItem: 'changelog-item relative pb-8 last:pb-0',
+  changelogHeader: 'relative mb-1.5 flex items-center',
+  changelogCounter: 'changelog-bullet absolute -left-6 z-10 h-2.5 w-2.5 rounded-full border border-(--border)/40 bg-(--accent) sm:-left-9',
+  changelogLabel: 'changelog-version mt-0! font-medium text-(--fg-strong)',
+  changelogContent: 'space-y-1'
+}
 ---
 
-<div class="my-6 md:my-8 pl-6 sm:pl-11">
+<div class={s.changelogWrapper}>
   {
     releases.map((release) => (
-      <div class="changelog-item relative pb-8 last:pb-0">
+      <div class={s.changelogItem}>
         {release.heading && (
-          <div class="relative mb-1.5 flex items-center">
-            <div class="changelog-bullet absolute -left-6 z-10 h-2.5 w-2.5 rounded-full border border-(--accent)/40 bg-(--accent) sm:-left-9" />
-            <div
-              class="changelog-version mt-0! font-medium text-(--fg-strong)"
-              set:html={release.heading}
-            />
+          <div class={s.changelogHeader}>
+            <div class={s.changelogCounter} />
+            <div class={s.changelogLabel} set:html={release.heading} />
           </div>
         )}
         {release.content && (
-          <div class="mt-1 space-y-1" set:html={release.content} />
+          <div class={s.changelogContent} set:html={release.content} />
         )}
       </div>
     ))
@@ -59,7 +65,7 @@ if (releases.length === 0) {
     top: 0.3125rem;
     bottom: 0;
     width: 1px;
-    border-left: 1px dashed var(--border);
+    border-left: 1px dashed var(--border-subtle);
   }
 
   @media (min-width: 640px) {
