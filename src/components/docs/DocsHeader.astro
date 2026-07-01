@@ -5,16 +5,19 @@ import {
   getReadingTime 
 } from "@lib/utils";
 
+import Breadcrumb from "@components/Breadcrumb.astro";
 import Icon from "@ui/Icon.astro";
+import ActionCopy from "../ActionCopy.astro";
 
 interface Props {
   title: string;
   description?: string;
-  pubDate: Date;
+  pubDate?: Date;
   content?: string;
+  breadcrumb?: { label: string; href: string }[];
 }
 
-const { title, description, pubDate, content = "" } = Astro.props;
+const { title, description, pubDate, content = "", breadcrumb = [] } = Astro.props;
 
 const readingTime = getReadingTime(content);
 
@@ -29,10 +32,19 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
+  <div class="flex justify-between items-center gap-2">
+    <div class="flex items-center">
+      {breadcrumb.length > 0 && (
+        <Breadcrumb items={breadcrumb} separator="chevron" />
+      )}
+    </div>
+    <div class="flex items-center"><ActionCopy /></div>
+  </div>
+  { title && (<h1 class={Title}>{title}</h1>) }
   {pubDate && (
     <div class={itemGroup}>
       <div class={Meta}>
-        <Icon name="progress" className={Icons} />
+        <Icon name="history" className={Icons} />
         <span class={Text}>
           {readingTime}
         </span>
@@ -45,6 +57,5 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
         </p>
     </div>
   )}
-  { title && (<h1 class={Title}>{title}</h1>) }
   { description && (<p class={Description}>{description}</p>)}
 </header>

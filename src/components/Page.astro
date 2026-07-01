@@ -1,0 +1,19 @@
+---
+interface Props {
+    class?: string
+}
+
+const {
+  class: className = '',
+} = Astro.props;
+
+const deafultClass = "min-h-screen flex-col";
+
+const classes = [
+    deafultClass,
+    className,
+]
+---
+<div class:list={[classes]}>
+    <slot />
+</div>

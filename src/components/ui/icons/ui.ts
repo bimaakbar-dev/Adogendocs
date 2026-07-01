@@ -97,6 +97,14 @@ export const uiIcons = {
     <path d="M21 12H3" />
   `,
 
+  history: `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 12h18" />
+    <path d="M12 21v-18" />
+    <path d="M7.5 7.5l9 9" />
+    <path d="M7.5 16.5l9 -9" />
+  `,
+
   "expanded-close": `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
@@ -112,6 +120,11 @@ export const uiIcons = {
   `,
 
   close: `<path d="M18 6 6 18m0-12 12 12" />`,
+
+  slash: `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	  <path d="M17 5l-10 14" />
+  `,
 
   lock: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -334,11 +347,22 @@ export const uiIcons = {
     <path d="M14 2C14 2 14.849 2.121 18.364 5.636C21.879 9.151 21.879 14.849 18.364 18.364C17.119 19.609 15.599 20.413 14 20.776M14 2h6M14 2v6M10 22C10 22 9.151 21.879 5.636 18.364C2.121 14.849 2.121 9.151 5.636 5.636C6.881 4.391 8.401 3.587 10 3.224M10 22H4M10 22v-6" />
   `,
 
-  "chevron-up": `<path d="m18 15-6-6-6 6" />`,
-  "chevron-down": `<path d="m6 9 6 6 6-6" />`,
-  "chevron-right": `<path d="m9 18 6-6-6-6" />`,
-  "chevron-left": `<path d="m15 18-6-6 6-6" />`,
-
+  "chevron-up": `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	  <path d="M6 15l6 -6l6 6" />
+  `,
+  "chevron-down": `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	  <path d="M6 9l6 6l6 -6" />
+  `,
+  "chevron-right": `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	  <path d="M9 6l6 6l-6 6" />
+  `,
+  "chevron-left": `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	  <path d="M15 6l-6 6l6 6" />
+  `,
   spinner: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M18 16v.01" />
@@ -516,5 +540,21 @@ export const uiIcons = {
   thumbsDown: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	  <path d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3" />
+  `,
+  vocabulary: `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 19h-6a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1h6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2h6a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-6a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2" />
+    <path d="M12 5v16" />
+    <path d="M7 7h1" />
+    <path d="M7 11h1" />
+    <path d="M16 7h1" />
+    <path d="M16 11h1" />
+    <path d="M16 15h1" />
+  `,
+  markdown: `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />
+    <path d="M7 15v-6l2 2l2 -2v6" />
+    <path d="M14 13l2 2l2 -2m-2 2v-6" />
   `,
 } as const;

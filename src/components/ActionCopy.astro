@@ -1,0 +1,101 @@
+---
+import Icon from "@ui/Icon.astro";
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "Copy Page", class: className } = Astro.props;
+
+const s = {
+  ActionWrapper: 'copy-dropdown-wrapper relative inline-flex items-center rounded-md border border-(--border-subtle) bg-(--bg) shadow-sm overflow',
+  actionGroup: 'flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-(--bg-muted) active:bg-(--bg-muted) rounded-l-md text-(--fg-strong) transition-all border-r border-(--border-subtle)',
+  actionPrefix: 'flex items-center justify-center w-4 h-4',
+  actionLabel: 'font-medium',
+  actionSuffix: 'copy-trigger flex items-center justify-center text-(--fg-muted) rounded-r-md hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-all w-8 h-8',
+  actionDropdown: 'copy-menu hidden absolute right-0 top-full mt-2 w-48 z-50 rounded-lg border border-(--border-subtle) bg-(--bg) shadow-xl p-1 animate-in fade-in slide-in-from-top-1'
+}
+---
+
+<div class:list={[s.ActionWrapper, className]}>
+  <button data-action="copy-default" aria-label="Copy page URL" class={s.actionGroup}>
+    <div id="icon-container" class={s.actionPrefix}>
+        <span class="icon-copy"><Icon name="copy" className="w-4 h-4" /></span>
+        <span class="icon-check hidden"><Icon name="check" className="w-4 h-4 text-green-500" /></span>
+    </div>
+    <span class={s.actionLabel}>{label}</span>
+  </button>
+  <button aria-label="More options"
+    class={s.actionSuffix}>
+    <Icon name="chevron-down" className="w-4 h-4 opacity-70" />
+  </button>
+  <div class={s.actionDropdown}>
+    <button data-action="url" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) active:bg-(--bg-muted)">
+        <Icon name="link" className="w-4 h-4" /> Copy as URL
+    </button>
+    <button data-action="markdown" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) active:bg-(--bg-muted)">
+        <Icon name="markdown" className="w-4 h-4" /> Copy as Markdown
+    </button>
+    <div class="border-t border-(--border-subtle) my-1"></div>
+    <button data-action="agent" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-(--accent) rounded-md hover:bg-(--bg-muted) active:bg-(--bg-muted)">
+        <Icon name="code" className="w-4 h-4" /> Open in Agent
+    </button>
+  </div>
+</div>
+
+<script>
+  function setupSplitButton() {
+    document.querySelectorAll('.copy-dropdown-wrapper').forEach(wrapper => {
+      const primaryBtn = wrapper.querySelector('[data-action="copy-default"]');
+      const trigger = wrapper.querySelector('.copy-trigger');
+      const menu = wrapper.querySelector('.copy-menu');
+      const iconCopy = wrapper.querySelector('.icon-copy');
+      const iconCheck = wrapper.querySelector('.icon-check');
+
+      if (!primaryBtn || !trigger || !menu) return;
+
+      primaryBtn.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(window.location.href);
+        
+        iconCopy?.classList.add('hidden');
+        iconCheck?.classList.remove('hidden');
+        
+        setTimeout(() => {
+          iconCopy?.classList.remove('hidden');
+          iconCheck?.classList.add('hidden');
+        }, 1500);
+      });
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        document.querySelectorAll('.copy-menu').forEach(m => {
+          if (m !== menu) m.classList.add('hidden');
+        });
+        
+        menu.classList.toggle('hidden');
+      });
+
+      menu.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          menu.classList.add('hidden');
+          const action = btn.getAttribute('data-action');
+          if (action === 'url') await navigator.clipboard.writeText(window.location.href);
+          if (action === 'markdown') {
+             const content = document.querySelector('main')?.innerText || "";
+             await navigator.clipboard.writeText(content);
+          }
+          if (action === 'agent') window.location.href = `/agent?page=${window.location.pathname}`;
+        });
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.copy-menu').forEach(m => m.classList.add('hidden'));
+    });
+  }
+
+  setupSplitButton();
+</script>

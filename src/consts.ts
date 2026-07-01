@@ -22,39 +22,26 @@ type Socials = {
 const LOGO = "/org/c0desk1-logo.svg";
 const AUTHOR = "/org/placeholder-user.jpg";
 const ThumbnailPlaceHolder = `/org/placeholder.svg`;
-const OGIMAGE = "/org/c0desk1-og.webp";
-
-export const UI_TEXT = {
-  GENERATE: "Generate Metadata",
-  GENERATING: "Generating...",
-  COPY: "Copy",
-  COPIED: "Copied!",
-  EXPORT_CSV: "Export CSV",
-  DROP_IMAGE: "Drop image here or click to upload",
-  API_KEY_PLACEHOLDER: "Your API key (gsk_...)",
-  NO_RESULTS: "No results yet. Upload an image and click Generate.",
-  ERROR_API_KEY: "API Key is required",
-};
+const OGIMAGE = "/org/placeholder.svg";
 
 export const SITE = {
-  name: "Adogen",
-  tagline: "AI Metadata Generator for Microstock",
-  description:
-    "Generate SEO-optimized titles, keywords, and categories for Adobe Stock images instantly. Bring your own API key — supports Groq, Mistral, and more.",
-  url: "https://adogen.c0desk1.my.id",
+  name: "c0docs",
+  tagline: "Official c0desk1 Docs",
+  description: "Generate SEO-optimized titles, keywords, and categories for Adobe Stock images instantly. Bring your own API key — supports Groq, Mistral, and more.",
+  url: "https://docs.c0desk1.my.id",
   ogImage: OGIMAGE,
-  locale: "en_US",
+  locale: "id_ID",
   lang: "en",
   dir: "ltr",
   charset: "utf-8",
   themeColor: "#10b981",
   bgColor: "#ffffff",
-  email: "hello@adogen.dev",
+  email: "hello@c0desk1.my.id",
   foundingYear: 2026,
 } as const;
 
 export const ORG = {
-  name: "Adogen",
+  name: "c0docs",
   url: SITE.url,
   logo: LOGO,
   sameAs: [] as string[],

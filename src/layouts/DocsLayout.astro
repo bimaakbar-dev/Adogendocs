@@ -6,7 +6,7 @@ import {
 } from "@/consts";
 
 import Head from "@/components/Head.astro";
-import Container from "@ui/Container.astro";
+import Page from "@components/Page.astro";
 import Footer from "@/components/Footer.astro";
 import DocsNavbar from "@docs/DocsNavbar.astro";
 import MobileSidebar from "@components/MobileSidebar.astro";
@@ -15,6 +15,7 @@ import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
 import Search from "@components/Search.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
+import PageFrame from "@/components/PageFrame.astro";
 
 interface Props {
   meta?: Partial<ReturnType<typeof BuildMetaFn>>;
@@ -45,13 +46,13 @@ const {
   <body>
     <SkipLink />
     <Search />
-    <div class="min-h-screen flex-col">
+    <Page>
       <MobileSidebar
         sidebarProps={sidebarProps} 
         hideHeader={hideHeader} 
         hideFooter={hideFooter} 
       />
-      <Container size="full" class="mx-auto grid min-h-screen w-full grid-cols-1 gap-6 px-0! lg:grid-cols-[16rem_minmax(0,1fr)_16rem]">
+      <PageFrame>
         <aside class="bg-(--surface) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
           <div class="flex h-full flex-col flex-1">
             {!hideHeader && <DocsNavbar />}
@@ -64,11 +65,11 @@ const {
         <main id="main-content" class="w-full min-w-0">
           <slot />
         </main>
-        <aside class="hidden sticky top-(--header-height) lg:block lg:h-[calc(100vh-54px)] overflow-y-auto px-4 py-4">
+        <aside class="hidden sticky top-(--header-height) lg:block lg:h-[calc(100vh-54px)] overflow-y-auto px-2 pt-4 pb-(--safe-bottom) w-full">
           <slot name="right" />
         </aside>
-      </Container>
-    </div>
+      </PageFrame>
+    </Page>
     <ScrollToTop />
   </body>
 </html>

@@ -15,7 +15,7 @@ const copyrightYear =
     : SITE.foundingYear;
 ---
 
-<footer class="mt-auto shrink-0 pt-4 pb-2 mb-(--safe-bottom)">
+<footer class="mt-auto shrink-0 pt-4 pb-4 mb-(--safe-bottom)">
   <div class="flex items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) px-2 py-1">
     <div class="flex items-center gap-1">
       <Socials />
@@ -24,7 +24,7 @@ const copyrightYear =
       <Theme />
     </div>
   </div>
-  <div class="mt-4 text-center text-xs uppercase tracking-wider text-(--fg-muted)/70">
+  <div class="mt-4 text-center text-xs tracking-wider text-(--fg-muted)/70 hidden">
     &copy; {copyrightYear} {SITE.name}
   </div>
 </footer>

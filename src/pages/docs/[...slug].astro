@@ -21,7 +21,6 @@ import MobileToc from "@components/MobileToc.astro";
 import DocsHeader from "@docs/DocsHeader.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 import DocsFooter from "@docs/DocsFooter.astro";
-import Select from "@/components/ui/Select.astro";
 
 export async function getStaticPaths() {
   const docsEntries = await getCollection("docs");
@@ -79,6 +78,17 @@ const sidebarProps = {
   storagePrefix: "docs",
 };
 
+const breadcrumbItems = [
+  { label: "Docs", href: "/docs" }
+];
+
+if (entry.data.category) {
+  breadcrumbItems.push({
+    label: entry.data.category,
+    href: `/docs?category=${encodeURIComponent(entry.data.category)}`,
+  });
+}
+
 const cleanSlug = Astro.params.slug;
 const currentUrl = `${SITE.url}/docs${cleanSlug ? `/${cleanSlug}` : ""}`;
 
@@ -89,16 +99,15 @@ const nextEntry =
     ? sidebarItems[currentIndex + 1]
     : null;
 
-const copyItems = [
-  { label: "Copy as Markdown", value: "md", icon: "file" },
-  { label: "Copy Page URL", value: "url", icon: "link" },
-  { label: "Open in AI Agent", value: "ai", icon: "sparkles" },
-];
-
 const metaProps = buildMeta({
-  title: entry.data.title,
-  description: entry.data.description || SITE.description,
-  canonical: currentUrl,
+  title: entry.data.seo.title,
+  description: entry.data.seo.description ?? entry.data.description,
+  canonical: currentPath,
+  ogImage: entry.data.seo.ogImage ?? entry.data.cover,
+  ogType: "article",
+  datePublished: entry.data.pubDate?.toISOString(),
+  dateModified: entry.data.lastUpdated?.toISOString(),
+  authorName: "Bima Akbar",
 });
 
 const pageSchema = schemaWebPage({
@@ -119,6 +128,7 @@ const pageSchema = schemaWebPage({
             description={entry.data.description}
             pubDate={entry.data.pubDate}
             content={entry.body}
+            breadcrumb={breadcrumbItems}
           />
           <article class="prose">
             <Content components={components} />
@@ -134,13 +144,6 @@ const pageSchema = schemaWebPage({
   </Fragment>
   <Fragment slot="right" class="flex items-center gap-4">
     <div class="sticky top-0 right-0 space-y-2">
-      <Select 
-        size="md"
-        options={copyItems}
-        placeholder="Copy page"
-        prefix="copy"
-        suffix="chevron-down"
-      />
       <ScrollToTop label="Scroll to top" />
     </div>
     <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
