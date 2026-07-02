@@ -1,7 +1,6 @@
 //src/content.config.ts
 import { 
-  defineCollection,
-  reference
+  defineCollection
 } from "astro:content";
 
 import { glob } from "astro/loaders";
@@ -22,37 +21,6 @@ const SEO = z.object({
   ogImage: z.string().optional(),
 });
 
-const series = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/series.yml" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    status: z.enum(['ongoing', 'completed', 'hiatus']),
-    cover: z.string(),
-  }),
-});
-
-const volumes = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/volume.yml" }),
-  schema: z.object({
-    title: z.string(),
-    cover: z.string(),
-    order: z.number(),
-    series: reference('series'),
-  }),
-});
-
-const chapters = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/!(series|volume).{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    navTitle: z.string().optional(),
-    chapterNumber: z.number(),
-    volume: reference('volumes'),
-    date: z.coerce.date(),
-  }),
-});
-
 const docs = defineCollection({
   loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
@@ -71,9 +39,6 @@ const legal = defineCollection({
 });
 
 export const collections = {
-  series,
-  volumes,
-  chapters,
   docs,
   legal,
 };
