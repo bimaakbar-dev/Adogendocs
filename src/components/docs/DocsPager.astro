@@ -15,25 +15,40 @@ const getHref = (item: CollectionEntry<"docs">) => {
   const isRoot = item.id === primaryRootId;
   return isRoot ? "/docs" : `/docs/${item.data.slug || item.id}`;
 };
+
+const $ = {
+  peginationWrapper: 'flex items-center justify-center shrink-0 pb-(--safe-bottom)',
+  peginationGroup: 'grid grid-cols-1 gap-4 sm:grid-cols-2 items-center justify-center',
+  
+  peginationPrevGroup: 'shrink-0 items-center text-left justify-start',
+  peginationNextGroup: 'shrink-0 items-center text-right justify-end',
+  
+  peginationPrev: 'group flex flex-col gap-2 rounded-md border border-(--border-subtle)/80 p-4 no-underline bg-none hover:bg-(--bg-muted) active:bg-(--bg-muted)',
+  peginationNext: 'group flex flex-col gap-2 rounded-md border border-(--border-subtle)/80 p-4 no-underline bg-none hover:bg-(--bg-muted) active:bg-(--bg-muted)',
+  
+  peginationPrevHeader: 'flex items-center justify-start gap-1',
+  peginationNextHeader: 'flex items-center justify-end gap-1',
+
+  peginationLabel: 'text-label-13 font-semibold text-(--fg-strong)',
+  peginationIcon: 'inline-flex shrink-0 items-center justify-center h-4 w-4 text-(--fg-strong)',
+  peginationSubLabel: 'truncate text-sm font-medium text-(--fg-muted)'
+}
 ---
 
 {
   (prev || next) && (
-    <nav aria-label="Docs pagination">
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <nav aria-label="Docs pagination" class={$.peginationWrapper}>
+      <div class={$.peginationGroup}>
         {prev ? (
-          <div class="shrink-0 items-center text-left">
-            <a
-              href={getHref(prev)}
-              class="group flex flex-col gap-1.5 rounded-md border border-(--border)/50 p-4 no-underline hover:bg-(--bg-muted) active:bg-(--bg-muted)"
-            >
-              <span class="text-label-13 flex items-center justify-start gap-1.5 font-medium text-(--fg-muted)">
-                <span class="h-4 w-4 transition-transform group-hover:-translate-x-0.5 group-active:-translate-x-0.5">
-                  <Icon name="arrow-left" className="w-full h-full" />
+          <div class={$.peginationPrevGroup}>
+            <a href={getHref(prev)} class={$.peginationPrev}>
+              <span class={$.peginationPrevHeader}>
+                <span class={$.peginationIcon}>
+                  <Icon name="chevron-left" className="w-full h-full" />
                 </span>
-               {prev.data.title}
+               <span class={$.peginationLabel}>{prev.data.title}</span>
               </span>
-              <span class="truncate text-[14px] font-semibold text-(--fg-strong)">
+              <span class={$.peginationSubLabel}>
                 {prev.data.description}
               </span>
             </a>
@@ -42,18 +57,15 @@ const getHref = (item: CollectionEntry<"docs">) => {
           <div />
         )}
         {next ? (
-          <div class="shrink-0 items-center text-right">
-            <a
-              href={getHref(next)}
-              class="group flex flex-col gap-1.5 rounded-md border border-(--border)/50 p-4 no-underline hover:bg-(--bg-muted) active:bg-(--bg-muted)"
-            >
-              <span class="text-label-13 flex items-center justify-end gap-1.5 font-medium text-(--fg-muted)">
-                {next.data.title}
-                <span class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-active:translate-x-0.5">
-                  <Icon name="arrow-right" className="w-full h-full" />
+          <div class={$.peginationNextGroup}>
+            <a href={getHref(next)} class={$.peginationNext}>
+              <span class={$.peginationNextHeader}>
+                <span class={$.peginationLabel}>{next.data.title}</span>
+                <span class={$.peginationIcon}>
+                  <Icon name="chevron-right" className="w-full h-full" />
                 </span>
               </span>
-              <span class="truncate text-[14px] font-semibold text-(--fg-strong)">
+              <span class={$.peginationSubLabel}>
                 {next.data.description}
               </span>
             </a>
