@@ -1,5 +1,4 @@
 ---
-import { SITE } from "@/consts";
 import Button from "@ui/Button.astro";
 import Badge from "./ui/Badge.astro";
 
@@ -25,17 +24,16 @@ const particles = [
     <Image alt={tagline} width={1200} height={630} loading="eager" fetchpriority="high" decoding="auto" src={heroImage} class="w-full h-full object-cover opacity-20" />
     {particles.map((p, i) => (
       <span
-        class="absolute size-px rounded-full bg-(--fg-strong)/40 particle"
+        class="particle absolute size-px rounded-full bg-(--fg-strong)/40 particle"
         style={`left: ${p.left}; top: ${p.top}; animation-delay: ${i * 0.5}s;`}
       />
     ))}
   </div>
   <div class="z-10 flex flex-col items-center gap-6 text-center">
     <Badge variant="accent">{tagline}</Badge>
-     <p class="max-w-md text-heading-48 font-medium text-(--fg-muted)">{description} <span class='text-(--accent)'>style</span>.</p>
+     <p class="max-w-md text-heading-32 font-medium text-(--fg-muted)">{description} <span class='text-(--accent)'>style</span>.</p>
      <div class="flex gap-4">
         <Button variant="primary" size="lg" href="/docs" class="rounded-full!">Get Started</Button>
-        <Button variant="secondary" size="lg" href="/novels" class="rounded-full!">Read Novels</Button>
      </div>
   </div>
 </section>
