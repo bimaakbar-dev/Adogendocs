@@ -52,6 +52,7 @@ export const ROUTES = {
   novel: "/novels",
   about: "/about",
   docs: "/docs",
+  blog: "/blog",
   privacy: "/privacy",
   terms: "/terms",
   sitemap: "/sitemap-index.xml",
@@ -64,11 +65,12 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Docs", href: ROUTES.docs, icon: "blog" },
-    { label: "About", href: ROUTES.about, icon: "logo" },
+    { label: "Docs", href: ROUTES.docs, icon: "logo" },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
   mobileNavBar: [
     { label: "Docs", href: ROUTES.docs },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" }
     { label: "About", href: ROUTES.about }
   ] as NavItem[],
   footerBar: [
@@ -76,21 +78,19 @@ export const NAV = {
       title: "Resource",
       items: [
         { label: "Docs", href: ROUTES.docs },
-        { label: "About", href: ROUTES.about },
-        { label: "Sitemap", href: ROUTES.sitemap },
+        { label: "About", href: ROUTES.about }
       ],
     },
     {
       title: "Legal",
       items: [
         { label: "Privacy Policy", href: ROUTES.privacy },
-        { label: "Terms of Service", href: ROUTES.terms },
+        { label: "Terms of Service", href: ROUTES.terms }
       ],
     },
   ] as FooterNav[],
   Social: [
-    { label: "Github", href: ROUTES.docs, icon: "github" },
-    { label: "X", href: ROUTES.about, icon: "twitter" },
+    { label: "Github", href: ROUTES.docs, icon: "github" }
   ] as Socials[]
 } as const;
 
