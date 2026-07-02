@@ -6,19 +6,23 @@ interface Props {
   class?: string;
 }
 const { class: className = "" } = Astro.props;
+
+const aLabel = 'Scroll to top';
+const defaultClass = 'pointer-events-none fixed right-6 bottom-6 mb-(--safe-bottom) z-50 flex h-10 w-10 translate-y-10 transform cursor-pointer items-center justify-center rounded-md border border-(--border)/40 bg-(--bg) p-2 text-(--fg-muted) opacity-0 shadow-xl transition-all duration-300 hover:bg-(--bg-muted) focus:outline-none active:bg-(--bg-muted) md:hidden';
 ---
 
 <Button
   id="scroll-to-top-floating"
   variant="icon"
   size="md"
+  aria-label={aLabel}
   class:list={[
-    "pointer-events-none fixed right-6 bottom-6 z-50 flex h-10 w-10 translate-y-10 transform cursor-pointer items-center justify-center rounded-md border border-(--border)/60 bg-(--surface) p-2 text-(--fg-muted) opacity-0 shadow-xl transition-all duration-300 hover:bg-(--bg-muted) focus:outline-none active:bg-(--bg-muted) md:hidden",
+    defaultClass,
     className,
   ]}
-  aria-label="Scroll to top"
+  
 >
-  <Icon name="arrow-up" className="h-full w-full" />
+  <Icon name="chevron-up" className="h-full w-full" />
 </Button>
 
 <script>
@@ -66,6 +70,4 @@ const { class: className = "" } = Astro.props;
   };
 
   runSetup();
-  document.addEventListener("astro:page-load", runSetup);
-  document.addEventListener("astro:after-swap", runSetup);
 </script>
