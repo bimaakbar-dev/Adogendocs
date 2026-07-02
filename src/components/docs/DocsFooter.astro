@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import DocsPager from "./DocsPager.astro";
 import { formatDate } from "@lib/utils";
-import Feedback from "../Feedback.astro";
+// import Feedback from "../Feedback.astro";
 
 interface Props {
     prev: CollectionEntry<"docs"> | null;
@@ -13,8 +13,8 @@ interface Props {
 
 const { prev, next, primaryRootId, lastUpdated } = Astro.props;
 ---
-<div class="items-center w-full shrink-0 mt-8 py-4 mb-(--safe-bottom)">
-    <Feedback />
+<div class="items-center justify-center w-full shrink-0 mb-(--safe-bottom)">
+    <!--<Feedback />-->
     <p class="text-(--fg-muted)/80 py-4">
         {lastUpdated && (
             <time datetime={lastUpdated.toISOString()}>
