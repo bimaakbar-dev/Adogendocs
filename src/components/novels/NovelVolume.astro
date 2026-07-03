@@ -1,0 +1,82 @@
+---
+// src/components/novel/NovelVolume.astro
+
+import type { CollectionEntry } from "astro:content";
+
+import Icon from "@ui/Icon.astro";
+
+import NovelChapterItem from "./NovelChapterItem.astro";
+
+interface Props {
+  volume: number;
+  chapters: CollectionEntry<"chapters">[];
+  currentPath?: string;
+  defaultOpen?: boolean;
+}
+
+const {
+  volume,
+  chapters,
+  currentPath = "",
+  defaultOpen = false,
+} = Astro.props;
+
+const $ = {
+  wrapper:
+    "overflow-hidden rounded-xl border border-(--border-subtle) bg-(--bg)",
+
+  summary:
+    "group flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 select-none [&::-webkit-details-marker]:hidden hover:bg-(--bg-muted) transition-colors",
+
+  left:
+    "flex flex-col",
+
+  title:
+    "text-heading-18 font-semibold text-(--fg-strong)",
+
+  subtitle:
+    "mt-1 text-body-14 text-(--fg-muted)",
+
+  icon:
+    "size-5 text-(--fg-muted) transition-transform duration-200 group-open:rotate-90",
+
+  body:
+    "border-t border-(--border-subtle) p-3",
+
+  list:
+    "space-y-3",
+};
+---
+
+<details
+  class={$.wrapper}
+  open={defaultOpen}
+>
+  <summary class={$.summary}>
+    <div class={$.left}>
+      <h3 class={$.title}>
+        Volume {volume}
+      </h3>
+
+      <p class={$.subtitle}>
+        {chapters.length} Chapters
+      </p>
+    </div>
+
+    <Icon
+      name="chevron-right"
+      className={$.icon}
+    />
+  </summary>
+
+  <div class={$.body}>
+    <div class={$.list}>
+      {chapters.map((chapter) => (
+        <NovelChapterItem
+          chapter={chapter}
+          active={chapter.id === currentPath}
+        />
+      ))}
+    </div>
+  </div>
+</details>
