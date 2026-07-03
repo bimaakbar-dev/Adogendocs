@@ -1,53 +1,104 @@
 ---
 // src/pages/novel/[slug]/[...page].astro
-import { getCollection, render } from 'astro:content';
-import NovelLayout from '@/layouts/NovelLayout.astro';
-import { components } from '@/components/mdx/MDXComponents';
-import MobileToc from '@/components/MobileToc.astro';
-import Section from '@/components/ui/Section.astro';
-import Container from '@/components/ui/Container.astro';
-import ScrollToTop from '@/components/docs/ScrollToTop.astro';
-import Toc from '@/components/Toc.astro';
+
+import { getCollection, render } from "astro:content";
+
+import NovelLayout from "@/layouts/NovelLayout.astro";
+
+import { components } from "@/components/mdx/MDXComponents";
+
+import MobileToc from "@/components/MobileToc.astro";
+import Toc from "@/components/Toc.astro";
+
+import ScrollToTop from "@/components/docs/ScrollToTop.astro";
+
+import NovelFooter from "@/components/novel/NovelFooter.astro";
+
+import Section from "@/components/ui/Section.astro";
+import Container from "@/components/ui/Container.astro";
 
 export async function getStaticPaths() {
-  const allChapters = await getCollection('chapters');
-  const filtered = allChapters.filter(ch => !ch.id.includes('_meta'));
-  return filtered.map((chapter) => {
-    const segments = chapter.id.split('/');
-    const slug = segments[0];
-    const page = segments.slice(1).join('/');
-    return {
-      params: { slug, page },
-      props: { chapterId: chapter.id },
-    };
+  const chapters = await getCollection("chapters");
+
+  return chapters
+    .filter((chapter) => !chapter.id.includes("_meta"))
+    .map((chapter) => {
+      const segments = chapter.id.split("/");
+
+      return {
+        params: {
+          slug: segments[0],
+          page: segments.slice(1).join("/"),
+        },
+        props: {
+          chapterId: chapter.id,
+        },
+      };
+    });
+}
+
+interface Props {
+  chapterId: string;
+}
+
+const { chapterId } = Astro.props;
+
+const chapters = await getCollection("chapters");
+
+const currentChapter = chapters.find(
+  (chapter) => chapter.id === chapterId,
+);
+
+if (!currentChapter) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
   });
 }
 
-interface Props { chapterId: string }
-const { chapterId, } = Astro.props;
-
-const allChapters = await getCollection('chapters');
-const currentChapter = allChapters.find(ch => ch.id === chapterId);
-if (!currentChapter) return new Response(null, { status: 404 });
-
 const { Content, headings } = await render(currentChapter);
 
-const slug = currentChapter.id.split('/')[0];
-const allNovels = await getCollection('novels');
-const novel = allNovels.find(n => n.id.split('/')[0] === slug);
-if (!novel) return new Response(null, { status: 404 });
+const slug = currentChapter.id.split("/")[0];
 
-const allChaptersForNovel = await getCollection('chapters');
-const novelChapters = allChaptersForNovel
-  .filter(ch => {
-    const chSlug = ch.id.split('/')[0];
-    return chSlug === slug && !ch.id.includes('_meta');
+const novels = await getCollection("novels");
+
+const novel = novels.find(
+  (item) => item.id.split("/")[0] === slug,
+);
+
+if (!novel) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+
+const novelChapters = chapters
+  .filter((chapter) => {
+    return (
+      chapter.id.split("/")[0] === slug &&
+      !chapter.id.includes("_meta")
+    );
   })
-  .sort((a, b) => a.data.chapterNumber - b.data.chapterNumber);
+  .sort(
+    (a, b) =>
+      a.data.chapterNumber -
+      b.data.chapterNumber,
+  );
 
-const currentIndex = novelChapters.findIndex(ch => ch.id === currentChapter.id);
-const prevChapter = currentIndex > 0 ? novelChapters[currentIndex - 1] : null;
-const nextChapter = currentIndex < novelChapters.length - 1 ? novelChapters[currentIndex + 1] : null;
+const currentIndex = novelChapters.findIndex(
+  (chapter) => chapter.id === currentChapter.id,
+);
+
+const prevChapter =
+  currentIndex > 0
+    ? novelChapters[currentIndex - 1]
+    : null;
+
+const nextChapter =
+  currentIndex < novelChapters.length - 1
+    ? novelChapters[currentIndex + 1]
+    : null;
 
 const meta = {
   title: `${currentChapter.data.title} - ${novel.data.title}`,
@@ -55,49 +106,45 @@ const meta = {
 };
 ---
 
-<NovelLayout novel={novel} chapters={novelChapters} currentPath={currentChapter.id} slug={slug} meta={meta}>
-    <MobileToc title={currentChapter.data.title} headings={headings} />
-    <Fragment>
-        <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--safe-bottom)">
-            <Section size="md">
-            <Container size="full">
-                <article class="prose">
-                    <Content components={components} />
-                </article>
-                <footer class="mt-12 pt-6">
-                    <div class="flex items-center justify-between gap-4">
-                        <a href={prevChapter ? `/novel/${prevChapter.id}` : '#'} 
-                          class={`group flex items-center gap-2 px-4 py-2.5 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ${!prevChapter ? 'opacity-40 pointer-events-none' : ''}`}>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                            <span class="text-sm font-medium hidden sm:inline">Sebelumnya</span>
-                            <span class="text-sm font-medium sm:hidden">Prev</span>
-                        </a>
-                    <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
-                        Bab {currentChapter.data.chapterNumber} dari {novelChapters.length}
-                        {prevChapter && (
-                        <>
-                            <span class="hidden md:inline-block mx-2 text-gray-300 dark:text-gray-700">|</span>
-                            <span class="hidden md:inline text-xs text-gray-400">← {prevChapter.data.title}</span>
-                        </>
-                        )}
-                    </div>
-                    <a href={nextChapter ? `/novel/${nextChapter.id}` : '#'} class={`group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg ${!nextChapter ? 'opacity-40 pointer-events-none bg-gray-400 dark:bg-gray-600' : ''}`}>
-                        <span class="text-sm font-medium hidden sm:inline">Selanjutnya</span>
-                        <span class="text-sm font-medium sm:hidden">Next</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </a>
-                    </div>
-                </footer>
-            </Container>
-            </Section>
-        </div>
-    </Fragment>
-    <Fragment slot="right" class="flex items-center gap-4">
-        <div class="sticky top-0 right-0 space-y-2">
-            <ScrollToTop label="Scroll to top" />
-        </div>
-        <div class="fixed top-1/2 right-2 z-40 -translate-y-1/2 lg:block">
-            <Toc headings={headings} />
-        </div>
-    </Fragment>
+<NovelLayout
+  novel={novel}
+  chapters={novelChapters}
+  currentPath={currentChapter.id}
+  slug={slug}
+  meta={meta}
+>
+  <MobileToc
+    title={currentChapter.data.title}
+    headings={headings}
+  />
+
+  <Fragment>
+    <div class="mx-auto w-full min-w-0 px-0 lg:px-4 pb-(--safe-bottom)">
+      <Section size="md">
+        <Container size="full">
+          <article class="prose">
+            <Content components={components} />
+          </article>
+
+          <NovelFooter
+            prev={prevChapter}
+            next={nextChapter}
+            current={currentChapter.data.chapterNumber}
+            total={novelChapters.length}
+            lastUpdated={currentChapter.data.publishedDate}
+          />
+        </Container>
+      </Section>
+    </div>
+  </Fragment>
+
+  <Fragment slot="right" class="flex items-center gap-4">
+    <div class="sticky top-0 right-0 space-y-2">
+      <ScrollToTop label="Scroll to top" />
+    </div>
+
+    <div class="fixed top-1/2 right-2 z-40 lg:block -translate-y-1/2">
+      <Toc headings={headings} />
+    </div>
+  </Fragment>
 </NovelLayout>
