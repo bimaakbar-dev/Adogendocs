@@ -34,8 +34,8 @@ export const SITE = {
   lang: "en",
   dir: "ltr",
   charset: "utf-8",
-  themeColor: "#10b981",
-  bgColor: "#ffffff",
+  themeColor: "#0a0a0a",
+  bgColor: "#fafafa",
   email: "hello@c0desk1.my.id",
   foundingYear: 2026,
 } as const;
@@ -72,6 +72,7 @@ export const NAV = {
   ] as NavItem[],
   mobileNavBar: [
     { label: "Docs", href: ROUTES.docs },
+    { label: "Blog", href: ROUTES.blog },
     { label: "About", href: ROUTES.about }
   ] as NavItem[],
   footerBar: [
