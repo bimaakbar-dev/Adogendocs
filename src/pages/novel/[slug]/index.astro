@@ -1,115 +1,112 @@
 ---
-// src/pages/novel/[slug]/index.astro
-import Badge from '@/components/ui/Badge.astro';
-import { getCollection } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
+import { getCollection } from "astro:content";
+
+import Layout from "@/layouts/Layout.astro";
+
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+
+import NovelHero from "@/components/novels/NovelHero.astro";
+import NovelSynopsis from "@/components/novels/NovelSynopsis.astro";
+import NovelChapterList from "@/components/novels/NovelChapterList.astro";
 
 export async function getStaticPaths() {
-  const allNovels = await getCollection('novels');
-  return allNovels.map((novel) => ({
-    params: { slug: novel.id.split('/')[0] },
-    props: { slug: novel.id.split('/')[0] },
+  const novels = await getCollection("novels");
+
+  return novels.map((novel) => ({
+    params: {
+      slug: novel.id.split("/")[0],
+    },
+    props: {
+      slug: novel.id.split("/")[0],
+    },
   }));
 }
 
-interface Props { slug: string }
+interface Props {
+  slug: string;
+}
+
 const { slug } = Astro.props;
 
-const allNovels = await getCollection('novels');
-const novel = allNovels.find(n => n.id.split('/')[0] === slug);
-if (!novel) return new Response(null, { status: 404 });
+const novels = await getCollection("novels");
 
-const allChapters = await getCollection('chapters');
-const novelChapters = allChapters
-  .filter(ch => {
-    const chapterSlug = ch.id.split('/')[0];
-    return chapterSlug === slug && !ch.id.includes('_meta');
+const novel = novels.find(
+  (item) => item.id.split("/")[0] === slug,
+);
+
+if (!novel) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+
+const chapters = (await getCollection("chapters"))
+  .filter((chapter) => {
+    const chapterSlug = chapter.id.split("/")[0];
+
+    return (
+      chapterSlug === slug &&
+      !chapter.id.includes("_meta")
+    );
   })
-  .sort((a, b) => a.data.chapterNumber - b.data.chapterNumber);
+  .sort(
+    (a, b) =>
+      a.data.chapterNumber - b.data.chapterNumber,
+  );
 
-const grouped = novelChapters.reduce((acc, ch) => {
-  const vol = ch.data.volume ?? 1;
-  if (!acc[vol]) acc[vol] = [];
-  acc[vol].push(ch);
-  return acc;
-}, {} as Record<number, typeof novelChapters>);
-const sortedVolumes = Object.keys(grouped).map(Number).sort((a,b) => a-b);
+const groupedVolumes = chapters.reduce(
+  (acc, chapter) => {
+    const volume = chapter.data.volume ?? 1;
+
+    if (!acc[volume]) {
+      acc[volume] = [];
+    }
+
+    acc[volume].push(chapter);
+
+    return acc;
+  },
+  {} as Record<number, typeof chapters>,
+);
+
+const totalVolumes =
+  Object.keys(groupedVolumes).length;
+
+const firstChapter = chapters[0];
 
 const meta = {
-  title: `${novel.data.title} - NovelNest`,
-  description: novel.data.synopsis.slice(0, 160),
+  title: `${novel.data.title}`,
+  description: novel.data.synopsis,
 };
 ---
 
 <Layout meta={meta}>
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col sm:flex-row gap-6 mb-8">
-      <div class="shrink-0 w-48 sm:w-56 mx-auto sm:mx-0">
-        {novel.data.cover ? (
-          <img src={novel.data.cover} alt={novel.data.title} class="w-full h-auto rounded-lg shadow-lg object-cover" style="aspect-ratio:2/3" loading="lazy" />
-        ) : (
-          <div class="w-full aspect-2/3 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
-            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-          </div>
-        )}
+  <Section size="lg">
+    <Container size="lg">
+      <div class="space-y-10">
+
+        <NovelHero
+          novel={novel}
+          totalChapters={chapters.length}
+          totalVolumes={totalVolumes}
+          firstChapterHref={
+            firstChapter
+              ? `/novel/${firstChapter.id}`
+              : undefined
+          }
+        />
+
+        <NovelSynopsis
+          synopsis={novel.data.synopsis}
+        />
+
+        <NovelChapterList
+          chapters={chapters}
+        />
+
       </div>
-      <div class="flex-1">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-(--fg-strong)">{novel.data.title}</h1>
-        <p class="text-lg text-(--fg) mt-1">{novel.data.author}</p>
-        <div class="flex flex-wrap items-center gap-2 mt-3">
-          <Badge variant='accent'>{novel.data.status}</Badge>
-          {novel.data.genre?.map(g =>  <Badge variant='default'>{g}</Badge>)}
-        </div>
-        <div class="mt-4 prose">
-          <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Sinopsis</h3>
-          <p class="text-(--fg) leading-relaxed mt-1">{novel.data.synopsis}</p>
-        </div>
-        <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">Total Bab: {novelChapters.length}</div>
-      </div>
-    </div>
-    <hr class="border-(--border-subtle)/40 my-6" />
-    <section>
-      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📖 Daftar Bab</h2>
-      {sortedVolumes.length > 0 ? (
-        sortedVolumes.length === 1 ? (
-          <ul class="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            {grouped[sortedVolumes[0]].map(ch => (
-              <li>
-                <a href={`/novel/${ch.id}`} class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors">
-                  <div class="flex items-center justify-between">
-                    <span class="text-gray-900 dark:text-white font-medium">{ch.data.title}</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Bab {ch.data.chapterNumber}</span>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div class="space-y-4">
-            {sortedVolumes.map(vol => (
-              <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div class="px-4 py-3 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
-                  <h3 class="font-semibold text-gray-900 dark:text-white">Volume {vol} <span class="text-sm font-normal text-gray-500 dark:text-gray-400">({grouped[vol].length} bab)</span></h3>
-                </div>
-                <ul class="divide-y divide-gray-100 dark:divide-gray-800">
-                  {grouped[vol].map(ch => (
-                    <li>
-                      <a href={`/novel/${ch.id}`} class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors">
-                        <div class="flex items-center justify-between">
-                          <span class="text-gray-900 dark:text-white font-medium">{ch.data.title}</span>
-                          <span class="text-sm text-gray-500 dark:text-gray-400">Bab {ch.data.chapterNumber}</span>
-                        </div>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        )
-      ) : (
-        <p class="text-gray-500 dark:text-gray-400">Belum ada bab yang tersedia.</p>
-      )}
-    </section>
-  </div>
+    </Container>
+  </Section>
 </Layout>
