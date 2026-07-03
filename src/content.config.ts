@@ -12,13 +12,68 @@ const METADATA = z.object({
 	description: z.string(),
   pubDate: z.coerce.date().optional(),
 	lastUpdated: z.coerce.date().optional(),
-  cover: z.string().optional(),
+  cover: z.object({
+    src: z.string(),
+    alt: z.string(),
+  }).optional(),
 });
 
 const SEO = z.object({
   title: z.string(),
   description: z.string().optional(),
   ogImage: z.string().optional(),
+  noIndex: z.boolean().default(false).optional(),
+});
+
+const novels = defineCollection({
+  loader: glob({ base: "./src/content/novels", pattern: "**/_meta.yml" }),
+  schema: z.object({
+    title: z.string(),
+    author: z.string(),
+    synopsis: z.string(),
+    cover: z.string().optional(),
+    genre: z.array(z.string()).default([]),
+    status: z.enum(['Ongoing', 'Completed']).default('Ongoing'),
+    publishedDate: z.date().optional(),
+  }),
+});
+
+const volumes = defineCollection({
+  loader: glob({ base: "./src/content/novels", pattern: "**/vol-*/_meta.yml" }),
+  schema: z.object({
+    novelSlug: z.string(),
+    volumeNumber: z.number(),
+    title: z.string().optional(),
+    cover: z.string().optional(),
+    releaseDate: z.date().optional(),
+  }),
+});
+
+const chapters = defineCollection({
+  loader: glob({ base: "./src/content/novels", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    chapterNumber: z.number(),
+    category: z.string().optional(),
+    volume: z.number().optional(),
+    publishedDate: z.date().optional(),
+  }),
+});
+
+const blog = defineCollection({
+  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    ...METADATA.shape,
+    draft: z.boolean().default(false),
+    category: z.string().optional(),
+    author: z.object({
+      name: z.string(),
+      role: z.string().optional(),
+      avatar: z.string().optional(),
+    }),
+    tags: z.array(z.string()).default([]),
+    seo: SEO,
+  }),
 });
 
 const docs = defineCollection({
@@ -39,6 +94,10 @@ const legal = defineCollection({
 });
 
 export const collections = {
+  novels,
+  volumes,
+  chapters,
+  blog,
   docs,
   legal,
 };

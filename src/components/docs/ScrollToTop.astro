@@ -34,8 +34,5 @@ const { label = "Scroll to top", class: className = "" } = Astro.props;
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   };
-
   initBackToTop();
-  document.addEventListener("astro:page-load", initBackToTop);
-  document.addEventListener("astro:after-swap", initBackToTop);
 </script>
