@@ -74,8 +74,6 @@ const groupedVolumes = chapters.reduce(
 const totalVolumes =
   Object.keys(groupedVolumes).length;
 
-const firstChapter = chapters[0];
-
 const meta = {
   title: `${novel.data.title}`,
   description: novel.data.synopsis,
@@ -83,30 +81,23 @@ const meta = {
 ---
 
 <Layout meta={meta}>
-  <Section size="lg">
-    <Container size="lg">
-      <div class="space-y-10">
-
-        <NovelHero
-          novel={novel}
-          totalChapters={chapters.length}
-          totalVolumes={totalVolumes}
-          firstChapterHref={
-            firstChapter
-              ? `/novel/${firstChapter.id}`
-              : undefined
-          }
-        />
-
-        <NovelSynopsis
-          synopsis={novel.data.synopsis}
-        />
-
-        <NovelChapterList
-          chapters={chapters}
-        />
-
-      </div>
-    </Container>
-  </Section>
+  <main id="main-content" class="w-full min-w-0 flex-1">
+    <Section size="md">
+      <Container size="lg">
+        <div class="space-y-10">
+          <NovelHero
+            novel={novel}
+            totalChapters={chapters.length}
+            totalVolumes={totalVolumes}
+          />
+          <NovelSynopsis
+            synopsis={novel.data.synopsis}
+          />
+          <NovelChapterList
+            chapters={chapters}
+          />
+        </div>
+      </Container>
+    </Section>
+  </main>
 </Layout>
