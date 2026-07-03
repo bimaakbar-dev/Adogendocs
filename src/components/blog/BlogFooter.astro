@@ -35,12 +35,11 @@ const {
   {tags.length > 0 && (
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <a
-          href={`/blog?tag=${encodeURIComponent(tag)}`}
-          class="rounded-md border border-(--border-subtle) px-2.5 py-1 text-label-13 text-(--fg-muted) transition-colors hover:bg-(--bg-muted)"
+        <span
+          class="rounded-md border border-(--border-subtle)/80 px-2.5 py-1 text-label-13 text-(--fg-muted)"
         >
-          #{tag}
-        </a>
+          {tag}
+        </span>
       ))}
     </div>
   )}
