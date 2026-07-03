@@ -1,0 +1,21 @@
+---
+// src/components/SidebarLink.astro
+interface Props {
+  href: string;
+  isActive?: boolean;
+}
+
+const { href, isActive = false } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "text-sm px-2 py-1.5 font-medium rounded-md transition-opacity",
+    isActive
+      ? "bg-(--bg-muted) text-(--fg-strong)"
+      : "text-(--fg) hover:bg-(--bg-muted)"
+  ]}
+>
+  <slot />
+</a>

@@ -1,6 +1,7 @@
-//src/content.config.ts
+// src/content.config.ts
 import { 
-  defineCollection
+  defineCollection,
+  reference
 } from "astro:content";
 
 import { glob } from "astro/loaders";
@@ -8,10 +9,10 @@ import { z } from "astro/zod";
 
 const METADATA = z.object({
   slug: z.string().optional(),
-	title: z.string(),
-	description: z.string(),
+  title: z.string(),
+  description: z.string(),
   pubDate: z.coerce.date().optional(),
-	lastUpdated: z.coerce.date().optional(),
+  lastUpdated: z.coerce.date().optional(),
   cover: z.object({
     src: z.string(),
     alt: z.string(),
@@ -41,7 +42,7 @@ const novels = defineCollection({
 const volumes = defineCollection({
   loader: glob({ base: "./src/content/novels", pattern: "**/vol-*/_meta.yml" }),
   schema: z.object({
-    novelSlug: z.string(),
+    novel: reference('novels'),
     volumeNumber: z.number(),
     title: z.string().optional(),
     cover: z.string().optional(),
@@ -54,8 +55,9 @@ const chapters = defineCollection({
   schema: z.object({
     title: z.string(),
     chapterNumber: z.number(),
+    novel: reference('novels'),
+    volume: reference('volumes').optional(),
     category: z.string().optional(),
-    volume: z.number().optional(),
     publishedDate: z.date().optional(),
   }),
 });

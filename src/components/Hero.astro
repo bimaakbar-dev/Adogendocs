@@ -1,0 +1,50 @@
+---
+import Button from "@ui/Button.astro";
+import Badge from "./ui/Badge.astro";
+
+import heroImage from "@/assets/images/Adogen-hero.jpeg";
+import { Image } from "astro:assets";
+
+const tagline = "the Astro docs framework you love."
+const description = "Adogen excellent documentation, your"
+
+const particles = [
+  { left: "1%", top: "30%" }, { left: "3%", top: "70%" }, { left: "5%", top: "22%" },
+  { left: "7%", top: "58%" }, { left: "9%", top: "84%" }, { left: "12%", top: "36%" },
+  { left: "15%", top: "18%" }, { left: "18%", top: "64%" }, { left: "21%", top: "80%" },
+  { left: "24%", top: "28%" }, { left: "76%", top: "24%" }, { left: "79%", top: "76%" },
+  { left: "82%", top: "40%" }, { left: "85%", top: "60%" }, { left: "88%", top: "18%" },
+  { left: "91%", top: "82%" }, { left: "94%", top: "32%" }, { left: "96%", top: "66%" },
+  { left: "98%", top: "24%" }, { left: "99%", top: "78%" }
+];
+---
+
+<section class="relative flex flex-col w-full border border-(--border-subtle) rounded-xl items-center justify-center overflow-hidden px-4 py-24 bg-(--bg)">
+  <div class="pointer-events-none absolute inset-0">
+    <Image alt={tagline} width={1200} height={630} loading="eager" fetchpriority="high" decoding="auto" src={heroImage} class="w-full h-full object-cover opacity-20" />
+    {particles.map((p, i) => (
+      <span
+        class="particle absolute size-px rounded-full bg-(--fg-strong)/40 particle"
+        style={`left: ${p.left}; top: ${p.top}; animation-delay: ${i * 0.5}s;`}
+      />
+    ))}
+  </div>
+  <div class="z-10 flex flex-col items-center gap-6 text-center">
+    <Badge variant="accent">{tagline}</Badge>
+     <p class="max-w-md text-heading-32 md:text-heading-48 font-medium text-(--fg-muted)">{description} <span class='text-(--accent)'>style</span>.</p>
+     <div class="flex gap-4">
+        <Button variant="primary" size="lg" href="/docs" class="rounded-full!">Get Started</Button>
+     </div>
+  </div>
+</section>
+
+<style>
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+  }
+
+  .particle {
+    animation: twinkle 4s infinite ease-in-out;
+  }
+</style>

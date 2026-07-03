@@ -1,0 +1,74 @@
+---
+// src/components/Header.astro
+import { NAV } from "@/consts";
+
+import Container from "./ui/Container.astro";
+import Socials from "./Socials.astro";
+import Mobile from "./MobileNav.astro";
+import Theme from "./Theme.astro";
+import Logo from "./ui/Logo.astro";
+import Icon from "./ui/Icon.astro";
+
+const currentPath = Astro.url.pathname;
+---
+
+<header id="main-header" class="sticky top-0 z-50 border-b">
+  <Container size="full">
+    <div class="mx-auto flex h-(--header-height) w-full items-center justify-between">
+      <div class="flex items-center shrink-0 gap-4">
+        <Logo />
+        <nav class="text-label-14 hidden items-center gap-6 font-medium sm:flex">
+          {
+            NAV.navBar.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  "transition-opacity",
+                  currentPath === item.href
+                    ? "text-(--accent)"
+                    : "text-(--fg-muted) hover:text-(--fg)",
+                ]}
+                target={item.isExternal ? "_blank" : undefined}
+                rel={item.isExternal ? "noopener noreferrer" : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+      <div class="flex items-center shrink-0 gap-2">
+        <div class="items-center hidden md:flex gap-2">
+          <Socials />
+          <Theme />
+        </div>
+        <Mobile />
+      </div>
+    </div>
+  </Container>
+</header>
+
+<script is:inline>
+  const header = document.getElementById("main-header");
+
+  const toggleHeader = () => {
+    if (window.scrollY > 20) {
+      header?.classList.add(
+        "bg-(--bg)",
+        "border-(--border-subtle)/40",
+        "shadow-md",
+      );
+      header?.classList.remove("border-transparent");
+    } else {
+      header?.classList.remove(
+        "bg-(--bg)",
+        "border-(--border-subtle)/40",
+        "shadow-md",
+      );
+      header?.classList.add("border-transparent");
+    }
+  };
+
+  window.addEventListener("scroll", toggleHeader);
+  toggleHeader();
+</script>

@@ -1,0 +1,122 @@
+---
+// src/components/novel/NovelHero.astro
+
+import type { CollectionEntry } from "astro:content";
+
+import Badge from "@ui/Badge.astro";
+import Button from "@ui/Button.astro";
+
+interface Props {
+  novel: CollectionEntry<"novels">;
+  totalChapters: number;
+  totalVolumes: number;
+  firstChapterUrl?: string; // <-- Tambahkan ini
+}
+
+const {
+  novel,
+  totalChapters,
+  totalVolumes,
+  firstChapterUrl, // <-- Ekstrak ini
+} = Astro.props;
+
+// Fallback cerdas: Gunakan firstChapterUrl jika ada, 
+// jika belum di-pass atau chapter kosong, hilangkan '_meta' lalu arahkan ke #chapters
+const slug = novel.id.replace("/_meta", "");
+const startReadingUrl = firstChapterUrl || "#chapters";
+
+const $ = {
+  wrapper: "grid gap-8 lg:grid-cols-[240px_1fr] lg:items-start",
+  cover: "overflow-hidden rounded-xl border border-(--border-subtle) bg-(--bg-muted)",
+  image: "aspect-2/3 h-auto w-full object-cover",
+  placeholder: "flex aspect-2/3 items-center justify-center text-(--fg-muted)",
+  content: "flex flex-col",
+  title: "text-heading-40 font-semibold tracking-tight text-(--fg-strong)",
+  author: "mt-2 text-body-16 text-(--fg-muted)",
+  badges: "mt-5 flex flex-wrap items-center gap-2",
+  stats: "mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4",
+  statCard: "rounded-xl border border-(--border-subtle) bg-(--bg) p-4",
+  statLabel: "text-label-13 text-(--fg-muted)",
+  statValue: "mt-1 text-body-16 font-semibold text-(--fg-strong)",
+  actions: "mt-8 flex flex-wrap gap-3",
+};
+---
+
+<section class={$.wrapper}>
+  <div class={$.cover}>
+    {
+      novel.data.cover ? (
+        <img
+          src={novel.data.cover}
+          alt={novel.data.title}
+          class={$.image}
+          loading="lazy"
+        />
+      ) : (
+        <div class={$.placeholder}>
+          {novel.data.title}
+        </div>
+      )
+    }
+  </div>
+
+  <div class={$.content}>
+    <h1 class={$.title}>
+      {novel.data.title}
+    </h1>
+
+    <p class={$.author}>
+      {novel.data.author}
+    </p>
+
+    <div class={$.badges}>
+      <Badge variant="accent">
+        {novel.data.status}
+      </Badge>
+
+      {novel.data.genre.map((genre) => (
+        <Badge variant="default">
+          {genre}
+        </Badge>
+      ))}
+    </div>
+
+    <div class={$.stats}>
+      <div class={$.statCard}>
+        <p class={$.statLabel}>Chapters</p>
+        <p class={$.statValue}>{totalChapters}</p>
+      </div>
+
+      <div class={$.statCard}>
+        <p class={$.statLabel}>Volumes</p>
+        <p class={$.statValue}>{totalVolumes}</p>
+      </div>
+
+      <div class={$.statCard}>
+        <p class={$.statLabel}>Status</p>
+        <p class={$.statValue}>{novel.data.status}</p>
+      </div>
+
+      <div class={$.statCard}>
+        <p class={$.statLabel}>Genre</p>
+        <p class={$.statValue}>{novel.data.genre.length}</p>
+      </div>
+    </div>
+
+    <div class={$.actions}>
+      <Button
+        href={startReadingUrl}
+        variant="primary"
+      >
+        Start Reading
+      </Button>
+
+      <Button
+        href="#chapters"
+        variant="secondary"
+      >
+        Chapter List
+      </Button>
+    </div>
+  </div>
+</section>
