@@ -70,7 +70,7 @@ export const NAV = {
   ] as NavItem[],
   mobileNavBar: [
     { label: "Docs", href: ROUTES.docs },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" }
+    { label: "Blog", href: ROUTES.blog, icon: "blog" },
     { label: "About", href: ROUTES.about }
   ] as NavItem[],
   footerBar: [
