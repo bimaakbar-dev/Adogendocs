@@ -1,0 +1,74 @@
+---
+// src/components/novel/NovelChapterItem.astro
+
+import type { CollectionEntry } from "astro:content";
+
+import Icon from "@ui/Icon.astro";
+
+interface Props {
+  chapter: CollectionEntry<"chapters">;
+  active?: boolean;
+}
+
+const {
+  chapter,
+  active = false,
+} = Astro.props;
+
+const href = `/novel/${chapter.id}`;
+
+const $ = {
+  link: [
+    "group flex items-center justify-between gap-4 rounded-lg border p-4 transition-colors",
+    active
+      ? "border-(--accent) bg-(--bg-muted)"
+      : "border-(--border-subtle) hover:bg-(--bg-muted)",
+  ].join(" "),
+
+  left: "min-w-0 flex-1",
+
+  chapter:
+    "text-label-13 text-(--fg-muted)",
+
+  title:
+    "mt-1 truncate text-body-16 font-medium text-(--fg-strong)",
+
+  right:
+    "flex shrink-0 items-center gap-2",
+
+  icon:
+    "size-4 text-(--fg-muted) transition-transform group-hover:translate-x-1",
+
+  badge:
+    "rounded-md border border-(--border-subtle) px-2 py-1 text-label-12 text-(--fg-muted)",
+};
+---
+
+<a
+  href={href}
+  class={$.link}
+  aria-current={active ? "page" : undefined}
+>
+  <div class={$.left}>
+    <p class={$.chapter}>
+      Chapter {chapter.data.chapterNumber}
+    </p>
+
+    <h3 class={$.title}>
+      {chapter.data.title}
+    </h3>
+  </div>
+
+  <div class={$.right}>
+    {chapter.data.publishedDate && (
+      <span class={$.badge}>
+        {chapter.data.publishedDate.getFullYear()}
+      </span>
+    )}
+
+    <Icon
+      name="chevron-right"
+      className={$.icon}
+    />
+  </div>
+</a>
