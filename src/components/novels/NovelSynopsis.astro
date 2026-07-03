@@ -1,0 +1,43 @@
+---
+// src/components/novel/NovelSynopsis.astro
+
+interface Props {
+  synopsis: string;
+}
+
+const { synopsis } = Astro.props;
+
+const $ = {
+  wrapper:
+    "mt-10 rounded-xl border border-(--border-subtle) bg-(--bg)",
+
+  header:
+    "border-b border-(--border-subtle) px-6 py-4",
+
+  title:
+    "text-heading-18 font-semibold text-(--fg-strong)",
+
+  body:
+    "px-6 py-5",
+
+  text:
+    "whitespace-pre-line leading-8 text-body-16 text-(--fg-muted)",
+};
+---
+
+<section aria-labelledby="novel-synopsis" class={$.wrapper}>
+  <header class={$.header}>
+    <h2
+      id="novel-synopsis"
+      class={$.title}
+    >
+      Synopsis
+    </h2>
+  </header>
+
+  <div class={$.body}>
+    <p class={$.text}>
+      {synopsis}
+    </p>
+  </div>
+</section>
