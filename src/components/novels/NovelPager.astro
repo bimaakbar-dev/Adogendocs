@@ -60,7 +60,6 @@ const $ = {
   <p class={$.progress}>
     Chapter {current} of {total}
   </p>
-
   <nav
     aria-label="Novel navigation"
     class={$.grid}
@@ -76,15 +75,10 @@ const $ = {
               name="chevron-left"
               className={$.icon}
             />
-            <span>Previous Chapter</span>
+            <span>Chapter {prev.data.chapterNumber}</span>
           </div>
-
           <p class={$.title}>
             {prev.data.title}
-          </p>
-
-          <p class={$.chapter}>
-            Chapter {prev.data.chapterNumber}
           </p>
         </a>
       ) : (
@@ -111,7 +105,7 @@ const $ = {
           class={$.card}
         >
           <div class={$.headerRight}>
-            <span>Next Chapter</span>
+            <span>Chapter {next.data.chapterNumber}</span>
 
             <Icon
               name="chevron-right"
@@ -122,22 +116,16 @@ const $ = {
           <p class="line-clamp-2 text-right text-body-16 font-semibold text-(--fg-strong)">
             {next.data.title}
           </p>
-
-          <p class="text-right text-body-14 text-(--fg-muted)">
-            Chapter {next.data.chapterNumber}
-          </p>
         </a>
       ) : (
         <div class:list={[$.card, $.disabled]}>
           <div class={$.headerRight}>
             <span>End of Novel</span>
-
             <Icon
               name="check"
               className={$.icon}
             />
           </div>
-
           <p class="text-right text-body-14 text-(--fg-muted)">
             You've reached the final chapter.
           </p>
