@@ -1,0 +1,74 @@
+---
+// src/layouts/NovelLayout.astro
+import { SITE } from "@/consts";
+import Head from "@/components/Head.astro";
+import Page from "@components/Page.astro";
+import MobileSidebar from "@components/MobileSidebar.astro";
+import NovelSidebar from "@/components/novels/Sidebar.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import SkipLink from "@components/SkipLink.astro";
+import Search from "@components/Search.astro";
+import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
+import PageFrame from "@/components/PageFrame.astro";
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  meta?: any;
+  schema?: object | object[];
+  isHome?: boolean;
+  canonical?: string;
+  novel: CollectionEntry<'novels'>;
+  chapters: CollectionEntry<'chapters'>[];
+  currentPath: string;
+  slug: string;
+}
+
+const {
+  meta,
+  schema,
+  isHome = false,
+  canonical,
+  novel,
+  chapters,
+  currentPath,
+  slug,
+} = Astro.props;
+
+const dummySidebarProps = {
+  items: [],
+  currentPath: currentPath || '',
+  storagePrefix: 'novel-mobile',
+};
+---
+
+<!doctype html>
+<html lang={SITE.lang} dir={SITE.dir}>
+  <Head {meta} {schema} {isHome} {canonical}>
+    <ThemeProvider />
+  </Head>
+  <body>
+    <SkipLink />
+    <Search />
+    <Page>
+      <MobileSidebar
+        sidebarProps={dummySidebarProps}
+        hideHeader={true} 
+        hideFooter={true} 
+      />
+      <PageFrame>
+        <aside class="bg-(--surface) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
+          <div class="flex h-full flex-col flex-1">
+            <NovelSidebar {novel} {chapters} {currentPath} {slug} />
+          </div>
+        </aside>
+        <main id="main-content" class="w-full min-w-0 flex-1">
+          <slot />
+        </main>
+        <aside class="hidden sticky top-(--header-height) lg:block lg:h-[calc(100vh-54px)] overflow-y-auto px-2 pt-4 pb-(--safe-bottom) w-full">
+          <slot name="right" />
+        </aside>
+      </PageFrame>
+    </Page>
+    <ScrollToTop />
+  </body>
+</html>

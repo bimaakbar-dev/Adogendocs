@@ -1,0 +1,56 @@
+---
+// src/pages/novel/index.astro
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+const allNovels = await getCollection('novels');
+const sorted = allNovels.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const meta = {
+  title: 'Daftar Novel - NovelNest',
+  description: 'Koleksi novel terjemahan terbaik untuk dibaca secara online.',
+};
+---
+
+<Layout meta={meta}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">📚 Daftar Novel</h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">Temukan novel-novel terbaik untuk dibaca.</p>
+    </header>
+
+    {sorted.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {sorted.map((novel) => {
+          const slug = novel.id.split('/')[0];
+          return (
+            <a href={`/novel/${slug}`} class="group block bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div class="aspect-2/3 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
+                {novel.data.cover ? (
+                  <img src={novel.data.cover} alt={novel.data.title} class="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                  </div>
+                )}
+                <span class="absolute top-2 right-2 text-xs font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">{novel.data.status}</span>
+              </div>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">{novel.data.title}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 truncate">{novel.data.author}</p>
+                {novel.data.genre && novel.data.genre.length > 0 && (
+                  <div class="mt-2 flex flex-wrap gap-1">
+                    {novel.data.genre.slice(0, 3).map(g => <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{g}</span>)}
+                    {novel.data.genre.length > 3 && <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">+{novel.data.genre.length - 3}</span>}
+                  </div>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="text-center py-12"><p class="text-gray-500 dark:text-gray-400">Belum ada novel yang tersedia.</p></div>
+    )}
+  </div>
+</Layout>

@@ -65,12 +65,13 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Docs", href: ROUTES.docs, icon: "logo" },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" }
+    { label: "Docs", href: ROUTES.docs, icon: "blog" },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" },
+    { label: "Novels", href: '/novel', icon: "vocabulary" },
+    { label: "About", href: ROUTES.about, icon: "logo" },
   ] as NavItem[],
   mobileNavBar: [
     { label: "Docs", href: ROUTES.docs },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" },
     { label: "About", href: ROUTES.about }
   ] as NavItem[],
   footerBar: [
@@ -78,14 +79,15 @@ export const NAV = {
       title: "Resource",
       items: [
         { label: "Docs", href: ROUTES.docs },
-        { label: "About", href: ROUTES.about }
+        { label: "About", href: ROUTES.about },
+        { label: "Sitemap", href: ROUTES.sitemap },
       ],
     },
     {
       title: "Legal",
       items: [
         { label: "Privacy Policy", href: ROUTES.privacy },
-        { label: "Terms of Service", href: ROUTES.terms }
+        { label: "Terms of Service", href: ROUTES.terms },
       ],
     },
   ] as FooterNav[],

@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+
+import {
+  buildMeta,
+  schemaWebPage,
+  SITE,
+} from "@/consts";
+
+import BlogLayout from "@/layouts/BlogLayout.astro";
+
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+
+import BlogCard from "@/components/blog/BlogCard.astro";
+import Pagination from "@/components/blog/BlogPagination.astro";
+
+const POSTS_PER_PAGE = 9;
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a, b) =>
+      (b.data.pubDate?.getTime() ?? 0) -
+      (a.data.pubDate?.getTime() ?? 0),
+  );
+
+const totalPosts = posts.length;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+const currentPage = 1;
+
+const pagePosts = posts.slice(0, POSTS_PER_PAGE);
+
+const meta = buildMeta({
+  title: "Blog",
+  description: "Latest articles, tutorials and updates.",
+  canonical: "/blog",
+});
+
+const schema = schemaWebPage({
+  title: "Blog",
+  description: "Latest articles, tutorials and updates.",
+  url: `${SITE.url}/blog`,
+});
+---
+
+<BlogLayout
+  meta={meta}
+  schema={schema}
+>
+  <Section size="md">
+    <Container size="lg">
+      <header class="mb-8 space-y-3">
+        <h1 class="text-heading-40 font-semibold text-(--fg-strong)">
+          Blog
+        </h1>
+      </header>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {pagePosts.map((post) => (
+          <BlogCard entry={post} />
+        ))}
+      </div>
+      {totalPages > 1 && (
+        <div class="mt-10">
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                href={(page) =>
+                page === 1
+                    ? "/blog"
+                    : `/blog/page/${page}`
+                }
+            />
+        </div>
+      )}
+    </Container>
+  </Section>
+</BlogLayout>

@@ -1,0 +1,57 @@
+---
+// src/layouts/DocsLayout.astro
+import { 
+  SITE, 
+  type buildMeta as BuildMetaFn 
+} from "@/consts";
+
+import Head from "@/components/Head.astro";
+import Page from "@components/Page.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import SkipLink from "@components/SkipLink.astro";
+import Search from "@components/Search.astro";
+import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
+
+interface Props {
+  meta?: Partial<ReturnType<typeof BuildMetaFn>>;
+  schema?: object | object[];
+  isHome?: boolean;
+  canonical?: string;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+}
+
+const {
+  meta,
+  schema,
+  isHome = false,
+  canonical,
+  hideHeader = false,
+  hideFooter = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.lang} dir={SITE.dir}>
+  <Head {meta} {schema} {isHome} {canonical}>
+    <ThemeProvider />
+  </Head>
+  <body>
+    <SkipLink />
+    <Search />
+    <Page>
+      {!hideHeader && <Header />}
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_16rem] mx-auto min-h-screen w-full">
+        <main id="main-content" class="w-full min-w-0 flex-1">
+          <slot />
+        </main>
+        <aside class="hidden sticky top-(--header-height) lg:block lg:h-[calc(100vh-54px)] overflow-y-auto px-2 pt-4 pb-(--safe-bottom) w-full">
+          <slot name="right" />
+        </aside>
+      </div>
+    </Page>
+    <ScrollToTop />
+  </body>
+</html>

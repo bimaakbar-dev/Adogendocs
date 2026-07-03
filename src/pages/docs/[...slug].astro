@@ -103,7 +103,7 @@ const metaProps = buildMeta({
   title: entry.data.seo.title,
   description: entry.data.seo.description ?? entry.data.description,
   canonical: currentPath,
-  ogImage: entry.data.seo.ogImage ?? entry.data.cover,
+  ogImage: entry.data.seo.ogImage,
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),
   dateModified: entry.data.lastUpdated?.toISOString(),

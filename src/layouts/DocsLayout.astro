@@ -53,7 +53,7 @@ const {
         hideFooter={hideFooter} 
       />
       <PageFrame>
-        <aside class="bg-(--surface) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
+        <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
           <div class="flex h-full flex-col flex-1">
             {!hideHeader && <DocsNavbar />}
             <div class="flex-1 overflow-y-auto mb-0">
@@ -62,7 +62,7 @@ const {
             {!hideFooter && <Footer />}
           </div>
         </aside>
-        <main id="main-content" class="w-full min-w-0">
+        <main id="main-content" class="w-full min-w-0 flex-1">
           <slot />
         </main>
         <aside class="hidden sticky top-(--header-height) lg:block lg:h-[calc(100vh-54px)] overflow-y-auto px-2 pt-4 pb-(--safe-bottom) w-full">
