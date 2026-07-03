@@ -51,15 +51,15 @@ const currentPath = Astro.url.pathname;
   const toggleHeader = () => {
     if (window.scrollY > 20) {
       header?.classList.add(
-        "bg-(--bg)",
-        "border-(--border-subtle)",
+        "bg-(--bg-subtle)",
+        "border-(--border-subtle)/40",
         "shadow-md",
       );
       header?.classList.remove("border-transparent");
     } else {
       header?.classList.remove(
-        "bg-(--bg)",
-        "border-(--border-subtle)",
+        "bg-(--bg-subtle)",
+        "border-(--border-subtle)/40",
         "shadow-md",
       );
       header?.classList.add("border-transparent");
