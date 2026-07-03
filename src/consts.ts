@@ -49,10 +49,11 @@ export const ORG = {
 
 export const ROUTES = {
   home: "/",
-  novel: "/novels",
+  novel: "/novel",
   about: "/about",
   docs: "/docs",
   blog: "/blog",
+  novel: "/novel",
   privacy: "/privacy",
   terms: "/terms",
   sitemap: "/sitemap-index.xml",
@@ -67,12 +68,13 @@ export const NAV = {
   navBar: [
     { label: "Docs", href: ROUTES.docs, icon: "blog" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" },
-    { label: "Novels", href: '/novel', icon: "vocabulary" },
+    { label: "Novel", href: ROUTES.novel, icon: "vocabulary" },
     { label: "About", href: ROUTES.about, icon: "logo" },
   ] as NavItem[],
   mobileNavBar: [
-    { label: "Docs", href: ROUTES.docs },
-    { label: "Blog", href: ROUTES.blog },
+    { label: "Novel", href: ROUTES.novel, icon: "vocabulary" },
+    { label: "Docs", href: ROUTES.docs, icon: "logo" },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" },
     { label: "About", href: ROUTES.about }
   ] as NavItem[],
   footerBar: [
