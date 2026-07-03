@@ -1,16 +1,17 @@
 ---
 // src/layouts/NovelLayout.astro
+import type { CollectionEntry } from 'astro:content';
 import { SITE } from "@/consts";
+
 import Head from "@/components/Head.astro";
 import Page from "@components/Page.astro";
-import MobileSidebar from "@components/MobileSidebar.astro";
-import NovelSidebar from "@/components/novels/Sidebar.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
 import Search from "@components/Search.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
 import PageFrame from "@/components/PageFrame.astro";
-import type { CollectionEntry } from 'astro:content';
+import NovelSidebar from "@/components/novels/NovelSidebar.astro";
+import MobileHeader from "@/components/MobileHeader.astro";
 
 interface Props {
   meta?: any;
@@ -33,12 +34,6 @@ const {
   currentPath,
   slug,
 } = Astro.props;
-
-const dummySidebarProps = {
-  items: [],
-  currentPath: currentPath || '',
-  storagePrefix: 'novel-mobile',
-};
 ---
 
 <!doctype html>
@@ -50,16 +45,12 @@ const dummySidebarProps = {
     <SkipLink />
     <Search />
     <Page>
-      <MobileSidebar
-        sidebarProps={dummySidebarProps}
-        hideHeader={true} 
-        hideFooter={true} 
-      />
+      <MobileHeader>
+        <NovelSidebar {novel} {chapters} {currentPath} {slug} />
+      </MobileHeader>
       <PageFrame>
         <aside class="bg-(--surface) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
-          <div class="flex h-full flex-col flex-1">
-            <NovelSidebar {novel} {chapters} {currentPath} {slug} />
-          </div>
+          <NovelSidebar {novel} {chapters} {currentPath} {slug} />
         </aside>
         <main id="main-content" class="w-full min-w-0 flex-1">
           <slot />

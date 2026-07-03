@@ -9,13 +9,14 @@ import Head from "@/components/Head.astro";
 import Page from "@components/Page.astro";
 import Footer from "@/components/Footer.astro";
 import DocsNavbar from "@docs/DocsNavbar.astro";
-import MobileSidebar from "@components/MobileSidebar.astro";
-import Sidebar from "@ui/Sidebar.astro"; 
+import DocsNavigation from "@docs/DocsNavigation.astro"; 
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
 import Search from "@components/Search.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
 import PageFrame from "@/components/PageFrame.astro";
+import Sidebar from "@/components/ui/Sidebar.astro";
+import MobileHeader from "@/components/MobileHeader.astro";
 
 interface Props {
   meta?: Partial<ReturnType<typeof BuildMetaFn>>;
@@ -24,7 +25,6 @@ interface Props {
   canonical?: string;
   hideHeader?: boolean;
   hideFooter?: boolean;
-  sidebarProps: any;
 }
 
 const {
@@ -34,7 +34,6 @@ const {
   canonical,
   hideHeader = false,
   hideFooter = false,
-  sidebarProps,
 } = Astro.props;
 ---
 
@@ -47,20 +46,22 @@ const {
     <SkipLink />
     <Search />
     <Page>
-      <MobileSidebar
-        sidebarProps={sidebarProps} 
-        hideHeader={hideHeader} 
-        hideFooter={hideFooter} 
-      />
+      <MobileHeader>
+        {!hideHeader && <DocsNavbar />}
+        <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
+          <DocsNavigation />
+        </div>
+        {!hideFooter && <Footer />}
+      </MobileHeader>
       <PageFrame>
-        <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] px-4 pt-4">
-          <div class="flex h-full flex-col flex-1">
+        <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] w-full">
+          <Sidebar>
             {!hideHeader && <DocsNavbar />}
-            <div class="flex-1 overflow-y-auto mb-0">
-              {sidebarProps && <Sidebar {...sidebarProps} />}
+            <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
+              <DocsNavigation />
             </div>
             {!hideFooter && <Footer />}
-          </div>
+          </Sidebar>
         </aside>
         <main id="main-content" class="w-full min-w-0 flex-1">
           <slot />

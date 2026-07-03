@@ -1,4 +1,5 @@
 ---
+// src/pages/novel/[slug].astro
 import { getCollection } from "astro:content";
 
 import Layout from "@/layouts/Layout.astro";
@@ -13,66 +14,38 @@ import NovelChapterList from "@/components/novels/NovelChapterList.astro";
 export async function getStaticPaths() {
   const novels = await getCollection("novels");
 
-  return novels.map((novel) => ({
-    params: {
-      slug: novel.id.split("/")[0],
-    },
-    props: {
-      slug: novel.id.split("/")[0],
-    },
-  }));
-}
-
-interface Props {
-  slug: string;
-}
-
-const { slug } = Astro.props;
-
-const novels = await getCollection("novels");
-
-const novel = novels.find(
-  (item) => item.id.split("/")[0] === slug,
-);
-
-if (!novel) {
-  return new Response(null, {
-    status: 404,
-    statusText: "Not Found",
+  return novels.map((novel) => {
+    const slug = novel.id.split("/")[0];
+    
+    return {
+      params: { slug },
+      // Kirim slug juga sebagai props agar bisa digunakan untuk pencocokan
+      props: { novel, slug }, 
+    };
   });
 }
 
-const chapters = (await getCollection("chapters"))
+const { novel, slug } = Astro.props;
+const allChapters = await getCollection("chapters");
+
+// ==========================================
+// FIX: Pencocokan ID yang dioptimalkan
+// ==========================================
+const chapters = allChapters
   .filter((chapter) => {
-    const chapterSlug = chapter.id.split("/")[0];
-
-    return (
-      chapterSlug === slug &&
-      !chapter.id.includes("_meta")
-    );
+    // Menghapus akhiran /_meta (jika ada) dari target referensi
+    const targetId = chapter.data.novel.id.replace("/_meta", "");
+    const novelBaseId = novel.id.replace("/_meta", "");
+    
+    // Cocokkan dengan slug folder atau ID novel aslinya
+    return targetId === slug || targetId === novelBaseId;
   })
-  .sort(
-    (a, b) =>
-      a.data.chapterNumber - b.data.chapterNumber,
-  );
+  .sort((a, b) => a.data.chapterNumber - b.data.chapterNumber);
 
-const groupedVolumes = chapters.reduce(
-  (acc, chapter) => {
-    const volume = chapter.data.volume ?? 1;
-
-    if (!acc[volume]) {
-      acc[volume] = [];
-    }
-
-    acc[volume].push(chapter);
-
-    return acc;
-  },
-  {} as Record<number, typeof chapters>,
+const uniqueVolumes = new Set(
+  chapters.map((chapter) => chapter.data.volume?.id || "unassigned")
 );
-
-const totalVolumes =
-  Object.keys(groupedVolumes).length;
+const totalVolumes = uniqueVolumes.size;
 
 const meta = {
   title: `${novel.data.title}`,
@@ -85,17 +58,23 @@ const meta = {
     <Section size="md">
       <Container size="lg">
         <div class="space-y-10">
+          
           <NovelHero
             novel={novel}
             totalChapters={chapters.length}
             totalVolumes={totalVolumes}
+            firstChapterUrl={chapters.length > 0 ? `/novel/${chapters[0].id}` : "#chapters"}
           />
+          
           <NovelSynopsis
             synopsis={novel.data.synopsis}
           />
+          
           <NovelChapterList
             chapters={chapters}
+            currentPath={Astro.url.pathname} 
           />
+          
         </div>
       </Container>
     </Section>

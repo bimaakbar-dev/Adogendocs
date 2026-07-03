@@ -1,0 +1,113 @@
+---
+// src/pages/novel/[...page].astro
+import type { Page, GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+import Layout from "@/layouts/Layout.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+import Badge from "@ui/Badge.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allNovels = await getCollection("novels");
+  return paginate(allNovels, { pageSize: 20 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<CollectionEntry<"novels">>;
+}
+
+const { page } = Astro.props;
+
+const allNovelsForGenres = await getCollection("novels");
+const allGenres = [...new Set(allNovelsForGenres.flatMap(novel => novel.data.genre))].sort();
+const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-');
+
+const meta = {
+  title: `Novels | Page ${page.currentPage}`,
+  description: "Browse our complete collection of translated novels.",
+};
+
+const $ = {
+  header: "mb-10 flex flex-col items-start gap-4 pb-8",
+  title: "text-heading-32 font-semibold tracking-tight text-(--fg-strong)",
+  subtitle: "text-body-16 text-(--fg-muted)",
+  filterContainer: "flex flex-wrap gap-2 mb-8",
+  filterLink: "rounded-md border border-(--border-subtle) bg-(--bg-subtle) px-3 py-1.5 text-label-13 text-(--fg-muted) transition-colors hover:border-(--fg-muted) hover:text-(--fg-strong)",
+  grid: "grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-10",
+  card: "group flex flex-col min-w-0",
+  coverWrapper: "relative aspect-2/3 w-full overflow-hidden rounded-lg border border-(--border-subtle) bg-(--bg-muted)",
+  coverImage: "h-full w-full object-cover",
+  infoWrapper: "mt-3 flex flex-col items-start",
+  novelTitle: "truncate w-full text-label-14 font-medium text-(--fg-strong) transition-colors group-hover:text-(--accent)",
+  novelAuthor: "mt-0.5 truncate w-full text-label-12 text-(--fg-muted)",
+  paginationWrapper: "mt-12 flex items-center justify-between border-t border-(--border-subtle) pt-6",
+  pageButton: "rounded-md border border-(--border-subtle) px-4 py-2 text-label-13 font-medium transition-colors hover:bg-(--bg-subtle) hover:text-(--fg-strong)",
+  pageButtonDisabled: "rounded-md border border-(--border-subtle) px-4 py-2 text-label-13 font-medium opacity-50 cursor-not-allowed text-(--fg-muted)",
+  pageIndicator: "text-label-13 text-(--fg-muted)",
+};
+---
+
+<Layout meta={meta}>
+  <main id="main-content" class="w-full min-w-0 flex-1">
+    <Section size="md">
+      <Container size="lg">
+        
+        <header class={$.header}>
+          <div>
+            <h1 class={$.title}>Novel</h1>
+            <p class={$.subtitle}>Explore {page.total} available series.</p>
+          </div>
+        </header>
+
+        <div class={$.filterContainer}>
+          {allGenres.map((genre) => (
+            <a href={`/novel/genre/${slugify(genre)}`} class={$.filterLink}>
+              {genre}
+            </a>
+          ))}
+        </div>
+
+        <div class={$.grid}>
+          {page.data.map((novel) => {
+            const novelUrl = `/novel/${novel.id.replace("/_meta", "")}`;
+            return (
+              <a href={novelUrl} class={$.card}>
+                <div class={$.coverWrapper}>
+                  {novel.data.cover ? (
+                    <img src={novel.data.cover} alt={novel.data.title} loading="lazy" class={$.coverImage} />
+                  ) : (
+                    <div class="flex h-full items-center justify-center text-label-12 text-(--fg-muted)">No Cover</div>
+                  )}
+                  <div class="absolute top-2 right-2">
+                    <Badge variant="accent" class="text-[10px] shadow-sm">{novel.data.status}</Badge>
+                  </div>
+                </div>
+                <div class={$.infoWrapper}>
+                  <h2 class={$.novelTitle}>{novel.data.title}</h2>
+                  <p class={$.novelAuthor}>{novel.data.author}</p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        <div class={$.paginationWrapper}>
+          {page.url.prev ? (
+            <a href={page.url.prev} class={$.pageButton}>Previous</a>
+          ) : (
+            <span class={$.pageButtonDisabled}>Previous</span>
+          )}
+          <span class={$.pageIndicator}>Page {page.currentPage} of {page.lastPage}</span>
+          {page.url.next ? (
+            <a href={page.url.next} class={$.pageButton}>Next</a>
+          ) : (
+            <span class={$.pageButtonDisabled}>Next</span>
+          )}
+        </div>
+
+      </Container>
+    </Section>
+  </main>
+</Layout>
