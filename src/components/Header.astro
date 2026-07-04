@@ -38,8 +38,11 @@ const currentPath = Astro.url.pathname;
         </nav>
       </div>
       <div class="flex items-center shrink-0 gap-2">
-        <SearchBar />
+        <div class="items-center flex sm:hidden">
+          <SearchBar iconOnly />
+        </div>
         <div class="items-center hidden md:flex gap-2">
+          <SearchBar />
           <Socials />
           <Theme />
         </div>
