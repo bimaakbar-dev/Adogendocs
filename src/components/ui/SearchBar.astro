@@ -28,13 +28,6 @@ import Icon from "./Icon.astro";
         });
       });
     };
-
-    document.addEventListener("astro:page-load", initSearchTrigger);
-    
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initSearchTrigger);
-    } else {
-      initSearchTrigger();
-    }
+    initSearchTrigger();
   })();
 </script>
