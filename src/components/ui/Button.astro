@@ -105,7 +105,7 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5">
+      <span class="inline-flex items-center gap-1.5 flex-1">
         {loading ? loadingText : <slot />}
       </span>
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
@@ -121,7 +121,7 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5">
+      <span class="inline-flex items-center gap-1.5 flex-1">
         {loading ? loadingText : <slot />}
       </span>
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
