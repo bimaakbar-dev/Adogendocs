@@ -7,7 +7,7 @@ import Socials from "./Socials.astro";
 import Mobile from "./MobileNav.astro";
 import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
-import Icon from "./ui/Icon.astro";
+import SearchBar from "./ui/SearchBar.astro";
 
 const currentPath = Astro.url.pathname;
 ---
@@ -38,6 +38,7 @@ const currentPath = Astro.url.pathname;
         </nav>
       </div>
       <div class="flex items-center shrink-0 gap-2">
+        <SearchBar />
         <div class="items-center hidden md:flex gap-2">
           <Socials />
           <Theme />
