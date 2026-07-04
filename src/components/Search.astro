@@ -1,23 +1,9 @@
 ---
 // src/components/SearchModal.astro
 import Icon from "./ui/icons/Icon.astro";
-import { getCollection } from "astro:content";
+import Spinner from "./ui/Spinner.astro";
 
-const docs = await getCollection("docs");
-const legal = await getCollection("legal");
-
-const allContent = [...docs, ...legal].map((entry) => {
-  const slug = entry.data.slug || entry.id;
-  return {
-    title: entry.data.title,
-    description: entry.data.description || "",
-    slug,
-    category: entry.collection === "docs" ? "Docs" : "Legal",
-    url: `/${entry.collection}/${slug}`,
-  };
-});
-
-const categories = ["Semua", ...new Set(allContent.map((item) => item.category))];
+const categories = ["Semua", "Docs", "Legal", "Novel", "Blog"];
 ---
 
 <div
@@ -26,7 +12,16 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
 >
   <div id="search-modal" class="fixed left-1/2 top-[10%] w-[90%] max-w-2xl -translate-x-1/2 rounded-xl border border-(--border) bg-(--bg-subtle) shadow-2xl transition-all duration-200 scale-95 opacity-0">
     <div class="flex items-center gap-2 border-b border-(--border) px-4 py-3">
-      <Icon name="search" className="h-4 w-4 shrink-0 text-(--fg-muted)" />
+      <div class="relative flex h-4 w-4 shrink-0 items-center justify-center">
+        <span id="search-icon-wrap" class="flex transition-opacity duration-150">
+          <Icon name="search" className="h-4 w-4 text-(--fg-muted)" />
+        </span>
+        <Spinner
+          id="search-spinner"
+          size="sm"
+          class="absolute inset-0 hidden text-(--fg-strong)"
+        />
+      </div>
       <input
         id="search-input"
         type="text"
@@ -39,7 +34,7 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
       </button>
     </div>
     <div id="search-results" class="max-h-[60vh] overflow-y-auto">
-      <div id="search-empty" class="hidden text-center text-sm text-(--fg-muted) border-b border-(--border) p-8"></div>
+      <div id="search-empty" class="hidden border-b border-(--border)"></div>
       <ul id="search-list" class="hidden space-y-1 border-b border-(--border) p-2"></ul>
     </div>
     <div class="relative flex items-center gap-2 px-4 py-2 text-xs">
@@ -67,10 +62,72 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
   </div>
 </div>
 
-<script define:vars={{ allContent }}>
-  (() => {
-    const contentData = allContent;
+{/* Hasil pencarian utama + sub-results (heading/section match dalam satu halaman) */}
+<template id="search-result-template">
+  <li class="result-group">
+    <a class="result-item flex items-start gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-(--bg-muted)">
+      <div class="flex items-center gap-1.5 shrink-0 pt-0.5 text-(--fg-muted)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <path d="M5 12h14"/>
+          <path d="M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <div class="flex min-w-0 flex-col gap-0.5">
+        <span data-slot="title" class="truncate text-(--fg-strong)"></span>
+        <span data-slot="description" class="result-excerpt line-clamp-1 text-xs text-(--fg-muted)"></span>
+      </div>
+    </a>
+    <ul data-slot="sub-results" class="sub-results-list space-y-0.5"></ul>
+  </li>
+</template>
 
+<template id="search-subresult-template">
+  <li>
+    <a class="sub-result-item flex items-start gap-2 rounded-md py-1.5 pl-8 pr-3 text-xs transition-colors hover:bg-(--bg-muted)">
+      <span class="text-(--fg-muted)">—</span>
+      <div class="flex min-w-0 flex-col gap-0.5">
+        <span data-slot="sub-title" class="truncate text-(--fg)"></span>
+        <span data-slot="sub-excerpt" class="result-excerpt line-clamp-1 text-(--fg-muted)"></span>
+      </div>
+    </a>
+  </li>
+</template>
+
+<template id="search-empty-template">
+  <p class="p-8 text-center text-sm text-(--fg-muted)">Tidak ada hasil</p>
+</template>
+
+<template id="search-recent-wrap-template">
+  <div class="flex items-center justify-between px-4 pt-3 pb-1">
+    <span class="text-xs font-medium text-(--fg-muted)">Pencarian terakhir</span>
+    <button type="button" data-action="clear-recent" class="text-xs text-(--fg-muted) hover:text-(--fg) transition-colors">
+      Hapus semua
+    </button>
+  </div>
+  <ul data-slot="recent-list" class="space-y-0.5 p-2 pt-1"></ul>
+</template>
+
+<template id="search-recent-item-template">
+  <li class="recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)">
+    <button type="button" data-action="use-recent" class="flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-(--bg-muted)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 shrink-0 text-(--fg-muted)">
+        <path d="M3 3v5h5"/>
+        <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/>
+        <path d="M12 7v5l4 2"/>
+      </svg>
+      <span data-slot="recent-query" class="truncate"></span>
+    </button>
+    <button type="button" data-action="remove-recent" aria-label="Hapus dari riwayat" class="shrink-0 rounded-md p-1.5 text-(--fg-muted) opacity-0 transition-opacity hover:text-(--fg) group-hover:opacity-100">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+  </li>
+</template>
+
+<script is:inline>
+  (() => {
     const overlay = document.getElementById("search-overlay");
     const modal = document.getElementById("search-modal");
     const input = document.getElementById("search-input");
@@ -83,12 +140,154 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
     const categoryLabel = document.getElementById("category-label");
     const categoryOptions = dropdown?.querySelectorAll(".category-option");
 
+    const iconWrap = document.getElementById("search-icon-wrap");
+    const spinner = document.getElementById("search-spinner");
+
+    const resultTemplate = document.getElementById("search-result-template");
+    const subResultTemplate = document.getElementById("search-subresult-template");
+    const emptyTemplate = document.getElementById("search-empty-template");
+    const recentWrapTemplate = document.getElementById("search-recent-wrap-template");
+    const recentItemTemplate = document.getElementById("search-recent-item-template");
+
+    const RECENT_KEY = "search:recent";
+    const MAX_RECENT = 5;
+
     let isOpen = false;
-    let debounceTimer;
     let selectedCategory = "";
+
+    let pagefind = null;
+    let pagefindLoading = null;
+
+    function loadPagefind() {
+      if (pagefindLoading) return pagefindLoading;
+      pagefindLoading = (async () => {
+        pagefind = await import("/pagefind/pagefind.js");
+        await pagefind.options({ highlightParam: "highlight" });
+        await pagefind.init();
+      })();
+      return pagefindLoading;
+    }
+
+    // ---------- Loading indicator ----------
+
+    function setLoading(isLoading) {
+      if (!iconWrap || !spinner) return;
+      iconWrap.classList.toggle("opacity-0", isLoading);
+      spinner.classList.toggle("hidden", !isLoading);
+    }
+
+    // ---------- Recent searches ----------
+
+    function getRecentSearches() {
+      try {
+        const raw = localStorage.getItem(RECENT_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveRecentSearch(query) {
+      if (!query) return;
+      let recent = getRecentSearches().filter(
+        (q) => q.toLowerCase() !== query.toLowerCase()
+      );
+      recent.unshift(query);
+      recent = recent.slice(0, MAX_RECENT);
+      try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+      } catch {}
+    }
+
+    function removeRecentSearch(query) {
+      const recent = getRecentSearches().filter((q) => q !== query);
+      try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+      } catch {}
+      showRecentSearches();
+    }
+
+    function clearRecentSearches() {
+      try {
+        localStorage.removeItem(RECENT_KEY);
+      } catch {}
+      showRecentSearches();
+    }
+
+    function showRecentSearches() {
+      if (!empty) return;
+      empty.innerHTML = "";
+
+      const recent = getRecentSearches();
+      if (!recent.length || !recentWrapTemplate || !recentItemTemplate) {
+        empty.classList.add("hidden");
+        return;
+      }
+
+      empty.classList.remove("hidden");
+
+      const wrapNode = recentWrapTemplate.content.cloneNode(true);
+      const recentList = wrapNode.querySelector('[data-slot="recent-list"]');
+
+      recent.forEach((query) => {
+        const itemNode = recentItemTemplate.content.cloneNode(true);
+        const queryEl = itemNode.querySelector('[data-slot="recent-query"]');
+        if (queryEl) queryEl.textContent = query;
+
+        const useBtn = itemNode.querySelector('[data-action="use-recent"]');
+        useBtn?.addEventListener("click", () => {
+          if (input) {
+            input.value = query;
+            input.focus();
+          }
+          saveRecentSearch(query);
+          performSearch();
+        });
+
+        const removeBtn = itemNode.querySelector('[data-action="remove-recent"]');
+        removeBtn?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          removeRecentSearch(query);
+        });
+
+        recentList?.appendChild(itemNode);
+      });
+
+      wrapNode
+        .querySelector('[data-action="clear-recent"]')
+        ?.addEventListener("click", clearRecentSearches);
+
+      empty.appendChild(wrapNode);
+    }
+
+    // ---------- Reset / empty states ----------
+
+    function clearList() {
+      if (list) {
+        list.classList.add("hidden");
+        list.innerHTML = "";
+      }
+    }
+
+    function clearEmpty() {
+      if (empty) {
+        empty.classList.add("hidden");
+        empty.innerHTML = "";
+      }
+    }
+
+    function showNoResults() {
+      if (!empty || !emptyTemplate) return;
+      empty.innerHTML = "";
+      empty.appendChild(emptyTemplate.content.cloneNode(true));
+      empty.classList.remove("hidden");
+    }
+
+    // ---------- Open / close ----------
 
     function openSearch() {
       if (!overlay || !modal) return;
+      loadPagefind();
       overlay.classList.remove("hidden");
       isOpen = true;
       document.body.style.overflow = "hidden";
@@ -97,6 +296,8 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
         modal.classList.add("scale-100", "opacity-100");
       });
       setTimeout(() => input?.focus(), 150);
+      clearList();
+      showRecentSearches();
     }
 
     function closeSearch() {
@@ -109,11 +310,9 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
         document.body.style.overflow = "";
       }, 150);
       if (input) input.value = "";
-      if (list) list.classList.add("hidden");
-      if (empty) {
-        empty.classList.remove("hidden");
-        empty.innerHTML = "";
-      }
+      clearList();
+      clearEmpty();
+      setLoading(false);
     }
 
     document.addEventListener("open-search", openSearch);
@@ -159,66 +358,140 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
       });
     }
 
-    function renderResults(items) {
-      if (!list || !empty) return;
+    // ---------- Rendering ----------
 
-      if (!items.length) {
-        list.classList.add("hidden");
-        empty.classList.remove("hidden");
-        empty.innerHTML = `<p class="text-(--fg-muted)">Tidak ada hasil</p>`;
-        return;
+    function buildSubResult(sub) {
+      const node = subResultTemplate.content.cloneNode(true);
+      const link = node.querySelector("a");
+      const titleEl = node.querySelector('[data-slot="sub-title"]');
+      const excerptEl = node.querySelector('[data-slot="sub-excerpt"]');
+
+      if (link) link.href = sub.url;
+      if (titleEl) titleEl.textContent = sub.title || "";
+      if (excerptEl) {
+        if (sub.excerpt) {
+          excerptEl.innerHTML = sub.excerpt;
+        } else {
+          excerptEl.remove();
+        }
       }
 
-      list.classList.remove("hidden");
-      empty.classList.add("hidden");
-
-      let html = "";
-      items.forEach((item) => {
-        html += `
-          <li>
-            <a href="${item.url}" class="result-item flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-(--bg-muted)">
-              <div class="flex items-center gap-1.5 shrink-0 text-(--fg-muted)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                  <path d="M5 12h14"/>
-                  <path d="M12 5l7 7-7 7"/>
-                </svg>
-                <span class="text-xs">Jump to</span>
-              </div>
-              <span class="truncate text-(--fg-strong)">${item.title}</span>
-            </a>
-          </li>
-        `;
-      });
-      list.innerHTML = html;
+      return node;
     }
 
-    function performSearch() {
-      const query = input?.value?.toLowerCase().trim() || "";
+    function buildResultItem(item) {
+      const node = resultTemplate.content.cloneNode(true);
 
-      if (!query) {
-        if (list) list.classList.add("hidden");
-        if (empty) {
-          empty.classList.remove("hidden");
-          empty.innerHTML = "";
+      const link = node.querySelector("a.result-item");
+      const titleEl = node.querySelector('[data-slot="title"]');
+      const descEl = node.querySelector('[data-slot="description"]');
+      const subList = node.querySelector('[data-slot="sub-results"]');
+
+      const title = item.meta?.title ?? item.url;
+      const description = item.excerpt || item.meta?.description || "";
+
+      if (link) link.href = item.url;
+      if (titleEl) titleEl.textContent = title;
+
+      if (descEl) {
+        if (description) {
+          descEl.innerHTML = description;
+        } else {
+          descEl.remove();
         }
+      }
+
+      const subResults = (item.sub_results || [])
+        .filter((sub) => sub.url !== item.url)
+        .slice(0, 3);
+
+      if (subList) {
+        if (subResults.length) {
+          subResults.forEach((sub) => subList.appendChild(buildSubResult(sub)));
+        } else {
+          subList.remove();
+        }
+      }
+
+      return node;
+    }
+
+    function renderResults(items) {
+      if (!list || !resultTemplate) return;
+
+      if (!items.length) {
+        clearList();
+        showNoResults();
         return;
       }
 
-      const filtered = contentData.filter((item) => {
-        const title = item.title.toLowerCase();
-        const desc = item.description.toLowerCase();
-        const matchTitle = title.includes(query) || desc.includes(query);
-        const matchCategory = selectedCategory === "" || item.category === selectedCategory;
-        return matchTitle && matchCategory;
-      });
+      clearEmpty();
+      list.classList.remove("hidden");
 
-      renderResults(filtered.slice(0, 10));
+      const fragment = document.createDocumentFragment();
+      items.forEach((item) => fragment.appendChild(buildResultItem(item)));
+
+      list.innerHTML = "";
+      list.appendChild(fragment);
+    }
+
+    // ---------- Search ----------
+
+    let searchToken = 0;
+
+    async function performSearch() {
+      const token = ++searchToken;
+      const query = input?.value?.trim() || "";
+
+      if (!query) {
+        clearList();
+        showRecentSearches();
+        setLoading(false);
+        return;
+      }
+
+      clearEmpty();
+      setLoading(true);
+
+      await loadPagefind();
+      if (!pagefind) {
+        if (token === searchToken) setLoading(false);
+        return;
+      }
+      if (token !== searchToken) return;
+
+      const filters = selectedCategory ? { category: selectedCategory } : undefined;
+      const search = await pagefind.debouncedSearch(query, { filters });
+
+      if (search === null) return;
+      if (token !== searchToken) return;
+
+      const items = await Promise.all(
+        search.results.slice(0, 10).map((r) => r.data())
+      );
+
+      if (token === searchToken) {
+        renderResults(items);
+        setLoading(false);
+      }
     }
 
     if (input) {
-      input.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(performSearch, 200);
+      input.addEventListener("input", performSearch);
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const query = input.value.trim();
+          if (query) saveRecentSearch(query);
+        }
+      });
+    }
+
+    if (list) {
+      list.addEventListener("click", (e) => {
+        if (!e.target.closest("a")) return;
+        const query = input?.value?.trim();
+        if (query) saveRecentSearch(query);
       });
     }
 
@@ -231,11 +504,10 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
 </script>
 
 <style is:global>
-  .result-item {
+  .result-item,
+  .sub-result-item,
+  .recent-item button {
     transition: background-color 0.15s;
-  }
-  .result-item:hover {
-    background-color: var(--bg-muted);
   }
   #search-modal {
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -243,5 +515,13 @@ const categories = ["Semua", ...new Set(allContent.map((item) => item.category))
   }
   #search-overlay {
     transition: opacity 0.2s ease;
+  }
+
+  .result-excerpt mark {
+    background-color: color-mix(in srgb, var(--color-chart-2) 40%, transparent) !important;
+    color: var(--fg-strong);
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    padding: 0 4px !important;
   }
 </style>

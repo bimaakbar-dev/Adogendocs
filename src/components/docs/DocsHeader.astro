@@ -40,7 +40,7 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
     </div>
     <div class="flex items-center"><ActionCopy /></div>
   </div>
-  { title && (<h1 class={Title}>{title}</h1>) }
+  { title && (<h1 data-pagefind-meta="title" class={Title}>{title}</h1>) }
   {pubDate && (
     <div class={itemGroup}>
       <div class={Meta}>
@@ -57,5 +57,5 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
         </p>
     </div>
   )}
-  { description && (<p class={Description}>{description}</p>)}
+  { description && (<p data-pagefind-meta="description" class={Description}>{description}</p>)}
 </header>
