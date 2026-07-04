@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
-
-import { formatDate } from "@lib/utils";
+import { formatDateCompact } from "@lib/utils";
+import { IMAGE, SITE } from "@/consts";
 import Button from "@ui/Button.astro";
 
 interface Props {
@@ -21,6 +21,13 @@ const {
 } = entry.data;
 
 const href = `/blog/${slug || entry.id}`;
+
+const Author = {
+  avatar: author.avatar ?? IMAGE.avatar.placeholder,
+  alt: author.name ?? SITE.name,
+  width: IMAGE.avatar.width,
+  height: IMAGE.avatar.height
+}
 
 const $ = {
   card:
@@ -63,19 +70,20 @@ const $ = {
         <p>
           {pubDate && (
             <time datetime={pubDate.toISOString()}>
-              {formatDate(pubDate)}
+              {formatDateCompact(pubDate)}
             </time>
           )}
         </p>
         {author.avatar && (
           <div class={$.avatar}>
             <Image
-              src={author.avatar}
-              alt={author.name}
-              width={24}
-              height={24}
+              src={Author.avatar}
+              alt={Author.alt}
+              width={Author.width}
+              height={Author.height}
               loading="lazy"
               decoding="async"
+              fetchpriority="auto"
               class={$.avatarImage}
             />
           </div>
