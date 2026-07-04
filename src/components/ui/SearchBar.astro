@@ -1,6 +1,7 @@
 ---
 // src/components/SearchBar.astro
 import Icon from "./Icon.astro";
+import Button from "./Button.astro";
 
 interface Props {
   iconOnly?: boolean;
@@ -8,29 +9,39 @@ interface Props {
 
 const { iconOnly = false } = Astro.props;
 ---
-
-<button
-  type="button"
-  data-search-trigger
-  aria-label="Buka pencarian"
-  class:list={[
-    "group flex items-center gap-2 rounded-md border bg-(--bg) text-sm text-(--fg-muted) transition-opacity duration-200 hover:bg-(--bg-muted) active:bg-(--bg-muted) hover:text-(--fg-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring)",
-    iconOnly ? "p-1 border-transparent" : "px-3 py-2 w-full border-(--border-subtle)",
-  ]}
->
-  <Icon
-    name="search"
-    className="h-4 w-4 shrink-0 transition-colors group-hover:text-(--fg-strong)"
-  />
-  {!iconOnly && (
-    <>
-      <span class="flex-1 text-left truncate">Cari...</span>
-      <kbd class="hidden items-center gap-1 rounded border border-(--border) bg-(--bg-muted) px-1.5 py-0.5 font-mono text-[10px] font-medium text-(--fg-muted) transition-opacity group-hover:text-(--fg) lg:flex">
-        <span class="text-xs leading-none">CTRL</span> + K
+{iconOnly && (
+  <Button 
+    data-search-trigger
+    aria-label="Buka pencarian"
+    variant="icon"
+    size="md"
+    class:list={[
+      "inline-flex shrink-0 justify-center items-center",
+      "p-1.5"
+    ]}>
+    <Icon name="search" className="h-full w-full"
+    />
+  </Button>
+)}
+{!iconOnly && (
+  <Button
+    data-search-trigger
+    aria-label="Buka pencarian"
+    variant="outline"
+    size="md"
+    prefix={
+      <Icon 
+        name="search" 
+        className="h-4 w-4 shrink-0 text-(--fg-muted)" />
+    }
+    suffix={
+      <kbd class="hidden items-center gap-1 rounded border border-(--border) bg-(--bg-muted) px-1.5 py-1 font-mono text-xs font-medium text-(--fg-muted) transition-opacity group-hover:text-(--fg) lg:flex">
+        <span class="leading-none">CTRL</span> + K
       </kbd>
-    </>
-  )}
-</button>
+    }>
+    <span class="flex-1 text-left truncate">Cari...</span>
+  </Button>
+)}
 
 <script>
   (() => {
