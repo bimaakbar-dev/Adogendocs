@@ -47,11 +47,11 @@ const {
     <Search />
     <Page>
       <MobileHeader>
-        {!hideHeader && <DocsNavbar />}
+        <DocsNavbar />
         <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
           <DocsNavigation />
         </div>
-        {!hideFooter && <Footer />}
+        <Footer />
       </MobileHeader>
       <PageFrame>
         <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] w-full">
