@@ -31,6 +31,8 @@ import { satteriFileTree } from "./src/lib/mdx/satteri-filetree";
 import { satteriKbd } from "./src/lib/mdx/satteri-kbd";
 import { satteriSteps } from "./src/lib/mdx/satteri-steps";
 
+import pagefind from "astro-pagefind";
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
@@ -83,6 +85,7 @@ export default defineConfig({
       optimize: false,
       extendMarkdownConfig: true,
     }),
+    pagefind(),
   ],
   vite: {
     plugins: [tailwindcss()],
