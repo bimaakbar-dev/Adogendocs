@@ -9,18 +9,18 @@
 }
 
 .prose > table {
-  margin: 2rem 0;
-  border: 1px solid var(--border-subtle);
+  margin: 2.5rem 0;
+  border: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .prose thead {
-  background: var(--bg-subtle);
+  background: var(--bg);
 }
 
 .prose thead th {
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
   color: var(--fg-strong);
   text-align: start;
   text-transform: none;
@@ -58,8 +58,14 @@
   white-space: nowrap;
 }
 
+.prose td a .external-icon,
+.prose th a .external-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
 .prose tbody td {
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
   background: transparent;
   color: var(--fg);
 }
@@ -70,23 +76,21 @@
 
 .prose tbody td strong {
   color: var(--fg-strong);
-  font-weight: 600;
 }
 
 .prose tbody td small {
   @apply text-label-14;
   color: var(--fg-subtle);
-  font-weight: 500;
 }
 
 .prose th:not(:last-child),
 .prose td:not(:last-child) {
-  border-inline-end: 1px solid var(--border-subtle);
+  border-inline-end: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
 }
 
 @media (max-width: 767px) {
   .prose > table {
-    margin: 1.5rem 0;
+    margin: 2rem 0;
   }
 
   .prose thead th,
