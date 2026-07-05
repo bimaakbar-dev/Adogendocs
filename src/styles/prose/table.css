@@ -45,12 +45,12 @@
 .prose th,
 .prose td {
   vertical-align: top;
-  /*white-space: nowrap;*/
+  white-space: balance;
 }
 
 .prose th a,
 .prose td a {
-  white-space: nowarp;
+  white-space: nowrap;
 }
 
 .prose td code,
