@@ -36,12 +36,6 @@
   background: var(--bg-subtle);
 }
 
-@media (hover: hover) {
-  .prose tbody tr:hover {
-    background: var(--bg-muted);
-  }
-}
-
 .prose th,
 .prose td {
   vertical-align: top;
