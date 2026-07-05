@@ -17,20 +17,25 @@
 .prose blockquote p + p {
   margin-top: 12px;
 }
+.prose .quote-cite {
+  margin-top: 1rem;
+  padding-left: 0.5rem;
+}
+
 .prose .quote-cite,
 .prose blockquote cite,
 .prose blockquote footer {
   @apply text-body-14;
-  display: block;
-  margin-top: 1rem;
+  display: flex;
   color: var(--fg-muted);
   font-style: normal;
   text-align: start;
 }
-.prose .quote-cite::before,
+
 .prose blockquote cite::before {
-  content: "— ";
-  color: var(--border);
+  content: "—";
+  color: var(--fg-subtle);
+  padding-right: 0.25rem;
 }
 
 .prose .quote {
@@ -39,7 +44,7 @@
   margin: 2rem 0;
   border: none;
   background: none;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   color: var(--fg-strong);
   position: relative;
 }
@@ -56,6 +61,18 @@
   position: absolute;
   top: 0;
   left: -0.5rem;
+  color: var(--fg-subtle);
+  font-size: 2rem;
+  line-height: 1;
+  pointer-events: none;
+  font-family: var(--font-serif);
+}
+
+.prose .quote-body p:last-child::after {
+  content: "”";
+  position: relative;
+  top: 0.5rem;
+  right: 0;
   color: var(--fg-subtle);
   font-size: 2rem;
   line-height: 1;
