@@ -1,5 +1,6 @@
 ---
 import Icon from "@ui/Icon.astro";
+import Button from "@ui/Button.astro";
 
 interface Props {
   label?: string;
@@ -9,20 +10,19 @@ interface Props {
 const { label = "Scroll to top", class: className = "" } = Astro.props;
 ---
 
-<button
+<Button
   type="button"
   id="scroll-to-top-btn"
+  variant="ghost"
+  size="sm"
   aria-label={label}
+  prefix={<Icon name="arrow-move-up" className="h-4 w-4" />}
   class:list={[
-    "inline-flex w-full cursor-pointer items-center gap-2 px-1.5 py-1 text-[13px] font-medium text-(--fg-muted) no-underline transition-colors hover:text-(--fg-strong) focus:outline-none",
+    "cursor-pointer",
     className,
   ]}
->
-  <span class="shrink-o inline-flex h-4 w-4 items-center">
-    <Icon name="arrow-move-up" className="h-full w-full" />
-  </span>
-  <span>{label}</span>
-</button>
+  ><span>{label}</span>
+</Button>
 
 <script>
   const initBackToTop = () => {
