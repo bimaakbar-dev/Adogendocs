@@ -27,7 +27,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   id={id}
   class:list={[
     "heading-group has-anchor",
-    "inline-block w-full", // biar full width tapi inline block agar anchor bisa inline di dalamnya
+    "inline-block w-full",
     classes,
     className,
   ]}
@@ -78,11 +78,6 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     color: var(--fg-subtle, #888);
     text-decoration: none;
     pointer-events: none;
-  }
-
-  .anchor-link :global(svg) {
-    width: 100%;
-    height: 100%;
   }
 
   @media (hover: hover) {
