@@ -15,6 +15,7 @@ const defaultClass = 'pointer-events-none fixed right-6 bottom-6 mb-(--safe-bott
   id="scroll-to-top-floating"
   variant="icon"
   size="md"
+  thisIcon
   aria-label={aLabel}
   class:list={[
     defaultClass,
@@ -22,7 +23,7 @@ const defaultClass = 'pointer-events-none fixed right-6 bottom-6 mb-(--safe-bott
   ]}
   
 >
-  <Icon name="chevron-up" className="h-full w-full" />
+  <Icon name="arrow-move-up" className="h-full w-full" />
 </Button>
 
 <script>
