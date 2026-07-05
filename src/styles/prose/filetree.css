@@ -66,6 +66,7 @@
   cursor: pointer;
   font-weight: 500;
 }
+.prose .file-tree-label:active
 .prose .file-tree-label:hover,
 .prose .file-tree-folder.open > .file-tree-label {
   color: var(--fg-strong);
@@ -83,31 +84,23 @@
   color: var(--fg-strong);
 }
 
-.prose .file-tree-label.is-highlighted {
-  margin-left: -0.35rem;
-  border-radius: var(--radius-sm);
-  background-color: var(--accent);
-  padding: 0.2rem 0.5rem 0.2rem 0.35rem;
-  color: var(--fg-strong);
+.prose .file-tree-label.is-marked {
+  background-color: rgb(from var(--accent) r g b / 0.8) !important;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--fg-strong) !important;
+  gap: 0.25rem;
+}
+
+.prose .file-tree-label.is-marked .file-name mark {
+  background-color: transparent !important;
+  color: inherit;
   font-weight: 600;
 }
 
-.prose .file-tree-label.is-highlighted .icon {
-  color: var(--fg-strong);
-}
-
-.prose .file-tree-label.is-removed {
-  opacity: 0.6;
-  color: var(--color-error);
-}
-
-.prose .file-tree-label.is-removed .icon {
-  opacity: 0.5;
-}
-
-.prose .file-tree-label.is-removed .file-name {
-  text-decoration: line-through;
-  text-decoration-color: var(--color-error);
+.prose .file-tree-label.is-marked .icon {
+  color: var(--fg-strong) !important;
 }
 
 @media (min-width: 768px) {
