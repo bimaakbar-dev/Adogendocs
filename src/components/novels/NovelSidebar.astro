@@ -6,7 +6,7 @@ import Icon from "@ui/Icon.astro";
 import Sidebar from "@/components/ui/Sidebar.astro";
 import Footer from "../Footer.astro";
 import Badge from "../ui/Badge.astro";
-import NovelNavigation from "./NovelNavigation.astro"; // <-- IMPORT DI SINI
+import NovelNavigation from "./NovelNavigation.astro";
 
 type NovelEntry = CollectionEntry<"novels">;
 type ChapterEntry = CollectionEntry<"chapters">;
@@ -72,7 +72,7 @@ const { novel, chapters, currentPath, slug } = Astro.props;
       />
     </div>
 
-    <div class="mt-2 pt-2 border-t border-(--border-subtle) shrink-0">
+    <div class="mt-auto pt-2 shrink-0">
       <Footer />
     </div>
     
