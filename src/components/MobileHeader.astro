@@ -4,17 +4,23 @@ import Icon from "@ui/Icon.astro";
 import Button from "@ui/Button.astro";
 import Logo from "@ui/Logo.astro";
 import Drawer from "@ui/Drawer.astro";
+
+const label = "Buka Menu"
+const $ = {
+  header: "sticky top-0 z-50 flex h-14 w-full items-center justify-between border-b border-(--border-subtle)/40 bg-(--bg)/80 px-4 backdrop-blur-md md:hidden",
+  iconSize: "h-5 w-5"
+}
 ---
 
-<header class="sticky top-0 z-50 flex h-14 w-full items-center justify-between border-b border-(--border-subtle)/40 bg-(--bg)/80 px-4 backdrop-blur-md md:hidden">
+<header class={$.header}>
   <Logo />
   <Button 
     variant="icon" 
     size="md" 
+    thisIcon
     data-drawer-trigger="mobile-nav-drawer" 
-    aria-label="Buka Menu" 
-    class="inline-flex shrink-0 cursor-pointer items-center justify-center p-1.5 border border-(--border-subtle)">
-    <Icon name="menu" className="h-full w-full" />
+    aria-label={label}>
+    <Icon name="menu" className={$.iconSize} />
   </Button>
 </header>
 <Drawer id="mobile-nav-drawer">
