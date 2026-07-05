@@ -14,6 +14,10 @@
   min-width: max-content;
 }
 
+.prose .file-tree-list *:last-child {
+  margin-bottom: 0 !important;
+}
+
 .prose .file-tree-list li::marker,
 .prose .file-tree-list li::before,
 .prose .file-tree-list li::after {
@@ -71,7 +75,7 @@
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
-  transition: color var(--prose-duration) var(--prose-ease-out);
+  transition: color var(--duration) var(--ease-out);
   color: var(--fg-subtle);
 }
 
@@ -81,7 +85,7 @@
 
 .prose .file-tree-label.is-highlighted {
   margin-left: -0.35rem;
-  border-radius: var(--prose-radius-sm);
+  border-radius: var(--radius-sm);
   background-color: var(--accent);
   padding: 0.2rem 0.5rem 0.2rem 0.35rem;
   color: var(--fg-strong);
