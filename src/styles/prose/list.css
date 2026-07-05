@@ -3,7 +3,7 @@
 .prose ul,
 .prose ol {
   @apply text-body-16;
-  margin: 2rem 0;
+  margin-bottom: 2rem;
   padding-left: 1.75rem;
   color: var(--fg);
 }
