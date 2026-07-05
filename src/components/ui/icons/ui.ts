@@ -286,7 +286,12 @@ export const uiIcons = {
     <path d="M12 4l0 12" />
   `,
 
-  external: `<path d="M7 17 17 7M7 7h10v10" />`,
+  external: `
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+    <path d="M11 13l9 -9" />
+    <path d="M15 4h5v5" />
+  `,
 
   link: `<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />`,
 
