@@ -10,7 +10,7 @@ const categories = ["Semua", "Docs", "Legal", "Novel", "Blog"];
   id="search-overlay"
   class="fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70"
 >
-  <div id="search-modal" class="fixed left-1/2 top-[5%] w-[90%] max-w-2xl -translate-x-1/2 rounded-xl border border-(--border) bg-(--bg-subtle) shadow-2xl transition-all duration-200 scale-95 opacity-0">
+  <div id="search-modal" class="fixed left-1/2 top-[5%] w-[90%] max-w-2xl -translate-x-1/2 rounded-md border border-(--border) bg-(--bg-subtle) shadow-2xl transition-all duration-200 scale-95 opacity-0">
     <div class="flex items-center gap-2 border-b border-(--border) px-4 py-3">
       <div class="relative flex h-4 w-4 shrink-0 items-center justify-center">
         <span id="search-icon-wrap" class="flex transition-opacity duration-150">
@@ -47,7 +47,7 @@ const categories = ["Semua", "Docs", "Legal", "Novel", "Blog"];
       </button>
       <div
         id="category-dropdown"
-        class="absolute left-4 top-full mt-1 hidden w-[calc(100%-2rem)] rounded-md border border-(--border) bg-(--bg-subtle) shadow-lg z-10 p-1"
+        class="absolute left-4 top-full mt-1 hidden w-[calc(100%-2rem)] rounded-md border border-(--border-subtle) bg-(--bg-subtle) shadow-lg z-10 p-1"
       >
         {categories.map((cat) => (
           <button
@@ -63,25 +63,23 @@ const categories = ["Semua", "Docs", "Legal", "Novel", "Blog"];
 </div>
 
 <template id="search-result-template">
-  <li class="result-group">
+  <li class="result-group space-y-1">
     <a class="result-item flex items-start gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-(--bg-muted)">
       <div class="flex items-center gap-1.5 shrink-0 pt-0.5 text-(--fg-muted)">
         <Icon name="arrow-right" className="w-4 h-4" />
-        <span class=" hidden text-(--fg-subtle)">├──</span>
       </div>
       <div class="flex min-w-0 flex-col gap-0.5">
         <span data-slot="title" class="truncate text-(--fg-strong)"></span>
         <span data-slot="description" class="result-excerpt line-clamp-1 text-xs text-(--fg-muted)"></span>
       </div>
     </a>
-    <ul data-slot="sub-results" class="sub-results-list space-y-0.5"></ul>
+    <ul data-slot="sub-results" class="sub-results-list rounded-md bg-(--bg) overflow-hidden"></ul>
   </li>
 </template>
 
 <template id="search-subresult-template">
-  <li class="rounded-md bg-(--bg) justify-center">
-    <a class="sub-result-item flex items-start gap-2 py-1.5 pl-8 pr-3 text-xs transition-colors hover:bg-(--bg-muted) rounded-md">
-      <span class="text-(--fg-subtle)">└──</span>
+  <li class="sub-result flex justify-start pl-8 pr-3 hover:bg-(--bg-muted)">
+    <a class="sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs">
       <div class="flex min-w-0 flex-col gap-0.5">
         <span data-slot="sub-title" class="truncate text-(--fg)"></span>
         <span data-slot="sub-excerpt" class="result-excerpt line-clamp-1 text-(--fg-muted)"></span>
@@ -115,6 +113,17 @@ const categories = ["Semua", "Docs", "Legal", "Novel", "Blog"];
     </button>
   </li>
 </template>
+
+<style is:global>
+  .sub-result::before {
+    content: '├─';
+    color: var(--fg-subtle);
+  }
+  .sub-result:last-of-type::before {
+    content: '└─';
+    color: var(--fg-subtle);
+  }
+</style>
 
 <script is:inline>
   (() => {
