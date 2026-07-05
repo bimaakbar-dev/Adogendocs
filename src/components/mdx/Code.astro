@@ -1,7 +1,7 @@
 ---
 // src/components/mdx/Code.astro
 import Icon from "@/components/ui/icons/Icon.astro";
-import Button from "../ui/Button.astro";
+import Button from "@ui/Button.astro";
 
 interface Props {
   title?: string;
@@ -42,10 +42,10 @@ const $ = {
       id="code-expand-btn" 
       variant="secondary" 
       size="sm" 
-      class="btn-expand w-auto! rounded-full! items-center justify-center gap-1.5!" 
+      class="btn-expand rounded-full!" 
       style="display: none;"
       suffix={<Icon name="chevron-down" className="h-4 w-4" />}
-      ><span class="expand-label">Perluas</span> 
+      ><span class="expand-label">Lihat Semua</span> 
     </Button>
   </div>
 </div>
