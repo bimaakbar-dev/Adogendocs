@@ -33,9 +33,10 @@
 
 .prose li {
   margin: 8px 0;
+  padding-left: 0.5rem;
 }
 
-.prose li > p {
+.prose li > * {
   margin: 8px 0;
 }
 
@@ -72,31 +73,31 @@
   flex-shrink: 0;
   appearance: none;
   -webkit-appearance: none;
-  transition: all var(--prose-duration) var(--prose-ease-out);
+  transition: all var(--duration) var(--ease-out);
   cursor: pointer;
   margin-top: 0.2rem;
-  border: 1px solid var(--prose-border-strong);
-  border-radius: var(--prose-radius-sm);
-  background-color: var(--prose-bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
   width: 1.125rem;
   height: 1.125rem;
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:hover {
-  border-color: var(--prose-fg-muted);
+  border-color: var(--fg-muted);
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked {
-  border-color: var(--prose-fg-strong);
-  background-color: var(--prose-fg-strong);
+  border-color: var(--accent);
+  background-color: var(--bg);
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked::after {
   position: absolute;
-  top: 1px;
+  top: 2px;
   left: 5px;
   transform: rotate(45deg);
-  border: solid var(--prose-bg);
+  border: solid var(--bg);
   border-width: 0 2px 2px 0;
   width: 5px;
   height: 10px;
@@ -106,16 +107,16 @@
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  border-color: var(--prose-border);
-  background-color: var(--prose-bg-muted);
+  border-color: var(--border-subtle);
+  background-color: var(--bg-muted);
 }
 
 .prose
   ul:has(input[type="checkbox"])
   li
   input[type="checkbox"]:disabled:checked {
-  border-color: var(--prose-fg-dim);
-  background-color: var(--prose-fg-dim);
+  border-color: var(--fg-dim);
+  background-color: var(--fg-dim);
 }
 
 @media (max-width: 767px) {

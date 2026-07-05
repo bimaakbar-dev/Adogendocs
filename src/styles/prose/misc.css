@@ -4,9 +4,9 @@
 .prose sup {
   position: relative;
   vertical-align: baseline;
-  transition: color var(--prose-duration) var(--prose-ease-out);
+  transition: color var(--duration) var(--ease-out);
   margin: 0 0.05em;
-  color: var(--prose-fg-dim);
+  color: var(--fg-subtle);
   font-size: 0.75em;
   line-height: 0;
 }
@@ -19,29 +19,29 @@
 }
 
 .prose sup a {
-  transition: color var(--prose-duration) var(--prose-ease-out);
+  transition: color var(--duration) var(--ease-out);
   color: inherit;
   text-decoration: none;
 }
 
 .prose sup a:hover {
-  color: var(--prose-link-hover);
+  color: var(--accent);
 }
 
 .prose sup:has(a[href^="#fn"]) {
   cursor: pointer;
-  scroll-margin-top: 80px;
+  scroll-margin-top: calc(var(--header-height) - 1rem) !important;
 }
 
 .prose small {
   display: inline-block;
-  color: var(--prose-fg-subtle);
+  color: var(--fg-muted);
 }
 
 .prose figcaption small,
 .prose aside small,
 .prose footer small {
-  color: var(--prose-fg-dim);
+  color: var(--fg-muted);
 }
 
 time {
@@ -49,25 +49,24 @@ time {
 }
 
 .prose mark {
-  border-radius: var(--prose-radius-xs);
-  background: var(--prose-highlight-bg);
+  border-radius: var(--radius-xs);
+  background: rgb(from var(--color-chart-4) r g b / 0.2) !important;
   padding: 0.1em 0.25em;
-  color: var(--prose-highlight-text);
+  color: var(--fg-strong);
 }
 
 .prose abbr[title] {
   transition:
-    border-color var(--prose-duration) var(--prose-ease-out),
-    color var(--prose-duration) var(--prose-ease-out);
+    color var(--duration) var(--ease-out);
   cursor: help;
-  border-bottom: 1px dashed var(--prose-border-strong);
+  border-bottom: 1px dashed var(--border-subtle);
   font-feature-settings: "calt" 1;
   text-decoration: none;
 }
 
 .prose abbr[title]:hover {
-  border-bottom-color: var(--prose-fg-strong);
-  color: var(--prose-fg-strong);
+  border-bottom-color: var(--fg-strong);
+  color: var(--fg-strong);
 }
 
 .prose abbr[title]:active {
@@ -76,31 +75,33 @@ time {
 }
 
 .prose cite {
-  color: var(--prose-fg-muted);
+  color: var(--fg-muted);
   font-style: italic;
 }
 
 .prose ins {
-  color: var(--prose-fg-strong);
-  text-decoration-color: var(--prose-border-strong);
+  color: var(--fg-strong);
+  text-decoration-color: var(--border);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
 }
 
 .prose q {
   @apply text-body-16;
   quotes: "“" "”" "‘" "’";
-  color: var(--prose-fg-muted);
+  color: var(--fg-muted);
 }
 
 .prose q::before {
   margin-left: 0.125rem;
   content: open-quote;
-  color: var(--prose-border-strong);
+  color: var(--fg-muted);
 }
 
 .prose q::after {
   margin-right: 0.125rem;
   content: close-quote;
-  color: var(--prose-border-strong);
+  color: var(--fg-muted);
 }
 
 .prose dl {
@@ -113,7 +114,7 @@ time {
 
 .prose dt {
   margin-top: 16px;
-  color: var(--prose-fg-strong);
+  color: var(--fg-strong);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -125,7 +126,7 @@ time {
 .prose dd {
   margin-top: 4px;
   margin-left: 20px;
-  color: var(--prose-fg-subtle);
+  color: var(--fg-subtle);
 }
 
 .prose dt + dd {
@@ -134,29 +135,29 @@ time {
 
 .prose address {
   @apply text-body-14;
-  transition: border-color var(--prose-duration) var(--prose-ease-out);
+  transition: border-color var(--duration) var(--ease-out);
   margin: 1.5rem 0;
-  border: 1px solid var(--prose-border);
-  border-radius: var(--prose-radius-md);
-  background-color: var(--prose-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
   padding: 0.75rem 1rem;
-  color: var(--prose-fg-subtle);
+  color: var(--fg-subtle);
   font-style: normal;
 }
 
 .prose address:hover {
-  border-color: var(--prose-border-strong);
+  border-color: var(--border-strong);
 }
 
 .prose address a {
-  transition: border-color var(--prose-duration) var(--prose-ease-out);
+  transition: border-color var(--duration) var(--ease-out);
   border-bottom: 1px solid transparent;
-  color: var(--prose-link);
+  color: var(--accent);
   text-decoration: none;
 }
 
 .prose address a:hover {
-  border-bottom-color: var(--prose-link-underline-hover);
+  border-bottom-color: var(--accent);
 }
 
 .prose address .contact-label {
@@ -167,11 +168,11 @@ time {
 .prose samp {
   @apply text-code-16;
   display: inline-block;
-  border: 1px solid var(--prose-code-border);
-  border-radius: var(--radius-md);
-  background-color: var(--prose-code-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
   padding: 0.15rem 0.35rem;
-  color: var(--prose-code-text);
+  color: var(--fg);
 }
 
 .prose hr {
