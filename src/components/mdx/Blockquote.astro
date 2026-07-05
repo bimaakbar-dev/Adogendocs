@@ -8,26 +8,24 @@ const showCredit = cite || citeLabel;
 ---
 
 <blockquote class="quote" cite={cite}>
-  <div class="quote-body text-body-20 font-medium">
+  <div class="quote-body text-body-20">
     <slot />
   </div>
-  {
-    showCredit && (
-      <div class="quote-footer">
-        {cite && (
-          <div class="quote-cite">
-            <a href={cite} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5">
-              {citeLabel || "Source"}
-              <Icon name="external" className="w-4 h-4" />
-            </a>
-          </div>
-        )}
-        {!cite && citeLabel && (
-          <div class="quote-cite">
-            <span>{citeLabel}</span>
-          </div>
-        )}
-      </div>
-    )
-  }
+  {showCredit && (
+    <div class="quote-footer">
+      {cite && (
+        <div class="quote-cite">
+          <a href={cite} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5">
+            {citeLabel || "Source"}
+            <Icon name="external" className="w-4 h-4" />
+          </a>
+        </div>
+      )}
+      {!cite && citeLabel && (
+        <div class="quote-cite">
+          <span>{citeLabel}</span>
+        </div>
+      )}
+    </div>
+  )}
 </blockquote>

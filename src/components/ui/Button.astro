@@ -57,7 +57,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   secondary:
     'bg-(--bg-subtle) text-(--fg) border border-(--border) hover:bg-(--bg-muted) active:scale-[0.98]',
   outline:
-    'border border-(--border-strong) text-(--fg) hover:bg-(--bg-subtle) active:scale-[0.98]',
+    'border border-(--border-subtle) text-(--fg) hover:bg-(--bg-subtle) active:scale-[0.98]',
   ghost:
     'text-(--fg-muted) hover:bg-(--bg-subtle) active:bg-(--bg-subtle) hover:text-(--fg) active:scale-[0.98]',
   danger:
@@ -105,7 +105,7 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5 flex-1">
+      <span class="inline-flex items-center gap-1.5">
         {loading ? loadingText : <slot />}
       </span>
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
@@ -121,7 +121,7 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5 flex-1">
+      <span class="inline-flex items-center gap-1.5">
         {loading ? loadingText : <slot />}
       </span>
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
