@@ -33,7 +33,6 @@
 
 .prose li {
   margin-bottom: 8px;
-  padding-left: 0.5rem;
 }
 
 .prose li > * {
@@ -42,6 +41,10 @@
 
 .prose li:last-child {
   margin-bottom: 0;
+}
+
+.prose ol li {
+  padding-left: 0.5rem;
 }
 
 .prose ul ul,
