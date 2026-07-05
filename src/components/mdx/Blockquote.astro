@@ -17,17 +17,17 @@ const showCredit = cite || citeLabel;
   {showCredit && (
     <div class="quote-footer">
       {cite && (
-        <div class="quote-cite">
+        <footer class="quote-cite">
           <a href={cite} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5">
             {citeLabel || "Source"}
             <Icon name="external" className="w-4 h-4" />
           </a>
-        </div>
+        </footer>
       )}
       {!cite && citeLabel && (
-        <div class="quote-cite">
+        <footer class="quote-cite">
           <cite>{citeLabel}</cite>
-        </div>
+        </footer>
       )}
     </div>
   )}
