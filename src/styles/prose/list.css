@@ -32,12 +32,12 @@
 }
 
 .prose li {
-  margin: 8px 0;
+  margin-bottom: 8px;
   padding-left: 0.5rem;
 }
 
 .prose li > * {
-  margin: 8px 0;
+  margin-bottom: 8px;
 }
 
 .prose li:last-child {
