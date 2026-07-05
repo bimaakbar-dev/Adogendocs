@@ -40,7 +40,6 @@ export const components = {
   Video,
   table: Table,
   Table,
-  blockquote: Blockquote,
   Blockquote,
   Figure,
 };
