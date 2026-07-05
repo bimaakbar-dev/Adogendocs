@@ -45,7 +45,7 @@
 .prose th,
 .prose td {
   vertical-align: top;
-  white-space: balance;
+  text-wrap: pretty;
 }
 
 .prose th a,
