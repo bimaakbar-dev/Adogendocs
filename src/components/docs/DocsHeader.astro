@@ -32,7 +32,7 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header class={Header}>
-  <div class="flex justify-between items-center gap-2">
+  <div class="flex justify-between items-center gap-2 mb-2">
     <div class="flex items-center">
       {breadcrumb.length > 0 && (
         <Breadcrumb items={breadcrumb} separator="chevron" />
@@ -41,21 +41,5 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
     <div class="flex items-center"><ActionCopy /></div>
   </div>
   { title && (<h1 data-pagefind-meta="title" class={Title}>{title}</h1>) }
-  {pubDate && (
-    <div class={itemGroup}>
-      <div class={Meta}>
-        <Icon name="history" className={Icons} />
-        <span class={Text}>
-          {readingTime}
-        </span>
-      </div>
-      <span class={Spacer}>|</span>
-        <p>
-          <time datetime={pubDate.toISOString()} class={Text}>
-            {formatDate(pubDate)}
-          </time>
-        </p>
-    </div>
-  )}
   { description && (<p data-pagefind-meta="description" class={Description}>{description}</p>)}
 </header>
