@@ -18,7 +18,7 @@ const s = {
   stepsWrapper: 'my-6 md:my-8',
   stepsItem: 'step-item relative flex items-start gap-3 mb-7 last:mb-0 pl-0',
   stepsCounter: 'step-bullet relative z-10 inline-flex shrink-0 items-center justify-center h-6 w-6 rounded-full border border-(--border-subtle) bg-(--bg-subtle) text-[13px] font-semibold text-(--fg-strong)',
-  stepsContent: 'step-content flex-1 leading-6 pl-2'
+  stepsContent: 'step-content flex-1 leading-6 pl-0.5'
 }
 ---
 
@@ -42,15 +42,8 @@ const s = {
     margin-bottom: 0 !important;
   }
 
-  .step-content :global(h3),
-  .step-content :global(ul),
-  .step-content :global(ol)
-  .step-content :global(p) {
-    margin: 0 !important;
-  }
-
-  .step-content :global(> * + *) {
-    margin-top: 0.25rem;
+  .step-content > * + * {
+    margin-bottom: 0.25rem;
   }
   
   .step-item:not(:last-child)::before {
@@ -62,7 +55,7 @@ const s = {
     width: 1px;
     transform: translateX(-50%);
     background-color: var(--border-subtle);
-    border-radius: 9999px;
+    border-radius: var(--radius-full);
   }
 
   .step-bullet {
