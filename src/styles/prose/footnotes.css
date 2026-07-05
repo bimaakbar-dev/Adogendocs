@@ -80,9 +80,8 @@
   opacity: 0;
   transition: opacity var(--duration) var(--ease-out);
   margin-left: 0.25rem;
-  color: var(--accent-dim);
+  color: var(--accent);
   text-decoration: none;
-  display: hidden;
 }
 
 .prose section[data-footnotes] * .data-footnote-backref:hover,
