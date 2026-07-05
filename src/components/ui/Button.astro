@@ -25,6 +25,7 @@ export interface Props extends HTMLAttributes<'button'> {
   loadingText?: string;
   block?: boolean;
   class?: string;
+  thisIcon?: boolean;
 }
 
 const {
@@ -39,6 +40,7 @@ const {
   loadingText,
   block = false,
   class: className = '',
+  thisIcon = false,
   ...props
 } = Astro.props;
 
@@ -105,9 +107,10 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5">
+      {!thisIcon && <span class="inline-flex items-center gap-1.5">
         {loading ? loadingText : <slot />}
-      </span>
+      </span>}
+      {thisIcon && <span class="inline-flex shrink-0"><slot /></span> }
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
     </a>
   ) : (
@@ -121,9 +124,10 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      <span class="inline-flex items-center gap-1.5">
+      {!thisIcon && <span class="inline-flex items-center gap-1.5">
         {loading ? loadingText : <slot />}
-      </span>
+      </span>}
+      {thisIcon && <span class="inline-flex shrink-0 items-center justify-center"><slot /></span> }
       {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
     </button>
   )
