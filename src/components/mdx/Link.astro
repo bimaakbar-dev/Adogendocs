@@ -22,5 +22,5 @@ const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
   {...props}
 >
   <slot />
-  {isExternal && <Icon name="external" className="external-icon w-3.5 h-3.5" />}
+  {isExternal && <Icon name="external" className="external-icon w-4 h-4" />}
 </a>
