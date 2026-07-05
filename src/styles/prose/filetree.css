@@ -85,7 +85,7 @@
 }
 
 .prose .file-tree-label.is-marked {
-  background-color: rgb(from var(--accent) r g b / 0.8) !important;
+  background-color: rgb(from var(--accent) r g b / 0.6) !important;
   border-radius: 4px;
   padding-left: 4px;
   padding-right: 4px;
