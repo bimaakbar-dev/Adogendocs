@@ -18,35 +18,30 @@
 
 .prose h2 {
   @apply text-heading-24;
-  margin-top: 56px;
   margin-bottom: 20px;
   color: var(--fg-strong);
 }
 
 .prose h3 {
   @apply text-heading-20;
-  margin-top: 40px;
   margin-bottom: 16px;
   color: var(--fg-strong);
 }
 
 .prose h4 {
   @apply text-heading-18;
-  margin-top: 32px;
   margin-bottom: 12px;
   color: var(--fg-strong);
 }
 
 .prose h5 {
   @apply text-heading-16;
-  margin-top: 24px;
   margin-bottom: 12px;
   color: var(--fg-muted);
 }
 
 .prose h6 {
   @apply text-heading-14;
-  margin-top: 24px;
   margin-bottom: 12px;
   color: var(--fg-subtle);
 }
