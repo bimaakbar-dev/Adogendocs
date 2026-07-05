@@ -2,7 +2,10 @@
 //src/components/mdx/blockuote.astro
 import Icon from "@/components/ui/icons/Icon.astro";
 
-const { cite, citeLabel } = Astro.props;
+const { 
+  cite, 
+  citeLabel 
+} = Astro.props;
 
 const showCredit = cite || citeLabel;
 ---
@@ -23,7 +26,7 @@ const showCredit = cite || citeLabel;
       )}
       {!cite && citeLabel && (
         <div class="quote-cite">
-          <span>{citeLabel}</span>
+          <cite>{citeLabel}</cite>
         </div>
       )}
     </div>
