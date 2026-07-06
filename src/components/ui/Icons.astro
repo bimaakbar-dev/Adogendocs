@@ -71,10 +71,10 @@ interface Props {
 
 const { 
   name, 
-  class: className = "" 
+  class: className = "w-5 h-5" 
 } = Astro.props;
 
-const fallbackPath = `<circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />`;
+const fallbackPath = icons.logo;
 const innerSvgHtml = icons[name as IconName] || fallbackPath;
 ---
 
@@ -89,7 +89,7 @@ const innerSvgHtml = icons[name as IconName] || fallbackPath;
   aria-hidden="true"
   focusable="false"
   class:list={[
-    "shrink-0 items-center justify-center w-5 h-5",
+    "shrink-0 items-center justify-center",
     className
   ]}
   set:html={innerSvgHtml}
