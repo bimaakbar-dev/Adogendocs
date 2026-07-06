@@ -8,9 +8,13 @@ interface Props {
   description?: string;
 }
 
-const { title, href, icon = "vocabulary", description } = Astro.props;
+const { 
+    title, 
+    href, 
+    icon = "vocabulary", 
+    description 
+} = Astro.props;
 
-// Deteksi apakah link mengarah ke luar (eksternal) untuk mengubah icon panah
 const isExternal = href.startsWith('http');
 ---
 
@@ -18,11 +22,11 @@ const isExternal = href.startsWith('http');
   href={href} 
   target={isExternal ? "_blank" : "_self"}
   rel={isExternal ? "noopener noreferrer" : ""}
-  class="group relative flex items-center justify-between gap-4 p-4 my-4 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) transition-opacity duration-200 no-underline!"
+  class="link-card group relative flex items-center justify-between gap-4 p-4 my-4 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity duration-200"
 >
   <div class="flex items-center gap-4">
     {icon && (
-      <div class="flex items-center justify-center w-8 h-8 rounded-md bg-(--bg) border border-transparent group-hover:border-(--border-subtle) transition-opacity">
+      <div class="flex items-center justify-center w-8 h-8 rounded-md bg-(--bg) border border-(--border-subtle)">
         <Icon name={icon as any} className="w-5 h-5 text-(--fg-strong)" />
       </div>
     )}
@@ -37,7 +41,13 @@ const isExternal = href.startsWith('http');
   <div class="flex items-center justify-center shrink-0">
     <Icon 
       name={isExternal ? "external-link" : "arrow-right" as any} 
-      className="w-4 h-4 text-(--fg-muted) group-hover:text-(--fg-strong) transition-colors" 
+      className="w-4 h-4 text-(--fg-muted) group-hover:text-(--fg-strong) group-active:text-(--fg-strong) transition-opacity" 
     />
   </div>
 </a>
+
+<style is:global>
+    .link-card {
+        text-decoration: none !important;
+    }
+</style>
