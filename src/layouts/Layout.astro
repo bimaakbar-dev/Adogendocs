@@ -1,5 +1,6 @@
 ---
 // src/layouts/Layout.astro
+import Page from "@/components/Page.astro";
 import Alert from "@/components/ui/Alert.astro";
 import { SITE, type buildMeta as BuildMetaFn } from "@/consts";
 
@@ -32,7 +33,7 @@ const {
   </Head>
   <body>
     <SkipLink />
-    <div class="min-h-screen flex-col">
+    <Page>
       <!--<Alert
         title="ALERT"
         message="Docs Khusus A0"
@@ -47,6 +48,6 @@ const {
       >
         <slot />
       </div>
-    </div>
+    </Page>
   </body>
 </html>
