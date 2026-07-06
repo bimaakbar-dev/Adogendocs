@@ -1,7 +1,6 @@
 /* src/styles/prose/typography.css */
 .prose :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, hr, table) {
   margin-top: 0;
-  width: 100%;
 }
 
 .prose :where(h1, h2, h3, h4, h5, h6) {
