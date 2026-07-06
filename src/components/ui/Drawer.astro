@@ -7,7 +7,7 @@ const { id } = Astro.props;
 
 const $ = {
   wrapper: "drawer-root fixed inset-0 z-80 hidden items-end justify-center",
-  overlay: "absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-(--duration-fast) ease-out opacity-0",
+  overlay: "absolute inset-0 bg-(--bg)/40 backdrop-blur-sm transition-opacity duration-(--duration-fast) ease-out opacity-0",
   drawer: "relative flex h-[82vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-(--duration) ease-[cubic-bezier(0.32,0.94,0.6,1)] translate-y-full will-change-transform",
   headerDrawer: "flex w-full cursor-grab items-center justify-center pb-4 pt-3 touch-none select-none active:cursor-grabbing",
   handleDrawer: "h-1.5 w-12 rounded-full bg-(--border-strong) opacity-60",
