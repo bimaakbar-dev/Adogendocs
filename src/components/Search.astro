@@ -16,13 +16,13 @@ import Spinner from "./ui/Spinner.astro";
     </div>
     <div id="search-results" class="max-h-[60vh] overflow-y-auto">
       <div id="search-empty" class="hidden"></div>
-      <ul id="search-list" class="hidden space-y-1 border-b border-(--border-subtle)/80 p-2"></ul>
+      <ul id="search-list" class="hidden space-y-2 border-b border-(--border-subtle)/80 p-2"></ul>
     </div>
   </div>
 </div>
 
 <template id="search-result-template">
-  <li class="result-group space-y-1 rounded-md bg-(--bg) overflow-hidden">
+  <li class="result-group rounded-md bg-(--bg) overflow-hidden">
     <a class="result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)">
       <img data-slot="image" class="h-10 w-10 shrink-0 rounded object-cover hidden" src="" alt="" />
       <div class="flex min-w-0 flex-col gap-0.5">
@@ -34,7 +34,7 @@ import Spinner from "./ui/Spinner.astro";
         <span data-slot="description" class="result-excerpt line-clamp-1 text-xs text-(--fg-muted)"></span>
       </div>
     </a>
-    <ul data-slot="sub-results" class="sub-results-list border-t border-(--border-subtle)/80"></ul>
+    <ul data-slot="sub-results" class="sub-results-list border-t border-(--border-subtle)/40"></ul>
   </li>
 </template>
 
@@ -56,13 +56,14 @@ import Spinner from "./ui/Spinner.astro";
     <span class="text-xs font-medium text-(--fg-muted)">Pencarian terakhir</span>
     <button type="button" data-action="clear-recent" class="text-xs text-(--fg-muted) hover:text-(--fg) transition-opacity">Hapus semua</button>
   </div>
-  <ul data-slot="recent-list" class="space-y-0.5 p-2 pt-1"></ul>
+  <ul data-slot="recent-list" class="space-y-1 p-2 pt-1"></ul>
 </template>
 
 <template id="search-recent-item-template">
   <li class="recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)">
     <button type="button" data-action="use-recent" class="flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-opacity hover:bg-(--bg-muted)">
-      <Icon name="history" className="w-4 h-4" /><span data-slot="recent-query" class="truncate"></span>
+      <Icon name="history" className="w-4 h-4" />
+      <span data-slot="recent-query" class="truncate"></span>
     </button>
     <Button variant="icon" size="sm" thisIcon data-action="remove-recent" class="shrink-0 rounded-md p-1.5 text-(--fg-muted) opacity-0 transition-opacity hover:text-(--fg) group-hover:opacity-100"><Icon name="close" className="w-4 h-4" /></Button>
   </li>
