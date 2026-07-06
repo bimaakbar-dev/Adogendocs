@@ -14,41 +14,17 @@ const getHref = (item: CollectionEntry<"blog">) =>
   `/blog/${item.data.slug || item.id}`;
 
 const $ = {
-  wrapper:
-    "items-center justify-center shrink-0",
-
-  grid:
-    "grid grid-cols-1 gap-4 sm:grid-cols-2",
-
-  prev:
-    "group flex flex-col gap-2 rounded-md border border-(--border-subtle)/40 p-4 transition-colors hover:bg-(--bg-muted)",
-
-  next:
-    "group flex flex-col gap-2 rounded-md border border-(--border-subtle)/40 p-4 transition-colors hover:bg-(--bg-muted)",
-
-  prevWrap:
-    "text-left",
-
-  nextWrap:
-    "text-right",
-
-  headerPrev:
-    "flex items-center gap-1",
-
-  headerNext:
-    "flex items-center justify-end gap-1",
-
-  label:
-    "text-label-13 font-semibold text-(--fg-strong)",
-
-  icon:
-    "size-4 text-(--fg-strong)",
-
-  title:
-    "truncate text-body-16 font-medium text-(--fg-strong)",
-
-  description:
-    "truncate text-body-14 text-(--fg-muted)",
+  wrapper: "items-center justify-center shrink-0 pb-(--safe-bottom)",
+  grid: "grid grid-cols-1 gap-4 sm:grid-cols-2",
+  pegination: "group flex flex-col gap-2 rounded-md border border-(--border-subtle)/40 p-4 transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted) no-underline",
+  prevWrap: "text-left",
+  nextWrap: "text-right",
+  headerPrev: "flex items-center justify-start gap-1",
+  headerNext: "flex items-center justify-end gap-1",
+  label: "text-label-13 font-semibold text-(--fg-strong)",
+  icon: "size-4 text-(--fg-strong)",
+  title: "truncate text-body-16 font-medium text-(--fg-strong)",
+  description: "truncate text-body-14 text-(--fg-muted)",
 };
 ---
 
@@ -60,7 +36,7 @@ const $ = {
           <div class={$.prevWrap}>
             <a
               href={getHref(prev)}
-              class={$.prev}
+              class={$.pegination}
             >
               <span class={$.headerPrev}>
                 <Icon
@@ -87,7 +63,7 @@ const $ = {
           <div class={$.nextWrap}>
             <a
               href={getHref(next)}
-              class={$.next}
+              class={$.pegination}
             >
               <span class={$.headerNext}>
                 <span class={$.label}>
