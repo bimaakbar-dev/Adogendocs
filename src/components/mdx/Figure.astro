@@ -26,11 +26,11 @@ const imageClass = `relative w-full h-auto object-cover block rounded-lg border 
 
 <figure class="full-width-figure not-prose">
   {hasLink ? (
-    <a href={href} target="_blank" rel="nofollow noopener noreferrer" title={title} class="block focus:outline-none rounded-lg overflow-hidden">
+    <a data-pagefind-ignore href={href} target="_blank" rel="nofollow noopener noreferrer" title={title} class="block focus:outline-none rounded-lg overflow-hidden">
       <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
     </a>
   ) : (
-    <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+    <Image data-pagefind-meta="image[src], image_alt[alt]" src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
   )}
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

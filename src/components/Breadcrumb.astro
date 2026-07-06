@@ -32,7 +32,7 @@ const separators = {
         {index === items.length - 1 ? (
           <span class="font-medium text-(--fg-strong)">{item.label}</span>
         ) : (
-          <a href={item.href} class="hover:text-(--fg-strong) transition-colors">
+          <a data-pagefind-filter="category" href={item.href} class="hover:text-(--fg-strong) transition-opacity">
             {item.label}
           </a>
         )}

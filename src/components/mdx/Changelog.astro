@@ -40,11 +40,11 @@ const s = {
         {release.heading && (
           <div class={s.changelogHeader}>
             <div class={s.changelogCounter} />
-            <div class={s.changelogLabel} set:html={release.heading} />
+            <div data-pagefind-meta="title" class={s.changelogLabel} set:html={release.heading} />
           </div>
         )}
         {release.content && (
-          <div class={s.changelogContent} set:html={release.content} />
+          <div data-pagefind-body class={s.changelogContent} set:html={release.content} />
         )}
       </div>
     ))

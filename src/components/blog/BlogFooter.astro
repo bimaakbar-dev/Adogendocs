@@ -4,8 +4,6 @@ import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@lib/utils";
 
 import BlogPager from "./BlogPager.astro";
-// import BlogTags from "./BlogTags.astro";
-// import Share from "./Share.astro";
 
 interface Props {
   prev: CollectionEntry<"blog"> | null;
@@ -25,7 +23,7 @@ const {
 <footer class="w-full shrink-0 space-y-8 pt-4 pb-(--safe-bottom)">
   {lastUpdated && (
     <p class="text-body-14 text-(--fg-muted)/80">
-      <time datetime={lastUpdated.toISOString()}>
+      <time data-pagefind-sort="date" datetime={lastUpdated.toISOString()}>
         <span>Last updated: </span>
         {formatDate(lastUpdated)}
       </time>
@@ -35,7 +33,7 @@ const {
   {tags.length > 0 && (
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <span
+        <span data-pagefind-filter="tag"
           class="rounded-md border border-(--border-subtle)/80 px-2.5 py-1 text-label-13 text-(--fg-muted)"
         >
           {tag}
@@ -43,8 +41,6 @@ const {
       ))}
     </div>
   )}
-
-  <!-- <Share /> -->
 
   <BlogPager
     prev={prev}

@@ -32,18 +32,18 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     className,
   ]}
 >
-  <span class="heading-text-wrapper inline">
+  <span data-pagefind-meta="title" class="heading-text-wrapper inline">
     <slot />
     {id && (level === 2 || level === 3) && (
       <>
         <a
           href={`#${id}`}
+          data-pagefind-ignore
           aria-label={anchorLabel}
           class="anchor-link inline-flex ml-1 align-middle"
         >
           <Icon name="link" className="w-4 h-4" />
         </a>
-        <span class="sr-only">{anchorLabel}</span>
       </>
     )}
   </span>

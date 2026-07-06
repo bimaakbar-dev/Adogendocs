@@ -30,35 +30,16 @@ const Author = {
 }
 
 const $ = {
-  card:
-    "flex flex-col rounded-md border border-(--border-subtle)/80 bg-(--bg-subtle)",
-
-  body:
-    "flex flex-1 flex-col p-4",
-
-  meta:
-    "mb-2 flex items-center justify-between text-label-14 text-(--fg-muted)",
-
-  metaRight:
-    "flex items-center gap-1.5",
-
-  avatar:
-    "flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border border-(--border-subtle)",
-
-  avatarImage:
-    "size-full object-cover",
-
-  content:
-    "flex flex-1 flex-col gap-4",
-
-  title:
-    "line-clamp-3 text-heading-18 font-semibold text-(--fg-strong)",
-
-  description:
-    "line-clamp-4 text-body-14 text-(--fg-muted)",
-
-  footer:
-    "mt-auto flex items-center justify-between",
+  card: "flex flex-col rounded-md border border-(--border-subtle)/80 bg-(--bg-subtle)",
+  body: "flex flex-1 flex-col p-4",
+  meta: "mb-2 flex items-center justify-between text-label-14 text-(--fg-muted)",
+  metaRight: "flex items-center gap-1.5",
+  avatar: "flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border border-(--border-subtle)",
+  avatarImage: "size-full object-cover",
+  content: "flex flex-1 flex-col gap-4",
+  title: "line-clamp-3 text-heading-18 font-semibold text-(--fg-strong)",
+  description: "line-clamp-4 text-body-14 text-(--fg-muted)",
+  footer: "mt-auto flex items-center justify-between",
 };
 ---
 
@@ -69,7 +50,7 @@ const $ = {
       <div class={$.metaRight}>
         <p>
           {pubDate && (
-            <time datetime={pubDate.toISOString()}>
+            <time data-pagefind-sort="date" datetime={pubDate.toISOString()}>
               {formatDateCompact(pubDate)}
             </time>
           )}
@@ -77,6 +58,7 @@ const $ = {
         {author.avatar && (
           <div class={$.avatar}>
             <Image
+              data-pagefind-meta="image[src], image_alt[alt]"
               src={Author.avatar}
               alt={Author.alt}
               width={Author.width}
@@ -91,10 +73,10 @@ const $ = {
       </div>
     </div>
     <div class={$.content}>
-      <h3 class={$.title}>
+      <h3 data-pagefind-meta="title" class={$.title}>
         {title}
       </h3>
-      <p class={$.description}>
+      <p data-pagefind-meta="description" class={$.description}>
         {description}
       </p>
       <div class={$.footer}>
