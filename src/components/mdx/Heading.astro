@@ -32,7 +32,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     className,
   ]}
 >
-  <span data-pagefind-meta="title" class="heading-text-wrapper inline">
+  <span data-pagefind-meta="title" class="heading-text-wrapper">
     <slot />
     {id && (level === 2 || level === 3) && (
       <>
@@ -42,7 +42,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
           aria-label={anchorLabel}
           class="anchor-link inline-flex ml-1 align-middle"
         >
-          <Icon name="link" class="w-4 h-4" />
+          <Icon name="link" class="w-4 h-4 hover:text-(--accent) active:text-(--accent)" />
         </a>
       </>
     )}
