@@ -1,0 +1,43 @@
+---
+import Icon from "@ui/Icon.astro";
+
+interface Props {
+  title: string;
+  href: string;
+  icon?: string;
+  description?: string;
+}
+
+const { title, href, icon = "vocabulary", description } = Astro.props;
+
+// Deteksi apakah link mengarah ke luar (eksternal) untuk mengubah icon panah
+const isExternal = href.startsWith('http');
+---
+
+<a 
+  href={href} 
+  target={isExternal ? "_blank" : "_self"}
+  rel={isExternal ? "noopener noreferrer" : ""}
+  class="group relative flex items-center justify-between gap-4 p-4 my-4 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) transition-opacity duration-200 no-underline!"
+>
+  <div class="flex items-center gap-4">
+    {icon && (
+      <div class="flex items-center justify-center w-8 h-8 rounded-md bg-(--bg) border border-transparent group-hover:border-(--border-subtle) transition-opacity">
+        <Icon name={icon as any} className="w-5 h-5 text-(--fg-strong)" />
+      </div>
+    )}
+    <div class="flex flex-col">
+      <span class="text-md font-medium text-(--fg-strong)">{title}</span>
+      {description && (
+        <span class="text-sm text-(--fg-muted) mt-0.5 line-clamp-1 leading-relaxed">{description}</span>
+      )}
+    </div>
+  </div>
+  
+  <div class="flex items-center justify-center shrink-0">
+    <Icon 
+      name={isExternal ? "external-link" : "arrow-right" as any} 
+      className="w-4 h-4 text-(--fg-muted) group-hover:text-(--fg-strong) transition-colors" 
+    />
+  </div>
+</a>
