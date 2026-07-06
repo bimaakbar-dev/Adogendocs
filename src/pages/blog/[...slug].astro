@@ -69,7 +69,7 @@ const breadcrumbItems = [
 
 if (entry.data.category) {
   breadcrumbItems.push({
-    label: entry.data.category,
+    label: entry.data.category, href: "/blog"
   });
 }
 
@@ -112,7 +112,7 @@ const pageSchema = schemaWebPage({
         </Container>
         <div class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
         <Container size="md">
-          <article class="prose">
+          <article data-pagefind-body class="prose">
             <Content components={components} />
           </article>
         </Container>
