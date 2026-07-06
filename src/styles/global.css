@@ -51,6 +51,8 @@
   --duration: 150ms;
   --duration-md: 250ms;
   --duration-lg: 300ms;
+
+  --safe-bottom: calc(2rem + env(safe-area-inset-bottom));
 }
 
 [data-theme='light'] {
@@ -437,10 +439,6 @@
     margin: 0;
     border: none;
     border-top: 1px solid var(--border-subtle);
-  }
-
-  .safe-bottom {
-    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   }
 }
 
