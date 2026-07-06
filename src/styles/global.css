@@ -50,7 +50,7 @@
   --duration-fast: 100ms;
   --duration: 150ms;
   --duration-md: 250ms;
-  --duration-lg: 400ms;
+  --duration-lg: 300ms;
 }
 
 [data-theme='light'] {
@@ -440,7 +440,7 @@
   }
 
   .safe-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   }
 }
 
