@@ -1,5 +1,6 @@
 ---
 // src/components/docs/mobile/DocsMobileNavbar.astro
+import Container from "./ui/Container.astro";
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
 import Logo from "@ui/Logo.astro";
@@ -7,22 +8,60 @@ import Drawer from "@ui/Drawer.astro";
 
 const label = "Buka Menu"
 const $ = {
-  header: "sticky top-0 z-50 flex pt-(--safe-top) h-(--header-height) w-full items-center justify-between border-b border-(--border-subtle)/40 bg-(--bg)/80 px-4 backdrop-blur-md md:hidden",
+  header: "sticky top-0 z-50 w-full border-b border-transparent h-full pt-(--safe-top) transition-all duration-(--duration) ease-out",
+  wrapper: "mx-auto flex h-(--header-height) w-full items-center justify-between",
+  left: "flex items-center shrink-0 gap-4",
+  right: "flex items-center shrink-0 gap-4",
   iconSize: "h-5 w-5"
 }
 ---
 
-<header class={$.header}>
-  <Logo />
-  <Button 
-    variant="icon" 
-    size="md" 
-    thisIcon
-    data-drawer-trigger="mobile-nav-drawer" 
-    aria-label={label}>
-    <Icon name="menu" class={$.iconSize} />
-  </Button>
+<header id="main-header" class={$.header}>
+   <Container size="full">
+    <div class={$.wrapper}>
+      <div class={$.left}>
+        <Logo />
+      </div>
+      <div class={$.right}>
+        <Button 
+          variant="icon" 
+          size="md" 
+          thisIcon
+          data-drawer-trigger="mobile-nav-drawer" 
+          aria-label={label}>
+          <Icon name="menu" class={$.iconSize} />
+        </Button>
+      </div>
+    </div>
+   </Container>
 </header>
 <Drawer id="mobile-nav-drawer">
   <slot />
 </Drawer>
+
+<script is:inline>
+  const header = document.getElementById("main-header");
+
+  const toggleHeader = () => {
+    if (window.scrollY > 10) {
+      header?.classList.add(
+        "bg-(--bg)/80",
+        "backdrop-blur-md",
+        "border-(--border-subtle)",
+        "shadow-sm",
+      );
+      header?.classList.remove("border-transparent");
+    } else {
+      header?.classList.remove(
+        "bg-(--bg)/80",
+        "backdrop-blur-md",
+        "border-(--border-subtle)",
+        "shadow-sm",
+      );
+      header?.classList.add("border-transparent");
+    }
+  };
+
+  window.addEventListener("scroll", toggleHeader, { passive: true });
+  toggleHeader();
+</script>
