@@ -13,13 +13,13 @@
   vertical-align: middle;
   transition: all 0.1s ease;
   margin: 0 0.125rem;
-  box-shadow: 0 2px 0 var(--prose-kbd-shadow);
-  border: 1px solid var(--prose-kbd-border);
+  box-shadow: 0 2px 0 var(--border-strong);
+  border: 1px solid var(--border-subtle);
   border-bottom-width: 2px;
-  border-radius: var(--prose-radius-md);
-  background: var(--prose-kbd-bg);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
   padding: 0.15em 0.45em;
-  color: var(--prose-kbd-text);
+  color: var(--fg);
   user-select: none;
   white-space: nowrap;
 }
@@ -28,21 +28,21 @@
 .prose kbd:hover {
   top: -1px;
   cursor: pointer;
-  box-shadow: 0 3px 0 var(--prose-kbd-shadow);
+  box-shadow: 0 2px 0 var(--border-strong);
   border-bottom-width: 2px;
-  background: var(--prose-surface-hover);
+  background: var(--bg-muted);
 }
 
 .prose kbd:active,
 .prose .kbd-key:active {
   top: 1px;
-  box-shadow: 0 1px 0 var(--prose-kbd-shadow);
+  box-shadow: 0 2px 0 var(--border-strong);
   border-bottom-width: 1px;
-  background: var(--prose-surface-active);
+  background: var(--bg-muted);
 }
 
 .prose .kbd-separator {
-  color: var(--prose-fg);
+  color: var(--fg);
   user-select: none;
 }
 
