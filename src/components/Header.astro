@@ -1,43 +1,28 @@
 ---
 // src/components/Header.astro
-import { NAV } from "@/consts";
-
 import Container from "./ui/Container.astro";
 import Socials from "./Socials.astro";
 import Mobile from "./MobileNav.astro";
 import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
 import SearchBar from "./ui/SearchBar.astro";
+import NavLink from "./NavLink.astro";
 
-const currentPath = Astro.url.pathname;
+const $ = {
+  header: "sticky top-0 z-50 w-full border-b border-transparent h-full pt-(--safe-top) transition-all duration-(--duration) ease-out",
+  wrapper: "mx-auto flex h-(--header-height) w-full items-center justify-between",
+  left: "flex items-center shrink-0 gap-4",
+  right: "flex items-center shrink-0 gap-4"
+}
 ---
-
-<header id="main-header" class="sticky top-0 z-50 border-b">
+<header id="main-header" class={$.header}>
   <Container size="full">
-    <div class="mx-auto flex h-(--header-height) w-full items-center justify-between">
-      <div class="flex items-center shrink-0 gap-4">
+    <div class={$.wrapper}>
+      <div class={$.left}>
         <Logo />
-        <nav class="text-label-14 hidden items-center gap-6 font-medium sm:flex">
-          {
-            NAV.navBar.map((item) => (
-              <a
-                href={item.href}
-                class:list={[
-                  "transition-opacity",
-                  currentPath === item.href
-                    ? "text-(--accent)"
-                    : "text-(--fg-muted) hover:text-(--fg)",
-                ]}
-                target={item.isExternal ? "_blank" : undefined}
-                rel={item.isExternal ? "noopener noreferrer" : undefined}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
+        <NavLink />
       </div>
-      <div class="flex items-center shrink-0 gap-2">
+      <div class={$.right}>
         <div class="items-center flex md:hidden">
           <SearchBar iconOnly />
         </div>
@@ -56,23 +41,25 @@ const currentPath = Astro.url.pathname;
   const header = document.getElementById("main-header");
 
   const toggleHeader = () => {
-    if (window.scrollY > 20) {
+    if (window.scrollY > 10) {
       header?.classList.add(
-        "bg-(--bg)",
-        "border-(--border-subtle)/40",
-        "shadow-md",
+        "bg-(--bg)/90",
+        "backdrop-blur-md",
+        "border-(--border-subtle)",
+        "shadow-sm",
       );
       header?.classList.remove("border-transparent");
     } else {
       header?.classList.remove(
-        "bg-(--bg)",
-        "border-(--border-subtle)/40",
-        "shadow-md",
+        "bg-(--bg)/90",
+        "backdrop-blur-md",
+        "border-(--border-subtle)",
+        "shadow-sm",
       );
       header?.classList.add("border-transparent");
     }
   };
 
-  window.addEventListener("scroll", toggleHeader);
+  window.addEventListener("scroll", toggleHeader, { passive: true });
   toggleHeader();
 </script>
