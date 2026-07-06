@@ -10,9 +10,9 @@
 }
 
 .prose :focus-visible {
-  outline: 2px solid var(--prose-accent);
+  outline: 2px solid var(--ccent);
   outline-offset: 2px;
-  border-radius: var(--prose-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 @media (forced-colors: active) {
