@@ -2,19 +2,12 @@
 
 export const uiIcons = {
   logo: `
-    <g transform="scale(1,-1) translate(0,-24)">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M11 14a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M6 14a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M16 14a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M13.5 9.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M8.5 9.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M13.5 18.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M8.5 18.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M3.5 18.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M18.5 18.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-    </g>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />  
+    <path d="M6 5h14v12l-2 2h-12l-2 -2v-10z" />
+    <path d="M7 10h2" />
+    <path d="M7 12.5v.01" /> 
+    <path d="M12 10h2" />
+    <path d="M12 12.5v.01" />
   `,
 
   c0deks1: {
