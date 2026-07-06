@@ -1,14 +1,17 @@
 ---
 // src/components/mdx/Code.astro
 import Icon from "@/components/ui/icons/Icon.astro";
-import Button from "@ui/Button.astro";
+import Button from "../ui/Button.astro";
 
 interface Props {
   title?: string;
 }
 
 const props = typeof Astro !== "undefined" && Astro.props ? Astro.props : {};
-const { title = "" } = props as Props;
+
+const { 
+  title = "" 
+} = props as Props;
 
 const $ = {
   wrapper: "code-block-wrapper relative my-6 md:my-8 rounded-lg border border-(--border-subtle)/80 bg-(--bg)",
@@ -42,7 +45,7 @@ const $ = {
       id="code-expand-btn" 
       variant="secondary" 
       size="sm" 
-      class="btn-expand rounded-full!" 
+      class="btn-expand rounded-full! border-(--border-subtle)/80!" 
       style="display: none;"
       suffix={<Icon name="chevron-down" className="h-4 w-4" />}
       ><span class="expand-label">Lihat Semua</span> 
@@ -130,7 +133,6 @@ const $ = {
     };
 
     const initAllBlocks = () => document.querySelectorAll<HTMLElement>(".code-block-wrapper:not(.is-processed)").forEach(setupCodeBlock);
-    document.addEventListener("astro:page-load", initAllBlocks);
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAllBlocks);
     else initAllBlocks();
   })();
