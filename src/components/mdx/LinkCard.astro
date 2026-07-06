@@ -2,7 +2,7 @@
 import Icon from "@ui/Icon.astro";
 
 interface Props {
-  title: string;
+  title?: string;
   href: string;
   icon?: string;
   description?: string;
@@ -11,7 +11,7 @@ interface Props {
 const { 
     title, 
     href, 
-    icon = "vocabulary", 
+    icon = "brain", 
     description 
 } = Astro.props;
 
@@ -26,14 +26,14 @@ const isExternal = href.startsWith('http');
 >
   <div class="flex items-center gap-4">
     {icon && (
-      <div class="flex items-center justify-center w-8 h-8 rounded-md bg-(--bg) border border-(--border-subtle)">
-        <Icon name={icon as any} className="w-5 h-5 text-(--fg-strong)" />
+      <div class="inline-flex shrink-0 items-center justify-center">
+        <Icon name={icon as any} className="w-4 h-4 text-(--fg-strong)" />
       </div>
     )}
     <div class="flex flex-col">
-      <span class="text-md font-medium text-(--fg-strong)">{title}</span>
+      <span class="text-body-16 font-medium text-(--fg-strong)">{title}</span>
       {description && (
-        <span class="text-sm text-(--fg-muted) line-clamp-1 leading-relaxed">{description}</span>
+        <span class="text-body-14 text-(--fg-muted) line-clamp-1 leading-relaxed">{description}</span>
       )}
     </div>
   </div>
