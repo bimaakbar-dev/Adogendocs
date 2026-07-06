@@ -26,12 +26,20 @@ const { iconOnly = false } = Astro.props;
     aria-label="Buka pencarian"
     variant="outline"
     size="md"
-    class="flex items-center text-(--fg-muted) justify-between"
-    prefix={<Icon name="search" class="h-4 w-4" />}>
-    <span class="flex-1 truncate text-(--fg-muted)">Cari...</span>
-    <kbd class="hidden items-center gap-1 rounded border border-(--border) bg-(--bg-muted) px-1.5 py-1 font-mono text-xs font-medium text-(--fg-muted) transition-opacity group-hover:text-(--fg) lg:flex">
-        <span class="leading-none">CTRL</span> + K
-      </kbd>
+    block
+    class="group flex items-center text-(--fg-muted) justify-between rounded-md! px-3"
+    prefix={<Icon name="search" class="h-4 w-4" />}
+    suffix={
+      <div class="hidden items-center gap-1 font-mono text-[10px] font-medium text-(--fg-muted) transition-colors group-hover:text-(--fg) lg:flex select-none pointer-events-none">
+        <kbd class="flex h-5 items-center justify-center rounded border border-(--border-subtle) bg-(--bg-muted) px-1.5 min-w-5 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
+          Ctrl
+        </kbd>
+        <kbd class="flex h-5 items-center justify-center rounded border border-(--border-subtle) bg-(--bg-muted) px-1.5 min-w-5 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
+          K
+        </kbd>
+      </div>
+    }>
+    Cari...
   </Button>
 )}
 
