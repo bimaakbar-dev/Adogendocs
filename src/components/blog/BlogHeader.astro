@@ -8,7 +8,7 @@ import { Image } from "astro:assets";
 import { IMAGE, SITE } from "@/consts"
 
 import Breadcrumb from "@components/Breadcrumb.astro";
-import ActionCopy from "@components/ActionCopy.astro";
+import ActionShare from "../ActionShare.astro";
 
 interface Props {
   title: string;
@@ -68,7 +68,7 @@ const Divider = "text-(--fg-muted)/50";
     {breadcrumb.length > 0 && (
       <Breadcrumb items={breadcrumb} separator="chevron" />
     )}
-    <ActionCopy />
+    <ActionShare />
   </div>
   <div class="space-y-4">
     <div class={Meta}>
@@ -101,19 +101,19 @@ const Divider = "text-(--fg-muted)/50";
       </p>
     )}
     {cover && (
-    <figure class={Cover}>
-      <Image
-        data-pagefind-meta="image[src], image_alt[alt]"
-        src={HeroImage.src}
-        alt={HeroImage.alt}
-        class={CoverImage}
-        width={HeroImage.width}
-        height={HeroImage.height}
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-      />
-    </figure>
-  )}
+      <figure class={Cover}>
+        <Image
+          data-pagefind-meta="image[src], image_alt[alt]"
+          src={HeroImage.src}
+          alt={HeroImage.alt}
+          class={CoverImage}
+          width={HeroImage.width}
+          height={HeroImage.height}
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
+    )}
   </div>
 </header>
