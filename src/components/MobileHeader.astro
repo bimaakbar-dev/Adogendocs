@@ -1,5 +1,5 @@
 ---
-// src/components/docs/mobile/DocsMobileNavbar.astro
+// src/components/docs/mobile/MobileHeader.astro
 import Container from "./ui/Container.astro";
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
@@ -40,28 +40,33 @@ const $ = {
 </Drawer>
 
 <script is:inline>
-  const header = document.getElementById("main-header");
+  (() => {
+    const header = document.getElementById("main-header");
+    if (!header) return;
 
-  const toggleHeader = () => {
-    if (window.scrollY > 10) {
-      header?.classList.add(
-        "bg-(--bg)/80",
-        "backdrop-blur-md",
-        "border-(--border-subtle)",
-        "shadow-sm",
-      );
-      header?.classList.remove("border-transparent");
-    } else {
-      header?.classList.remove(
-        "bg-(--bg)/80",
-        "backdrop-blur-md",
-        "border-(--border-subtle)",
-        "shadow-sm",
-      );
-      header?.classList.add("border-transparent");
-    }
-  };
+    const toggleHeader = () => {
+      if (window.scrollY > 10) {
+        header.classList.add(
+          "bg-(--bg-overlay)",
+          "backdrop-blur-md",
+          "border-(--border-subtle)",
+          "shadow-sm"
+        );
+        header.classList.remove("border-transparent");
+      } else {
+        header.classList.remove(
+          "bg-(--bg-overlay)",
+          "backdrop-blur-md",
+          "border-(--border-subtle)",
+          "shadow-sm"
+        );
+        header.classList.add("border-transparent");
+      }
+    };
 
-  window.addEventListener("scroll", toggleHeader, { passive: true });
-  toggleHeader();
+    window.removeEventListener("scroll", toggleHeader);
+    window.addEventListener("scroll", toggleHeader, { passive: true });
+    
+    toggleHeader();
+  })();
 </script>
