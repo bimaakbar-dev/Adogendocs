@@ -11,7 +11,7 @@ const { label = "Copy Page", class: className, rawMarkdown = "" } = Astro.props;
 
 const s = {
   ActionWrapper: 'copy-dropdown-wrapper relative inline-flex items-stretch rounded-lg border border-(--border-subtle) bg-(--bg) shadow-sm hover:shadow transition-shadow duration-200',
-  actionGroup: 'flex items-center gap-2.5 px-4 py-2 text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-l-lg text-(--fg-strong) transition-colors cursor-pointer',
+  actionGroup: 'flex items-center gap-2 px-4 py-2 text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-l-lg text-(--fg-strong) transition-colors cursor-pointer',
   actionPrefix: 'relative flex items-center justify-center w-4 h-4',
   actionSuffix: 'copy-trigger flex items-center justify-center px-2.5 text-(--fg-muted) hover:text-(--fg-strong) hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-r-lg transition-colors border-l border-(--border-subtle) cursor-pointer',
   actionDropdown: 'copy-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[13rem] z-50 rounded-xl border border-(--border-subtle) bg-(--bg) shadow-lg p-1.5 animate-in fade-in slide-in-from-top-2 origin-top-right',
