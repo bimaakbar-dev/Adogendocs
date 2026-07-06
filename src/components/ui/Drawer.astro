@@ -7,9 +7,9 @@ const { id } = Astro.props;
 
 const $ = {
   wrapper: "drawer-root fixed inset-0 z-80 hidden items-end justify-center",
-  overlay: "absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ease-out opacity-0",
-  drawer: "relative flex h-[82vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.94,0.6,1)] translate-y-full will-change-transform",
-  headerDrawer: "flex w-full cursor-grab items-center justify-center pb-4 pt-3 touch-none select-none",
+  overlay: "absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-(--duration-fast) ease-out opacity-0",
+  drawer: "relative flex h-[82vh] w-full flex-col rounded-t-2xl border-t border-(--border-subtle) bg-(--bg) shadow-2xl transition-transform duration-(--duration) ease-[cubic-bezier(0.32,0.94,0.6,1)] translate-y-full will-change-transform",
+  headerDrawer: "flex w-full cursor-grab items-center justify-center pb-4 pt-3 touch-none select-none active:cursor-grabbing",
   handleDrawer: "h-1.5 w-12 rounded-full bg-(--border-strong) opacity-60",
   content: "flex flex-1 flex-col overflow-y-auto px-5 pb-(--safe-bottom) overscroll-contain"
 }
@@ -88,7 +88,7 @@ const $ = {
       const drawerEl = drawer as HTMLElement;
       const backdrop = drawer.querySelector('[data-drawer-backdrop]') as HTMLElement;
       const panel = drawer.querySelector('[data-drawer-panel]') as HTMLElement;
-      const content = drawer.querySelector('[data-drawer-content]') as HTMLElement;
+      const handle = drawer.querySelector('[data-drag-handle]') as HTMLElement; // Ambil elemen handle atas
 
       let startY = 0;
       let isDragging = false;
@@ -131,8 +131,7 @@ const $ = {
         }
       };
 
-      panel.addEventListener('touchstart', (e) => {
-        if (e.target === content && content.scrollTop > 0) return;
+      handle.addEventListener('touchstart', (e) => {
         handleStart(e.touches[0].clientY);
       }, { passive: true });
 
@@ -146,8 +145,7 @@ const $ = {
         handleEnd(e.changedTouches[0].clientY);
       });
 
-      panel.addEventListener('mousedown', (e) => {
-        if (e.target === content && content.scrollTop > 0) return;
+      handle.addEventListener('mousedown', (e) => {
         handleStart(e.clientY);
       });
 
@@ -164,6 +162,4 @@ const $ = {
   };
 
   initDrawers();
-
-  // document.addEventListener('astro:page-load', initDrawers);
 </script>
