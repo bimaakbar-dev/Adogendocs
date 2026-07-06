@@ -99,32 +99,33 @@ const pageSchema = schemaWebPage({
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
       <Section size="sm">
-        <Container size="md">
-          <BlogHeader
-            title={entry.data.title}
-            description={entry.data.description}
-            pubDate={entry.data.pubDate}
-            content={entry.body}
-            breadcrumb={breadcrumbItems}
-            cover={entry.data.cover}
-            author={entry.data.author}
-          />
-        </Container>
-        <div class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
-        <Container size="md">
-          <article data-pagefind-body class="prose">
-            <Content components={components} />
-          </article>
-        </Container>
-        
-        <Container size="md">
-          <div class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
-          <BlogFooter 
-            tags={entry.data.tags}
-            lastUpdated={entry.data.lastUpdated}
-            prev={prevEntry}
-            next={nextEntry} />
-        </Container>
+        <articel>
+          <Container size="md">
+            <BlogHeader
+              title={entry.data.title}
+              description={entry.data.description}
+              pubDate={entry.data.pubDate}
+              content={entry.body}
+              breadcrumb={breadcrumbItems}
+              cover={entry.data.cover}
+              author={entry.data.author}
+            />
+          </Container>
+          <div class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
+          <Container size="md">
+            <div data-pagefind-body class="prose">
+              <Content components={components} />
+            </div>
+          </Container>  
+          <Container size="md">
+            <div class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
+            <BlogFooter 
+              tags={entry.data.tags}
+              lastUpdated={entry.data.lastUpdated}
+              prev={prevEntry}
+              next={nextEntry} />
+          </Container>
+        </articel>
       </Section>
     </div>
   </Fragment>
