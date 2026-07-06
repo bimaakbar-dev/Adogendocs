@@ -1,0 +1,153 @@
+---
+import Icon from "@ui/Icon.astro";
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "Share", class: className } = Astro.props;
+
+// UI Polish Updates:
+// - Changed to items-stretch on the wrapper to ensure equal height.
+// - Increased border-radius to rounded-lg and rounded-xl for a modern feel.
+// - Added subtle transition-colors to all interactive elements.
+// - Improved dropdown spacing, shadow-lg, and animation origin.
+const s = {
+  ActionWrapper: 'share-dropdown-wrapper relative inline-flex items-stretch rounded-lg border border-(--border-subtle) bg-(--bg) shadow-sm hover:shadow transition-shadow duration-200',
+  actionGroup: 'flex items-center gap-2.5 px-4 py-2 text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-l-lg text-(--fg-strong) transition-colors cursor-pointer',
+  actionPrefix: 'relative flex items-center justify-center w-4 h-4',
+  actionSuffix: 'share-trigger flex items-center justify-center px-2.5 text-(--fg-muted) hover:text-(--fg-strong) hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-r-lg transition-colors border-l border-(--border-subtle) cursor-pointer',
+  actionDropdown: 'share-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[12rem] z-50 rounded-xl border border-(--border-subtle) bg-(--bg) shadow-lg p-1.5 animate-in fade-in slide-in-from-top-2 origin-top-right',
+  actionDropdownItems: 'w-full flex items-center gap-3 px-3 py-2 text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) hover:text-(--fg-strong) transition-colors cursor-pointer'
+}
+---
+
+<div class:list={[s.ActionWrapper, className]}>
+  <button data-action="share-default" aria-label="Share page" class={s.actionGroup}>
+    <div class={s.actionPrefix}>
+      <span class="icon-share transition-opacity duration-200">
+        <Icon name="share" className="w-4 h-4" />
+      </span>
+      <span class="icon-check hidden absolute inset-0 text-(--success) transition-opacity duration-200">
+        <Icon name="check" className="w-4 h-4" />
+      </span>
+    </div>
+    <span>{label}</span>
+  </button>
+  
+  <button aria-label="More share options" class={s.actionSuffix}>
+    <Icon name="chevron-down" className="w-4 h-4" />
+  </button>
+  
+  <div class={s.actionDropdown}>
+    <button data-action="twitter" class={s.actionDropdownItems}>
+      <Icon name="twitter" className="w-4 h-4 opacity-70" /> X (Twitter)
+    </button>
+    <button data-action="facebook" class={s.actionDropdownItems}>
+      <Icon name="facebook" className="w-4 h-4 opacity-70" /> Facebook
+    </button>
+    <button data-action="linkedin" class={s.actionDropdownItems}>
+      <Icon name="linkedin" className="w-4 h-4 opacity-70" /> LinkedIn
+    </button>
+    <button data-action="whatsapp" class={s.actionDropdownItems}>
+      <Icon name="whatsapp" className="w-4 h-4 opacity-70" /> WhatsApp
+    </button>
+    
+    <div class="h-px bg-(--border-subtle) my-1.5 mx-1"></div>
+    
+    <button data-action="copy-url" class={s.actionDropdownItems}>
+      <Icon name="link" className="w-4 h-4 opacity-70" /> Copy URL
+    </button>
+  </div>
+</div>
+
+<script>
+  function setupShareButton() {
+    document.querySelectorAll('.share-dropdown-wrapper').forEach(wrapper => {
+      const primaryBtn = wrapper.querySelector('[data-action="share-default"]');
+      const trigger = wrapper.querySelector('.share-trigger');
+      const menu = wrapper.querySelector('.share-menu');
+      const iconShare = wrapper.querySelector('.icon-share');
+      const iconCheck = wrapper.querySelector('.icon-check');
+
+      if (!primaryBtn || !trigger || !menu) return;
+
+      const showCheckmark = () => {
+        iconShare?.classList.add('hidden');
+        iconCheck?.classList.remove('hidden');
+        setTimeout(() => {
+          iconShare?.classList.remove('hidden');
+          iconCheck?.classList.add('hidden');
+        }, 2000); // Slightly longer for better readability
+      };
+
+      primaryBtn.addEventListener('click', async () => {
+        const url = window.location.href;
+        const title = document.title;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title, url });
+          } catch (err) {
+            console.log('Share canceled or failed', err);
+          }
+        } else {
+          await navigator.clipboard.writeText(url);
+          showCheckmark();
+        }
+      });
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.share-menu').forEach(m => {
+          if (m !== menu) m.classList.add('hidden');
+        });
+        menu.classList.toggle('hidden');
+      });
+
+      menu.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const action = btn.getAttribute('data-action');
+          
+          const url = encodeURIComponent(window.location.href);
+          const title = encodeURIComponent(document.title);
+          let shareUrl = '';
+
+          switch (action) {
+            case 'twitter':
+              shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+              break;
+            case 'facebook':
+              shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+              break;
+            case 'linkedin':
+              shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`;
+              break;
+            case 'whatsapp':
+              shareUrl = `https://api.whatsapp.com/send?text=${title}%20${url}`;
+              break;
+            case 'copy-url':
+              await navigator.clipboard.writeText(window.location.href);
+              showCheckmark();
+              break;
+          }
+
+          menu.classList.add('hidden');
+
+          if (shareUrl) {
+            window.open(shareUrl, '_blank', 'noopener,noreferrer');
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.share-menu').forEach(m => m.classList.add('hidden'));
+    });
+  }
+
+  setupShareButton();
+  document.addEventListener('astro:page-load', setupShareButton);
+</script>
