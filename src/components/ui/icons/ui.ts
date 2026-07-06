@@ -534,7 +534,7 @@ export const uiIcons = {
 	<path d="M13 8l2 0" />
 	<path d="M13 12l2 0" />
   `,
-  `ai-agent`: `
+  "ai-agent": `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<path d="M17 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
 	<path d="M3 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
