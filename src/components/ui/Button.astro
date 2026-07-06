@@ -49,7 +49,7 @@ const isDisabled = loading || (props as any).disabled;
 const isIconOnly = variant === 'icon';
 
 const baseClasses =
-  'inline-flex items-center justify-center font-medium whitespace-nowrap rounded-md transition-opacity duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring) disabled:opacity-50 disabled:pointer-events-none';
+  'inline-flex items-center font-medium whitespace-nowrap rounded-md transition-opacity duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring) disabled:opacity-50 disabled:pointer-events-none';
 
 const variantClasses: Record<ButtonVariant, string> = {
   accent:
@@ -68,9 +68,9 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-[13px] gap-1.5 rounded-md',
-  md: 'h-10 px-4 text-sm gap-2 rounded-md',
-  lg: 'h-12 px-6 text-base gap-2.5 rounded-full',
+  sm: 'h-8 px-2 text-[13px] gap-1.5 rounded-md',
+  md: 'h-10 px-3 text-sm gap-2 rounded-md',
+  lg: 'h-12 px-4 text-base gap-2.5 rounded-full',
 };
 
 const iconSizeClasses: Record<ButtonSize, string> = {
@@ -81,17 +81,28 @@ const iconSizeClasses: Record<ButtonSize, string> = {
 
 const sizeClass = isIconOnly ? iconSizeClasses[size] : sizeClasses[size];
 
+const hasDecorators = !!prefix || !!suffix || loading;
+
+const alignmentClass = block 
+  ? (hasDecorators ? 'w-full justify-start' : 'w-full justify-center') 
+  : 'justify-center';
+
 const classes = [
   baseClasses,
   variantClasses[variant],
   sizeClass,
-  block && 'w-full',
+  alignmentClass,
   loading && 'opacity-80 pointer-events-none',
   isIconOnly && 'aspect-square',
   className,
 ]
   .filter(Boolean)
   .join(' ');
+
+  const textContainerClasses = [
+  "inline-flex items-center shrink-0 gap-1.5",
+  block && hasDecorators ? "flex-1 justify-start text-start" : "justify-center text-center"
+].join(" ");
 ---
 
 {
@@ -107,11 +118,13 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      {!thisIcon && <span class="inline-flex items-center shrink-0 gap-1.5">
-        {loading ? loadingText : <slot />}
-      </span>}
+      {!thisIcon && (
+        <span class={textContainerClasses}>
+          {loading ? loadingText : <slot />}
+        </span>
+      )}
       {thisIcon && <span class="inline-flex shrink-0"><slot /></span> }
-      {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
+      {suffix && <span class="inline-flex shrink-0 ml-auto">{suffix}</span>}
     </a>
   ) : (
     <button
@@ -124,11 +137,13 @@ const classes = [
     >
       {loading && <Spinner size="sm" class="inline-block" />}
       {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
-      {!thisIcon && <span class="inline-flex shrink-0 items-center text-start gap-1.5">
-        {loading ? loadingText : <slot />}
-      </span>}
+      {!thisIcon && (
+        <span class={textContainerClasses}>
+          {loading ? loadingText : <slot />}
+        </span>
+      )}
       {thisIcon && <span class="inline-flex shrink-0 items-center justify-center"><slot /></span> }
-      {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
+      {suffix && <span class="inline-flex shrink-0 ml-auto">{suffix}</span>}
     </button>
   )
 }
