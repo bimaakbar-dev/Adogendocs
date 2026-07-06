@@ -4,7 +4,7 @@
 .prose video,
 .prose .video-wrapper {
   display: block;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgb(from var(--border-subtle) r g b / 0.4) !important;
   background-color: var(--bg-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -13,9 +13,11 @@
 }
 
 .prose figure,
+.prose video
 .video-figure {
-  margin: 2rem 0;
+  margin: 2.5rem 0;
   width: 100%;
+  height: auto;
 }
 
 .video-wrapper {
@@ -97,7 +99,7 @@
   .prose figure,
   .video-figure,
   .prose video {
-    margin: 1.5rem 0;
+    margin: 2rem 0;
   }
 }
 
