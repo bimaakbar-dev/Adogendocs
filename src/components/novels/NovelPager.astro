@@ -1,0 +1,136 @@
+---
+// src/components/novel/NovelPager.astro
+
+import type { CollectionEntry } from "astro:content";
+import Icon from "@ui/Icons.astro";
+
+interface Props {
+  prev?: CollectionEntry<"chapters"> | null;
+  next?: CollectionEntry<"chapters"> | null;
+  current: number;
+  total: number;
+}
+
+const {
+  prev,
+  next,
+  current,
+  total,
+} = Astro.props;
+
+const href = (chapter: CollectionEntry<"chapters">) =>
+  `/novel/${chapter.id}`;
+
+const $ = {
+  wrapper:
+    "space-y-6 pt-8 pb-(--safe-bottom)",
+
+  progress:
+    "text-center text-body-14 text-(--fg-muted)",
+
+  grid:
+    "grid grid-cols-1 gap-4 sm:grid-cols-2",
+
+  card:
+    "group flex flex-col gap-2 rounded-xl border border-(--border-subtle)/60 bg-(--bg) p-4 transition-colors hover:bg-(--bg-muted)",
+
+  disabled:
+    "pointer-events-none opacity-40",
+
+  header:
+    "flex items-center gap-2 text-label-13 font-medium text-(--fg-muted)",
+
+  headerRight:
+    "flex items-center justify-end gap-2 text-label-13 font-medium text-(--fg-muted)",
+
+  icon:
+    "size-4 shrink-0",
+
+  title:
+    "line-clamp-2 text-body-16 font-semibold text-(--fg-strong)",
+
+  chapter:
+    "text-body-14 text-(--fg-muted)",
+
+  empty: "",
+};
+---
+
+<div class={$.wrapper}>
+  <p class={$.progress}>
+    Chapter {current} of {total}
+  </p>
+  <nav
+    aria-label="Novel navigation"
+    class={$.grid}
+  >
+    {
+      prev ? (
+        <a
+          href={href(prev)}
+          class={$.card}
+        >
+          <div class={$.header}>
+            <Icon
+              name="chevron-left"
+              class={$.icon}
+            />
+            <span>Chapter {prev.data.chapterNumber}</span>
+          </div>
+          <p class={$.title}>
+            {prev.data.title}
+          </p>
+        </a>
+      ) : (
+        <div class:list={[$.card, $.disabled]}>
+          <div class={$.header}>
+            <Icon
+              name="chevron-left"
+              class={$.icon}
+            />
+            <span>Beginning</span>
+          </div>
+
+          <p class={$.chapter}>
+            This is the first chapter.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      next ? (
+        <a
+          href={href(next)}
+          class={$.card}
+        >
+          <div class={$.headerRight}>
+            <span>Chapter {next.data.chapterNumber}</span>
+
+            <Icon
+              name="chevron-right"
+              class={$.icon}
+            />
+          </div>
+
+          <p class="line-clamp-2 text-right text-body-16 font-semibold text-(--fg-strong)">
+            {next.data.title}
+          </p>
+        </a>
+      ) : (
+        <div class:list={[$.card, $.disabled]}>
+          <div class={$.headerRight}>
+            <span>End of Novel</span>
+            <Icon
+              name="check"
+              class={$.icon}
+            />
+          </div>
+          <p class="text-right text-body-14 text-(--fg-muted)">
+            You've reached the final chapter.
+          </p>
+        </div>
+      )
+    }
+  </nav>
+</div>

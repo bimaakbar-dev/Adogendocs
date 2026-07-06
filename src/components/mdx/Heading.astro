@@ -1,0 +1,152 @@
+---
+import Icon from "@/components/ui/Icons.astro";
+
+interface Props {
+  id?: string;
+  class?: string;
+  level: number;
+}
+
+const { id, class: className, level } = (Astro.props || {}) as Props;
+const Tag = `h${level}` as any;
+
+const anchorLabel = "Link to this heading";
+
+const headingClasses: Record<string, string> = {
+  h1: "text-heading-32 md:text-heading-48 lg:text-heading-56",
+  h2: "text-heading-24 md:text-heading-32",
+  h3: "text-heading-20 md:text-heading-24",
+  h4: "text-heading-16 md:text-heading-20",
+  h5: "text-label-14",
+  h6: "text-label-12",
+};
+const classes = headingClasses[`h${level}`] || "text-heading-20";
+---
+
+<Tag
+  id={id}
+  class:list={[
+    "heading-group has-anchor",
+    "inline-block",
+    classes,
+    className,
+  ]}
+>
+  <span data-pagefind-meta="title" class="heading-text-wrapper inline">
+    <slot />
+    {id && (level === 2 || level === 3) && (
+      <>
+        <a
+          href={`#${id}`}
+          data-pagefind-ignore
+          aria-label={anchorLabel}
+          class="anchor-link inline-flex ml-1 align-middle"
+        >
+          <Icon name="link" class="w-4 h-4" />
+        </a>
+      </>
+    )}
+  </span>
+</Tag>
+
+<style>
+  .heading-group.has-anchor {
+    cursor: pointer;
+    text-decoration: none;
+    scroll-margin-top: var(--scroll-padding);
+    line-height: 1.4;
+  }
+
+  .heading-text-wrapper {
+    display: inline;
+    word-break: break-word;
+  }
+
+  .anchor-link {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      color 0.15s ease;
+    color: var(--fg-subtle, #888);
+    text-decoration: none;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    .heading-group.has-anchor:hover .anchor-link {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      color: var(--fg-subtle, #888);
+    }
+
+    .anchor-link:hover {
+      color: var(--fg-strong, #111);
+    }
+  }
+
+  @media (hover: none) {
+    .heading-group.is-tapped .anchor-link {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      color: var(--fg-subtle, #a3a3a3);
+    }
+
+    .anchor-link:active {
+      color: var(--fg-strong, #111);
+      transform: scale(0.92);
+      transition: transform 0.1s ease-out, color 0.1s ease-out;
+    }
+  }
+
+  :global(html:has(:target)) {
+    scroll-behavior: auto !important;
+  }
+</style>
+
+<script>
+  function initHeadingTap() {
+    if (window.matchMedia("(hover: hover)").matches) return;
+
+    document.querySelectorAll(".heading-group.has-anchor").forEach((heading) => {
+      heading.addEventListener("click", (e) => {
+        const anchor = heading.querySelector(".anchor-link") as HTMLAnchorElement | null;
+        if (!anchor) return;
+
+        if (!anchor.contains(e.target as Node)) {
+          e.preventDefault();
+
+          const isAlreadyTapped = heading.classList.contains("is-tapped");
+
+          document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
+            el.classList.remove("is-tapped");
+          });
+
+          if (!isAlreadyTapped) {
+            heading.classList.add("is-tapped");
+          }
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node;
+      const clickedHeading = (target as Element).closest?.(".heading-group");
+      if (!clickedHeading) {
+        document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
+          el.classList.remove("is-tapped");
+        });
+      }
+    });
+  }
+  initHeadingTap();
+</script>

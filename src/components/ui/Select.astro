@@ -1,0 +1,271 @@
+---
+import Icon from "./Icons.astro";
+
+type SelectSize = "sm" | "md" | "lg";
+
+export interface SelectOption {
+  label: string;
+  value: string;
+  icon?: string;
+  subtitle?: string;
+  href?: string;
+  isExternal?: boolean;
+}
+
+interface Props {
+  options: SelectOption[];
+  selectedValue?: string;
+  placeholder?: string;
+  class?: string;
+  id?: string;
+  suffix?: string;
+  prefix?: string;
+  size?: SelectSize;
+}
+
+const {
+  options,
+  selectedValue,
+  placeholder = "Pilih opsi...",
+  class: className,
+  id = "custom-select",
+  prefix = "",
+  suffix = "select",
+  size = "md",
+} = Astro.props;
+
+const activeOption = options.find((opt) => opt.value === selectedValue);
+
+const sizeClasses: Record<SelectSize, string> = {
+  sm: "px-2 py-1.5 text-xs gap-1.5",
+  md: "px-3 py-2 text-sm gap-2",
+  lg: "px-4 py-2.5 text-base gap-2.5",
+};
+
+const iconSizeClasses: Record<SelectSize, string> = {
+  sm: "h-3.5 w-3.5",
+  md: "h-4 w-4",
+  lg: "h-5 w-5",
+};
+
+const itemSizeClasses: Record<SelectSize, string> = {
+  sm: "px-2.5 py-1 text-xs",
+  md: "px-3 py-2 text-sm",
+  lg: "px-4 py-2.5 text-base",
+};
+
+const triggerClasses = [
+  "flex w-full items-center justify-between rounded-md border border-(--border-subtle) bg-(--bg) transition-opacity duration-200 hover:bg-(--bg-muted) focus:bg-(--bg-muted) focus:outline-none focus:ring-2 focus:ring-transparent gap-2",
+  sizeClasses[size],
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+
+const iconSize = iconSizeClasses[size];
+const itemSize = itemSizeClasses[size];
+
+const s = {
+  wrapper: 'relative',
+  itemsWrapper: 'flex items-center shrink-0 gap-2 truncate',
+  prefix: 'shrink-0 text-(--fg-muted) transition-transform duration-200',
+  suffix: 'shrink-0 text-(--fg-muted) transition-transform duration-200'
+}
+---
+
+<div
+  data-select-wrapper
+  data-select-id={id}
+  class:list={["custom-select", s.wrapper]}
+>
+  <button
+    data-select-trigger
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    type="button"
+    class={triggerClasses}
+  >
+    <span class={s.itemsWrapper} data-select-label-container>
+      {prefix && (
+        <Icon
+          name={prefix as any}
+          class={`${iconSize} ${s.prefix}`}
+          data-select-icon
+        />
+      )}
+      {activeOption?.icon && (
+        <Icon
+          name={activeOption.icon as any}
+          class={`${iconSize} ${s.prefix}`}
+        />
+      )}
+      <span data-select-label>{activeOption?.label || placeholder}</span>
+    </span>
+    <Icon
+      name={suffix as any}
+      class={`${iconSize} ${s.suffix}`}
+      data-select-icon
+    />
+  </button>
+
+  <div
+    data-select-dropdown
+    role="listbox"
+    class="absolute left-0 right-0 top-full z-50 mt-2 hidden max-h-60 overflow-y-auto rounded-md border border-(--border) bg-(--bg) p-1 shadow-lg space-y-1"
+  >
+    {options.map((option) => {
+      const isActive = option.value === selectedValue;
+      const commonClasses = [
+        "flex w-full items-start gap-2 text-left transition-colors hover:bg-(--bg-subtle) rounded-sm cursor-pointer",
+        itemSize,
+        isActive ? "bg-(--bg-muted) text-(--fg-strong)" : "text-(--fg-muted)",
+      ];
+      const innerContent = (
+        <>
+          {option.icon && (
+            <Icon
+              name={option.icon as any}
+              class={`${iconSize} shrink-0 mt-0.5`}
+            />
+          )}
+          <div class="flex-1 min-w-0">
+            <div class="text-sm truncate">{option.label}</div>
+            {option.subtitle && (
+              <div class="truncate text-[13px] text-(--fg-muted)/70 mt-0.5">
+                {option.subtitle}
+              </div>
+            )}
+          </div>
+          {isActive && (
+            <Icon
+              name="check"
+              class={`${iconSize} shrink-0 text-(--accent) mt-0.5`}
+              data-check-icon
+            />
+          )}
+        </>
+      );
+      return option.href ? (
+        <a
+          href={option.href}
+          target={option.isExternal ? "_blank" : undefined}
+          rel={option.isExternal ? "noopener noreferrer" : undefined}
+          class:list={commonClasses}
+          data-select-option
+          role="option"
+          aria-selected={isActive}
+        >
+          {innerContent}
+        </a>
+      ) : (
+        <button
+          type="button"
+          data-value={option.value}
+          class:list={commonClasses}
+          data-select-option
+          role="option"
+          aria-selected={isActive}
+        >
+          {innerContent}
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+<style is:global>
+  .custom-select .rotate-180 {
+    transform: rotate(180deg);
+  }
+  [data-select-dropdown] {
+    animation: selectFadeIn 0.15s ease-out;
+  }
+  @keyframes selectFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  const init = () => {
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const trigger = target.closest(
+        "[data-select-trigger]"
+      ) as HTMLButtonElement | null;
+
+      if (trigger) {
+        const wrapper = trigger.closest(
+          "[data-select-wrapper]"
+        ) as HTMLElement | null;
+        if (!wrapper) return;
+
+        const dropdown = wrapper.querySelector(
+          "[data-select-dropdown]"
+        ) as HTMLElement | null;
+        if (!dropdown) return;
+
+        const isOpen = !dropdown.classList.contains("hidden");
+
+        document.querySelectorAll("[data-select-dropdown]").forEach((d) => {
+          const el = d as HTMLElement;
+          if (el !== dropdown) {
+            el.classList.add("hidden");
+            const parent = el.parentElement;
+            parent
+              ?.querySelector("[data-select-trigger]")
+              ?.setAttribute("aria-expanded", "false");
+            parent
+              ?.querySelectorAll("[data-select-icon]")
+              .forEach((icon) => icon.classList.remove("rotate-180"));
+          }
+        });
+
+        dropdown.classList.toggle("hidden", isOpen);
+        trigger.setAttribute("aria-expanded", isOpen ? "false" : "true");
+        trigger
+          .querySelectorAll("[data-select-icon]")
+          .forEach((icon) => icon.classList.toggle("rotate-180", !isOpen));
+        return;
+      }
+
+      if (!target.closest("[data-select-wrapper]")) {
+        document.querySelectorAll("[data-select-dropdown]").forEach((d) => {
+          const el = d as HTMLElement;
+          el.classList.add("hidden");
+          const parent = el.parentElement;
+          parent
+            ?.querySelector("[data-select-trigger]")
+            ?.setAttribute("aria-expanded", "false");
+          parent
+            ?.querySelectorAll("[data-select-icon]")
+            .forEach((icon) => icon.classList.remove("rotate-180"));
+        });
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll("[data-select-dropdown]").forEach((d) => {
+          const el = d as HTMLElement;
+          el.classList.add("hidden");
+          const parent = el.parentElement;
+          parent
+            ?.querySelector("[data-select-trigger]")
+            ?.setAttribute("aria-expanded", "false");
+          parent
+            ?.querySelectorAll("[data-select-icon]")
+            .forEach((icon) => icon.classList.remove("rotate-180"));
+        });
+      }
+    });
+  };
+
+  init();
+</script>

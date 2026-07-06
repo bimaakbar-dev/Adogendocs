@@ -1,0 +1,134 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Spinner from './Spinner.astro';
+
+type ButtonVariant =
+  | 'accent'
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'icon';
+
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+export interface Props extends HTMLAttributes<'button'> {
+  href?: string;
+  target?: HTMLAttributes<'a'>['target'];
+  rel?: HTMLAttributes<'a'>['rel'];
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  prefix?: any;
+  suffix?: any;
+  loading?: boolean;
+  loadingText?: string;
+  block?: boolean;
+  class?: string;
+  thisIcon?: boolean;
+}
+
+const {
+  href,
+  target,
+  rel,
+  variant = 'primary',
+  size = 'md',
+  prefix,
+  suffix,
+  loading = false,
+  loadingText,
+  block = false,
+  class: className = '',
+  thisIcon = false,
+  ...props
+} = Astro.props;
+
+const isLink = !!href;
+const isDisabled = loading || (props as any).disabled;
+const isIconOnly = variant === 'icon';
+
+const baseClasses =
+  'inline-flex items-center justify-center font-medium whitespace-nowrap rounded-md transition-opacity duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring) disabled:opacity-50 disabled:pointer-events-none';
+
+const variantClasses: Record<ButtonVariant, string> = {
+  accent:
+    'bg-(--accent) text-(--accent-fg) border border-transparent hover:opacity-90 active:scale-[0.98]',
+  primary:
+    'bg-(--fg-strong) text-(--fg-inverted)! hover:opacity-90 active:scale-[0.98]',
+  secondary:
+    'bg-(--bg-subtle) text-(--fg) border border-(--border) hover:bg-(--bg-muted) active:scale-[0.98]',
+  outline:
+    'border border-(--border-subtle) text-(--fg) hover:bg-(--bg-subtle) active:scale-[0.98]',
+  ghost:
+    'text-(--fg-muted) hover:bg-(--bg-subtle) active:bg-(--bg-subtle) hover:text-(--fg) active:scale-[0.98]',
+  danger:
+    'bg-(--red-500) text-white hover:bg-(--red-600) active:scale-[0.98]',
+  icon: 'text-(--fg-muted) hover:bg-(--bg-subtle) active:bg-(--bg-subtle) hover:text-(--fg) active:text-(--fg) active:scale-[0.98]',
+};
+
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: 'h-8 px-3 text-[13px] gap-1.5 rounded-md',
+  md: 'h-10 px-4 text-sm gap-2 rounded-md',
+  lg: 'h-12 px-6 text-base gap-2.5 rounded-full',
+};
+
+const iconSizeClasses: Record<ButtonSize, string> = {
+  sm: 'w-6 h-6 p-0 rounded-md',
+  md: 'w-8 h-8 p-0 rounded-full',
+  lg: 'w-10 h-10 p-0 rounded-full',
+};
+
+const sizeClass = isIconOnly ? iconSizeClasses[size] : sizeClasses[size];
+
+const classes = [
+  baseClasses,
+  variantClasses[variant],
+  sizeClass,
+  block && 'w-full',
+  loading && 'opacity-80 pointer-events-none',
+  isIconOnly && 'aspect-square',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  isLink ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      class={classes}
+      aria-busy={loading || undefined}
+      aria-disabled={isDisabled ? 'true' : undefined}
+      {...(props as HTMLAttributes<'a'>)}
+    >
+      {loading && <Spinner size="sm" class="inline-block" />}
+      {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
+      {!thisIcon && <span class="inline-flex items-center shrink-0 gap-1.5">
+        {loading ? loadingText : <slot />}
+      </span>}
+      {thisIcon && <span class="inline-flex shrink-0"><slot /></span> }
+      {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
+    </a>
+  ) : (
+    <button
+      type={(props as any).type || 'button'}
+      disabled={isDisabled}
+      class={classes}
+      aria-busy={loading || undefined}
+      aria-disabled={isDisabled ? 'true' : undefined}
+      {...(props as HTMLAttributes<'button'>)}
+    >
+      {loading && <Spinner size="sm" class="inline-block" />}
+      {prefix && <span class="inline-flex shrink-0">{prefix}</span>}
+      {!thisIcon && <span class="inline-flex shrink-0 items-center text-start gap-1.5">
+        {loading ? loadingText : <slot />}
+      </span>}
+      {thisIcon && <span class="inline-flex shrink-0 items-center justify-center"><slot /></span> }
+      {suffix && <span class="inline-flex shrink-0">{suffix}</span>}
+    </button>
+  )
+}

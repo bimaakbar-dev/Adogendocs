@@ -1,0 +1,24 @@
+---
+import { 
+  NAV 
+} from "@/consts";
+
+import Icon from "@ui/Icons.astro";
+import Button from "@ui/Button.astro";
+
+const socials = NAV.Social || [];
+---
+
+{socials.map((item) => (
+    <Button
+        href={item.href}
+        target={item.isExternal ? "_blank" : undefined}
+        rel={item.isExternal ? "noopener noreferrer nofollow" : undefined}
+        variant="icon"
+        size="md"
+        thisIcon
+        aria-label={item.label}
+    >
+        <Icon name={item.icon as any} class="h-5 w-5" />
+    </Button>
+))}

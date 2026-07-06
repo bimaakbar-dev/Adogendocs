@@ -1,0 +1,139 @@
+---
+// src/components/mdx/Code.astro
+import Icon from "@/components/ui/Icons.astro";
+import Button from "../ui/Button.astro";
+
+interface Props {
+  title?: string;
+}
+
+const props = typeof Astro !== "undefined" && Astro.props ? Astro.props : {};
+
+const { 
+  title = "" 
+} = props as Props;
+
+const $ = {
+  wrapper: "code-block-wrapper relative my-6 md:my-8 rounded-lg border border-(--border-subtle)/80 bg-(--bg)",
+  header: "code-block-header flex items-center justify-between px-3 py-2 border-b border-(--border-subtle)/80",
+  leftSlot: "header-left flex items-center gap-2 min-w-0 flex-1 pr-4",
+  rightSlot: "header-right flex items-center gap-2 shrink-0",
+  titleText: "code-block-title text-label-14 truncate text-(--fg-muted)",
+  langBadge: "lang-badge text-label-11 font-mono font-semibold text-(--fg-subtle) bg-(--bg-subtle) uppercase px-2 py-0.5 rounded border border-(--border-subtle)/40",
+  content: "code-content relative overflow-x-auto group/content bg-(--bg-subtle) rounded-b-lg",
+  copyBtn: "copy-button absolute top-3 right-3 z-20 flex items-center justify-center p-1 text-(--fg-muted) backdrop-blur-md transition-opacity duration-200 hover:text-(--fg-strong) rounded-md border border-(--border-subtle)",
+} as const;
+---
+<div class={$.wrapper}>
+  <div class={$.header}>
+    <div class={$.leftSlot}>
+      {title && <span class={$.titleText}>{title}</span>}
+    </div>
+    <div class={$.rightSlot}>
+      <span class={$.langBadge} style="display: none;"></span>
+    </div>
+  </div>
+  <div class={$.content}>
+    <Button size="md" variant="icon" aria-label="Salin kode" title="Salin" class={$.copyBtn}>
+      <Icon name="copy" class="copy-icon h-4 w-4" />
+      <Icon name="check" class="check-icon hidden h-4 w-4" />
+    </Button>
+    <slot />
+  </div>
+  <div class="absolute -bottom-4 right-0 left-0 flex items-center justify-center">
+    <Button 
+      id="code-expand-btn" 
+      variant="secondary" 
+      size="sm" 
+      class="btn-expand rounded-full! border-(--border-subtle)/80!" 
+      style="display: none;"
+      suffix={<Icon name="chevron-down" class="h-4 w-4" />}
+      ><span class="expand-label">Lihat Semua</span> 
+    </Button>
+  </div>
+</div>
+
+<style is:global>
+  .code-content { scrollbar-width: none; }
+  .code-content::-webkit-scrollbar { display: none; }
+  .code-block-wrapper.is-collapsed .code-content .astro-code {
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    max-height: 12rem; overflow: hidden;
+  }
+  .code-content .astro-code { transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .code-block-wrapper:not(.is-collapsed) .btn-expand svg { transform: rotate(180deg); }
+</style>
+
+<script>
+  (() => {
+    const LANG_MAP: Record<string, string> = { js: "JS", ts: "TS", jsx: "JSX", tsx: "TSX", py: "PY", html: "HTML", css: "CSS", json: "JSON", yaml: "YAML", toml: "TOML", bash: "BASH", sh: "SH", md: "MD", mdx: "MDX", astro: "ASTRO", vue: "VUE", svelte: "SVELTE", rust: "RS" };
+    const ALIASES: Record<string, string> = { javascript: "js", typescript: "ts", python: "py", shell: "sh" };
+    const THRESHOLD = 25;
+
+    const getCleanLang = (pre: HTMLElement | null): string => {
+      if (!pre) return "";
+      const dl = pre.getAttribute("data-language");
+      if (dl) return ALIASES[dl.toLowerCase().trim()] ?? dl.toLowerCase().trim();
+      const m = pre.className.match(/language-([a-zA-Z0-9+#-]+)/);
+      return ALIASES[m?.[1] ?? ""] ?? m?.[1] ?? "";
+    };
+
+    const setupCodeBlock = (wrapper: HTMLElement) => {
+      wrapper.classList.add("is-processed");
+      const pre = wrapper.querySelector<HTMLElement>(".code-content pre.astro-code");
+      const btnExpand = wrapper.querySelector<HTMLButtonElement>("#code-expand-btn");
+      if (!pre) return;
+
+      const lang = getCleanLang(pre);
+      const badge = wrapper.querySelector<HTMLElement>(".lang-badge");
+      if (badge && lang) {
+        badge.textContent = LANG_MAP[lang] ?? lang.toUpperCase();
+        badge.style.display = "inline-flex";
+      }
+
+      const btn = wrapper.querySelector<HTMLButtonElement>(".copy-button");
+      const code = pre.querySelector("code");
+      if (btn && code) {
+        btn.addEventListener("click", async () => {
+          await navigator.clipboard.writeText(code.textContent?.trimEnd() ?? "");
+          const copyIcon = btn.querySelector(".copy-icon");
+          const checkIcon = btn.querySelector(".check-icon");
+          copyIcon?.classList.add("hidden");
+          checkIcon?.classList.remove("hidden");
+          btn.classList.add("copied");
+          setTimeout(() => {
+            copyIcon?.classList.remove("hidden");
+            checkIcon?.classList.add("hidden");
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+
+      const lines = pre.querySelectorAll("code > .line");
+      if (lines.length >= THRESHOLD && btnExpand) {
+        wrapper.classList.add("is-collapsed");
+        btnExpand.style.display = "flex";
+        const label = btnExpand.querySelector(".expand-label");
+        
+        btnExpand.addEventListener("click", () => {
+          const collapsed = wrapper.classList.toggle("is-collapsed");
+          if (label) {
+            if (collapsed) {
+              label.textContent = `Lihat semua`;
+              pre.style.maxHeight = "";
+              const rect = wrapper.getBoundingClientRect();
+              if (rect.top < 0) wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              label.textContent = "Sembunyikan";
+              pre.style.maxHeight = `${pre.scrollHeight + 16}px`;
+            }
+          }
+        });
+      }
+    };
+
+    const initAllBlocks = () => document.querySelectorAll<HTMLElement>(".code-block-wrapper:not(.is-processed)").forEach(setupCodeBlock);
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAllBlocks);
+    else initAllBlocks();
+  })();
+</script>

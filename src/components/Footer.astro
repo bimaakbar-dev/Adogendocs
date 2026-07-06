@@ -1,0 +1,31 @@
+---
+// src/components/Footer.astro
+import { 
+  SITE
+} from "@/consts";
+
+import Socials from "./Socials.astro";
+import Theme from "./Theme.astro";
+
+const currentYear = new Date().getFullYear();
+
+const copyrightYear =
+  currentYear 
+    > SITE.foundingYear
+    ? `${SITE.foundingYear}–${currentYear}`
+    : SITE.foundingYear;
+---
+
+<footer class="mt-auto shrink-0 pt-4 pb-4 px-2 mb-(--safe-bottom)">
+  <div class="flex items-center justify-between rounded-lg border border-(--border-subtle) backdrop-blur-md bg-(--bg-subtle)/20 p-1">
+    <div class="flex items-center gap-1">
+      <Socials />
+    </div>
+    <div class="inline-flex items-center shrink-0 justify-center">
+      <Theme />
+    </div>
+  </div>
+  <div class="mt-4 text-center text-xs tracking-wider text-(--fg-muted)/70 hidden">
+    &copy; {copyrightYear} {SITE.name}
+  </div>
+</footer>

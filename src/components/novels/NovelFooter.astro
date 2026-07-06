@@ -1,0 +1,69 @@
+---
+// src/components/novel/NovelFooter.astro
+
+import type { CollectionEntry } from "astro:content";
+
+import NovelPager from "./NovelPager.astro";
+
+interface Props {
+  prev: CollectionEntry<"chapters"> | null;
+  next: CollectionEntry<"chapters"> | null;
+
+  current: number;
+  total: number;
+
+  lastUpdated?: Date;
+}
+
+const {
+  prev,
+  next,
+  current,
+  total,
+  lastUpdated,
+} = Astro.props;
+
+const $ = {
+  wrapper:
+    "mt-8 border-t border-dashed border-(--border-subtle)/80 pt-6",
+
+  meta:
+    "mb-4 flex items-center justify-center text-body-14 text-(--fg-muted)",
+
+  strong:
+    "font-medium text-(--fg-strong)",
+};
+---
+
+<footer class={$.wrapper}>
+  <div class={$.meta}>
+    <span>
+      Chapter <span class={$.strong}>{current}</span> of{" "}
+      <span class={$.strong}>{total}</span>
+    </span>
+
+    {
+      lastUpdated && (
+        <>
+          <span class="mx-2 text-(--fg-muted)/50">•</span>
+
+          <time datetime={lastUpdated.toISOString()}>
+            Updated{" "}
+            {lastUpdated.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </>
+      )
+    }
+  </div>
+
+  <NovelPager
+    prev={prev}
+    next={next}
+    current={current}
+    total={total}
+  />
+</footer>
