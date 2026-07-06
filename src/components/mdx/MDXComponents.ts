@@ -19,6 +19,7 @@ import Link from "./Link.astro";
 import Steps from "./Steps.astro";
 import Table from "./Table.astro";
 import Video from "./Video.astro";
+import LinkCard from "./LinkCard.astro";
 
 export const components = {
   h1: H1,
@@ -42,6 +43,7 @@ export const components = {
   Table,
   Blockquote,
   Figure,
+  LinkCard
 };
 
 export type MDXComponents = typeof components;
