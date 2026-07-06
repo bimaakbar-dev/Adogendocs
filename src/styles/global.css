@@ -52,7 +52,7 @@
   --duration-md: 250ms;
   --duration-lg: 300ms;
 
-  --safe-bottom: calc(2rem + env(safe-area-inset-bottom));
+  --safe-bottom: calc(1rem + env(safe-area-inset-bottom));
   --safe-top: env(safe-area-inset-top);
   --safe-left: env(safe-area-inset-left);
   --safe-right: env(safe-area-inset-right);
