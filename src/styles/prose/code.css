@@ -25,6 +25,7 @@
   font-size: inherit !important;
 }
 
+.astro-code,
 .prose .astro-code {
   @apply text-code-14;
   display: block;
@@ -36,7 +37,7 @@
   scrollbar-width: none;
   color: var(--fg);
   line-height: 1.5;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 
 .prose .astro-code::-webkit-scrollbar {
