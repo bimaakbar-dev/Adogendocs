@@ -36,7 +36,7 @@
   scrollbar-width: none;
   color: var(--fg);
   line-height: 1.5;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
 }
 
 .prose .astro-code::-webkit-scrollbar {
