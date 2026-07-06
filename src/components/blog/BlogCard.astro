@@ -7,9 +7,10 @@ import Button from "@ui/Button.astro";
 
 interface Props {
   entry: CollectionEntry<"blog">;
+  index?: number;
 }
 
-const { entry } = Astro.props;
+const { entry, index = 3 } = Astro.props;
 
 const {
   title,
@@ -28,6 +29,10 @@ const Author = {
   width: IMAGE.avatar.width,
   height: IMAGE.avatar.height
 }
+
+const isCritical = index === 0;
+const imageLoading = isCritical ? "eager" : "lazy";
+const imagePriority = isCritical ? "high" : "low";
 
 const $ = {
   card: "flex flex-col rounded-lg border border-(--border-subtle)/80 bg-(--bg-subtle)",
@@ -63,9 +68,9 @@ const $ = {
               alt={Author.alt}
               width={Author.width}
               height={Author.height}
-              loading="lazy"
+              loading={imageLoading}
+              fetchpriority={imagePriority}
               decoding="async"
-              fetchpriority="auto"
               class={$.avatarImage}
             />
           </div>
