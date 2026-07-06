@@ -1,7 +1,6 @@
 ---
 // src/components/MobileNav.astro
 import { NAV } from "../consts";
-import Button from "./ui/Button.astro";
 import Icon from "./ui/Icons.astro";
 import Socials from "./Socials.astro";
 import Theme from "./Theme.astro";
@@ -14,34 +13,27 @@ const links = [
   })),
 ];
 ---
+<details id="mobile-menu-details" class="group md:hidden relative select-none">
+  <summary aria-label="Open menu" class="flex h-8 w-8 aspect-square items-center justify-center rounded-md text-(--fg-muted) hover:bg-(--bg-muted) active:bg-(--bg-muted) active:scale-[0.94] cursor-pointer transition-transform list-none [&::-webkit-details-marker]:hidden">
+    <span id="mobile-chevron" class="inline-flex transition-transform duration-(--duration-fast)">
+      <Icon name="chevron-down" class="h-5 w-5 text-(--fg-muted) hover:text-(--fg-strong) active:text-(--fg-strong)" />
+    </span>
+  </summary>
 
-<Button
-  id="mobile-menu-open"
-  aria-label="Open menu"
-  variant="icon"
-  size="md"
-  thisIcon
-  class="md:hidden"
->
-  <span id="mobile-chevron" class="inline-flex transition-transform duration-300">
-    <Icon name="chevron-down" class="h-5 w-5" />
-  </span>
-</Button>
-
-<div
-  id="mobile-menu-panel"
-  class="fixed left-0 right-0 z-40 overflow-hidden transition-all duration-300 ease-in-out"
-  style="top: var(--header-height, 64px); max-height: 0; opacity: 0; pointer-events: none;"
->
-  <div class="bg-(--bg) rounded-b-xl border-b border-(--border-subtle)/80 shadow-lg">
+  <div
+    id="mobile-menu-panel"
+    class="fixed left-0 right-0 z-40 overflow-hidden backdrop-blur-md overscroll-contain bg-(--bg) rounded-b-xl border-b border-(--border-subtle)/80 shadow-lg"
+    style="top: var(--header-height, 56px);"
+  >
     <nav class="px-4 py-3 space-y-2">
       <div class="grid grid-cols-1 gap-2">
         {
-          links.map((item) => (
+          links.map((item, idx) => (
             <a
               aria-label={item.label}
               href={item.href}
-              class="mobile-nav-link flex items-center gap-3 rounded-md p-2 text-sm font-medium text-(--fg) transition-colors hover:bg-(--bg-muted) active:bg-(--bg-muted)"
+              class="mobile-nav-link flex items-center gap-3 rounded-md p-2 text-sm font-medium text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
+              style={`transition-delay: ${idx * 40}ms;`}
             >
               <span class="inline-flex items-center justify-center w-5 h-5">
                 <Icon name={item.icon as any} class="w-full h-full" />
@@ -51,119 +43,82 @@ const links = [
           ))
         }
       </div>
-      <div class="flex items-center p-1 justify-between rounded-md bg-(--bg-muted)">
+      <div 
+        id="mobile-nav-footer"
+        class="flex items-center p-1 mb-2 justify-between rounded-lg bg-(--bg-subtle) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
+        style={`transition-delay: ${links.length * 40}ms;`}
+      >
         <Socials />
         <Theme />
       </div>
     </nav>
   </div>
-</div>
+</details>
 
 <script>
-  function initMobileNav() {
-    const toggleBtn = document.getElementById("mobile-menu-open");
-    const chevron = document.getElementById("mobile-chevron");
-    const panel = document.getElementById("mobile-menu-panel");
-    const links = document.querySelectorAll(".mobile-nav-link");
+  function initMobileNavDetails() {
+    const details = document.getElementById("mobile-menu-details") as HTMLDetailsElement | null;
+    if (!details) return;
 
-    if (!toggleBtn || !chevron || !panel) return;
-
-    let isOpen = false;
-
-    const openMenu = () => {
-      panel.style.transition = 'none';
-      panel.style.maxHeight = 'auto';
-      panel.style.opacity = '1';
-      panel.style.pointerEvents = 'auto';
-      
-      const content = panel.querySelector('div');
-      const height = content ? content.offsetHeight : 500;
-      
-      panel.style.maxHeight = '0';
-      panel.style.opacity = '0';
-      
-      panel.offsetHeight;
-      
-      panel.style.transition = '';
-      
-      requestAnimationFrame(() => {
-        panel.style.maxHeight = height + 'px';
-        panel.style.opacity = '1';
-        panel.style.pointerEvents = 'auto';
-      });
-      
-      chevron.style.transform = 'rotate(180deg)';
-      document.body.style.overflow = 'hidden';
-      isOpen = true;
-    };
-
-    const closeMenu = () => {
-      panel.style.maxHeight = '0';
-      panel.style.opacity = '0';
-      panel.style.pointerEvents = 'none';
-      
-      chevron.style.transform = 'rotate(0deg)';
-      document.body.style.overflow = '';
-      isOpen = false;
-    };
-
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (isOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (isOpen && !panel.contains(target) && target !== toggleBtn) {
-        closeMenu();
-      }
-    });
-
-    const mq = window.matchMedia('(min-width: 640px)');
-    mq.addEventListener('change', (e) => {
-      if (e.matches) closeMenu();
-    });
+    const links = details.querySelectorAll(".mobile-nav-link");
 
     links.forEach((link) => {
-      link.addEventListener('click', closeMenu);
+      link.addEventListener("click", () => {
+        details.removeAttribute("open");
+      });
     });
 
-    let resizeTimeout: number;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        if (isOpen) {
-          const content = panel.querySelector('div');
-          const height = content ? content.offsetHeight : 500;
-          panel.style.maxHeight = height + 'px';
-        }
-      }, 200);
+    const mq = window.matchMedia("(min-width: 768px)");
+    mq.addEventListener("change", (e) => {
+      if (e.matches) details.removeAttribute("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (details.hasAttribute("open") && !details.contains(e.target as Node)) {
+        details.removeAttribute("open");
+      }
+    });
+
+    details.addEventListener("toggle", () => {
+      if (details.open) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileNav);
-  } else {
-    initMobileNav();
-  }
+  initMobileNavDetails();
 </script>
 
 <style is:global>
-  #mobile-menu-panel {
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.25s ease-in-out;
+  details[open] #mobile-chevron {
+    transform: rotate(180deg);
+  }
+
+  details[open] #mobile-menu-panel {
+    animation: detailsSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes detailsSlideDown {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  details[open] .mobile-nav-link,
+  details[open] #mobile-nav-footer {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #mobile-chevron {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
-  }
-
-  #mobile-menu-open {
-    border-color: var(--border);
   }
 </style>
