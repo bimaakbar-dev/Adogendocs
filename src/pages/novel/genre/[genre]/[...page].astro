@@ -8,7 +8,7 @@ import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
 import Badge from "@ui/Badge.astro";
-import Icon from "@ui/Icon.astro";
+import Icon from "@ui/Icons.astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allNovels = await getCollection("novels");
@@ -64,7 +64,7 @@ const $ = {
       <Container size="lg">
         <header class={$.header}>
           <a href="/novel" class={$.backLink}>
-            <Icon name="arrow-left" className="size-4" /> 
+            <Icon name="arrow-left" class="size-4" /> 
             All Novels
           </a>
           <div class="mt-2">
