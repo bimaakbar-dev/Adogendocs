@@ -21,6 +21,7 @@ import MobileToc from "@components/MobileToc.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 import BlogFooter from "@/components/blog/BlogFooter.astro";
 import BlogHeader from "@/components/blog/BlogHeader.astro";
+import CopyCode from "@/components/CopyCode.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("blog");
@@ -137,4 +138,5 @@ const pageSchema = schemaWebPage({
       <Toc headings={headings} />
     </div>
   </Fragment>
+  <CopyCode />
 </BlogLayout>
