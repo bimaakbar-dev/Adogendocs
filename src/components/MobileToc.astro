@@ -17,7 +17,7 @@ const s =
     wrapper: 'sticky top-(--header-height) z-40 flex-col w-full items-center lg:hidden',
     details: 'group/toc relative w-full border-b border-(--border-subtle)/40 bg-(--bg)/80',
     summary: 'backdrop-blur-sm flex list-none items-center gap-2 px-4 py-2 text-[14px] font-medium text-(--fg-strong) select-none hover:bg-(--bg-muted)/30 focus:ring-2 focus:ring-transparent focus:outline-none active:bg-(--bg-muted)/30 [&::-webkit-details-marker]:hidden',
-    progress: 'relative inline-flex shrink-0 items-center justify-center w-4 h-4',
+    progress: 'relative inline-flex shrink-0 items-center justify-center w-4 h-4 text-(--fg-muted)',
     title: 'relative inline-flex h-full min-h-6 flex-1 shrink-0 items-center justify-center overflow-hidden',
     icon: 'h-6 w-6 p-1 text-(--fg-muted) transition-transform duration-300 group-open/toc:rotate-90',
     nav: 'backdrop-blur-sm animate-in fade-in zoom-in-95 absolute top-full right-0 left-0 z-40 max-h-[60vh] w-full origin-top overflow-y-auto border-y border-(--border-subtle)/40 bg-(--bg)/80 px-4 pt-2 pb-3.5 shadow-xl duration-(--duration-fast)',
@@ -39,11 +39,13 @@ const s =
             <svg 
               viewBox="0 0 24 24" 
               aria-hidden="true"
+              width="24"
+              height="24"
               focusable="false"
               fill="none"
               stroke-width="2"
               stroke="currentColor"
-              stroke-linecap="round"
+              stroke-linecap="butt"
               class="h-full w-full">
               <circle
                 cx="12"
@@ -65,7 +67,7 @@ const s =
             </svg>
           </span>
           <span class={s.title}>
-            <span id="m-toc-active-text" class="absolute inset-0 translate-y-0 items-center truncate text-left font-medium opacity-100 transition-all duration-300 ease-out group-open/toc:-translate-y-full group-open/toc:opacity-0">
+            <span id="m-toc-active-text" class="absolute inset-0 translate-y-0 items-center truncate text-left text-(--fg-muted) font-medium opacity-100 transition-all duration-300 ease-out group-open/toc:-translate-y-full group-open/toc:opacity-0">
               {defaultLabel}
             </span>
             <span class="absolute inset-0 translate-y-full items-center truncate text-left font-medium text-(--fg-strong) opacity-0 transition-all duration-300 ease-out group-open/toc:translate-y-0 group-open/toc:opacity-100">
