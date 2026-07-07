@@ -47,28 +47,31 @@ const $ = {
 </template>
 
 <style is:global>
-  @keyframes openFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  .animate-openFade {
-    animation: openFade 0.15s ease-in-out forwards;
-  }
-  
-  .tabs-content > * {
-    margin: 0 !important;
-  }
-  
   .tabs-content > *:first-child {
     margin-top: 0 !important;
   }
   .tabs-content > *:last-child {
     margin-bottom: 0 !important;
   }
-
+  
+  .tabs-content > *,
+  .tabs-content > code,
+  .tabs-content > .astro-code,
+  .tab-panel > * {
+    margin: 0 !important;
+  }
+  
   .tab-button[data-active="true"] {
     color: var(--fg-strong);
     background: var(--bg-muted) !important;
+  }
+  
+  @keyframes openFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-openFade {
+    animation: openFade 0.15s ease-in-out forwards;
   }
 </style>
 
