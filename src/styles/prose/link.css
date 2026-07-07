@@ -42,10 +42,6 @@
 }
 
 .prose .inline-link {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 1px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -60,25 +56,10 @@
   text-decoration: underline;
 }
 
-.prose .external-icon {
-  transition:
-    opacity var(--duration) var(--ease-out);
-}
-
-.prose a:hover > .external-icon {
-  opacity: 1;
-}
-
 @media (max-width: 767px) {
   .prose a:focus-visible,
   .prose a:active,
   .prose .inline-link:active {
     text-underline-offset: 2px;
-  }
-  .prose a > .external-icon {
-    opacity: 1;
-  }
-  .prose a:active > .external-icon {
-    opacity: 1;
   }
 }
