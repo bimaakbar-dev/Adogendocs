@@ -1,4 +1,5 @@
 /* src/styles/prose/typography.css */
+
 .prose :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, hr, table) {
   margin-top: 0;
 }
@@ -52,18 +53,6 @@
 .prose h4 + h5,
 .prose h5 + h6 {
   margin-bottom: 1.5rem;
-}
-
-.prose h2 a,
-.prose h3 a {
-  transition: color var(--duration) var(--ease-out);
-  color: inherit;
-  text-decoration: none;
-}
-
-.prose h2 a:hover,
-.prose h3 a:hover {
-  color: var(--fg-strong);
 }
 
 .prose h2,
