@@ -1,5 +1,4 @@
 ---
-// src/components/mdx/Heading.astro
 interface Props {
   id?: string;
   class?: string;
@@ -48,15 +47,14 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     scroll-behavior: auto !important;
   }
 
-  .heading-group.has-anchor {
-    cursor: pointer;
-    text-decoration: none;
-  }
+  .heading-group.has-anchor {}
 
   .heading-text-wrapper {
-    display: inline-flex;
-    align-items: center;
-    word-break: break-word;    
+    display: inline;
+    cursor: pointer;
+    word-break: break-word;
+    padding: 0;
+    margin: 0;
   }
 
   .anchor-link {
@@ -75,6 +73,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
       color 0.15s ease;
     text-decoration: none;
     pointer-events: auto;
+    cursor: pointer;
 
     color: var(--fg-muted);
 
@@ -97,13 +96,13 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   }
 
   @media (hover: hover) {
-    .heading-group.has-anchor:hover .anchor-link {
+    .heading-text-wrapper:hover .anchor-link {
       opacity: 1;
       transform: translateX(0);
       color: var(--fg-muted);
     }
 
-    .heading-group.has-anchor .anchor-link:hover {
+    .heading-text-wrapper .anchor-link:hover {
       transform: scale(1.05);
       color: var(--accent);
     }
@@ -127,23 +126,28 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   function initHeadingTap() {
     if (window.matchMedia("(hover: hover)").matches) return;
 
-    document.querySelectorAll(".heading-group.has-anchor").forEach((heading) => {
-      heading.addEventListener("click", (e) => {
+    document.querySelectorAll(".heading-text-wrapper").forEach((wrapper) => {
+      wrapper.addEventListener("click", (e) => {
+        const heading = wrapper.closest(".heading-group");
+        if (!heading) return;
+
         const anchor = heading.querySelector(".anchor-link") as HTMLAnchorElement | null;
         if (!anchor) return;
 
-        if (!anchor.contains(e.target as Node)) {
-          e.preventDefault();
+        if (e.target instanceof Element && anchor.contains(e.target)) {
+          return;
+        }
 
-          const isAlreadyTapped = heading.classList.contains("is-tapped");
+        e.preventDefault();
 
-          document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
-            el.classList.remove("is-tapped");
-          });
+        const isAlreadyTapped = heading.classList.contains("is-tapped");
 
-          if (!isAlreadyTapped) {
-            heading.classList.add("is-tapped");
-          }
+        document.querySelectorAll(".heading-group.is-tapped").forEach((el) => {
+          el.classList.remove("is-tapped");
+        });
+
+        if (!isAlreadyTapped) {
+          heading.classList.add("is-tapped");
         }
       });
     });
@@ -158,7 +162,6 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
       }
     });
   }
-  
+
   initHeadingTap();
-  // document.addEventListener("astro:page-load", initHeadingTap);
 </script>
