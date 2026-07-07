@@ -8,50 +8,33 @@ const $ = {
   modal: "fixed left-1/2 top-[5%] w-[95%] max-w-2xl -translate-x-1/2 rounded-lg border border-(--border-strong) bg-(--bg-subtle) shadow-2xl transition-all duration-(--duration-fast) scale-95 opacity-0",
   searchBar: "flex items-center gap-2 px-3 py-3",
   searchIcon: "relative inline-flex shrink-0 items-center justify-center transition-opacity duration-(--duration)",
-
   close: "px-1! h-auto! font-mono rounded-md!",
   closeMobile: "",
-
   spinner: "absolute inset-0 hidden text-(--fg-strong)",
   searchInput: "w-full bg-transparent text-md text-(--fg) outline-none placeholder:text-(--fg-muted)",
   searchResult: "max-h-[70vh] overflow-y-auto",
   searchResultList: "hidden space-y-2 p-2",
-
   emptyNote: "p-8 text-center text-base text-(--fg-muted)",
-
   loadMoreWrap: "hidden p-2 pt-2",
   loadMoreBtn: "w-full",
-
   iconSize: "w-4 h-4",
-}
+};
 
 const $$ = {
   resultWrapper: "result-group rounded-md bg-(--bg) overflow-hidden",
   resultItem: "result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)",
   resultImage: "aspect-video h-10 w-auto shrink-0 rounded object-cover hidden",
-
   resultList: "flex min-w-0 flex-col gap-0.5",
   resultTitle: "truncate text-(--fg-strong) font-medium",
   resultMetaGroup: "flex gap-2 text-[10px] text-(--fg-muted)",
   resultDescription: "result-excerpt line-clamp-1 text-xs text-(--fg-muted)",
-
   subResultList: "sub-results-list border-t border-(--border-subtle)/40",
   subResultWrapper: "sub-result flex justify-start pl-6 pr-3 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
   subResultItem: "sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs",
   subResultMeta: "flex min-w-0 flex-col gap-1",
   subResultTitle: "truncate text-(--fg)",
   subResultDescription: "result-excerpt line-clamp-1 text-(--fg-muted)",
-
-  recentWrapper: "flex items-center justify-between px-4 pt-3 pb-1",
-  recentLabel: "text-sm font-semibold text-(--fg-strong)",
-
-  recentList: "m-1 space-y-1 p-2 border border-(--border-subtle) rounded-md bg-(--bg)",
-  recentItem: "recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)",
-  recentListItem: "flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-opacity hover:bg-(--bg-muted)",
-
-  recentTitle: "text-base truncate",
-  recentRemove: "p-1.5 text-(--fg-muted) opacity-100 lg:opacity-0 transition-opacity hover:text-(--fg-strong) active:text-(--fg-strong) group-hover:opacity-100"
-}
+};
 
 const SEARCH_PAGE_SIZE = 8;
 ---
@@ -59,29 +42,15 @@ const SEARCH_PAGE_SIZE = 8;
 <div id="search-overlay" class={$.overlay}>
   <div id="search-modal" class={$.modal}>
     <div class={$.searchBar}>
-      <div class:list={[
-        $.iconSize,
-        $.searchIcon
-      ]}>
+      <div class:list={[$.iconSize, $.searchIcon]}>
         <Icon id="search-icon-wrap" name="search" fill class="h-full w-full text-(--fg-muted)" />
         <Spinner id="search-spinner" size="sm" class={$.spinner} />
       </div>
       <input id="search-input" type="text" placeholder="Ketik untuk mencari..." class={$.searchInput} autofocus />
-      <Button
-        data-action="close-search"
-        aria-label="Tutup"
-        variant="secondary"
-        size="sm"
-        class:list={[$.close, "hidden! sm:inline-flex!"]}>
+      <Button data-action="close-search" aria-label="Tutup" variant="secondary" size="sm" class:list={[$.close, "hidden! sm:inline-flex!"]}>
         ESC
       </Button>
-      <Button
-        data-action="close-search"
-        aria-label="Tutup"
-        variant="icon"
-        size="sm"
-        thisIcon
-        class:list={[$.closeMobile, "inline-flex! sm:hidden!"]}>
+      <Button data-action="close-search" aria-label="Tutup" variant="icon" size="sm" thisIcon class:list={[$.closeMobile, "inline-flex! sm:hidden!"]}>
         <Icon name="remove" class={$.iconSize} />
       </Button>
     </div>
@@ -90,12 +59,7 @@ const SEARCH_PAGE_SIZE = 8;
       <ul id="search-list" class={$.searchResultList}></ul>
     </div>
     <div id="search-load-more-wrap" class={$.loadMoreWrap}>
-      <Button
-        id="search-load-more"
-        variant="secondary"
-        size="sm"
-        block
-        class={$.loadMoreBtn}>
+      <Button id="search-load-more" variant="secondary" size="sm" block class={$.loadMoreBtn}>
         Muat lebih banyak
       </Button>
     </div>
@@ -134,156 +98,44 @@ const SEARCH_PAGE_SIZE = 8;
   <p class={$.emptyNote}>Tidak ada hasil</p>
 </template>
 
-<template id="search-recent-wrap-template">
-  <div class={$$.recentWrapper}>
-    <span class={$$.recentLabel}>Pencarian terakhir</span>
-    <Button
-      variant="secondary"
-      size="sm"
-      data-action="clear-recent">
-      Hapus riwayat
-    </Button>
-  </div>
-  <ul data-slot="recent-list" class={$$.recentList}></ul>
-</template>
-
-<template id="search-recent-item-template">
-  <li class={$$.recentItem}>
-    <Button
-      size="md"
-      variant="ghost"
-      data-action="use-recent"
-      class={$$.recentListItem}
-      block
-      prefix={<Icon name="history" class={$.iconSize} />}>
-      <span data-slot="recent-query" class={$$.recentTitle}></span>
-    </Button>
-    <Button
-      variant="icon"
-      size="sm"
-      thisIcon
-      data-action="remove-recent"
-      class:list={[
-        $.iconSize,
-        $$.recentRemove
-      ]}>
-      <Icon name="remove" class="w-full h-full" />
-    </Button>
-  </li>
-</template>
-
 <script is:inline define:vars={{ SEARCH_PAGE_SIZE }}>
   (() => {
-    const overlay = document.getElementById("search-overlay"), 
-    modal = document.getElementById("search-modal"), 
-    input = document.getElementById("search-input"), 
-    list = document.getElementById("search-list"), 
-    empty = document.getElementById("search-empty"), 
-    iconWrap = document.getElementById("search-icon-wrap"), 
-    spinner = document.getElementById("search-spinner"), 
-    resultTemplate = document.getElementById("search-result-template"), 
-    subResultTemplate = document.getElementById("search-subresult-template"), 
-    emptyTemplate = document.getElementById("search-empty-template"), 
-    recentWrapTemplate = document.getElementById("search-recent-wrap-template"), 
-    recentItemTemplate = document.getElementById("search-recent-item-template"), 
-    loadMoreWrap = document.getElementById("search-load-more-wrap"), 
-    loadMoreBtn = document.getElementById("search-load-more");
+    const overlay = document.getElementById("search-overlay"),
+      modal = document.getElementById("search-modal"),
+      input = document.getElementById("search-input"),
+      list = document.getElementById("search-list"),
+      empty = document.getElementById("search-empty"),
+      iconWrap = document.getElementById("search-icon-wrap"),
+      spinner = document.getElementById("search-spinner"),
+      resultTemplate = document.getElementById("search-result-template"),
+      subResultTemplate = document.getElementById("search-subresult-template"),
+      emptyTemplate = document.getElementById("search-empty-template"),
+      loadMoreWrap = document.getElementById("search-load-more-wrap"),
+      loadMoreBtn = document.getElementById("search-load-more");
 
     const closeBtns = document.querySelectorAll('[data-action="close-search"]');
-
-    const RECENT_KEY = "search:recent", MAX_RECENT = 5;
     const PAGE_SIZE = SEARCH_PAGE_SIZE || 8;
 
-    let isOpen = false, pagefind = null, pagefindLoading = null;
+    let isOpen = false,
+      pagefind = null,
+      pagefindLoading = null;
     let currentRawResults = [];
     let renderedCount = 0;
     let searchToken = 0;
 
     async function loadPagefind() {
       if (pagefindLoading) return pagefindLoading;
-
       pagefindLoading = (async () => {
-         pagefind = await import("/pagefind/pagefind.js");
-         await pagefind.init();
+        pagefind = await import("/pagefind/pagefind.js");
+        await pagefind.init();
       })();
       return pagefindLoading;
     }
 
     function setLoading(isLoading) {
       if (!iconWrap || !spinner) return;
-
       iconWrap.classList.toggle("opacity-0", isLoading);
       spinner.classList.toggle("hidden", !isLoading);
-    }
-
-    function getRecentSearches() {
-      try { const raw = localStorage.getItem(RECENT_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveRecentSearch(query) {
-      if (!query) return;
-      let recent = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase());
-      recent.unshift(query);
-      recent = recent.slice(0, MAX_RECENT);
-      try {
-        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
-      } catch {}
-    }
-
-    function removeRecentSearch(query) {
-      const recent = getRecentSearches().filter(q => q !== query);
-      try {
-        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
-      } catch {}
-
-      showRecentSearches();
-    }
-
-    function clearRecentSearches() {
-      try {
-        localStorage.removeItem(RECENT_KEY);
-      } catch {}
-      showRecentSearches();
-    }
-
-    function showRecentSearches() {
-      if (!empty) return;
-      empty.innerHTML = "";
-
-      const recent = getRecentSearches();
-      if (!recent.length || !recentWrapTemplate || !recentItemTemplate) {
-        empty.classList.add("hidden");
-        return;
-      }
-      empty.classList.remove("hidden");
-
-      const wrapNode = recentWrapTemplate.content.cloneNode(true);
-      const recentList = wrapNode.querySelector('[data-slot="recent-list"]');
-
-      recent.forEach(query => {
-        const itemNode = recentItemTemplate.content.cloneNode(true);
-
-        itemNode.querySelector('[data-slot="recent-query"]').textContent = query;
-
-        itemNode.querySelector('[data-action="use-recent"]').addEventListener("click", () => {
-          input.value = query;
-          input.focus();
-          saveRecentSearch(query);
-          performSearch();
-        });
-
-        itemNode.querySelector('[data-action="remove-recent"]').addEventListener("click", (e) => {
-          e.stopPropagation();
-          removeRecentSearch(query);
-        });
-
-        recentList.appendChild(itemNode);
-      });
-      wrapNode.querySelector('[data-action="clear-recent"]').addEventListener("click", clearRecentSearches); empty.appendChild(wrapNode);
     }
 
     function clearList() {
@@ -330,7 +182,7 @@ const SEARCH_PAGE_SIZE = 8;
       });
       setTimeout(() => input?.focus(), 150);
       clearList();
-      showRecentSearches();
+      clearEmpty();
     }
 
     function closeSearch() {
@@ -339,7 +191,8 @@ const SEARCH_PAGE_SIZE = 8;
       modal.classList.add("scale-95", "opacity-0");
       setTimeout(() => {
         overlay.classList.add("hidden");
-        isOpen = false; document.body.style.overflow = "";
+        isOpen = false;
+        document.body.style.overflow = "";
       }, 150);
       if (input) input.value = "";
       clearList();
@@ -349,7 +202,7 @@ const SEARCH_PAGE_SIZE = 8;
 
     document.addEventListener("open-search", openSearch);
 
-    closeBtns.forEach(btn => btn.addEventListener("click", closeSearch));
+    closeBtns.forEach((btn) => btn.addEventListener("click", closeSearch));
 
     overlay?.addEventListener("click", (e) => {
       if (e.target === overlay) closeSearch();
@@ -359,7 +212,8 @@ const SEARCH_PAGE_SIZE = 8;
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         isOpen ? closeSearch() : openSearch();
-      } if (e.key === "Escape" && isOpen) closeSearch();
+      }
+      if (e.key === "Escape" && isOpen) closeSearch();
     });
 
     function buildSubResult(sub) {
@@ -376,21 +230,17 @@ const SEARCH_PAGE_SIZE = 8;
       node.querySelector("a.result-item").href = item.url;
       node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
       const img = node.querySelector('[data-slot="image"]');
-
       if (item.meta?.image) {
         img.src = item.meta.image;
         img.classList.remove("hidden");
       }
-
       if (item.meta?.author) node.querySelector('[data-slot="author"]').textContent = `by ${item.meta.author}`;
       if (item.meta?.date) node.querySelector('[data-slot="date"]').textContent = new Date(item.meta.date).toLocaleDateString();
-
       const desc = item.excerpt || item.meta?.description || "";
       if (desc) node.querySelector('[data-slot="description"]').innerHTML = desc;
       else node.querySelector('[data-slot="description"]').remove();
-
-      const subs = (item.sub_results || []).filter(s => s.url !== item.url).slice(0, 3);
-      if (subs.length) subs.forEach(s => node.querySelector('[data-slot="sub-results"]').appendChild(buildSubResult(s)));
+      const subs = (item.sub_results || []).filter((s) => s.url !== item.url).slice(0, 3);
+      if (subs.length) subs.forEach((s) => node.querySelector('[data-slot="sub-results"]').appendChild(buildSubResult(s)));
       else node.querySelector('[data-slot="sub-results"]').remove();
       return node;
     }
@@ -401,15 +251,12 @@ const SEARCH_PAGE_SIZE = 8;
         hideLoadMore();
         return;
       }
-
-      const items = await Promise.all(nextBatch.map(r => r.data()));
-      if (token !== searchToken) return; 
-
+      const items = await Promise.all(nextBatch.map((r) => r.data()));
+      if (token !== searchToken) return;
       const frag = document.createDocumentFragment();
-      items.forEach(i => frag.appendChild(buildResultItem(i)));
+      items.forEach((i) => frag.appendChild(buildResultItem(i)));
       list.appendChild(frag);
       renderedCount += nextBatch.length;
-
       if (renderedCount < currentRawResults.length) showLoadMore();
       else hideLoadMore();
     }
@@ -417,11 +264,12 @@ const SEARCH_PAGE_SIZE = 8;
     loadMoreBtn?.addEventListener("click", () => renderNextPage(searchToken));
 
     async function performSearch() {
-      const token = ++searchToken; const query = input?.value?.trim() || "";
+      const token = ++searchToken;
+      const query = input?.value?.trim() || "";
 
       if (!query) {
         clearList();
-        showRecentSearches();
+        clearEmpty();
         setLoading(false);
         return;
       }
@@ -450,27 +298,21 @@ const SEARCH_PAGE_SIZE = 8;
     }
 
     input?.addEventListener("input", performSearch);
-    input?.addEventListener("keydown", (e) => { if (e.key === "Enter" && input.value.trim()) saveRecentSearch(input.value.trim()); });
-    list?.addEventListener("click", (e) => { if (e.target.closest("a") && input.value.trim()) saveRecentSearch(input.value.trim()); });
   })();
 </script>
 
 <style is:global>
   #search-modal {
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.25s ease-out;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out;
   }
-
   #search-overlay {
     transition: opacity 0.25s ease-out;
   }
-
   .sub-result {
     position: relative;
   }
-  
   .sub-result::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 12px;
@@ -480,16 +322,14 @@ const SEARCH_PAGE_SIZE = 8;
     border-bottom: 1.5px solid var(--border-strong);
     border-bottom-left-radius: 0px;
   }
-
   .sub-result:not(:last-of-type)::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 20px;
     bottom: 0;
     left: 12px;
     border-left: 1.5px solid var(--border-strong);
   }
-
   .result-excerpt mark {
     background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important;
     color: var(--accent);
