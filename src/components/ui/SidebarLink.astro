@@ -5,16 +5,23 @@ interface Props {
   isActive?: boolean;
 }
 
-const { href, isActive = false } = Astro.props;
+const { 
+  href, 
+  isActive = false 
+} = Astro.props;
+
+const $ = {
+  wrapper: "flex items-center text-sm px-2 py-1.5 font-medium rounded-md transition-opacity",
+}
 ---
 
 <a
   href={href}
   class:list={[
-    "flex items-center text-sm px-2 py-1.5 font-medium rounded-md transition-opacity",
+    $.wrapper,
     isActive
       ? "bg-(--bg-muted) text-(--fg-strong)"
-      : "text-(--fg) hover:bg-(--bg-muted)"
+      : "text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted)"
   ]}
 >
   <slot />
