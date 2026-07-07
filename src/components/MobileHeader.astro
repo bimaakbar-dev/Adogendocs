@@ -8,7 +8,7 @@ import Drawer from "@ui/Drawer.astro";
 
 const label = "Buka Menu"
 const $ = {
-  header: "sticky top-0 z-50 w-full border-b border-transparent h-full pt-(--safe-top) transition-opacity duration-(--duration) ease-out md:hidden",
+  header: "sticky top-0 z-50 w-full border-b border-(--border-subtle)/40 lg:border-transparent h-full pt-(--safe-top) transition-opacity duration-(--duration) ease-out md:hidden",
   wrapper: "mx-auto flex h-(--header-height) w-full items-center justify-between",
   left: "flex items-center shrink-0 gap-4",
   right: "flex items-center shrink-0 gap-0.5",
@@ -47,20 +47,20 @@ const $ = {
     const toggleHeader = () => {
       if (window.scrollY > 10) {
         header.classList.add(
-          "bg-(--bg-overlay)",
+          "bg-(--bg)/80",
           "backdrop-blur-md",
-          "border-(--border-subtle)/40",
+          "lg:border-(--border-subtle)/40",
           "shadow-sm"
         );
-        header.classList.remove("border-transparent");
+        header.classList.remove("lg:border-transparent");
       } else {
         header.classList.remove(
-          "bg-(--bg-overlay)",
+          "bg-(--bg)/80",
           "backdrop-blur-md",
-          "border-(--border-subtle)/40",
+          "lg:border-(--border-subtle)/40",
           "shadow-sm"
         );
-        header.classList.add("border-transparent");
+        header.classList.add("lg:border-transparent");
       }
     };
 
