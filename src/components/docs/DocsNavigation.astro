@@ -40,9 +40,13 @@ const checkIsActive = (href: string) => {
   }
   return currentPath === href || currentPath === `${href}/`;
 };
+
+const $ = {
+  wrapper: "flex flex-col space-y-2 px-2 w-full",
+}
 ---
 
-<nav class="flex flex-col space-y-2 px-2 w-full">
+<nav class={$.wrapper}>
   {sortedCategories.map((category) => {
     const hasActiveChild = docsByCategory[category].some(doc => {
       const finalSlug = doc.data.slug || doc.id;
