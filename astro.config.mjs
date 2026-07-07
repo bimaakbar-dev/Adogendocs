@@ -30,6 +30,7 @@ import { satteriFigure } from "./src/lib/mdx/satteri-figure";
 import { satteriFileTree } from "./src/lib/mdx/satteri-filetree";
 import { satteriKbd } from "./src/lib/mdx/satteri-kbd";
 import { satteriSteps } from "./src/lib/mdx/satteri-steps";
+import { satteriTabs } from "./src/lib/mdx/satteri-tabs";
 
 import pagefind from "astro-pagefind";
 
@@ -77,6 +78,7 @@ export default defineConfig({
         satteriChangelog,
         satteriDetails,
         satteriFileTree,
+        satteriTabs
       ],
     }),
   },
