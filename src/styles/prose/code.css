@@ -32,8 +32,8 @@
 .prose .code-content .astro-code {
   margin: 0 !important;
   padding: 0 !important;
-  border: none;
-  border-radius: none;
+  border: none !important;
+  border-radius: none !important;
 }
 
 .astro-code,
