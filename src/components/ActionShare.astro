@@ -22,7 +22,10 @@ const s = {
 }
 ---
 
-<div class:list={[s.ActionWrapper, className]}>
+<div class:list={[
+  s.ActionWrapper, 
+  className
+  ]}>
   <button 
     data-action="share-default" 
     aria-label="Share page" 
@@ -44,7 +47,7 @@ const s = {
     title="More share options"
     aria-label="More share options" 
     class:list={[
-      "px-1.5",
+      "p-1.5",
       "rounded-r-md",
       "border-l border-(--border-subtle)",
       s.actionGroup
