@@ -1,5 +1,5 @@
 ---
-// src/components/CopyCode.astro
+// src/components/copybuttoninjector.astro
 
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
@@ -11,13 +11,6 @@ import Button from "@ui/Button.astro";
       <Icon name="check" class="check-icon hidden h-4 w-4 text-(--accent)" />
   </Button>
 </template>
-
-<style is:global>
-  .copy-button {
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(4px);
-  }
-</style>
 
 <script>
   (() => {
