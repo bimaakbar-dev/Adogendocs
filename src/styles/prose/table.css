@@ -16,7 +16,7 @@
 }
 
 .prose thead {
-  background: var(--bg);
+  background: var(--bg-muted);
 }
 
 .prose thead th {
