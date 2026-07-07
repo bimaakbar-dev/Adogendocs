@@ -6,7 +6,7 @@ const currentPath = Astro.url.pathname;
 <nav class="text-label-14 hidden items-center gap-6 font-medium sm:flex">
     {
         NAV.navBar.map((item) => (
-            <a data-pagefind-filter="category"
+            <a
                 href={item.href}
                 class:list={[
                   "transition-opacity",
