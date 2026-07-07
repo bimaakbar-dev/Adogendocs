@@ -11,7 +11,7 @@ const isContainer = !label;
 
 const $ = {
   wrapper: "block my-6 md:my-8",
-  header: "inline-flex bg-(--bg-subtle) border border-(--border-subtle)/80 rounded-md p-0.5 mb-2",
+  header: "inline-flex bg-(--bg) border border-(--border-subtle)/80 rounded-md p-0.5 mb-2",
   headerItem: "tabs-header flex gap-1.5 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden",
   content: "tabs-content",
   panel: "tab-panel hidden"
@@ -40,7 +40,7 @@ const $ = {
     size="sm"
     variant="ghost"
     role="tab"
-    class="tab-button rounded-md! text-sm"
+    class="tab-button rounded-sm! text-sm!"
   >
     <slot name="label"></slot>
   </Button>
@@ -55,14 +55,14 @@ const $ = {
     animation: openFade 0.15s ease-in-out forwards;
   }
   
-  .tab-content * {
+  .tabs-content > * {
     margin: 0 !important;
   }
   
-  .tab-content *:first-child {
+  .tabs-content > *:first-child {
     margin-top: 0 !important;
   }
-  .tab-content *:last-child {
+  .tabs-content > *:last-child {
     margin-bottom: 0 !important;
   }
 
