@@ -100,7 +100,7 @@ const pageSchema = schemaWebPage({
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
       <Section size="sm">
-        <articel>
+        <article data-pagefind-body>
           <Container size="md">
             <BlogHeader
               title={entry.data.title}
@@ -114,7 +114,7 @@ const pageSchema = schemaWebPage({
           </Container>
           <div class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
           <Container size="md">
-            <div data-pagefind-body class="prose">
+            <div class="prose">
               <Content components={components} />
             </div>
           </Container>  
@@ -126,7 +126,7 @@ const pageSchema = schemaWebPage({
               prev={prevEntry}
               next={nextEntry} />
           </Container>
-        </articel>
+        </article>
       </Section>
     </div>
   </Fragment>
