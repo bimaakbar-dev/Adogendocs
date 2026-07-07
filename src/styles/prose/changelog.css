@@ -4,11 +4,12 @@
 .prose .changelog-version h4 {
   @apply text-heading-16;
   color: var(--fg-strong);
+  margin-top: 0;
 }
-.prose .changelog-item li,
-.prose .changelog-item ul,
-.prose .changelog-item ol,
-.prose .changelog-item p {
-  @apply text-body-14;
+.prose .changelog-body li,
+.prose .changelog-body ul,
+.prose .changelog-body ol,
+.prose .changelog-body p {
+  @apply text-body-16;
   color: var(--fg);
 }
