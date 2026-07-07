@@ -35,11 +35,12 @@
   border: none;
   border-radius: none;
 }
+
 .astro-code,
 .prose .astro-code {
   @apply text-code-14;
   display: block;
-  margin: 0 !important;
+  margin: 2rem 0 !important;
   background-color: var(--bg-subtle) !important;
   padding: 1rem 0;
   overflow-x: auto;
