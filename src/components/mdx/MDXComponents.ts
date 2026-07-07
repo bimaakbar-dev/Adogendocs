@@ -21,6 +21,7 @@ import Table from "./Table.astro";
 import Video from "./Video.astro";
 import LinkCard from "./LinkCard.astro";
 import Tabs from "./Tabs.astro";
+import CardGrid fron "./CardGrid.astro";
 
 export const components = {
   h1: H1,
@@ -47,7 +48,8 @@ export const components = {
   Figure,
   LinkCard,
   TabsContainer: Tabs, 
-  TabItem: Tabs 
+  TabItem: Tabs ,
+  CardGrid,
 };
 
 export type MDXComponents = typeof components;
