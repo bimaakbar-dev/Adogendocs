@@ -24,10 +24,7 @@
   color: inherit !important;
   font-size: inherit !important;
 }
-.prose code {
-  margin: 0 !important;
-  padding: 0 !important;
-}
+
 .prose .code-content code,
 .prose .code-content .astro-code {
   margin: 0 !important;
