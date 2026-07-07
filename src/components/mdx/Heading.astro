@@ -54,16 +54,19 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   }
 
   .heading-text-wrapper {
-    display: inline;
-    word-break: break-word;
+    display: inline-flex;
+    align-items: center;
+    word-break: break-word;    
   }
 
   .anchor-link {
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
+    vertical-align: middle;
     width: 0.75em;
     height: 0.75em;
     margin-left: 0.35rem;
+    margin-top: 0;
+    margin-bottom: 0;
     opacity: 0;
     transform: translateX(-4px);
     transition:
@@ -91,7 +94,6 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   h3 .anchor-link {
     width: 0.7em;
     height: 0.7em;
-    align-items: center;
   }
 
   @media (hover: hover) {
@@ -158,5 +160,5 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   }
   
   initHeadingTap();
-  document.addEventListener("astro:page-load", initHeadingTap);
+  // document.addEventListener("astro:page-load", initHeadingTap);
 </script>
