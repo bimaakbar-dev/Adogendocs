@@ -6,17 +6,21 @@ import Spinner from "./ui/Spinner.astro";
 const $ = {
   overlay: "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70",
   modal: "fixed left-1/2 top-[5%] w-[95%] max-w-2xl -translate-x-1/2 rounded-lg border border-(--border-strong) bg-(--bg-subtle) shadow-2xl transition-all duration-(--duration-fast) scale-95 opacity-0",
-  searchBar: "flex items-center gap-2 px-4 py-3",
+  searchBar: "flex items-center gap-2 px-3 py-3",
   searchIcon: "relative inline-flex shrink-0 items-center justify-center transition-opacity duration-(--duration)",
-  
-  closeIcon: "rounded-md px-2 py-1 text-xs font-mono text-(--fg-muted) hover:bg-(--bg-subtle) border border-(--border-subtle)",
-  
+
+  close: "px-1! h-auto! font-mono rounded-md!",
+  closeMobile: "",
+
   spinner: "absolute inset-0 hidden text-(--fg-strong)",
   searchInput: "w-full bg-transparent text-md text-(--fg) outline-none placeholder:text-(--fg-muted)",
   searchResult: "max-h-[70vh] overflow-y-auto",
   searchResultList: "hidden space-y-2 p-2",
 
   emptyNote: "p-8 text-center text-base text-(--fg-muted)",
+
+  loadMoreWrap: "hidden p-2 pt-2",
+  loadMoreBtn: "w-full",
 
   iconSize: "w-4 h-4",
 }
@@ -25,7 +29,7 @@ const $$ = {
   resultWrapper: "result-group rounded-md bg-(--bg) overflow-hidden",
   resultItem: "result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)",
   resultImage: "aspect-video h-10 w-auto shrink-0 rounded object-cover hidden",
-  
+
   resultList: "flex min-w-0 flex-col gap-0.5",
   resultTitle: "truncate text-(--fg-strong) font-medium",
   resultMetaGroup: "flex gap-2 text-[10px] text-(--fg-muted)",
@@ -34,7 +38,7 @@ const $$ = {
   subResultList: "sub-results-list border-t border-(--border-subtle)/40",
   subResultWrapper: "sub-result flex justify-start pl-6 pr-3 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
   subResultItem: "sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs",
-  subResultMeta: "flex min-w-0 flex-col gap-0.5",
+  subResultMeta: "flex min-w-0 flex-col gap-1",
   subResultTitle: "truncate text-(--fg)",
   subResultDescription: "result-excerpt line-clamp-1 text-(--fg-muted)",
 
@@ -44,10 +48,12 @@ const $$ = {
   recentList: "m-1 space-y-1 p-2 border border-(--border-subtle) rounded-md bg-(--bg)",
   recentItem: "recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)",
   recentListItem: "flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-opacity hover:bg-(--bg-muted)",
-  
+
   recentTitle: "text-base truncate",
-  recentRemove: "shrink-0 rounded-md p-1.5 text-(--fg-muted) opacity-0 transition-opacity hover:text-(--fg-strong) active:text-(--fg-strong) group-hover:opacity-100"
+  recentRemove: "p-1.5 text-(--fg-muted) opacity-100 lg:opacity-0 transition-opacity hover:text-(--fg-strong) active:text-(--fg-strong) group-hover:opacity-100"
 }
+
+const SEARCH_PAGE_SIZE = 8;
 ---
 
 <div id="search-overlay" class={$.overlay}>
@@ -61,33 +67,37 @@ const $$ = {
         <Spinner id="search-spinner" size="sm" class={$.spinner} />
       </div>
       <input id="search-input" type="text" placeholder="Ketik untuk mencari..." class={$.searchInput} autofocus />
-      <div id="search-close" class="relative inline-flex items-center justify-center shrink-0">
-        <Button 
-          aria-label="Tutup" 
-          variant="secondary"
-          size="sm"
-          class:list={[
-            "close-desktop",
-            $.closeIcon
-          ]}>
-          ESC
-        </Button>
-        <!--<Button 
-          variant="icon" 
-          size="md" 
-          thisIcon 
-          aria-label="Tutup" 
-          class:list={[
-            "close-mobile",
-            $.iconSize,
-          ]}>
-          <Icon name="close" class="w-full h-full" />
-        </Button>-->
-      </div>
+      <Button
+        data-action="close-search"
+        aria-label="Tutup"
+        variant="secondary"
+        size="sm"
+        class:list={[$.close, "hidden! sm:inline-flex!"]}>
+        ESC
+      </Button>
+      <Button
+        data-action="close-search"
+        aria-label="Tutup"
+        variant="icon"
+        size="sm"
+        thisIcon
+        class:list={[$.closeMobile, "inline-flex! sm:hidden!"]}>
+        <Icon name="remove" class={$.iconSize} />
+      </Button>
     </div>
     <div id="search-results" class={$.searchResult}>
       <div id="search-empty" class="hidden"></div>
       <ul id="search-list" class={$.searchResultList}></ul>
+    </div>
+    <div id="search-load-more-wrap" class={$.loadMoreWrap}>
+      <Button
+        id="search-load-more"
+        variant="secondary"
+        size="sm"
+        block
+        class={$.loadMoreBtn}>
+        Muat lebih banyak
+      </Button>
     </div>
   </div>
 </div>
@@ -127,7 +137,7 @@ const $$ = {
 <template id="search-recent-wrap-template">
   <div class={$$.recentWrapper}>
     <span class={$$.recentLabel}>Pencarian terakhir</span>
-    <Button 
+    <Button
       variant="secondary"
       size="sm"
       data-action="clear-recent">
@@ -139,20 +149,20 @@ const $$ = {
 
 <template id="search-recent-item-template">
   <li class={$$.recentItem}>
-    <Button 
+    <Button
       size="md"
       variant="ghost"
-      data-action="use-recent" 
+      data-action="use-recent"
       class={$$.recentListItem}
       block
       prefix={<Icon name="history" class={$.iconSize} />}>
       <span data-slot="recent-query" class={$$.recentTitle}></span>
     </Button>
-    <Button 
-      variant="icon" 
-      size="md" 
-      thisIcon 
-      data-action="remove-recent" 
+    <Button
+      variant="icon"
+      size="md"
+      thisIcon
+      data-action="remove-recent"
       class:list={[
         $.iconSize,
         $$.recentRemove
@@ -162,92 +172,113 @@ const $$ = {
   </li>
 </template>
 
-<script is:inline>
+<script is:inline define:vars={{ SEARCH_PAGE_SIZE }}>
   (() => {
-    const overlay = document.getElementById("search-overlay"), modal = document.getElementById("search-modal"), input = document.getElementById("search-input"), list = document.getElementById("search-list"), empty = document.getElementById("search-empty"), closeBtn = document.getElementById("search-close"), iconWrap = document.getElementById("search-icon-wrap"), spinner = document.getElementById("search-spinner"), resultTemplate = document.getElementById("search-result-template"), subResultTemplate = document.getElementById("search-subresult-template"), emptyTemplate = document.getElementById("search-empty-template"), recentWrapTemplate = document.getElementById("search-recent-wrap-template"), recentItemTemplate = document.getElementById("search-recent-item-template");
+    const overlay = document.getElementById("search-overlay"), 
+    modal = document.getElementById("search-modal"), 
+    input = document.getElementById("search-input"), 
+    list = document.getElementById("search-list"), 
+    empty = document.getElementById("search-empty"), 
+    iconWrap = document.getElementById("search-icon-wrap"), 
+    spinner = document.getElementById("search-spinner"), 
+    resultTemplate = document.getElementById("search-result-template"), 
+    subResultTemplate = document.getElementById("search-subresult-template"), 
+    emptyTemplate = document.getElementById("search-empty-template"), 
+    recentWrapTemplate = document.getElementById("search-recent-wrap-template"), 
+    recentItemTemplate = document.getElementById("search-recent-item-template"), 
+    loadMoreWrap = document.getElementById("search-load-more-wrap"), 
+    loadMoreBtn = document.getElementById("search-load-more");
+
+    const closeBtns = document.querySelectorAll('[data-action="close-search"]');
+
     const RECENT_KEY = "search:recent", MAX_RECENT = 5;
+    const PAGE_SIZE = SEARCH_PAGE_SIZE || 8;
+
     let isOpen = false, pagefind = null, pagefindLoading = null;
+    let currentRawResults = [];
+    let renderedCount = 0;
+    let searchToken = 0;
 
-    async function loadPagefind() { 
-      if (pagefindLoading) return pagefindLoading; 
-      
+    async function loadPagefind() {
+      if (pagefindLoading) return pagefindLoading;
+
       pagefindLoading = (async () => {
-         pagefind = await import("/pagefind/pagefind.js"); 
-         await pagefind.init(); 
-      })(); 
-      return pagefindLoading; 
+         pagefind = await import("/pagefind/pagefind.js");
+         await pagefind.init();
+      })();
+      return pagefindLoading;
     }
 
-    function setLoading(isLoading) { 
-      if (!iconWrap || !spinner) return; 
-      
-      iconWrap.classList.toggle("opacity-0", isLoading); 
-      spinner.classList.toggle("hidden", !isLoading); 
+    function setLoading(isLoading) {
+      if (!iconWrap || !spinner) return;
+
+      iconWrap.classList.toggle("opacity-0", isLoading);
+      spinner.classList.toggle("hidden", !isLoading);
     }
 
-    function getRecentSearches() { 
-      try { const raw = localStorage.getItem(RECENT_KEY); 
-        return raw ? JSON.parse(raw) : []; 
-      } catch { 
-        return []; 
-      } 
+    function getRecentSearches() {
+      try { const raw = localStorage.getItem(RECENT_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
     }
 
-    function saveRecentSearch(query) { 
-      if (!query) return; 
-      let recent = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase()); 
-      recent.unshift(query); 
-      recent = recent.slice(0, MAX_RECENT); 
-      try { 
-        localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); 
-      } catch {} 
+    function saveRecentSearch(query) {
+      if (!query) return;
+      let recent = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase());
+      recent.unshift(query);
+      recent = recent.slice(0, MAX_RECENT);
+      try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+      } catch {}
     }
 
-    function removeRecentSearch(query) { 
-      const recent = getRecentSearches().filter(q => q !== query); 
-      try { 
-        localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); 
-      } catch {} 
+    function removeRecentSearch(query) {
+      const recent = getRecentSearches().filter(q => q !== query);
+      try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+      } catch {}
 
-      showRecentSearches(); 
+      showRecentSearches();
     }
 
-    function clearRecentSearches() { 
-      try { 
-        localStorage.removeItem(RECENT_KEY); 
-      } catch {} 
-      showRecentSearches(); 
+    function clearRecentSearches() {
+      try {
+        localStorage.removeItem(RECENT_KEY);
+      } catch {}
+      showRecentSearches();
     }
 
     function showRecentSearches() {
-      if (!empty) return; 
-      empty.innerHTML = ""; 
+      if (!empty) return;
+      empty.innerHTML = "";
 
-      const recent = getRecentSearches(); 
-      if (!recent.length || !recentWrapTemplate || !recentItemTemplate) { 
-        empty.classList.add("hidden"); 
-        return; 
+      const recent = getRecentSearches();
+      if (!recent.length || !recentWrapTemplate || !recentItemTemplate) {
+        empty.classList.add("hidden");
+        return;
       }
-      empty.classList.remove("hidden"); 
+      empty.classList.remove("hidden");
 
-      const wrapNode = recentWrapTemplate.content.cloneNode(true); 
+      const wrapNode = recentWrapTemplate.content.cloneNode(true);
       const recentList = wrapNode.querySelector('[data-slot="recent-list"]');
-      
+
       recent.forEach(query => {
-        const itemNode = recentItemTemplate.content.cloneNode(true); 
+        const itemNode = recentItemTemplate.content.cloneNode(true);
 
         itemNode.querySelector('[data-slot="recent-query"]').textContent = query;
-        
-        itemNode.querySelector('[data-action="use-recent"]').addEventListener("click", () => { 
-          input.value = query; 
-          input.focus(); 
-          saveRecentSearch(query); 
-          performSearch(); 
+
+        itemNode.querySelector('[data-action="use-recent"]').addEventListener("click", () => {
+          input.value = query;
+          input.focus();
+          saveRecentSearch(query);
+          performSearch();
         });
 
-        itemNode.querySelector('[data-action="remove-recent"]').addEventListener("click", (e) => { 
-          e.stopPropagation(); 
-          removeRecentSearch(query); 
+        itemNode.querySelector('[data-action="remove-recent"]').addEventListener("click", (e) => {
+          e.stopPropagation();
+          removeRecentSearch(query);
         });
 
         recentList.appendChild(itemNode);
@@ -255,144 +286,167 @@ const $$ = {
       wrapNode.querySelector('[data-action="clear-recent"]').addEventListener("click", clearRecentSearches); empty.appendChild(wrapNode);
     }
 
-    function clearList() { 
-      if (list) { 
-        list.classList.add("hidden"); 
-        list.innerHTML = ""; 
-      } 
+    function clearList() {
+      if (list) {
+        list.classList.add("hidden");
+        list.innerHTML = "";
+      }
+      hideLoadMore();
+      currentRawResults = [];
+      renderedCount = 0;
     }
 
-    function clearEmpty() { 
-      if (empty) { 
-        empty.classList.add("hidden"); 
-        empty.innerHTML = ""; 
-      } 
+    function clearEmpty() {
+      if (empty) {
+        empty.classList.add("hidden");
+        empty.innerHTML = "";
+      }
     }
 
-    function showNoResults() { 
-      if (!empty || !emptyTemplate) return; 
-      empty.innerHTML = ""; 
-      empty.appendChild(emptyTemplate.content.cloneNode(true)); 
-      empty.classList.remove("hidden"); 
+    function showNoResults() {
+      if (!empty || !emptyTemplate) return;
+      empty.innerHTML = "";
+      empty.appendChild(emptyTemplate.content.cloneNode(true));
+      empty.classList.remove("hidden");
     }
 
-    function openSearch() { 
-      if (!overlay || !modal) return; 
-      loadPagefind(); 
-      overlay.classList.remove("hidden"); 
-      isOpen = true; 
-      document.body.style.overflow = "hidden"; 
-      requestAnimationFrame(() => { 
-        modal.classList.remove("scale-95", "opacity-0"); 
-        modal.classList.add("scale-100", "opacity-100"); 
-      }); 
-      setTimeout(() => input?.focus(), 150); 
-      clearList(); 
-      showRecentSearches(); 
+    function showLoadMore() {
+      loadMoreWrap?.classList.remove("hidden");
     }
 
-    function closeSearch() { 
-      if (!overlay || !modal) return; 
-      modal.classList.remove("scale-100", "opacity-100"); 
-      modal.classList.add("scale-95", "opacity-0"); 
-      setTimeout(() => { 
-        overlay.classList.add("hidden"); 
+    function hideLoadMore() {
+      loadMoreWrap?.classList.add("hidden");
+    }
+
+    function openSearch() {
+      if (!overlay || !modal) return;
+      loadPagefind();
+      overlay.classList.remove("hidden");
+      isOpen = true;
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        modal.classList.remove("scale-95", "opacity-0");
+        modal.classList.add("scale-100", "opacity-100");
+      });
+      setTimeout(() => input?.focus(), 150);
+      clearList();
+      showRecentSearches();
+    }
+
+    function closeSearch() {
+      if (!overlay || !modal) return;
+      modal.classList.remove("scale-100", "opacity-100");
+      modal.classList.add("scale-95", "opacity-0");
+      setTimeout(() => {
+        overlay.classList.add("hidden");
         isOpen = false; document.body.style.overflow = "";
-      }, 150); 
-      if (input) input.value = ""; 
-      clearList(); 
-      clearEmpty(); 
-      setLoading(false); 
+      }, 150);
+      if (input) input.value = "";
+      clearList();
+      clearEmpty();
+      setLoading(false);
     }
 
-    document.addEventListener("open-search", openSearch); 
-    closeBtn?.addEventListener("click", closeSearch); 
+    document.addEventListener("open-search", openSearch);
 
-    overlay?.addEventListener("click", (e) => { 
-      if (e.target === overlay) closeSearch(); 
+    closeBtns.forEach(btn => btn.addEventListener("click", closeSearch));
+
+    overlay?.addEventListener("click", (e) => {
+      if (e.target === overlay) closeSearch();
     });
 
-    document.addEventListener("keydown", (e) => { 
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") { 
-        e.preventDefault(); 
-        isOpen ? closeSearch() : openSearch(); 
-      } if (e.key === "Escape" && isOpen) closeSearch(); 
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        isOpen ? closeSearch() : openSearch();
+      } if (e.key === "Escape" && isOpen) closeSearch();
     });
 
-    function buildSubResult(sub) { 
-      const node = subResultTemplate.content.cloneNode(true); 
-      node.querySelector("a").href = sub.url; 
-      node.querySelector('[data-slot="sub-title"]').textContent = sub.title || ""; 
-      if (sub.excerpt) node.querySelector('[data-slot="sub-excerpt"]').innerHTML = sub.excerpt; 
-      else node.querySelector('[data-slot="sub-excerpt"]').remove(); 
-      return node; 
+    function buildSubResult(sub) {
+      const node = subResultTemplate.content.cloneNode(true);
+      node.querySelector("a").href = sub.url;
+      node.querySelector('[data-slot="sub-title"]').textContent = sub.title || "";
+      if (sub.excerpt) node.querySelector('[data-slot="sub-excerpt"]').innerHTML = sub.excerpt;
+      else node.querySelector('[data-slot="sub-excerpt"]').remove();
+      return node;
     }
-    
+
     function buildResultItem(item) {
       const node = resultTemplate.content.cloneNode(true);
       node.querySelector("a.result-item").href = item.url;
       node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
       const img = node.querySelector('[data-slot="image"]');
 
-      if (item.meta?.image) { 
-        img.src = item.meta.image; 
-        img.classList.remove("hidden"); 
+      if (item.meta?.image) {
+        img.src = item.meta.image;
+        img.classList.remove("hidden");
       }
 
       if (item.meta?.author) node.querySelector('[data-slot="author"]').textContent = `by ${item.meta.author}`;
       if (item.meta?.date) node.querySelector('[data-slot="date"]').textContent = new Date(item.meta.date).toLocaleDateString();
-      
+
       const desc = item.excerpt || item.meta?.description || "";
       if (desc) node.querySelector('[data-slot="description"]').innerHTML = desc;
       else node.querySelector('[data-slot="description"]').remove();
-      
+
       const subs = (item.sub_results || []).filter(s => s.url !== item.url).slice(0, 3);
       if (subs.length) subs.forEach(s => node.querySelector('[data-slot="sub-results"]').appendChild(buildSubResult(s)));
       else node.querySelector('[data-slot="sub-results"]').remove();
       return node;
     }
 
-    function renderResults(items) { 
-      if (!list || !resultTemplate) return; 
-      
-      if (!items.length) { 
-        clearList(); 
-        showNoResults(); 
-        return; 
+    async function renderNextPage(token) {
+      const nextBatch = currentRawResults.slice(renderedCount, renderedCount + PAGE_SIZE);
+      if (!nextBatch.length) {
+        hideLoadMore();
+        return;
       }
 
-      clearEmpty(); 
-      list.classList.remove("hidden"); 
-      
-      const frag = document.createDocumentFragment(); 
-      items.forEach(i => frag.appendChild(buildResultItem(i))); 
-      list.innerHTML = ""; 
-      list.appendChild(frag); 
+      const items = await Promise.all(nextBatch.map(r => r.data()));
+      if (token !== searchToken) return; 
+
+      const frag = document.createDocumentFragment();
+      items.forEach(i => frag.appendChild(buildResultItem(i)));
+      list.appendChild(frag);
+      renderedCount += nextBatch.length;
+
+      if (renderedCount < currentRawResults.length) showLoadMore();
+      else hideLoadMore();
     }
 
-    let searchToken = 0;
+    loadMoreBtn?.addEventListener("click", () => renderNextPage(searchToken));
 
     async function performSearch() {
       const token = ++searchToken; const query = input?.value?.trim() || "";
-      
-      if (!query) { 
-        clearList(); 
-        showRecentSearches(); 
-        setLoading(false); 
-        return; 
+
+      if (!query) {
+        clearList();
+        showRecentSearches();
+        setLoading(false);
+        return;
       }
-      clearEmpty(); 
-      setLoading(true); 
+      clearEmpty();
+      setLoading(true);
       await loadPagefind();
 
       const res = await pagefind.debouncedSearch(query);
       if (token !== searchToken) return;
 
-      const items = await Promise.all(res.results.map(r => r.data()));
-      if (token === searchToken) { 
-        renderResults(items); 
-        setLoading(false); 
+      currentRawResults = res.results || [];
+      renderedCount = 0;
+      list.innerHTML = "";
+
+      if (!currentRawResults.length) {
+        clearList();
+        showNoResults();
+        setLoading(false);
+        return;
       }
+
+      clearEmpty();
+      list.classList.remove("hidden");
+      await renderNextPage(token);
+      if (token === searchToken) setLoading(false);
     }
 
     input?.addEventListener("input", performSearch);
@@ -402,43 +456,44 @@ const $$ = {
 </script>
 
 <style is:global>
-  #search-modal { 
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
-    opacity 0.2s ease; 
+  #search-modal {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.25s ease-out;
   }
 
-  #search-overlay { 
-    transition: opacity 0.2s ease; 
-  }
-  .sub-result::before { 
-    content: '├─'; 
-    color: var(--fg-subtle); 
-  }
-  .sub-result:last-of-type::before { 
-    content: '└─'; 
-    color: var(--fg-subtle); 
-  }
-  .result-excerpt mark { 
-    background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important; 
-    color: var(--accent); 
-    border-radius: 0 !important; 
-    padding: 0 4px !important; 
+  #search-overlay {
+    transition: opacity 0.25s ease-out;
   }
 
-  .close-desktop { 
-    display: block; 
+  .sub-result {
+    position: relative;
+  }
+  
+  .sub-result::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12px;
+    width: 12px;
+    height: 20px;
+    border-left: 1.5px solid var(--border-strong);
+    border-bottom: 1.5px solid var(--border-strong);
+    border-bottom-left-radius: 0px;
   }
 
-  .close-mobile { 
-    display: none; 
+  .sub-result:not(:last-of-type)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 12px;
+    border-left: 1.5px solid var(--border-strong);
   }
 
-  @media (max-width: 767px) {
-    /* .close-desktop { 
-      display: none; 
-    } */
-    .close-mobile { 
-      display: block; 
-    }
+  .result-excerpt mark {
+    background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important;
+    color: var(--accent);
+    border-radius: 0 !important;
+    padding: 0 4px !important;
   }
 </style>
