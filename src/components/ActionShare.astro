@@ -6,52 +6,77 @@ interface Props {
   class?: string;
 }
 
-const { label = "Share", class: className } = Astro.props;
+const { 
+  label = "Share", 
+  class: className 
+} = Astro.props;
+
 const s = {
-  ActionWrapper: 'share-dropdown-wrapper relative inline-flex items-stretch rounded-md border border-(--border-subtle) bg-(--bg) shadow-sm hover:shadow transition-shadow duration-200',
-  actionGroup: 'flex items-center gap-1.5 px-2 py-1.5 text-xs md:text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-l-md text-(--fg-strong) transition-colors cursor-pointer',
-  actionPrefix: 'relative flex items-center justify-center w-4 h-4',
-  actionSuffix: 'share-trigger flex items-center justify-center px-1.5 text-(--fg-muted) hover:text-(--fg-strong) hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-r-md transition-opacity border-l border-(--border-subtle) cursor-pointer',
-  actionDropdown: 'share-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[13rem] z-50 rounded-lg border border-(--border-subtle) bg-(--bg) shadow-lg p-1 animate-in fade-in slide-in-from-top-2 origin-top-right',
-  actionDropdownItems: 'w-full flex items-center gap-2 px-3 py-2 text-xs md:text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) hover:text-(--fg-strong) active:bg-(--bg-muted) active:text-(--fg-muted) transition-opacity cursor-pointer'
+  ActionWrapper: 'share-dropdown-wrapper relative inline-flex items-stretch rounded-md border border-(--border-subtle) bg-(--bg) shadow-sm hover:shadow transition-shadow duration-(--duration)',
+  actionGroup: 'inline-flex items-center gap-2 text-xs md:text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity cursor-pointer',
+  actionIcon: "w-5 h-5",
+  actionPrefix: 'relative inline-flex items-center justify-center shrink-0',
+  actionSuffix: 'share-trigger relative inline-flex items-center justify-center shrink-0',
+  actionDropdown: 'share-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[12rem] z-50 rounded-lg border border-(--border-subtle) bg-(--bg-subtle) shadow-lg p-1 animate-in fade-in slide-in-from-top-2 origin-top-right',
+  actionDropdownItems: 'flex items-center gap-3 p-2 text-xs md:text-sm text-start text-(--fg) rounded-md w-full hover:bg-(--bg-muted) hover:text-(--fg-strong) active:bg-(--bg-muted) active:text-(--fg-muted) cursor-pointer'
 }
 ---
 
 <div class:list={[s.ActionWrapper, className]}>
-  <button data-action="share-default" aria-label="Share page" class={s.actionGroup}>
-    <div class={s.actionPrefix}>
-      <span class="icon-share transition-opacity duration-200">
-        <Icon name="share" class="w-4 h-4" />
-      </span>
-      <span class="icon-check hidden absolute inset-0 text-(--success) transition-opacity duration-200">
-        <Icon name="check" class="w-4 h-4" />
-      </span>
+  <button 
+    data-action="share-default" 
+    aria-label="Share page" 
+    class:list={[
+      "px-2 py-1.5",
+      "rounded-l-md",
+      s.actionGroup
+    ]}>
+    <div class:list={[
+      s.actionIcon,
+      s.actionPrefix
+    ]}>
+      <Icon name="share" class="icon-share w-full h-full text-(--fg-muted) transition-opacity duration-(--duration-fast)" />
+      <Icon name="check" class="icon-check w-full h-full hidden absolute inset-0 text-(--accent) transition-opacity duration-(--duration-fast)" />
     </div>
     <span>{label}</span>
   </button>
-  
-  <button aria-label="More share options" class={s.actionSuffix}>
-    <Icon name="chevron-down" class="w-4 h-4" />
+  <button 
+    title="More share options"
+    aria-label="More share options" 
+    class:list={[
+      "px-1.5",
+      "rounded-r-md",
+      "border-l border-(--border-subtle)",
+      s.actionGroup
+    ]}>
+    <div class:list={[
+      s.actionIcon,
+      s.actionSuffix
+    ]}>
+      <Icon name="chevron-down" class="w-full h-full" />
+    </div>
   </button>
-  
   <div class={s.actionDropdown}>
     <button data-action="twitter" class={s.actionDropdownItems}>
-      <Icon name="twitter" class="w-4 h-4 opacity-70" /> X (Twitter)
+      <Icon name="twitter" class={s.actionIcon} />
+      <span>X (Twitter)</span> 
     </button>
     <button data-action="facebook" class={s.actionDropdownItems}>
-      <Icon name="facebook" class="w-4 h-4 opacity-70" /> Facebook
+      <Icon name="facebook" class={s.actionIcon} />
+      <span>Facebook</span>
     </button>
     <button data-action="linkedin" class={s.actionDropdownItems}>
-      <Icon name="linkedin" class="w-4 h-4 opacity-70" /> LinkedIn
+      <Icon name="linkedin" class={s.actionIcon} />
+      <span>LinkedIn</span>
     </button>
     <button data-action="whatsapp" class={s.actionDropdownItems}>
-      <Icon name="whatsapp" class="w-4 h-4 opacity-70" /> WhatsApp
+      <Icon name="whatsapp" class={s.actionIcon} />
+      <span>WhatsApp</span>
     </button>
-    
     <div class="h-px bg-(--border-subtle) my-1.5 mx-1"></div>
-    
     <button data-action="copy-url" class={s.actionDropdownItems}>
-      <Icon name="link" class="w-4 h-4 opacity-70" /> Copy URL
+      <Icon name="link" class={s.actionIcon} />
+      <span>Copy URL</span>
     </button>
   </div>
 </div>
@@ -73,7 +98,7 @@ const s = {
         setTimeout(() => {
           iconShare?.classList.remove('hidden');
           iconCheck?.classList.add('hidden');
-        }, 2000); // Slightly longer for better readability
+        }, 2000);
       };
 
       primaryBtn.addEventListener('click', async () => {
@@ -143,5 +168,5 @@ const s = {
   }
 
   setupShareButton();
-  // document.addEventListener('astro:page-load', setupShareButton);
+  // document.addEventListener('astro:page-load', setupShareButton); jangan aktifkan ini
 </script>
