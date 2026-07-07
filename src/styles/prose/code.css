@@ -25,7 +25,6 @@
   font-size: inherit !important;
 }
 
-.prose .code-content code,
 .prose .code-content .astro-code {
   margin: 0 !important;
   padding: 0.5rem 0;
@@ -64,7 +63,7 @@
 
 .prose .astro-code .line {
   display: block;
-  padding: 0 1.5rem !important;
+  padding: 0 1rem !important;
   line-height: inherit;
   white-space: pre;
 }
