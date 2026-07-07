@@ -22,7 +22,7 @@ const isExternal = href.startsWith('http');
   href={href} 
   target={isExternal ? "_blank" : "_self"}
   rel={isExternal ? "noopener noreferrer" : ""}
-  class="link-card group relative flex items-center justify-between gap-4 p-4 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity duration-(--duration)"
+  class="link-card group relative flex items-center justify-between gap-4 p-4 my-2 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity duration-(--duration)"
 >
   <div class="flex items-center gap-4">
     {icon && (
