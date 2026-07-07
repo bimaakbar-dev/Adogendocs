@@ -1,0 +1,113 @@
+---
+/* src/components/Tabs.astro */
+interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
+const isContainer = !label;
+---
+
+{
+  isContainer ? (
+    <mdx-tabs class="block my-6 md:my-8">
+      <div class="inline-flex bg-(--bg-subtle) border border-(--border-subtle)/80 rounded-md p-1 mb-4">
+        <div class="tabs-header flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden" role="tablist"></div>
+      </div>
+      <div class="tabs-content text-(--fg)">
+        <slot />
+      </div>
+    </mdx-tabs>
+  ) : (
+    <div class="tab-panel hidden" data-label={label} role="tabpanel">
+      <slot />
+    </div>
+  )
+}
+
+<script>
+  class MdxTabs extends HTMLElement {
+    connectedCallback() {
+      const header = this.querySelector('.tabs-header');
+      const panels = Array.from(this.querySelectorAll('.tab-panel'));
+
+      if (!header || panels.length === 0) return;
+      header.innerHTML = '';
+      panels.forEach((panel, index) => {
+        const label = panel.getAttribute('data-label') || `Tab ${index + 1}`;
+        const isActive = index === 0;
+
+        const btn = document.createElement('button');
+        btn.textContent = label;
+        btn.type = 'button';
+        btn.role = 'tab';
+        
+        const baseClasses = [
+          'px-3', 'py-1', 'text-body-16', 'rounded-md', 
+          'transition-opacity', 'duration-150', 'whitespace-nowrap', 
+          'outline-none', 'cursor-pointer'
+        ];
+        
+        const activeClasses = [
+          'text-(--fg-strong)', 'bg-(--bg)', 'border', 'border-(--border)', 
+          'shadow-[inset_0_1px_0_rgba(255,255,255,0.05),var(--shadow-sm)]'
+        ];
+        
+        const inactiveClasses = [
+          'text-(--fg-muted)', 'border', 'border-transparent',
+          'hover:text-(--fg-strong)', 'hover:bg-(--bg-muted)'
+        ];
+
+        btn.classList.add(...baseClasses);
+        
+        if (isActive) {
+          btn.classList.add(...activeClasses);
+          panel.classList.remove('hidden');
+          panel.classList.add('block', 'animate-openFade');
+        } else {
+          btn.classList.add(...inactiveClasses);
+          panel.classList.add('hidden');
+        }
+
+        btn.addEventListener('click', () => {
+          Array.from(header.children).forEach(b => {
+            b.className = '';
+            b.classList.add(...baseClasses, ...inactiveClasses);
+          });
+          
+          panels.forEach(p => {
+            p.className = 'tab-panel hidden';
+          });
+
+          btn.className = '';
+          btn.classList.add(...baseClasses, ...activeClasses);
+          panel.className = 'tab-panel block animate-openFade';
+        });
+
+        header.appendChild(btn);
+      });
+    }
+  }
+
+  if (!customElements.get('mdx-tabs')) {
+    customElements.define('mdx-tabs', MdxTabs);
+  }
+</script>
+
+<style>
+  @keyframes openFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  :global(.animate-openFade) {
+    animation: openFade 0.15s ease-in-out forwards;
+  }
+  
+  .tabs-content :global(pre) {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-subtle) !important;
+    background-color: var(--bg-subtle) !important;
+  }
+</style>
