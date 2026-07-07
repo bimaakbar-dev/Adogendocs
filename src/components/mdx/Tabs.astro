@@ -38,7 +38,7 @@ const $ = {
 <template id="tab-button-template">
   <Button
     size="sm"
-    variant="ghost"
+    variant="primary"
     role="tab"
     class="tab-button rounded-sm!"
   >
@@ -54,10 +54,21 @@ const $ = {
   .animate-openFade {
     animation: openFade 0.15s ease-in-out forwards;
   }
+  
+  .tab-content * {
+    margin: 0 !important;
+  }
+  
+  .tab-content *:first-child {
+    margin-top: 0 !important;
+  }
+  .tab-content *:last-child {
+    margin-bottom: 0 !important;
+  }
 
   .tab-button[data-active="true"] {
     color: var(--fg-strong);
-    background: var(--bg) !important;
+    background: var(--bg-subtle) !important;
   }
 </style>
 
