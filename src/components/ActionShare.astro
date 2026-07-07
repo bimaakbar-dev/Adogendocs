@@ -13,7 +13,7 @@ const s = {
   actionPrefix: 'relative flex items-center justify-center w-4 h-4',
   actionSuffix: 'share-trigger flex items-center justify-center px-1.5 text-(--fg-muted) hover:text-(--fg-strong) hover:bg-(--bg-muted) active:bg-(--bg-muted)/80 rounded-r-md transition-opacity border-l border-(--border-subtle) cursor-pointer',
   actionDropdown: 'share-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[13rem] z-50 rounded-lg border border-(--border-subtle) bg-(--bg) shadow-lg p-1 animate-in fade-in slide-in-from-top-2 origin-top-right',
-  actionDropdownItems: 'w-full flex items-center gap-2 px-3 py-2 text-xs md:text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) hover:text-(--fg-strong) transition-colors cursor-pointer'
+  actionDropdownItems: 'w-full flex items-center gap-2 px-3 py-2 text-xs md:text-sm text-(--fg) rounded-md hover:bg-(--bg-muted) hover:text-(--fg-strong) active:bg-(--bg-muted) active:text-(--fg-muted) transition-opacity cursor-pointer'
 }
 ---
 
@@ -143,5 +143,5 @@ const s = {
   }
 
   setupShareButton();
-  document.addEventListener('astro:page-load', setupShareButton);
+  // document.addEventListener('astro:page-load', setupShareButton);
 </script>
