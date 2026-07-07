@@ -9,6 +9,7 @@ import Head from "@/components/Head.astro";
 import Page from "@components/Page.astro";
 import Footer from "@/components/Footer.astro";
 import DocsNavbar from "@docs/DocsNavbar.astro";
+import DocsNavbarMobile from "@docs/mobile/DocsNavbar.astro";
 import DocsNavigation from "@docs/DocsNavigation.astro"; 
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
@@ -47,20 +48,21 @@ const {
     <Search />
     <Page>
       <MobileHeader>
-        <DocsNavbar />
+        <DocsNavbarMobile />
         <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
           <DocsNavigation />
         </div>
         <Footer />
       </MobileHeader>
+      {!hideHeader && <div />}
       <PageFrame>
         <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] w-full">
           <Sidebar>
-            {!hideHeader && <DocsNavbar />}
+            <DocsNavbar />
             <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
               <DocsNavigation />
             </div>
-            {!hideFooter && <Footer />}
+            <Footer />
           </Sidebar>
         </aside>
         <main id="main-content" class="w-full min-w-0 flex-1">
@@ -71,6 +73,7 @@ const {
         </aside>
       </PageFrame>
     </Page>
+    {!hideFooter && <div />}
     <ScrollToTop />
   </body>
 </html>
