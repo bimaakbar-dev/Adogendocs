@@ -7,7 +7,10 @@ interface Props {
   [key: string]: any;
 }
 
-const { href, ...props } = (Astro.props || {}) as Props;
+const { 
+  href, 
+  ...props 
+} = (Astro.props || {}) as Props;
 
 const siteUrl = Astro.site?.href || import.meta.env.SITE || "";
 const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
@@ -68,7 +71,6 @@ const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
     }
     .inline-link.is-external:active::after {
       opacity: 0.7;
-      transform: scale(0.92);
     }
   }
 </style>
