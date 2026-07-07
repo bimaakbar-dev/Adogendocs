@@ -1,6 +1,7 @@
 ---
-import Icon from "@/components/ui/Icons.astro";
-import Button from "../ui/Button.astro";
+// src/components/mdx/Code.astro
+import Icon from "@ui/Icons.astro";
+import Button from "@ui/Button.astro";
 
 interface Props {
   title?: string;
@@ -48,13 +49,6 @@ const $ = {
     </Button>
   </div>
 </div>
-
-<template id="copy-btn-template">
-  <Button size="md" variant="icon" aria-label="Salin kode" title="Salin" class={$.copyBtn}>
-    <Icon name="copy" class="copy-icon h-4 w-4" />
-    <Icon name="check" class="check-icon hidden h-4 w-4 text-(--accent)" />
-  </Button>
-</template>
 
 <style is:global>
   .code-content { scrollbar-width: none; }
@@ -146,43 +140,8 @@ const $ = {
       }
     };
 
-    const setupPlainCodeBlock = (pre: HTMLElement, code: HTMLElement) => {
-      if (getComputedStyle(pre).overflowX === "visible") {
-        pre.style.overflowX = "auto";
-      }
-
-      const wrapper = document.createElement("div");
-      wrapper.style.position = "relative";
-      wrapper.style.display = "block";
-
-      if (pre.parentNode) {
-        pre.parentNode.replaceChild(wrapper, pre);
-      }
-      wrapper.appendChild(pre);
-
-      const template = document.getElementById("copy-btn-template") as HTMLTemplateElement;
-      if (!template) return;
-      const btn = template.content.firstElementChild as HTMLButtonElement;
-      if (!btn) return;
-
-      btn.style.position = "absolute";
-      btn.style.top = "0.75rem";
-      btn.style.right = "0.75rem";
-      btn.style.zIndex = "20";
-
-      wrapper.appendChild(btn);
-
-      setupCopyButton(btn, code);
-    };
-
     const initAllBlocks = () => {
       document.querySelectorAll<HTMLElement>(".code-block-wrapper:not(.is-processed)").forEach(setupCodeBlock);
-      document.querySelectorAll("pre > code").forEach((code) => {
-        const pre = code.parentNode as HTMLElement | null;
-        if (pre && pre instanceof HTMLElement && !pre.closest(".code-block-wrapper")) {
-          setupPlainCodeBlock(pre, code as HTMLElement);
-        }
-      });
     };
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAllBlocks);
