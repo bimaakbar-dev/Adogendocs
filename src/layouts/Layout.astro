@@ -15,6 +15,7 @@ interface Props {
   isHome?: boolean;
   canonical?: string;
   hideHeader?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   isHome = false,
   canonical,
   hideHeader = false,
+  hideFooter = false,
 } = Astro.props;
 ---
 
@@ -48,6 +50,7 @@ const {
       >
         <slot />
       </div>
+      {!hideFooter && <div />}
     </Page>
   </body>
 </html>
