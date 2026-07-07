@@ -1,86 +1,113 @@
 ---
-/* src/components/Tabs.astro */
+// src/components/Tabs.astro
+import Button from "@ui/Button.astro";
+
 interface Props {
   label?: string;
 }
 
 const { label } = Astro.props;
 const isContainer = !label;
+
+const $ = {
+  wrapper: "block my-6 md:my-8",
+  header: "inline-flex bg-(--bg-subtle) border border-(--border-subtle)/80 rounded-md p-0.5 mb-2",
+  headerItem: "tabs-header flex gap-1.5 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden",
+  content: "tabs-content",
+  panel: "tab-panel hidden"
+};
 ---
 
 {
   isContainer ? (
-    <mdx-tabs class="block my-6 md:my-8">
-      <div class="inline-flex bg-(--bg-subtle) border border-(--border-subtle)/80 rounded-md p-1 mb-4">
-        <div class="tabs-header flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden" role="tablist"></div>
+    <mdx-tabs class={$.wrapper}>
+      <div class={$.header}>
+        <div role="tablist" class={$.headerItem}></div>
       </div>
-      <div class="tabs-content text-(--fg)">
+      <div class={$.content}>
         <slot />
       </div>
     </mdx-tabs>
   ) : (
-    <div class="tab-panel hidden" data-label={label} role="tabpanel">
+    <div data-label={label} role="tabpanel" class={$.panel}>
       <slot />
     </div>
   )
 }
+
+<template id="tab-button-template">
+  <Button
+    size="sm"
+    variant="ghost"
+    role="tab"
+    class="tab-button"
+  >
+    <slot name="label"></slot>
+  </Button>
+</template>
+
+<style is:global>
+  @keyframes openFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-openFade {
+    animation: openFade 0.15s ease-in-out forwards;
+  }
+  
+  .tabs-content pre {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-subtle) !important;
+    background-color: var(--bg-subtle) !important;
+  }
+
+  .tab-button[data-active="true"] {
+    color: var(--fg-strong);
+    background: var(--bg) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), var(--shadow-sm);
+  }
+</style>
 
 <script>
   class MdxTabs extends HTMLElement {
     connectedCallback() {
       const header = this.querySelector('.tabs-header');
       const panels = Array.from(this.querySelectorAll('.tab-panel'));
-
       if (!header || panels.length === 0) return;
+
+      const template = document.getElementById('tab-button-template');
+      if (!template) return;
+
       header.innerHTML = '';
+      
       panels.forEach((panel, index) => {
         const label = panel.getAttribute('data-label') || `Tab ${index + 1}`;
         const isActive = index === 0;
-
-        const btn = document.createElement('button');
+        const btn = template.content.firstElementChild.cloneNode(true);
+        
         btn.textContent = label;
-        btn.type = 'button';
-        btn.role = 'tab';
-        
-        const baseClasses = [
-          'px-3', 'py-1', 'text-body-16', 'rounded-md', 
-          'transition-opacity', 'duration-150', 'whitespace-nowrap', 
-          'outline-none', 'cursor-pointer'
-        ];
-        
-        const activeClasses = [
-          'text-(--fg-strong)', 'bg-(--bg)', 'border', 'border-(--border)', 
-          'shadow-[inset_0_1px_0_rgba(255,255,255,0.05),var(--shadow-sm)]'
-        ];
-        
-        const inactiveClasses = [
-          'text-(--fg-muted)', 'border', 'border-transparent',
-          'hover:text-(--fg-strong)', 'hover:bg-(--bg-muted)'
-        ];
+        btn.dataset.active = isActive ? 'true' : 'false';
 
-        btn.classList.add(...baseClasses);
-        
         if (isActive) {
-          btn.classList.add(...activeClasses);
           panel.classList.remove('hidden');
           panel.classList.add('block', 'animate-openFade');
         } else {
-          btn.classList.add(...inactiveClasses);
           panel.classList.add('hidden');
         }
 
         btn.addEventListener('click', () => {
+
           Array.from(header.children).forEach(b => {
-            b.className = '';
-            b.classList.add(...baseClasses, ...inactiveClasses);
+            b.dataset.active = 'false';
           });
-          
+
           panels.forEach(p => {
             p.className = 'tab-panel hidden';
           });
 
-          btn.className = '';
-          btn.classList.add(...baseClasses, ...activeClasses);
+          btn.dataset.active = 'true';
           panel.className = 'tab-panel block animate-openFade';
         });
 
@@ -93,21 +120,3 @@ const isContainer = !label;
     customElements.define('mdx-tabs', MdxTabs);
   }
 </script>
-
-<style>
-  @keyframes openFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  :global(.animate-openFade) {
-    animation: openFade 0.15s ease-in-out forwards;
-  }
-  
-  .tabs-content :global(pre) {
-    margin-top: 0.5rem !important;
-    margin-bottom: 0 !important;
-    border-radius: 8px !important;
-    border: 1px solid var(--border-subtle) !important;
-    background-color: var(--bg-subtle) !important;
-  }
-</style>
