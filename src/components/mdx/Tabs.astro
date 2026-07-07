@@ -47,17 +47,18 @@ const $ = {
 </template>
 
 <style is:global>
-  .tabs-content > *:first-child {
+
+  .tabs-content > *:first-child,
+  .tab-panel > *:first-child {
     margin-top: 0 !important;
   }
-  .tabs-content > *:last-child {
+  
+  .tabs-content > *:last-child,
+  .tab-panel > *:last-child {
     margin-bottom: 0 !important;
   }
   
-  .tabs-content > *,
-  .tabs-content > code,
-  .tabs-content > .astro-code,
-  .tab-panel > * {
+  .tabs-content > * {
     margin: 0 !important;
   }
   
