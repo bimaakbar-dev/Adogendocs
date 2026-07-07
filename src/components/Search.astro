@@ -2,72 +2,163 @@
 import Button from "./ui/Button.astro";
 import Icon from "./ui/Icons.astro";
 import Spinner from "./ui/Spinner.astro";
+
+const $ = {
+  overlay: "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70",
+  modal: "fixed left-1/2 top-[5%] w-[95%] max-w-2xl -translate-x-1/2 rounded-lg border border-(--border-strong) bg-(--bg-subtle) shadow-2xl transition-all duration-(--duration-fast) scale-95 opacity-0",
+  searchBar: "flex items-center gap-2 px-4 py-3",
+  searchIcon: "relative inline-flex shrink-0 items-center justify-center transition-opacity duration-(--duration)",
+  
+  closeIcon: "rounded-md px-2 py-1 text-xs font-mono text-(--fg-muted) hover:bg-(--bg-subtle) border border-(--border-subtle)",
+  
+  spinner: "absolute inset-0 hidden text-(--fg-strong)",
+  searchInput: "w-full bg-transparent text-md text-(--fg) outline-none placeholder:text-(--fg-muted)",
+  searchResult: "max-h-[70vh] overflow-y-auto",
+  searchResultList: "hidden space-y-2 p-2",
+
+  emptyNote: "p-8 text-center text-base text-(--fg-muted)",
+
+  iconSize: "w-4 h-4",
+}
+
+const $$ = {
+  resultWrapper: "result-group rounded-md bg-(--bg) overflow-hidden",
+  resultItem: "result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+  resultImage: "aspect-video h-10 w-auto shrink-0 rounded object-cover hidden",
+  
+  resultList: "flex min-w-0 flex-col gap-0.5",
+  resultTitle: "truncate text-(--fg-strong) font-medium",
+  resultMetaGroup: "flex gap-2 text-[10px] text-(--fg-muted)",
+  resultDescription: "result-excerpt line-clamp-1 text-xs text-(--fg-muted)",
+
+  subResultList: "sub-results-list border-t border-(--border-subtle)/40",
+  subResultWrapper: "sub-result flex justify-start pl-6 pr-3 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+  subResultItem: "sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs",
+  subResultMeta: "flex min-w-0 flex-col gap-0.5",
+  subResultTitle: "truncate text-(--fg)",
+  subResultDescription: "result-excerpt line-clamp-1 text-(--fg-muted)",
+
+  recentWrapper: "flex items-center justify-between px-4 pt-3 pb-1",
+  recentLabel: "text-sm font-semibold text-(--fg-strong)",
+
+  recentList: "m-1 space-y-1 p-2 border border-(--border-subtle) rounded-md bg-(--bg)",
+  recentItem: "recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)",
+  recentListItem: "flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-opacity hover:bg-(--bg-muted)",
+  
+  recentTitle: "text-base truncate",
+  recentRemove: "shrink-0 rounded-md p-1.5 text-(--fg-muted) opacity-0 transition-opacity hover:text-(--fg-strong) active:text-(--fg-strong) group-hover:opacity-100"
+}
 ---
 
-<div id="search-overlay" class="fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70">
-  <div id="search-modal" class="fixed left-1/2 top-[5%] w-[90%] max-w-2xl -translate-x-1/2 rounded-md border border-(--border) bg-(--bg-subtle) shadow-2xl transition-all duration-200 scale-95 opacity-0">
-    <div class="flex items-center gap-2 px-4 py-3">
-      <div class="relative flex h-4 w-4 shrink-0 items-center justify-center">
-        <span id="search-icon-wrap" class="flex transition-opacity duration-(--duration)">
-          <Icon name="search" fill class="h-4 w-4 text-(--fg-muted)" />
-        </span>
-        <Spinner id="search-spinner" size="sm" class="absolute inset-0 hidden text-(--fg-strong)" />
+<div id="search-overlay" class={$.overlay}>
+  <div id="search-modal" class={$.modal}>
+    <div class={$.searchBar}>
+      <div class:list={[
+        $.iconSize,
+        $.searchIcon
+      ]}>
+        <Icon id="search-icon-wrap" name="search" fill class="h-full w-full text-(--fg-muted)" />
+        <Spinner id="search-spinner" size="sm" class={$.spinner} />
       </div>
-      <input id="search-input" type="text" placeholder="Ketik untuk mencari..." class="w-full bg-transparent text-sm text-(--fg) outline-none placeholder:text-(--fg-muted)" autofocus />
-      <button id="search-close" aria-label="Tutup" class="rounded-md px-2 py-1 text-xs font-mono text-(--fg-muted) hover:bg-(--bg-subtle) border border-(--border-subtle)">ESC</button>
+      <input id="search-input" type="text" placeholder="Ketik untuk mencari..." class={$.searchInput} autofocus />
+      <div id="search-close" class="relative inline-flex items-center justify-center shrink-0">
+        <Button 
+          aria-label="Tutup" 
+          variant="secondary"
+          size="sm"
+          class:list={[
+            "close-desktop",
+            $.closeIcon
+          ]}>
+          ESC
+        </Button>
+        <!--<Button 
+          variant="icon" 
+          size="md" 
+          thisIcon 
+          aria-label="Tutup" 
+          class:list={[
+            "close-mobile",
+            $.iconSize,
+          ]}>
+          <Icon name="close" class="w-full h-full" />
+        </Button>-->
+      </div>
     </div>
-    <div id="search-results" class="max-h-[60vh] overflow-y-auto">
+    <div id="search-results" class={$.searchResult}>
       <div id="search-empty" class="hidden"></div>
-      <ul id="search-list" class="hidden space-y-2 border-b border-(--border-subtle)/80 p-2"></ul>
+      <ul id="search-list" class={$.searchResultList}></ul>
     </div>
   </div>
 </div>
 
 <template id="search-result-template">
-  <li class="result-group rounded-md bg-(--bg) overflow-hidden">
-    <a class="result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)">
-      <img data-slot="image" class="h-10 w-10 shrink-0 rounded object-cover hidden" src="" alt="" />
-      <div class="flex min-w-0 flex-col gap-0.5">
-        <span data-slot="title" class="truncate text-(--fg-strong) font-medium"></span>
-        <div class="flex gap-2 text-[10px] text-(--fg-muted)">
+  <li class={$$.resultWrapper}>
+    <a class={$$.resultItem}>
+      <img data-slot="image" class={$$.resultImage} src="" alt="" />
+      <div class={$$.resultList}>
+        <span data-slot="title" class={$$.resultTitle}></span>
+        <div class={$$.resultMetaGroup}>
           <span data-slot="author"></span>
           <span data-slot="date"></span>
         </div>
-        <span data-slot="description" class="result-excerpt line-clamp-1 text-xs text-(--fg-muted)"></span>
+        <span data-slot="description" class={$$.resultDescription}></span>
       </div>
     </a>
-    <ul data-slot="sub-results" class="sub-results-list border-t border-(--border-subtle)/40"></ul>
+    <ul data-slot="sub-results" class={$$.subResultList}></ul>
   </li>
 </template>
 
 <template id="search-subresult-template">
-  <li class="sub-result flex justify-start pl-6 pr-3 hover:bg-(--bg-muted) active:bg-(--bg-muted)">
-    <a class="sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs">
-      <div class="flex min-w-0 flex-col gap-0.5">
-        <span data-slot="sub-title" class="truncate text-(--fg)"></span>
-        <span data-slot="sub-excerpt" class="result-excerpt line-clamp-1 text-(--fg-muted)"></span>
+  <li class={$$.subResultWrapper}>
+    <a class={$$.subResultItem}>
+      <div class={$$.subResultMeta}>
+        <span data-slot="sub-title" class={$$.subResultTitle}></span>
+        <span data-slot="sub-excerpt" class={$$.subResultDescription}></span>
       </div>
     </a>
   </li>
 </template>
 
-<template id="search-empty-template"><p class="p-8 text-center text-sm text-(--fg-muted)">Tidak ada hasil</p></template>
+<template id="search-empty-template">
+  <p class={$.emptyNote}>Tidak ada hasil</p>
+</template>
 
 <template id="search-recent-wrap-template">
-  <div class="flex items-center justify-between px-4 pt-3 pb-1">
-    <span class="text-xs font-medium text-(--fg-muted)">Pencarian terakhir</span>
-    <button type="button" data-action="clear-recent" class="text-xs text-(--fg-muted) hover:text-(--fg) transition-opacity">Hapus semua</button>
+  <div class={$$.recentWrapper}>
+    <span class={$$.recentLabel}>Pencarian terakhir</span>
+    <Button 
+      variant="secondary"
+      size="sm"
+      data-action="clear-recent">
+      Hapus riwayat
+    </Button>
   </div>
-  <ul data-slot="recent-list" class="space-y-1 p-2 pt-1"></ul>
+  <ul data-slot="recent-list" class={$$.recentList}></ul>
 </template>
 
 <template id="search-recent-item-template">
-  <li class="recent-item group flex items-center gap-1 rounded-md text-sm text-(--fg)">
-    <button type="button" data-action="use-recent" class="flex flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-opacity hover:bg-(--bg-muted)">
-      <Icon name="history" class="w-4 h-4" />
-      <span data-slot="recent-query" class="truncate"></span>
-    </button>
-    <Button variant="icon" size="sm" thisIcon data-action="remove-recent" class="shrink-0 rounded-md p-1.5 text-(--fg-muted) opacity-0 transition-opacity hover:text-(--fg) group-hover:opacity-100"><Icon name="close" class="w-4 h-4" /></Button>
+  <li class={$$.recentItem}>
+    <Button 
+      size="md"
+      variant="ghost"
+      data-action="use-recent" 
+      class={$$.recentListItem}
+      block
+      prefix={<Icon name="history" class={$.iconSize} />}>
+      <span data-slot="recent-query" class={$$.recentTitle}></span>
+    </Button>
+    <Button 
+      variant="icon" 
+      size="md" 
+      thisIcon 
+      data-action="remove-recent" 
+      class:list={[
+        $.iconSize,
+        $$.recentRemove
+      ]}>
+      <Icon name="remove" class="w-full h-full" />
+    </Button>
   </li>
 </template>
 
@@ -77,60 +168,231 @@ import Spinner from "./ui/Spinner.astro";
     const RECENT_KEY = "search:recent", MAX_RECENT = 5;
     let isOpen = false, pagefind = null, pagefindLoading = null;
 
-    async function loadPagefind() { if (pagefindLoading) return pagefindLoading; pagefindLoading = (async () => { pagefind = await import("/pagefind/pagefind.js"); await pagefind.init(); })(); return pagefindLoading; }
-    function setLoading(isLoading) { if (!iconWrap || !spinner) return; iconWrap.classList.toggle("opacity-0", isLoading); spinner.classList.toggle("hidden", !isLoading); }
-    function getRecentSearches() { try { const raw = localStorage.getItem(RECENT_KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
-    function saveRecentSearch(query) { if (!query) return; let recent = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase()); recent.unshift(query); recent = recent.slice(0, MAX_RECENT); try { localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); } catch {} }
-    function removeRecentSearch(query) { const recent = getRecentSearches().filter(q => q !== query); try { localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); } catch {} showRecentSearches(); }
-    function clearRecentSearches() { try { localStorage.removeItem(RECENT_KEY); } catch {} showRecentSearches(); }
+    async function loadPagefind() { 
+      if (pagefindLoading) return pagefindLoading; 
+      
+      pagefindLoading = (async () => {
+         pagefind = await import("/pagefind/pagefind.js"); 
+         await pagefind.init(); 
+      })(); 
+      return pagefindLoading; 
+    }
+
+    function setLoading(isLoading) { 
+      if (!iconWrap || !spinner) return; 
+      
+      iconWrap.classList.toggle("opacity-0", isLoading); 
+      spinner.classList.toggle("hidden", !isLoading); 
+    }
+
+    function getRecentSearches() { 
+      try { const raw = localStorage.getItem(RECENT_KEY); 
+        return raw ? JSON.parse(raw) : []; 
+      } catch { 
+        return []; 
+      } 
+    }
+
+    function saveRecentSearch(query) { 
+      if (!query) return; 
+      let recent = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase()); 
+      recent.unshift(query); 
+      recent = recent.slice(0, MAX_RECENT); 
+      try { 
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); 
+      } catch {} 
+    }
+
+    function removeRecentSearch(query) { 
+      const recent = getRecentSearches().filter(q => q !== query); 
+      try { 
+        localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); 
+      } catch {} 
+
+      showRecentSearches(); 
+    }
+
+    function clearRecentSearches() { 
+      try { 
+        localStorage.removeItem(RECENT_KEY); 
+      } catch {} 
+      showRecentSearches(); 
+    }
+
     function showRecentSearches() {
-      if (!empty) return; empty.innerHTML = ""; const recent = getRecentSearches(); if (!recent.length || !recentWrapTemplate || !recentItemTemplate) { empty.classList.add("hidden"); return; }
-      empty.classList.remove("hidden"); const wrapNode = recentWrapTemplate.content.cloneNode(true); const recentList = wrapNode.querySelector('[data-slot="recent-list"]');
+      if (!empty) return; 
+      empty.innerHTML = ""; 
+
+      const recent = getRecentSearches(); 
+      if (!recent.length || !recentWrapTemplate || !recentItemTemplate) { 
+        empty.classList.add("hidden"); 
+        return; 
+      }
+      empty.classList.remove("hidden"); 
+
+      const wrapNode = recentWrapTemplate.content.cloneNode(true); 
+      const recentList = wrapNode.querySelector('[data-slot="recent-list"]');
+      
       recent.forEach(query => {
-        const itemNode = recentItemTemplate.content.cloneNode(true); itemNode.querySelector('[data-slot="recent-query"]').textContent = query;
-        itemNode.querySelector('[data-action="use-recent"]').addEventListener("click", () => { input.value = query; input.focus(); saveRecentSearch(query); performSearch(); });
-        itemNode.querySelector('[data-action="remove-recent"]').addEventListener("click", (e) => { e.stopPropagation(); removeRecentSearch(query); });
+        const itemNode = recentItemTemplate.content.cloneNode(true); 
+
+        itemNode.querySelector('[data-slot="recent-query"]').textContent = query;
+        
+        itemNode.querySelector('[data-action="use-recent"]').addEventListener("click", () => { 
+          input.value = query; 
+          input.focus(); 
+          saveRecentSearch(query); 
+          performSearch(); 
+        });
+
+        itemNode.querySelector('[data-action="remove-recent"]').addEventListener("click", (e) => { 
+          e.stopPropagation(); 
+          removeRecentSearch(query); 
+        });
+
         recentList.appendChild(itemNode);
       });
       wrapNode.querySelector('[data-action="clear-recent"]').addEventListener("click", clearRecentSearches); empty.appendChild(wrapNode);
     }
-    function clearList() { if (list) { list.classList.add("hidden"); list.innerHTML = ""; } }
-    function clearEmpty() { if (empty) { empty.classList.add("hidden"); empty.innerHTML = ""; } }
-    function showNoResults() { if (!empty || !emptyTemplate) return; empty.innerHTML = ""; empty.appendChild(emptyTemplate.content.cloneNode(true)); empty.classList.remove("hidden"); }
-    function openSearch() { if (!overlay || !modal) return; loadPagefind(); overlay.classList.remove("hidden"); isOpen = true; document.body.style.overflow = "hidden"; requestAnimationFrame(() => { modal.classList.remove("scale-95", "opacity-0"); modal.classList.add("scale-100", "opacity-100"); }); setTimeout(() => input?.focus(), 150); clearList(); showRecentSearches(); }
-    function closeSearch() { if (!overlay || !modal) return; modal.classList.remove("scale-100", "opacity-100"); modal.classList.add("scale-95", "opacity-0"); setTimeout(() => { overlay.classList.add("hidden"); isOpen = false; document.body.style.overflow = ""; }, 150); if (input) input.value = ""; clearList(); clearEmpty(); setLoading(false); }
-    document.addEventListener("open-search", openSearch); closeBtn?.addEventListener("click", closeSearch); overlay?.addEventListener("click", (e) => { if (e.target === overlay) closeSearch(); });
-    document.addEventListener("keydown", (e) => { if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); isOpen ? closeSearch() : openSearch(); } if (e.key === "Escape" && isOpen) closeSearch(); });
 
-    function buildSubResult(sub) { const node = subResultTemplate.content.cloneNode(true); node.querySelector("a").href = sub.url; node.querySelector('[data-slot="sub-title"]').textContent = sub.title || ""; if (sub.excerpt) node.querySelector('[data-slot="sub-excerpt"]').innerHTML = sub.excerpt; else node.querySelector('[data-slot="sub-excerpt"]').remove(); return node; }
+    function clearList() { 
+      if (list) { 
+        list.classList.add("hidden"); 
+        list.innerHTML = ""; 
+      } 
+    }
+
+    function clearEmpty() { 
+      if (empty) { 
+        empty.classList.add("hidden"); 
+        empty.innerHTML = ""; 
+      } 
+    }
+
+    function showNoResults() { 
+      if (!empty || !emptyTemplate) return; 
+      empty.innerHTML = ""; 
+      empty.appendChild(emptyTemplate.content.cloneNode(true)); 
+      empty.classList.remove("hidden"); 
+    }
+
+    function openSearch() { 
+      if (!overlay || !modal) return; 
+      loadPagefind(); 
+      overlay.classList.remove("hidden"); 
+      isOpen = true; 
+      document.body.style.overflow = "hidden"; 
+      requestAnimationFrame(() => { 
+        modal.classList.remove("scale-95", "opacity-0"); 
+        modal.classList.add("scale-100", "opacity-100"); 
+      }); 
+      setTimeout(() => input?.focus(), 150); 
+      clearList(); 
+      showRecentSearches(); 
+    }
+
+    function closeSearch() { 
+      if (!overlay || !modal) return; 
+      modal.classList.remove("scale-100", "opacity-100"); 
+      modal.classList.add("scale-95", "opacity-0"); 
+      setTimeout(() => { 
+        overlay.classList.add("hidden"); 
+        isOpen = false; document.body.style.overflow = "";
+      }, 150); 
+      if (input) input.value = ""; 
+      clearList(); 
+      clearEmpty(); 
+      setLoading(false); 
+    }
+
+    document.addEventListener("open-search", openSearch); 
+    closeBtn?.addEventListener("click", closeSearch); 
+
+    overlay?.addEventListener("click", (e) => { 
+      if (e.target === overlay) closeSearch(); 
+    });
+
+    document.addEventListener("keydown", (e) => { 
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { 
+        e.preventDefault(); 
+        isOpen ? closeSearch() : openSearch(); 
+      } if (e.key === "Escape" && isOpen) closeSearch(); 
+    });
+
+    function buildSubResult(sub) { 
+      const node = subResultTemplate.content.cloneNode(true); 
+      node.querySelector("a").href = sub.url; 
+      node.querySelector('[data-slot="sub-title"]').textContent = sub.title || ""; 
+      if (sub.excerpt) node.querySelector('[data-slot="sub-excerpt"]').innerHTML = sub.excerpt; 
+      else node.querySelector('[data-slot="sub-excerpt"]').remove(); 
+      return node; 
+    }
     
     function buildResultItem(item) {
       const node = resultTemplate.content.cloneNode(true);
       node.querySelector("a.result-item").href = item.url;
       node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
       const img = node.querySelector('[data-slot="image"]');
-      if (item.meta?.image) { img.src = item.meta.image; img.classList.remove("hidden"); }
+
+      if (item.meta?.image) { 
+        img.src = item.meta.image; 
+        img.classList.remove("hidden"); 
+      }
+
       if (item.meta?.author) node.querySelector('[data-slot="author"]').textContent = `by ${item.meta.author}`;
       if (item.meta?.date) node.querySelector('[data-slot="date"]').textContent = new Date(item.meta.date).toLocaleDateString();
+      
       const desc = item.excerpt || item.meta?.description || "";
       if (desc) node.querySelector('[data-slot="description"]').innerHTML = desc;
       else node.querySelector('[data-slot="description"]').remove();
+      
       const subs = (item.sub_results || []).filter(s => s.url !== item.url).slice(0, 3);
       if (subs.length) subs.forEach(s => node.querySelector('[data-slot="sub-results"]').appendChild(buildSubResult(s)));
       else node.querySelector('[data-slot="sub-results"]').remove();
       return node;
     }
-    function renderResults(items) { if (!list || !resultTemplate) return; if (!items.length) { clearList(); showNoResults(); return; } clearEmpty(); list.classList.remove("hidden"); const frag = document.createDocumentFragment(); items.forEach(i => frag.appendChild(buildResultItem(i))); list.innerHTML = ""; list.appendChild(frag); }
+
+    function renderResults(items) { 
+      if (!list || !resultTemplate) return; 
+      
+      if (!items.length) { 
+        clearList(); 
+        showNoResults(); 
+        return; 
+      }
+
+      clearEmpty(); 
+      list.classList.remove("hidden"); 
+      
+      const frag = document.createDocumentFragment(); 
+      items.forEach(i => frag.appendChild(buildResultItem(i))); 
+      list.innerHTML = ""; 
+      list.appendChild(frag); 
+    }
 
     let searchToken = 0;
+
     async function performSearch() {
       const token = ++searchToken; const query = input?.value?.trim() || "";
-      if (!query) { clearList(); showRecentSearches(); setLoading(false); return; }
-      clearEmpty(); setLoading(true); await loadPagefind();
+      
+      if (!query) { 
+        clearList(); 
+        showRecentSearches(); 
+        setLoading(false); 
+        return; 
+      }
+      clearEmpty(); 
+      setLoading(true); 
+      await loadPagefind();
+
       const res = await pagefind.debouncedSearch(query);
       if (token !== searchToken) return;
+
       const items = await Promise.all(res.results.map(r => r.data()));
-      if (token === searchToken) { renderResults(items); setLoading(false); }
+      if (token === searchToken) { 
+        renderResults(items); 
+        setLoading(false); 
+      }
     }
 
     input?.addEventListener("input", performSearch);
@@ -140,9 +402,43 @@ import Spinner from "./ui/Spinner.astro";
 </script>
 
 <style is:global>
-  #search-modal { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
-  #search-overlay { transition: opacity 0.2s ease; }
-  .sub-result::before { content: '├─'; color: var(--fg-subtle); }
-  .sub-result:last-of-type::before { content: '└─'; color: var(--fg-subtle); }
-  .result-excerpt mark { background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important; color: var(--accent); border-radius: 0 !important; padding: 0 4px !important; }
+  #search-modal { 
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    opacity 0.2s ease; 
+  }
+
+  #search-overlay { 
+    transition: opacity 0.2s ease; 
+  }
+  .sub-result::before { 
+    content: '├─'; 
+    color: var(--fg-subtle); 
+  }
+  .sub-result:last-of-type::before { 
+    content: '└─'; 
+    color: var(--fg-subtle); 
+  }
+  .result-excerpt mark { 
+    background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important; 
+    color: var(--accent); 
+    border-radius: 0 !important; 
+    padding: 0 4px !important; 
+  }
+
+  .close-desktop { 
+    display: block; 
+  }
+
+  .close-mobile { 
+    display: none; 
+  }
+
+  @media (max-width: 767px) {
+    /* .close-desktop { 
+      display: none; 
+    } */
+    .close-mobile { 
+      display: block; 
+    }
+  }
 </style>
