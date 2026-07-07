@@ -16,9 +16,8 @@ const {
 const s = {
   ActionWrapper: 'copy-dropdown-wrapper relative inline-flex items-stretch rounded-md border border-(--border-subtle) bg-(--bg) shadow-sm hover:shadow transition-shadow duration-(--duration)',
   actionGroup: 'flex items-center gap-2 text-xs md:text-sm font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity cursor-pointer',
-  actionIcon: "w-5 h-5",
-  actionPrefix: 'relative inline-flex items-center justify-center shrink-0',
-  actionSuffix: 'copy-trigger relative inline-flex items-center justify-center shrink-0',
+  actionIcon: 'w-5 h-5 relative inline-flex items-center justify-center shrink-0',
+  actionSuffix: 'relative inline-flex items-center justify-center shrink-0',
   actionDropdown: 'copy-menu hidden absolute right-0 top-[calc(100%+0.5rem)] min-w-[12rem] z-50 rounded-lg border border-(--border-subtle) bg-(--bg-subtle) shadow-lg p-1 animate-in fade-in slide-in-from-top-2 origin-top-right',
   actionDropdownItems: 'flex items-center gap-3 p-2 text-xs md:text-sm text-start text-(--fg) rounded-md w-full hover:bg-(--bg-muted) hover:text-(--fg-strong) active:bg-(--bg-muted) active:text-(--fg-muted) cursor-pointer'
 }
@@ -38,8 +37,7 @@ const s = {
       s.actionGroup
     ]}>
     <div class:list={[
-      s.actionIcon,
-      s.actionPrefix
+      s.actionIcon
     ]}>
       <Icon name="copy" class="icon-copy w-full h-full text-(--fg-muted)" />
       <Icon name="check" class="icon-check w-full h-full hidden absolute inset-0 text-(--accent) transition-opacity duration-200" />
@@ -49,13 +47,13 @@ const s = {
   <button 
     aria-label="More copy options" 
     class:list={[
+      "copy-trigger",
       "p-1.5",
       "rounded-r-md border-l border-(--border-subtle)",
       s.actionGroup
     ]}>
     <div class:list={[
-      s.actionIcon,
-      s.actionSuffix
+      s.actionIcon
     ]}>
     <Icon name="chevron-down" class="w-full h-full" />
     </div>
