@@ -13,6 +13,7 @@ import ThemeProvider from "@/components/ThemeProvider.astro";
 import SkipLink from "@components/SkipLink.astro";
 import Search from "@components/Search.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
+import CopyCode from "@/components/CopyCode.astro";
 
 interface Props {
   meta?: Partial<ReturnType<typeof BuildMetaFn>>;
@@ -53,6 +54,7 @@ const {
       </div>
       {!hideFooter && <div />}
     </Page>
+    <CopyCode />
     <ScrollToTop />
   </body>
 </html>
