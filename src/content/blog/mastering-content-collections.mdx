@@ -52,15 +52,13 @@ Instead of relying on loose Markdown files, every document follows the same stru
 
 A common project structure looks like this:
 
-:::code
-```text
-src/
-└── content/
-    ├── blog/
-    ├── docs/
-    ├── novels/
-    └── legal/
-```
+:::filetree
+- src/
+  -  content/
+  -  blog/
+  -  docs/
+  -  novels/
+  -  legal/
 :::
 
 Separating content by collection keeps the project maintainable while making routing much easier.
@@ -69,7 +67,6 @@ Separating content by collection keeps the project maintainable while making rou
 
 Every collection can define its own schema.
 
-:::code
 ```ts
 const blog = defineCollection({
   loader: glob({
@@ -83,7 +80,6 @@ const blog = defineCollection({
   }),
 });
 ```
-:::
 
 Schemas ensure every article contains the required metadata before the site is built.
 
