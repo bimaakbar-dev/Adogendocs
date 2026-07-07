@@ -18,8 +18,14 @@ const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
 
 <a
   href={href}
-  target={isExternal ? "_blank" : undefined}
-  rel={isExternal ? "nofollow noopener noreferrer" : undefined}
+  target={
+    isExternal ? "_blank" 
+    : undefined
+  }
+  rel={
+    isExternal ? "nofollow noopener noreferrer" 
+    : undefined
+  }
   class:list={[
     "inline-link", 
     isExternal && "is-external", 
@@ -44,6 +50,7 @@ const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
     height: 0.95em;
     margin-left: 0.25rem;
     margin-top: 0;
+    margin-bottom: 0;
     opacity: 0.7;
     line-height: 1.7 !important;
 
