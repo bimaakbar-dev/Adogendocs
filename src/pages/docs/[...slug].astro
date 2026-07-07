@@ -21,6 +21,7 @@ import MobileToc from "@components/MobileToc.astro";
 import DocsHeader from "@docs/DocsHeader.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 import DocsFooter from "@docs/DocsFooter.astro";
+import CopyCode from "@/components/CopyCode.astro";
 
 export async function getStaticPaths() {
   const docsEntries = await getCollection("docs");
