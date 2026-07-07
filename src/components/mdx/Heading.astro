@@ -1,6 +1,5 @@
 ---
-import Icon from "@/components/ui/Icons.astro";
-
+// src/components/mdx/Heading.astro
 interface Props {
   id?: string;
   class?: string;
@@ -34,26 +33,25 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
   <span data-pagefind-meta="title" class="heading-text-wrapper">
     <slot />
     {id && (level === 2 || level === 3) && (
-      <>
-        <a
-          href={`#${id}`}
-          data-pagefind-ignore
-          aria-label={anchorLabel}
-          class="anchor-link inline-flex ml-1 align-middle"
-        >
-          <Icon name="link" class="w-4 h-4 hover:text-(--accent) active:text-(--accent)" />
-        </a>
-      </>
+      <a
+        href={`#${id}`}
+        data-pagefind-ignore
+        aria-label={anchorLabel}
+        class="anchor-link"
+      />
     )}
   </span>
 </Tag>
 
-<style>
+<style is:global>
+  html {
+    scroll-behavior: auto !important;
+  }
+
   .heading-group.has-anchor {
     cursor: pointer;
     text-decoration: none;
-    scroll-margin-top: var(--scroll-padding);
-    line-height: 1.4;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .heading-text-wrapper {
@@ -63,32 +61,38 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
 
   .anchor-link {
     display: inline-flex;
-    vertical-align: middle;
     align-items: center;
-    justify-content: center;
-    width: 1em;
-    height: 1em;
+    width: 0.75em;
+    height: 0.75em;
+    margin-left: 0.35rem;
     opacity: 0;
     transform: translateX(-4px);
     transition:
-      opacity 0.15s ease,
-      transform 0.15s ease,
-      color 0.15s ease;
-    color: var(--fg-subtle, #888);
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      background-image 0.15s ease;
     text-decoration: none;
-    pointer-events: none;
+    pointer-events: auto;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjODg4ODg4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEwIDEzYTUgNSAwIDAgMCA3LjU0LjU0bDMtM2E1IDUgMCAwIDAtNy4wNy03LjA3bC0xLjcyIDEuNzFNMTQgMTFhNSA1IDAgMCAwLTcuNTQtLjU0bC0zIDNhNSA1IDAgMCAwIDcuMDcgNy4wN2wxLjcxLTEuNzEiLz48L3N2Zz4=");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  h3 .anchor-link {
+    width: 0.7em;
+    height: 0.7em;
+    align-items: center;
   }
 
   @media (hover: hover) {
     .heading-group.has-anchor:hover .anchor-link {
       opacity: 1;
       transform: translateX(0);
-      pointer-events: auto;
-      color: var(--fg-subtle, #888);
     }
 
     .anchor-link:hover {
-      color: var(--fg-strong, #111);
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGE2NzVkIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEwIDEzYTUgNSAwIDAgMCA3LjU0LjU0bDMtM2E1IDUgMCAwIDAtNy4wNy03LjA3bC0xLjcyIDEuNzFNMTQgMTFhNSA1IDAgMCAwLTcuNTQtLjU0bC0zIDNhNSA1IDAgMCAwIDcuMDcgNy4wN2wxLjcxLTEuNzEiLz48L3N2Zz4=");
     }
   }
 
@@ -96,19 +100,12 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
     .heading-group.is-tapped .anchor-link {
       opacity: 1;
       transform: translateX(0);
-      pointer-events: auto;
-      color: var(--fg-subtle, #a3a3a3);
     }
 
     .anchor-link:active {
-      color: var(--fg-strong, #111);
-      transform: scale(0.92);
-      transition: transform 0.1s ease-out, color 0.1s ease-out;
+      transform: scale(0.9);
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTExMTExIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEwIDEzYTUgNSAwIDAgMCA3LjU0LjU0bDMtM2E1IDUgMCAwIDAtNy4wNy03LjA3bC0xLjcyIDEuNzFNMTQgMTFhNSA1IDAgMCAwLTcuNTQtLjU0bC0zIDNhNSA1IDAgMCAwIDcuMDcgNy4wN2wxLjcxLTEuNzEiLz48L3N2Zz4=");
     }
-  }
-
-  :global(html:has(:target)) {
-    scroll-behavior: auto !important;
   }
 </style>
 
@@ -147,5 +144,7 @@ const classes = headingClasses[`h${level}`] || "text-heading-20";
       }
     });
   }
+  
   initHeadingTap();
+  document.addEventListener("astro:page-load", initHeadingTap);
 </script>
