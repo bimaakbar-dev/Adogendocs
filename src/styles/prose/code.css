@@ -30,7 +30,6 @@
   padding: 0.5rem 0;
   border: none !important;
   border-radius: none !important;
-  background-color: none !important;
 }
 
 .astro-code,
@@ -63,7 +62,7 @@
 
 .prose .astro-code .line {
   display: block;
-  padding: 0 1rem !important;
+  padding: 0 1.5rem !important;
   line-height: inherit;
   white-space: pre;
 }
