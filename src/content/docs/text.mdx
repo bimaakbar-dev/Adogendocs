@@ -93,7 +93,7 @@ interface Props {
   title?: string; // [!code --]
 }
 
-const { title = "" } = Astro.props;
+const { title = "" } = Astro.props; // [!code highlight]
 
 const $ = {
   wrapper:
@@ -136,216 +136,44 @@ const $ = {
     <slot />
   </div>
 </div>
-
-<style is:global>
-  @reference "@/styles/utils.css";
-  .code-content {
-    scrollbar-width: none;
-  }
-  .code-content::-webkit-scrollbar {
-    display: none;
-  }
-
-  .code-block-wrapper.is-collapsed .code-content .astro-code {
-    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-    max-height: 12rem;
-    overflow: hidden;
-  }
-
-  .code-content .astro-code {
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .btn-expand {
-    @apply text-label-14;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition:
-      color 150ms ease,
-      background-color 150ms ease;
-    cursor: pointer;
-    border-top: 1px solid var(--prose-code-border) / 40;
-    background-color: var(--prose-code-header-bg);
-    padding: 0.5rem 0;
-    width: 100%;
-    color: var(--prose-fg-muted);
-    font-weight: 500;
-  }
-
-  .btn-expand:hover {
-    background-color: var(--prose-surface-hover);
-    color: var(--prose-fg-strong);
-  }
-
-  .btn-expand svg {
-    transition: transform 200ms ease;
-  }
-
-  .code-block-wrapper:not(.is-collapsed) .btn-expand svg {
-    transform: rotate(180deg);
-  }
-
-  .copy-button.copied {
-    border-color: var(--success) !important;
-    background-color: var(--success-soft) !important;
-    color: var(--success) !important;
-  }
-</style>
-
-<script>
-  (() => {
-    const LANG_MAP: Record<string, string> = {
-      js: "JS",
-      ts: "TS",
-      jsx: "JSX",
-      tsx: "TSX",
-      py: "PY",
-      html: "HTML",
-      css: "CSS",
-      json: "JSON",
-      yaml: "YAML",
-      toml: "TOML",
-      bash: "BASH",
-      sh: "SH",
-      md: "MD",
-      mdx: "MDX",
-      astro: "ASTRO",
-      vue: "VUE",
-      svelte: "SVELTE",
-      rust: "RS",
-    };
-
-    const ALIASES: Record<string, string> = {
-      javascript: "js",
-      typescript: "ts",
-      python: "py",
-      shell: "sh",
-    };
-
-    const THRESHOLD = 25;
-
-    const getCleanLang = (pre: HTMLElement | null): string => {
-      if (!pre) return "";
-      const dl = pre.getAttribute("data-language");
-      if (dl)
-        return ALIASES[dl.toLowerCase().trim()] ?? dl.toLowerCase().trim();
-      const m = pre.className.match(/language-([a-zA-Z0-9+#-]+)/);
-      return ALIASES[m?.[1] ?? ""] ?? m?.[1] ?? "";
-    };
-
-    const setupCodeBlock = (wrapper: HTMLElement) => {
-      wrapper.classList.add("is-processed");
-      const pre = wrapper.querySelector<HTMLElement>(
-        ".code-content pre.astro-code",
-      );
-      if (!pre) return;
-
-      const lang = getCleanLang(pre);
-      const badge = wrapper.querySelector<HTMLElement>(".lang-badge");
-      if (badge && lang) {
-        badge.textContent = LANG_MAP[lang] ?? lang.toUpperCase();
-        badge.style.display = "inline-flex";
-      }
-
-      const btn = wrapper.querySelector<HTMLButtonElement>(".copy-button");
-      const code = pre.querySelector("code");
-      if (btn && code) {
-        btn.addEventListener("click", async () => {
-          const rawText = code.textContent?.trimEnd() ?? "";
-          try {
-            await navigator.clipboard.writeText(rawText);
-            const copyIcon = btn.querySelector(".copy-icon");
-            const checkIcon = btn.querySelector(".check-icon");
-
-            copyIcon?.classList.add("hidden");
-            checkIcon?.classList.remove("hidden");
-            btn.classList.add("copied");
-
-            setTimeout(() => {
-              copyIcon?.classList.remove("hidden");
-              checkIcon?.classList.add("hidden");
-              btn.classList.remove("copied");
-            }, 2000);
-          } catch (e) {
-            console.error("Gagal menyalin:", e);
-          }
-        });
-      }
-
-      const lines = pre.querySelectorAll("code > .line");
-      if (lines.length >= THRESHOLD) {
-        wrapper.classList.add("is-collapsed");
-
-        const btnExpand = document.createElement("button");
-        btnExpand.type = "button";
-        btnExpand.className = "btn-expand";
-        btnExpand.innerHTML = `
-          <div class="flex items-center gap-1.5">
-            <span class="expand-label">Lihat semua (${lines.length} baris)</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-        `;
-        wrapper.appendChild(btnExpand);
-
-        btnExpand.addEventListener("click", () => {
-          const collapsed = wrapper.classList.toggle("is-collapsed");
-          const label = btnExpand.querySelector(".expand-label");
-
-          if (collapsed) {
-            if (label)
-              label.textContent = `Lihat semua (${lines.length} baris)`;
-            pre.style.maxHeight = "";
-            const rect = wrapper.getBoundingClientRect();
-            if (rect.top < 0) {
-              wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          } else {
-            if (label) label.textContent = "Sembunyikan";
-            pre.style.maxHeight = `${pre.scrollHeight + 16}px`;
-          }
-        });
-      }
-    };
-
-    const initAllBlocks = () => {
-      document
-        .querySelectorAll<HTMLElement>(".code-block-wrapper:not(.is-processed)")
-        .forEach(setupCodeBlock);
-    };
-
-    document.addEventListener("astro:page-load", initAllBlocks);
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initAllBlocks);
-    } else {
-      initAllBlocks();
-    }
-  })();
-</script>
 ```
 :::
+
+### CodeBlock
+```astro
+---
+// src/components/mdx/CodeBlock.astro
+import Icon from "@/components/ui/icons/Icon.astro"; // [!code ++]
+
+interface Props {
+  title?: string; // [!code --]
+}
+
+const { title = "" } = Astro.props; // [!code highlight]
+---
+
+```
 
 ## Callouts
 
 :::note
-INI NOTE
+ini Callout Note
 :::
 
 :::info
-INI INFO
+ini Callout Info
 :::
 
 :::tip
-INI TIP
+ini Callout Tip
 :::
 
 :::warning
-INI WARNING
+ini Callout Warning
 :::
 
 :::danger
-INI DANGER
+ini Callout Danger
 :::
 
 ## Details
@@ -357,27 +185,17 @@ ini isi Details yang dibuat lebih panjang untuk membantu testing rendering accor
 
 ## Changelog
 
-:::changelog
-
-### 0.0.1
-
-- New Build
-
-### 0.0.2
-
-- New Feature
-- Upgrade UI & UX
-
-### 0.0.3
-
-- Remove some feature
-- Improve Performance
-
-### 0.0.4
-
-- New Build
-- Full Upgrade
-  :::
+::::changelog
+:::log[v1.0.4 - 2026-07-07]
+Perbaikan bug pada sistem autentikasi dan optimalisasi performa database:
+- Memperbaiki celah keamanan pada token JWT
+- Meningkatkan kecepatan query hingga `40%` lebih efisien
+- Memperbarui dokumentasi API internal
+:::
+:::log[v1.0.3 - 2026-06-15]
+Peluncuran modul inventaris baru untuk melacak stok barang secara real-time.
+:::
+::::
 
 ## STEPS
 
@@ -407,9 +225,19 @@ ini isi Details yang dibuat lebih panjang untuk membantu testing rendering accor
 
 ![c0desk1](/org/c0desk1-og.webp)
 
-## Gambar dengan caption
+### Gambar dengan caption
 
 :::figure
 ![c0desk1](/org/c0desk1-og.webp)
 Caption dan gambar di atas dipakai untuk memastikan alignment caption, typography, spacing vertikal, serta perilaku layout media tetap konsisten ketika digunakan bersama elemen markdown lainnya seperti paragraf, heading, maupun list.
 :::
+
+## Tabs
+::::tabs
+:::tab[Ini tabs 1]
+ini isi tab 1
+:::
+:::tab[Ini tab 2]
+ini isi tabs 2
+:::
+::::
