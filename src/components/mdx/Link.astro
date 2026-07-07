@@ -1,6 +1,5 @@
 ---
 // src/components/mdx/Link.astro
-import Icon from "@ui/Icons.astro";
 
 interface Props {
   href?: string;
@@ -18,9 +17,53 @@ const isExternal = href?.startsWith("http") && !href?.startsWith(siteUrl);
   href={href}
   target={isExternal ? "_blank" : undefined}
   rel={isExternal ? "nofollow noopener noreferrer" : undefined}
-  class:list={["inline-link", props.class]}
+  class:list={[
+    "inline-link", 
+    isExternal && "is-external", 
+    props.class
+  ]}
   {...props}
 >
   <slot />
-  {isExternal && <Icon name="external" class="external-icon w-4 h-4" />}
 </a>
+
+<style>
+  .inline-link.is-external {
+    display: inline !important; 
+  }
+
+  .inline-link.is-external::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+
+    width: 0.85em;
+    height: 0.85em;
+    margin-left: 0.25rem;
+
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGE2NzVkIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDZoLTZhMiAyIDAgMCAwLTIgMnYxMGEyIDIgMCAwIDAgMiAyaDEwYTIgMiAwIDAgMCAyLTJ2LTYiLz48cGF0aCBkPSJNMTEgMTNsOS05Ii8+PHBhdGggZD0iTTE1IDRoNXY1Ii8+PC9zdmc+");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    transition: opacity var(--duration, 150ms) var(--ease-out, ease);
+    opacity: 0.8;
+  }
+
+  @media (hover: hover) {
+    .inline-link.is-external:hover::after {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .inline-link.is-external::after {
+      opacity: 1; 
+    }
+    
+    .inline-link.is-external:active::after {
+      opacity: 0.7;
+      transform: scale(0.92);
+    }
+  }
+</style>
