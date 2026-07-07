@@ -22,7 +22,7 @@ const links = [
 
   <div
     id="mobile-menu-panel"
-    class="fixed left-0 right-0 z-40 overflow-hidden backdrop-blur-md overscroll-contain bg-(--bg) rounded-b-xl border-b border-(--border-subtle)/80 shadow-lg"
+    class="fixed left-0 right-0 z-40 overscroll-contain bg-(--bg) rounded-b-xl border-b border-(--border-subtle)/80 shadow-lg"
     style="top: var(--header-height, 56px);"
   >
     <nav class="px-4 py-3 space-y-2">
@@ -32,7 +32,7 @@ const links = [
             <a
               aria-label={item.label}
               href={item.href}
-              class="mobile-nav-link flex items-center gap-3 rounded-md p-2 text-sm font-medium text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
+              class="mobile-nav-link flex items-center gap-3 rounded-md p-2 text-sm font-medium text-(--fg) hover:bg-(--bg-muted)/40 active:bg-(--bg-muted) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
               style={`transition-delay: ${idx * 40}ms;`}
             >
               <span class="inline-flex items-center justify-center w-5 h-5">
@@ -45,7 +45,7 @@ const links = [
       </div>
       <div 
         id="mobile-nav-footer"
-        class="flex items-center p-1 mb-2 justify-between rounded-lg bg-(--bg-subtle) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
+        class="flex items-center p-1 mb-2 justify-between rounded-lg bg-(--bg-subtle)"
         style={`transition-delay: ${links.length * 40}ms;`}
       >
         <Socials />
