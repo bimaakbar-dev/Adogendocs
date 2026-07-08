@@ -77,29 +77,19 @@ const Divider = "text-(--fg-muted)/50";
         <span data-pagefind-meta="author" class="text-(--fg-strong)">{Author.name}</span>
       </span>
     </div>
-    <h1 data-pagefind-meta="title" class={Title}>
-      {title}
-    </h1>
+    <h1 data-pagefind-meta="title" class={Title}>{title}</h1>
     <div class={Meta}>
       {pubDate && (
-        <span class={Item}>
-          <p>
-            <time data-pagefind-sort="date" datetime={pubDate.toISOString()}>
-              {formatDate(pubDate)}
-            </time>
-          </p>
-        </span>
+        <p class={Item}>
+          <time data-pagefind-sort="date" datetime={pubDate.toISOString()}>
+            {formatDate(pubDate)}
+          </time>
+        </p>
       )}
-      <span data-pagefind-ignore class={Divider}>/</span>
-      <span data-pagefind-ignore class={Item}>
-        <span>{readingTime}</span>
-      </span>
+      <span data-pagefind-ignore aria-hidden="true" class={Divider}>/</span>
+      <span data-pagefind-ignore class={Item}>{readingTime}</span>
     </div>
-    {description && (
-      <p data-pagefind-meta="description" class={Description}>
-        {description}
-      </p>
-    )}
+    <p data-pagefind-meta="description" class={Description}>{description}</p>
     {cover && (
       <figure class={Cover}>
         <Image
