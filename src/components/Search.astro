@@ -209,17 +209,22 @@ const card = {
     target.scrollIntoView({ block: "nearest" });
   }
 
-  function buildSub(sub) {
+    function buildSub(sub) {
     const node = tplSubresult.content.cloneNode(true);
     node.querySelector("a").href = sub.url;
-    node.querySelector('[data-slot="title"]').textContent = sub.title ?? "";
+    
+    const subTitle = sub.title ?? "";
+    node.querySelector('[data-slot="title"]').textContent = subTitle;
 
     const excEl = node.querySelector('[data-slot="excerpt"]');
-
     let excerpt = sub.excerpt || sub.meta?.description || "";
 
     if (excerpt) {
       let cleanText = excerpt.replace(/<[^>]*>/g, '').trim();
+
+      if (subTitle && cleanText.toLowerCase().startsWith(subTitle.toLowerCase())) {
+        cleanText = cleanText.substring(subTitle.length).trim();
+      }
 
       if (cleanText.length > 120) {
         cleanText = cleanText.slice(0, 120) + '...';
