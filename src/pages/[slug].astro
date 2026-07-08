@@ -50,34 +50,34 @@ const pageSchema = schemaWebPage({
 ---
 
 <Layout meta={metaProps} schema={pageSchema}>
-  <main>
-    <article data-pagefind-body data-pagefind-filter="type:legal">
-      <Container size="md">
-        <div class="py-12 md:py-16">
-          <header class="mb-8">
-            <h1 data-pagefind-meta="title" class="mb-3 text-3xl font-bold tracking-tight text-(--fg-strong) sm:text-4xl">
-              {entry.data.title}
-            </h1>
-            <div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-(--fg-muted)">
-              <p data-pagefind-meta="description" class="mb-0 border-b border-none pb-0 text-sm text-(--fg-muted)">
-                {entry.data.description}
-              </p>
-              <div class="flex items-center gap-1.5 rounded-md border border-(--border)/60 bg-(--bg-subtle) px-2.5 py-1 font-medium">
-                {entry.data.lastUpdated && (
-                  <span>Last updated:</span>
-                  <time data-pagefind-sort="date" datetime={entry.data.lastUpdated.toISOString()}>
-                    {formatDate(entry.data.lastUpdated)}
-                  </time>
-                )}
+  <Container size="md">
+    <main>
+      <article data-pagefind-body data-pagefind-filter="type:legal">
+          <div class="py-12 md:py-16">
+            <header class="mb-8">
+              <h1 data-pagefind-meta="title" class="mb-3 text-3xl font-bold tracking-tight text-(--fg-strong) sm:text-4xl">
+                {entry.data.title}
+              </h1>
+              <div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-(--fg-muted)">
+                <p data-pagefind-meta="description" class="mb-0 border-b border-none pb-0 text-sm text-(--fg-muted)">
+                  {entry.data.description}
+                </p>
+                <div class="flex items-center gap-1.5 rounded-md border border-(--border)/60 bg-(--bg-subtle) px-2.5 py-1 font-medium">
+                  {entry.data.lastUpdated && (
+                    <span>Last updated:</span>
+                    <time data-pagefind-sort="date" datetime={entry.data.lastUpdated.toISOString()}>
+                      {formatDate(entry.data.lastUpdated)}
+                    </time>
+                  )}
+                </div>
               </div>
+            </header>
+            <div class="my-6 h-px bg-(--border)/60"></div>
+            <div class="prose">
+              <Content components={components} />
             </div>
-          </header>
-          <div class="my-6 h-px bg-(--border)/60"></div>
-          <div class="prose">
-            <Content components={components} />
           </div>
-        </div>
-      </Container>
-    </article>
-  </main>
+      </article>
+    </main>
+  </Container>
 </Layout>
