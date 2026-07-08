@@ -55,7 +55,7 @@ const $ = {
       <div class={$.metaRight}>
         <p>
           {pubDate && (
-            <time data-pagefind-sort="date" datetime={pubDate.toISOString()}>
+            <time datetime={pubDate.toISOString()}>
               {formatDateCompact(pubDate)}
             </time>
           )}
@@ -63,7 +63,6 @@ const $ = {
         {author.avatar && (
           <div class={$.avatar}>
             <Image
-              data-pagefind-meta="image[src], image_alt[alt]"
               src={Author.avatar}
               alt={Author.alt}
               width={Author.width}
@@ -78,10 +77,10 @@ const $ = {
       </div>
     </div>
     <div class={$.content}>
-      <h3 data-pagefind-meta="title" class={$.title}>
+      <h3 class={$.title}>
         {title}
       </h3>
-      <p data-pagefind-meta="description" class={$.description}>
+      <p class={$.description}>
         {description}
       </p>
       <div class={$.footer}>
