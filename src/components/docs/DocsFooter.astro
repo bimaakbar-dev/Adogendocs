@@ -13,7 +13,7 @@ interface Props {
 
 const { prev, next, primaryRootId, lastUpdated } = Astro.props;
 ---
-<div class="items-center justify-center w-full shrink-0 mb-(--safe-bottom)">
+<div data-pagefind-ignore class="items-center justify-center w-full shrink-0 mb-(--safe-bottom)">
     <!--<Feedback />-->
     <p class="text-(--fg-muted)/80 py-4">
         {lastUpdated && (
