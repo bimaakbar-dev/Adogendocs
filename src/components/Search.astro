@@ -3,337 +3,461 @@ import Button from "./ui/Button.astro";
 import Icon from "./ui/Icons.astro";
 import Spinner from "./ui/Spinner.astro";
 
-const $ = {
-  overlay: "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm transition-opacity duration-200 dark:bg-black/70",
-  modal: "fixed left-1/2 top-0 w-[95%] max-w-2xl -translate-x-1/2 rounded-lg border border-(--border-strong) bg-(--bg-subtle) shadow-2xl transition-all duration-(--duration-fast) scale-95 opacity-0",
-  searchBar: "flex items-center gap-2 px-3 py-3",
-  searchIcon: "relative inline-flex shrink-0 items-center justify-center transition-opacity duration-(--duration)",
-  close: "px-1! h-auto! font-mono rounded-md!",
-  closeMobile: "",
-  spinner: "absolute inset-0 hidden text-(--fg-strong)",
-  searchInput: "w-full bg-transparent text-md text-(--fg) outline-none placeholder:text-(--fg-muted)",
-  searchResult: "max-h-[65vh] overflow-y-auto",
-  searchResultList: "hidden space-y-2 p-2",
-  emptyNote: "p-8 text-center text-base text-(--fg-muted)",
-  loadMoreWrap: "hidden p-2 pt-2",
-  loadMoreBtn: "w-full",
-  iconSize: "w-4 h-4",
+const PAGE_SIZE = 6;
+
+const ui = {
+  overlay:   "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm",
+  modal:     [
+    "fixed w-full left-0 bottom-0 rounded-t-xl",
+    "sm:left-1/2 sm:bottom-auto sm:top-[12vh] sm:w-[95%] sm:max-w-2xl",
+    "sm:-translate-x-1/2 sm:rounded-xl",
+    "border border-(--border-strong) bg-(--bg-subtle) shadow-2xl opacity-0 scale-95",
+  ].join(" "),
+  bar:       "flex items-center gap-2 px-3 py-3 border-b border-(--border-subtle)",
+  iconSlot:  "relative inline-flex shrink-0 items-center justify-center size-4 transition-opacity duration-(--duration)",
+  spinner:   "absolute inset-0 hidden text-(--fg-strong)",
+  input:     "w-full bg-transparent text-sm text-(--fg) outline-none placeholder:text-(--fg-muted)",
+  closeDesk: "px-1! h-auto! font-mono rounded-md! hidden! sm:inline-flex! shrink-0",
+  closeMob:  "inline-flex! sm:hidden! shrink-0",
+  results:   "max-h-[55vh] sm:max-h-[60vh] overflow-y-auto overscroll-contain",
+  list:      "hidden space-y-1.5 p-2",
+  empty:     "p-10 text-center text-sm text-(--fg-muted)",
+  sentinel:  "h-px",
 };
 
-const $$ = {
-  resultWrapper: "result-group rounded-md bg-(--bg) overflow-hidden",
-  resultItem: "result-item flex items-start gap-3 px-3 py-2 text-sm transition-opacity hover:bg-(--bg-muted) active:bg-(--bg-muted)",
-  resultImage: "aspect-video h-10 w-auto shrink-0 rounded object-cover hidden",
-  resultList: "flex min-w-0 flex-col gap-0.5",
-  resultTitle: "truncate text-(--fg-strong) font-medium",
-  resultMetaGroup: "flex gap-2 text-[10px] text-(--fg-muted)",
-  resultDescription: "result-excerpt line-clamp-1 text-xs text-(--fg-muted)",
-  subResultList: "sub-results-list border-t border-(--border-subtle)/40",
-  subResultWrapper: "sub-result flex justify-start pl-6 pr-3 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
-  subResultItem: "sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs",
-  subResultMeta: "flex min-w-0 flex-col gap-1",
-  subResultTitle: "truncate text-(--fg)",
-  subResultDescription: "result-excerpt line-clamp-1 text-(--fg-muted)",
+const card = {
+  group:      "result-group rounded-lg bg-(--bg) overflow-hidden ring-1 ring-(--border-subtle)/50",
+  link:       "result-item flex items-start gap-3 px-3 py-2.5 text-sm transition-colors outline-none",
+  cover:      "aspect-video h-10 w-auto shrink-0 rounded object-cover hidden",
+  body:       "flex min-w-0 flex-col gap-0.5",
+  title:      "truncate text-(--fg-strong) font-medium text-sm",
+  meta:       "flex gap-2 text-[10px] text-(--fg-muted)",
+  excerpt:    "result-excerpt line-clamp-1 text-xs text-(--fg-muted)",
+  subList:    "sub-results-list border-t border-(--border-subtle)/40",
+  subRow:     "sub-result flex justify-start pl-6 pr-3",
+  subLink:    "sub-result-item flex items-start gap-2 py-1.5 pl-2 text-xs w-full outline-none",
+  subBody:    "flex min-w-0 flex-col gap-0.5",
+  subTitle:   "truncate text-(--fg)",
+  subExcerpt: "result-excerpt line-clamp-1 text-(--fg-muted)",
 };
-
-const SEARCH_PAGE_SIZE = 8;
 ---
 
-<div id="search-overlay" class={$.overlay}>
-  <div id="search-modal" class={$.modal}>
-    <div class={$.searchBar}>
-      <div class:list={[$.iconSize, $.searchIcon]}>
-        <Icon id="search-icon-wrap" name="search" fill class="h-full w-full text-(--fg-muted)" />
-        <Spinner id="search-spinner" size="sm" class={$.spinner} />
+<div
+  id="search-overlay"
+  class={ui.overlay}
+  role="dialog"
+  aria-modal="true"
+  aria-label="Pencarian"
+>
+  <div id="search-modal" class={ui.modal}>
+
+    <div class={ui.bar}>
+      <div class={ui.iconSlot}>
+        <Icon id="search-icon" name="search" fill class="h-full w-full text-(--fg-muted)" />
+        <Spinner id="search-spinner" size="sm" class={ui.spinner} />
       </div>
-      <input id="search-input" type="text" placeholder="Ketik untuk mencari..." class={$.searchInput} autofocus />
-      <Button data-action="close-search" aria-label="Tutup" variant="secondary" size="sm" class:list={[$.close, "hidden! sm:inline-flex!"]}>
-        ESC
-      </Button>
-      <Button data-action="close-search" aria-label="Tutup" variant="icon" size="sm" thisIcon class:list={[$.closeMobile, "inline-flex! sm:hidden!"]}>
-        <Icon name="remove" class={$.iconSize} />
+      <input
+        id="search-input"
+        type="text"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls="search-list"
+        aria-expanded="false"
+        placeholder="Ketik untuk mencari..."
+        class={ui.input}
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <Button data-action="close-search" aria-label="Tutup pencarian" variant="secondary" size="sm" class={ui.closeDesk}>ESC</Button>
+      <Button data-action="close-search" aria-label="Tutup pencarian" variant="icon" size="sm" thisIcon class={ui.closeMob}>
+        <Icon name="remove" class="size-4" />
       </Button>
     </div>
-    <div id="search-results" class={$.searchResult}>
+
+    <div id="search-results" class={ui.results}>
       <div id="search-empty" class="hidden"></div>
-      <ul id="search-list" class={$.searchResultList}></ul>
+      <ul
+        id="search-list"
+        class={ui.list}
+        role="listbox"
+        aria-label="Hasil pencarian"
+      ></ul>
+      <div id="search-sentinel" class={ui.sentinel}></div>
     </div>
-    <div id="search-load-more-wrap" class={$.loadMoreWrap}>
-      <Button id="search-load-more" variant="secondary" size="sm" block class={$.loadMoreBtn}>
-        Muat lebih banyak
-      </Button>
-    </div>
+
   </div>
 </div>
 
-<template id="search-result-template">
-  <li class={$$.resultWrapper}>
-    <a class={$$.resultItem}>
-      <img data-slot="image" class={$$.resultImage} src="" alt="" />
-      <div class={$$.resultList}>
-        <span data-slot="title" class={$$.resultTitle}></span>
-        <div class={$$.resultMetaGroup}>
+<template id="tpl-result">
+  <li class={card.group} role="option" aria-selected="false">
+    <a class={card.link} tabindex="-1">
+      <img data-slot="image" class={card.cover} src="" alt="" loading="lazy" />
+      <div class={card.body}>
+        <span data-slot="title"  class={card.title}></span>
+        <div data-slot="meta"    class={card.meta}>
           <span data-slot="author"></span>
           <span data-slot="date"></span>
         </div>
-        <span data-slot="description" class={$$.resultDescription}></span>
+        <span data-slot="excerpt" class={card.excerpt}></span>
       </div>
     </a>
-    <ul data-slot="sub-results" class={$$.subResultList}></ul>
+    <ul data-slot="subs" class={card.subList}></ul>
   </li>
 </template>
 
-<template id="search-subresult-template">
-  <li class={$$.subResultWrapper}>
-    <a class={$$.subResultItem}>
-      <div class={$$.subResultMeta}>
-        <span data-slot="sub-title" class={$$.subResultTitle}></span>
-        <span data-slot="sub-excerpt" class={$$.subResultDescription}></span>
+<template id="tpl-subresult">
+  <li class={card.subRow} role="option" aria-selected="false">
+    <a class={card.subLink} tabindex="-1">
+      <div class={card.subBody}>
+        <span data-slot="title"   class={card.subTitle}></span>
+        <span data-slot="excerpt" class={card.subExcerpt}></span>
       </div>
     </a>
   </li>
 </template>
 
-<template id="search-empty-template">
-  <p class={$.emptyNote}>Tidak ada hasil</p>
+<template id="tpl-empty">
+  <p class={ui.empty}>Tidak ada hasil ditemukan.</p>
 </template>
 
-<script is:inline define:vars={{ SEARCH_PAGE_SIZE }}>
-  (() => {
-    const overlay = document.getElementById("search-overlay"),
-      modal = document.getElementById("search-modal"),
-      input = document.getElementById("search-input"),
-      list = document.getElementById("search-list"),
-      empty = document.getElementById("search-empty"),
-      iconWrap = document.getElementById("search-icon-wrap"),
-      spinner = document.getElementById("search-spinner"),
-      resultTemplate = document.getElementById("search-result-template"),
-      subResultTemplate = document.getElementById("search-subresult-template"),
-      emptyTemplate = document.getElementById("search-empty-template"),
-      loadMoreWrap = document.getElementById("search-load-more-wrap"),
-      loadMoreBtn = document.getElementById("search-load-more");
+<script is:inline define:vars={{ PAGE_SIZE }}>
+(() => {
+  // ── Elements ──────────────────────────────────────────────────────────
+  const $         = (id) => document.getElementById(id);
+  const overlay   = $("search-overlay");
+  const modal     = $("search-modal");
+  const input     = $("search-input");
+  const resultsEl = $("search-results");
+  const list      = $("search-list");
+  const emptyEl   = $("search-empty");
+  const iconEl    = $("search-icon");
+  const spinnerEl = $("search-spinner");
+  const sentinel  = $("search-sentinel");
 
-    const closeBtns = document.querySelectorAll('[data-action="close-search"]');
-    const PAGE_SIZE = SEARCH_PAGE_SIZE || 8;
+  const tplResult    = $("tpl-result");
+  const tplSubresult = $("tpl-subresult");
+  const tplEmpty     = $("tpl-empty");
 
-    let isOpen = false,
-      pagefind = null,
-      pagefindLoading = null;
-    let currentRawResults = [];
-    let renderedCount = 0;
-    let searchToken = 0;
+  // ── State ─────────────────────────────────────────────────────────────
+  let isOpen    = false;
+  let pf        = null;
+  let pfLoader  = null;
+  let results   = [];
+  let rendered  = 0;
+  let token     = 0;
+  let activeIdx = -1;
+  let observer  = null;
 
-    async function loadPagefind() {
-      if (pagefindLoading) return pagefindLoading;
-      pagefindLoading = (async () => {
-        pagefind = await import("/pagefind/pagefind.js");
-        await pagefind.init();
-      })();
-      return pagefindLoading;
+  // ── Pagefind ──────────────────────────────────────────────────────────
+  function loadPF() {
+    if (!pfLoader) pfLoader = import("/pagefind/pagefind.js").then(async (m) => {
+      pf = m;
+      await pf.init();
+    });
+    return pfLoader;
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────
+  function isMobile() {
+    return window.innerWidth < 640;
+  }
+
+  function setLoading(on) {
+    iconEl?.classList.toggle("opacity-0", on);
+    spinnerEl?.classList.toggle("hidden", !on);
+  }
+
+  function getFocusables() {
+    return [...list.querySelectorAll("a[tabindex]")];
+  }
+
+  function reset() {
+    list.innerHTML    = "";
+    list.classList.add("hidden");
+    emptyEl.innerHTML = "";
+    emptyEl.classList.add("hidden");
+    input.setAttribute("aria-expanded", "false");
+    results   = [];
+    rendered  = 0;
+    activeIdx = -1;
+  }
+
+  function showEmpty() {
+    emptyEl.appendChild(tplEmpty.content.cloneNode(true));
+    emptyEl.classList.remove("hidden");
+  }
+
+  // ── Keyboard navigation ───────────────────────────────────────────────
+  function setActive(idx) {
+    const links = getFocusables();
+    if (!links.length) return;
+
+    idx = Math.max(-1, Math.min(idx, links.length - 1));
+
+    links.forEach((a) => {
+      a.closest('[role="option"]')?.setAttribute("aria-selected", "false");
+      a.classList.remove("bg-(--bg-muted)");
+    });
+
+    activeIdx = idx;
+
+    if (idx === -1) {
+      input.focus();
+      return;
     }
 
-    function setLoading(isLoading) {
-      if (!iconWrap || !spinner) return;
-      iconWrap.classList.toggle("opacity-0", isLoading);
-      spinner.classList.toggle("hidden", !isLoading);
+    const target = links[idx];
+    target.closest('[role="option"]')?.setAttribute("aria-selected", "true");
+    target.classList.add("bg-(--bg-muted)");
+    target.scrollIntoView({ block: "nearest" });
+  }
+
+  // ── Build DOM nodes ───────────────────────────────────────────────────
+  function buildSub(sub) {
+    const node = tplSubresult.content.cloneNode(true);
+    node.querySelector("a").href = sub.url;
+    node.querySelector('[data-slot="title"]').textContent = sub.title ?? "";
+    const excEl = node.querySelector('[data-slot="excerpt"]');
+    if (sub.excerpt) excEl.innerHTML = sub.excerpt;
+    else excEl.remove();
+    return node;
+  }
+
+  function buildResult(item) {
+    const node = tplResult.content.cloneNode(true);
+    node.querySelector("a").href = item.url;
+    node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
+
+    const img = node.querySelector('[data-slot="image"]');
+    if (item.meta?.image) { img.src = item.meta.image; img.classList.remove("hidden"); }
+
+    const author = node.querySelector('[data-slot="author"]');
+    const date   = node.querySelector('[data-slot="date"]');
+    if (item.meta?.author) author.textContent = `by ${item.meta.author}`;
+    if (item.meta?.date)   date.textContent   = new Date(item.meta.date).toLocaleDateString("id-ID");
+    if (!item.meta?.author && !item.meta?.date) node.querySelector('[data-slot="meta"]')?.remove();
+
+    const excEl = node.querySelector('[data-slot="excerpt"]');
+    const exc   = item.excerpt || item.meta?.description || "";
+    if (exc) excEl.innerHTML = exc; else excEl.remove();
+
+    const subsEl = node.querySelector('[data-slot="subs"]');
+    const subs   = (item.sub_results ?? []).filter((s) => s.url !== item.url).slice(0, 3);
+    if (subs.length) subs.forEach((s) => subsEl.appendChild(buildSub(s)));
+    else subsEl.remove();
+
+    return node;
+  }
+
+  // ── Infinite scroll ───────────────────────────────────────────────────
+  function setupObserver() {
+    observer?.disconnect();
+    observer = new IntersectionObserver(async ([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (rendered >= results.length) { observer.disconnect(); return; }
+      await renderPage(token);
+    }, { root: resultsEl, threshold: 0 });
+    observer.observe(sentinel);
+  }
+
+  async function renderPage(t) {
+    const batch = results.slice(rendered, rendered + PAGE_SIZE);
+    if (!batch.length) return;
+
+    const items = await Promise.all(batch.map((r) => r.data()));
+    if (t !== token) return;
+
+    const frag = document.createDocumentFragment();
+    items.forEach((i) => frag.appendChild(buildResult(i)));
+    list.appendChild(frag);
+    rendered += batch.length;
+  }
+
+  // ── Search ────────────────────────────────────────────────────────────
+  async function search() {
+    const t     = ++token;
+    const query = input.value.trim();
+
+    reset();
+    observer?.disconnect();
+    if (!query) { setLoading(false); return; }
+
+    setLoading(true);
+    await loadPF();
+
+    const res = await pf.debouncedSearch(query);
+    if (t !== token) return;
+
+    results  = res?.results ?? [];
+    rendered = 0;
+
+    if (!results.length) { showEmpty(); setLoading(false); return; }
+
+    list.classList.remove("hidden");
+    input.setAttribute("aria-expanded", "true");
+
+    await renderPage(t);
+    if (t === token) {
+      setLoading(false);
+      setupObserver();
+    }
+  }
+
+  input?.addEventListener("input", search);
+
+  // ── Keyboard handler ──────────────────────────────────────────────────
+  document.addEventListener("keydown", (e) => {
+    if (!isOpen) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); open(); }
+      return;
     }
 
-    function clearList() {
-      if (list) {
-        list.classList.add("hidden");
-        list.innerHTML = "";
-      }
-      hideLoadMore();
-      currentRawResults = [];
-      renderedCount = 0;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActive(activeIdx + 1);
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActive(activeIdx - 1);
+      return;
+    }
+    if (e.key === "Enter" && activeIdx >= 0) {
+      e.preventDefault();
+      getFocusables()[activeIdx]?.click();
+      return;
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      close();
+      return;
+    }
+    if (e.key === "Escape") {
+      close();
+      return;
     }
 
-    function clearEmpty() {
-      if (empty) {
-        empty.classList.add("hidden");
-        empty.innerHTML = "";
-      }
+    // Printable key while navigating → return focus to input
+    if (activeIdx >= 0 && e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
+      setActive(-1);
     }
+  });
 
-    function showNoResults() {
-      if (!empty || !emptyTemplate) return;
-      empty.innerHTML = "";
-      empty.appendChild(emptyTemplate.content.cloneNode(true));
-      empty.classList.remove("hidden");
-    }
+  // ── Open / Close ──────────────────────────────────────────────────────
+  function open() {
+    if (isOpen) return;
+    loadPF();
+    overlay.classList.remove("hidden");
+    isOpen = true;
+    document.body.style.overflow = "hidden";
 
-    function showLoadMore() {
-      loadMoreWrap?.classList.remove("hidden");
-    }
-
-    function hideLoadMore() {
-      loadMoreWrap?.classList.add("hidden");
-    }
-
-    function openSearch() {
-      if (!overlay || !modal) return;
-      loadPagefind();
-      overlay.classList.remove("hidden");
-      isOpen = true;
-      document.body.style.overflow = "hidden";
-      requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (isMobile()) {
+        modal.classList.remove("scale-95", "opacity-0");
+        modal.classList.add("scale-100", "opacity-100", "translate-y-0");
+      } else {
         modal.classList.remove("scale-95", "opacity-0");
         modal.classList.add("scale-100", "opacity-100");
-      });
-      setTimeout(() => input?.focus(), 150);
-      clearList();
-      clearEmpty();
-    }
+      }
+    });
 
-    function closeSearch() {
-      if (!overlay || !modal) return;
+    setTimeout(() => input?.focus(), 100);
+    reset();
+  }
+
+  function close() {
+    if (!isOpen) return;
+    observer?.disconnect();
+
+    if (isMobile()) {
+      modal.classList.remove("translate-y-0");
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+        modal.classList.remove("scale-100", "opacity-100");
+        modal.classList.add("scale-95", "opacity-0");
+        isOpen = false;
+        document.body.style.overflow = "";
+        if (input) input.value = "";
+        reset();
+        setLoading(false);
+      }, 280);
+    } else {
       modal.classList.remove("scale-100", "opacity-100");
       modal.classList.add("scale-95", "opacity-0");
       setTimeout(() => {
         overlay.classList.add("hidden");
         isOpen = false;
         document.body.style.overflow = "";
-      }, 150);
-      if (input) input.value = "";
-      clearList();
-      clearEmpty();
-      setLoading(false);
-    }
-
-    document.addEventListener("open-search", openSearch);
-
-    closeBtns.forEach((btn) => btn.addEventListener("click", closeSearch));
-
-    overlay?.addEventListener("click", (e) => {
-      if (e.target === overlay) closeSearch();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        isOpen ? closeSearch() : openSearch();
-      }
-      if (e.key === "Escape" && isOpen) closeSearch();
-    });
-
-    function buildSubResult(sub) {
-      const node = subResultTemplate.content.cloneNode(true);
-      node.querySelector("a").href = sub.url;
-      node.querySelector('[data-slot="sub-title"]').textContent = sub.title || "";
-      if (sub.excerpt) node.querySelector('[data-slot="sub-excerpt"]').innerHTML = sub.excerpt;
-      else node.querySelector('[data-slot="sub-excerpt"]').remove();
-      return node;
-    }
-
-    function buildResultItem(item) {
-      const node = resultTemplate.content.cloneNode(true);
-      node.querySelector("a.result-item").href = item.url;
-      node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
-      const img = node.querySelector('[data-slot="image"]');
-      if (item.meta?.image) {
-        img.src = item.meta.image;
-        img.classList.remove("hidden");
-      }
-      if (item.meta?.author) node.querySelector('[data-slot="author"]').textContent = `by ${item.meta.author}`;
-      if (item.meta?.date) node.querySelector('[data-slot="date"]').textContent = new Date(item.meta.date).toLocaleDateString();
-      const desc = item.excerpt || item.meta?.description || "";
-      if (desc) node.querySelector('[data-slot="description"]').innerHTML = desc;
-      else node.querySelector('[data-slot="description"]').remove();
-      const subs = (item.sub_results || []).filter((s) => s.url !== item.url).slice(0, 3);
-      if (subs.length) subs.forEach((s) => node.querySelector('[data-slot="sub-results"]').appendChild(buildSubResult(s)));
-      else node.querySelector('[data-slot="sub-results"]').remove();
-      return node;
-    }
-
-    async function renderNextPage(token) {
-      const nextBatch = currentRawResults.slice(renderedCount, renderedCount + PAGE_SIZE);
-      if (!nextBatch.length) {
-        hideLoadMore();
-        return;
-      }
-      const items = await Promise.all(nextBatch.map((r) => r.data()));
-      if (token !== searchToken) return;
-      const frag = document.createDocumentFragment();
-      items.forEach((i) => frag.appendChild(buildResultItem(i)));
-      list.appendChild(frag);
-      renderedCount += nextBatch.length;
-      if (renderedCount < currentRawResults.length) showLoadMore();
-      else hideLoadMore();
-    }
-
-    loadMoreBtn?.addEventListener("click", () => renderNextPage(searchToken));
-
-    async function performSearch() {
-      const token = ++searchToken;
-      const query = input?.value?.trim() || "";
-
-      if (!query) {
-        clearList();
-        clearEmpty();
+        if (input) input.value = "";
+        reset();
         setLoading(false);
-        return;
-      }
-      clearEmpty();
-      setLoading(true);
-      await loadPagefind();
-
-      const res = await pagefind.debouncedSearch(query);
-      if (token !== searchToken) return;
-
-      currentRawResults = res.results || [];
-      renderedCount = 0;
-      list.innerHTML = "";
-
-      if (!currentRawResults.length) {
-        clearList();
-        showNoResults();
-        setLoading(false);
-        return;
-      }
-
-      clearEmpty();
-      list.classList.remove("hidden");
-      await renderNextPage(token);
-      if (token === searchToken) setLoading(false);
+      }, 200);
     }
+  }
 
-    input?.addEventListener("input", performSearch);
-  })();
+  // ── External listeners ────────────────────────────────────────────────
+  document.addEventListener("open-search", open);
+  overlay?.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  document.querySelectorAll('[data-action="close-search"]').forEach((el) => el.addEventListener("click", close));
+})();
 </script>
 
 <style is:global>
+  /* Desktop: scale in/out */
   #search-modal {
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out;
+    transition:
+      transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity   0.18s ease-out;
   }
-  #search-overlay {
-    transition: opacity 0.25s ease-out;
+
+  /* Mobile: slide up from bottom */
+  @media (max-width: 639px) {
+    #search-modal {
+      transform: translateY(100%);
+      opacity: 1 !important;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #search-modal.translate-y-0 {
+      transform: translateY(0);
+    }
   }
-  .sub-result {
-    position: relative;
+
+  /* Hover & keyboard active */
+  .result-item:hover,
+  .result-item.bg-\(--bg-muted\) {
+    background-color: var(--bg-muted);
   }
+  .sub-result-item:hover {
+    background-color: var(--bg-muted);
+  }
+
+  /* Sub-result tree lines */
+  .sub-result { position: relative; }
   .sub-result::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 12px;
-    width: 12px;
-    height: 20px;
-    border-left: 1.5px solid var(--border-strong);
+    top: 0; left: 12px;
+    width: 12px; height: 20px;
+    border-left:   1.5px solid var(--border-strong);
     border-bottom: 1.5px solid var(--border-strong);
-    border-bottom-left-radius: 0px;
   }
   .sub-result:not(:last-of-type)::after {
     content: "";
     position: absolute;
-    top: 20px;
-    bottom: 0;
-    left: 12px;
+    top: 20px; bottom: 0; left: 12px;
     border-left: 1.5px solid var(--border-strong);
   }
+
+  /* Pagefind highlight */
   .result-excerpt mark {
     background-color: color-mix(in srgb, var(--color-chart-2) 10%, transparent) !important;
-    color: var(--accent);
-    border-radius: 0 !important;
-    padding: 0 4px !important;
+    color:            var(--accent);
+    border-radius:    0 !important;
+    padding:          0 4px !important;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #search-modal { transition: none !important; }
   }
 </style>
