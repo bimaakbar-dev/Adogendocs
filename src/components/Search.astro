@@ -203,6 +203,7 @@ const card = {
     }
 
     const target = links[idx];
+    
     target.closest('[role="option"]')?.setAttribute("aria-selected", "true");
     target.classList.add("bg-(--bg-muted)");
     target.scrollIntoView({ block: "nearest" });
@@ -238,20 +239,27 @@ const card = {
     node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
 
     const img = node.querySelector('[data-slot="image"]');
-    if (item.meta?.image) { img.src = item.meta.image; img.classList.remove("hidden"); }
+    
+    if (item.meta?.image) { 
+      img.src = item.meta.image; 
+      img.classList.remove("hidden"); 
+    }
 
     const author = node.querySelector('[data-slot="author"]');
     const date   = node.querySelector('[data-slot="date"]');
+    
     if (item.meta?.author) author.textContent = `by ${item.meta.author}`;
     if (item.meta?.date)   date.textContent   = new Date(item.meta.date).toLocaleDateString("id-ID");
     if (!item.meta?.author && !item.meta?.date) node.querySelector('[data-slot="meta"]')?.remove();
 
     const excEl = node.querySelector('[data-slot="excerpt"]');
-    const exc   = item.excerpt || item.meta?.description || "";
+    const exc   = item.meta?.description || item.excerpt || "";
+   
     if (exc) excEl.innerHTML = exc; else excEl.remove();
 
     const subsEl = node.querySelector('[data-slot="subs"]');
     const subs   = (item.sub_results ?? []).filter((s) => s.url !== item.url).slice(0, 3);
+    
     if (subs.length) subs.forEach((s) => subsEl.appendChild(buildSub(s)));
     else subsEl.remove();
 
