@@ -30,7 +30,7 @@ const imageClass = `relative w-full h-auto object-cover block rounded-lg border 
       <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
     </a>
   ) : (
-    <Image data-pagefind-meta="image[src], image_alt[alt]" src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+    <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
   )}
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
