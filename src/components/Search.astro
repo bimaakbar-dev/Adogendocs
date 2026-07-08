@@ -212,9 +212,23 @@ const card = {
     const node = tplSubresult.content.cloneNode(true);
     node.querySelector("a").href = sub.url;
     node.querySelector('[data-slot="title"]').textContent = sub.title ?? "";
+
     const excEl = node.querySelector('[data-slot="excerpt"]');
-    if (sub.excerpt) excEl.innerHTML = sub.excerpt;
-    else excEl.remove();
+
+    let excerpt = sub.excerpt || sub.meta?.description || "";
+
+    if (excerpt) {
+      let cleanText = excerpt.replace(/<[^>]*>/g, '').trim();
+
+      if (cleanText.length > 120) {
+        cleanText = cleanText.slice(0, 120) + '...';
+      }
+
+      excEl.textContent = cleanText;
+    } else {
+      excEl.remove();
+    }
+
     return node;
   }
 
