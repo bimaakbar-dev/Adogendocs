@@ -51,6 +51,7 @@ const pageSchema = schemaWebPage({
 
 <Layout meta={metaProps} schema={pageSchema}>
   <main>
+    <article data-pagefind-body data-pagefind-filter="type:legal">
     <Container size="md">
       <div class="py-12 md:py-16">
         <header class="mb-8">
@@ -84,10 +85,11 @@ const pageSchema = schemaWebPage({
           </div>
         </header>
         <div class="my-6 h-px bg-(--border)/60"></div>
-        <article data-pagefind-body class="prose">
+        <div class="prose">
           <Content components={components} />
-        </article>
+        </div>
       </div>
     </Container>
+    </article>
   </main>
 </Layout>
