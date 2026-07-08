@@ -81,13 +81,13 @@ const Divider = "text-(--fg-muted)/50";
     <div class={Meta}>
       {pubDate && (
         <p class={Item}>
-          <time data-pagefind-sort="date" datetime={pubDate.toISOString()}>
+          <time data-pagefind-meta="date" data-pagefind-sort="date" datetime={pubDate.toISOString()}>
             {formatDate(pubDate)}
           </time>
         </p>
       )}
-      <span data-pagefind-ignore aria-hidden="true" class={Divider}>/</span>
-      <span data-pagefind-ignore class={Item}>{readingTime}</span>
+      <span aria-hidden="true" class={Divider}>/</span>
+      <span class={Item}>{readingTime}</span>
     </div>
     <p data-pagefind-meta="description" class={Description}>{description}</p>
     {cover && (
