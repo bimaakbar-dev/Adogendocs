@@ -17,7 +17,7 @@ const { prev, next, primaryRootId, lastUpdated } = Astro.props;
     <!--<Feedback />-->
     <p class="text-(--fg-muted)/80 py-4">
         {lastUpdated && (
-            <time datetime={lastUpdated.toISOString()}>
+            <time data-pagefind-sort="date" datetime={lastUpdated.toISOString()}>
                 <span>Last Updated: </span>
                 {formatDate(lastUpdated)}
             </time>
