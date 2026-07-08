@@ -134,7 +134,7 @@ const fullMarkdownContent = markdown;
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
       <Section size="md">
-        <article>
+        <article data-pagefind-body data-pagefind-filter="type:docs">
           <Container size="full">
             <DocsHeader
               title={entry.data.title}
@@ -145,7 +145,7 @@ const fullMarkdownContent = markdown;
           </Container>
           <div class="bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8" />
           <Container size="full">
-            <div data-pagefind-body data-pagefind-filter="type:docs" class="prose">
+            <div class="prose">
               <Content components={components} />
             </div>
           </Container>
