@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<footer class="w-full shrink-0 space-y-8 pt-4 pb-(--safe-bottom)">
+<footer data-pagefind-ignore class="w-full shrink-0 space-y-8 pt-4 pb-(--safe-bottom)">
   {lastUpdated && (
     <p class="text-body-14 text-(--fg-muted)/80">
       <time datetime={lastUpdated.toISOString()}>
