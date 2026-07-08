@@ -29,6 +29,6 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
       <ActionCopy rawMarkdown={content} />
     </div>
   </div>
-  { title && (<h1 data-pagefind-meta="title" class={Title}>{title}</h1>) }
-  { description && (<p data-pagefind-meta="description" class={Description}>{description}</p>)}
+  <h1 data-pagefind-meta="title" class={Title}>{title}</h1>
+  <p data-pagefind-meta="description" class={Description}>{description}</p>
 </header>
