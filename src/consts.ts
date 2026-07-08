@@ -31,7 +31,7 @@ export const SITE = {
   url: "https://docs.c0desk1.my.id",
   ogImage: OGIMAGE,
   locale: "id_ID",
-  lang: "en",
+  lang: "id",
   dir: "ltr",
   charset: "utf-8",
   themeColor: "#0a0a0a",
