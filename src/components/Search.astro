@@ -209,7 +209,7 @@ const card = {
     target.scrollIntoView({ block: "nearest" });
   }
 
-    function buildSub(sub) {
+  function buildSub(sub) {
     const node = tplSubresult.content.cloneNode(true);
     node.querySelector("a").href = sub.url;
     
@@ -223,7 +223,8 @@ const card = {
       let cleanText = excerpt.replace(/<[^>]*>/g, '').trim();
 
       if (subTitle && cleanText.toLowerCase().startsWith(subTitle.toLowerCase())) {
-        cleanText = cleanText.substring(subTitle.length).trim();
+        cleanText = cleanText.substring(subTitle.length);
+        cleanText = cleanText.replace(/^[\s.,:;\-]+/, '');
       }
 
       if (cleanText.length > 120) {
@@ -232,10 +233,10 @@ const card = {
 
       excEl.textContent = cleanText;
     } else {
-      excEl.remove();
-    }
+        excEl.remove();
+      }
 
-    return node;
+      return node;
   }
 
   function buildResult(item) {
