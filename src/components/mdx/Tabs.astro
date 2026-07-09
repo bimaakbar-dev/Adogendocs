@@ -11,9 +11,9 @@ const isContainer = !label;
 
 const $ = {
   wrapper: "block my-6 md:my-8",
-  header: "relative inline-flex bg-(--bg) border border-(--border-subtle)/80 rounded-lg p-1 mb-4",
+  header: "relative inline-flex bg-(--bg) ring-1 ring-(--border-subtle)/80 rounded p-1 mb-4",
   headerItem: "tabs-header relative z-10 flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden",
-  indicator: "tabs-indicator absolute inset-y-1 left-0 rounded-md bg-(--bg-muted) shadow-sm pointer-events-none transition-[transform,width] duration-200 ease-out will-change-transform",
+  indicator: "tabs-indicator absolute inset-y-1 left-0 rounded-sm bg-(--bg-muted) shadow-sm pointer-events-none transition-[transform,width] duration-(--duration) ease-(--ease-out) will-change-transform",
   content: "tabs-content",
   panel: "tab-panel hidden"
 };
@@ -35,7 +35,7 @@ const $ = {
           size="sm"
           variant="ghost"
           role="tab"
-          class="tab-button relative rounded-md! text-sm! font-medium! transition-colors! duration-150!"
+          class="tab-button relative rounded-md! text-button-14! font-medium! transition-colors! duration-150!"
         >
           <slot name="label"></slot>
         </Button>
