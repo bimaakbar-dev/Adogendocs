@@ -21,7 +21,7 @@ const optimizedSrc = !isPlaceholder && isCdnUrl(src)
   
 const hasLink = !!href;
 
-const imageClass = `relative w-full h-auto object-cover block rounded-lg border border-(--prose-image-border) bg-(--prose-image-bg) transition-all duration-300 ${!hasLink ? 'zoomable-image cursor-zoom-in hover:brightness-95' : ''}`;
+const imageClass = `relative w-full h-auto object-cover block rounded-md ring-1 ring-(--border-subtle)/40 bg-(--bg-subtle) transition-opacity duration-(--duration) ${!hasLink ? 'zoomable-image cursor-zoom-in hover:brightness-95' : ''}`;
 ---
 
 <figure class="full-width-figure not-prose">
