@@ -25,9 +25,9 @@ const ThumbnailPlaceHolder = `/org/placeholder.svg`;
 const OGIMAGE = "/org/placeholder.svg";
 
 export const SITE = {
-  name: "c0docs",
-  tagline: "Official c0desk1 Docs",
-  description: "Generate SEO-optimized titles, keywords, and categories for Adobe Stock images instantly. Bring your own API key — supports Groq, Mistral, and more.",
+  name: "Bimadocs",
+  tagline: "Official Arogent Docs",
+  description: "Generate SEO-optimized titles, keywords, and categories for Adobe Stock images instantly.",
   url: "https://docs.c0desk1.my.id",
   ogImage: OGIMAGE,
   locale: "id_ID",
@@ -35,7 +35,7 @@ export const SITE = {
   dir: "ltr",
   charset: "utf-8",
   themeColor: "#0a0a0a",
-  bgColor: "#fafafa",
+  bgColor: "#000000",
   email: "hello@c0desk1.my.id",
   foundingYear: 2026,
 } as const;
@@ -65,13 +65,13 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Docs", href: ROUTES.docs, icon: "logo" },
+    { label: "Docs", href: ROUTES.docs, icon: "learn" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" },
     { label: "Novel", href: ROUTES.novel, icon: "vocabulary" }
   ] as NavItem[],
   mobileNavBar: [
     { label: "Novel", href: ROUTES.novel, icon: "vocabulary" },
-    { label: "Docs", href: ROUTES.docs, icon: "logo" },
+    { label: "Docs", href: ROUTES.docs, icon: "learn" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
   footerBar: [
