@@ -9,10 +9,10 @@ const PAGE_SIZE = 6;
 const ui = {
   overlay:   "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm",
   modal: [
-    "fixed w-full left-0 sm:left-1/2 bottom-0 sm:bottom-auto sm:top-[12vh] rounded-t-md sm:rounded-md",
+    "fixed w-full left-0 sm:left-1/2 bottom-0 sm:bottom-auto sm:top-4 rounded-t-md sm:rounded-md",
     "sm:w-[95%] sm:max-w-2xl",
     "sm:-translate-x-1/2",
-    "border-t sm:border border-(--border) bg-(--bg)",
+    "sm:ring-1 ring-(--border-subtle) bg-(--bg)",
     "shadow-2xl opacity-0 scale-95"
   ].join(" "),
   iconSlot: [
@@ -24,10 +24,10 @@ const ui = {
     "size-5!",
     "text-(--fg)/80",
   ].join(" "),
-  bar:       "flex items-center gap-2 p-2",
+  bar:       "flex items-center gap-2 py-2 px-3",
   closeDesk: "font-mono rounded! hidden! sm:inline-flex!",
   closeMob:  "inline-flex! sm:hidden! shrink-0 p-1.5",
-  results:   "max-h-[55vh] sm:max-h-[60vh] overflow-y-auto overscroll-contain",
+  results:   "max-h-[55vh] sm:max-h-[75vh] overflow-y-auto overscroll-contain",
   list:      "hidden space-y-4 p-2",
   empty:     "p-10 text-center text-sm text-(--fg-muted)",
   sentinel:  "h-px",
@@ -54,17 +54,17 @@ const card = {
   ].join(" "),
 
   body:       "flex flex-1 min-w-0 flex-col gap-0.5",
-  title:      "truncate text-(--fg-strong) font-medium text-sm",
-  meta:       "flex gap-2 text-[10px] text-(--fg-muted) hidden",
+  title:      "truncate text-(--fg-strong) font-medium text-md",
+  meta:       "flex gap-2 text-xs text-(--fg-muted) hidden",
 
   excerpt: [
     "result-excerpt",
-    "text-xs text-(--fg-muted) line-clamp-1",
+    "text-sm text-(--fg-muted) line-clamp-1",
   ].join(" "),
 
   subList: [
     "sub-results-list",
-    "border-t border-(--border-subtle)/80",
+    "border-t border-(--border-subtle)/60",
   ].join(" "),
 
   subRow: [
@@ -74,7 +74,7 @@ const card = {
 
   subLink: [
     "sub-result-item",
-    "flex w-full items-start gap-2 py-1.5 pl-2 text-xs",
+    "flex w-full items-start gap-2 py-1.5 pl-2 text-sm",
     "outline-none",
   ].join(" "),
 
@@ -206,8 +206,8 @@ const card = {
     left: 14px;
     width: 14px; 
     height: 16px;
-    border-left:   1.5px solid var(--border-strong);
-    border-bottom: 1.5px solid var(--border-strong);
+    border-left:   1.5px solid var(--border-subtle);
+    border-bottom: 1.5px solid var(--border-subtle);
   }
   .sub-result:not(:last-of-type)::after {
     content: "";
@@ -215,10 +215,10 @@ const card = {
     top: 0; 
     bottom: 0; 
     left: 14px;
-    border-left: 1.5px solid var(--border-strong);
+    border-left: 1.5px solid var(--border-subtle);
   }
 
-  .result-excerpt > mark {
+  .result-excerpt mark {
     background-color: color-mix(in srgb, var(--color-chart-2) 80%, transparent) !important;
     color:            var(--accent) !important;
     border-radius:    0 !important;
@@ -326,11 +326,12 @@ const card = {
       node.querySelector('[data-slot="title"]').textContent = subTitle;
 
       const excEl = node.querySelector('[data-slot="excerpt"]');
+      
       let excerpt = sub.excerpt || sub.meta?.description || "";
 
       if (excerpt) {
         let cleanText = excerpt.replace(/<[^>]*>/g, '').trim();
-
+        excEl.innerHTML = excerpt;
         if (subTitle && cleanText.toLowerCase().startsWith(subTitle.toLowerCase())) {
           cleanText = cleanText.substring(subTitle.length);
           cleanText = cleanText.replace(/^[\s.,:;\-]+/, '');
