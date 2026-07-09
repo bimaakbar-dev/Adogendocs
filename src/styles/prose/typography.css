@@ -8,7 +8,7 @@
   scroll-margin-top: calc(var(--header-height)) !important;
   font-family: var(--font-sans);
   text-wrap: balance;
-  margin-top: 12px;
+  margin-top: 1.5rem;
 }
 
 .prose h1 {
