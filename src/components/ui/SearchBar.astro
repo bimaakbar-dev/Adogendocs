@@ -5,9 +5,13 @@ import Button from "./Button.astro";
 
 interface Props {
   iconOnly?: boolean;
+  class?: string;
 }
 
-const { iconOnly = false } = Astro.props;
+const { 
+  iconOnly = false,
+  class: className= ""
+} = Astro.props;
 ---
 {iconOnly && (
   <Button 
@@ -26,7 +30,10 @@ const { iconOnly = false } = Astro.props;
     aria-label="Buka pencarian"
     variant="outline"
     size="md"
-    class="group flex items-center text-(--fg-muted) justify-between w-auto rounded-md! px-3"
+    class:list={[
+      "group flex items-center text-(--fg-muted) justify-between w-auto rounded-md! px-3",
+      className
+    ]}
     prefix={<Icon name="search" fill class="h-4 w-4" />}
     suffix={
       <div class="hidden items-center gap-1 font-mono text-[10px] font-medium text-(--fg-muted) transition-colors group-hover:text-(--fg) lg:flex select-none pointer-events-none">
