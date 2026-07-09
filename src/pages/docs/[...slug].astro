@@ -29,20 +29,20 @@ export async function getStaticPaths() {
   const sorted = [...docsEntries].sort(
     (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
   );
-  const primaryRootId = sorted[0]?.id;
+  const root = sorted[0]?.id;
 
   return docsEntries.map((entry) => {
     const currentSlug = entry.data.slug || entry.id;
-    const isRoot = entry.id === primaryRootId;
+    const isRoot = entry.id === root;
 
     return {
       params: { slug: isRoot ? undefined : currentSlug },
-      props: { entry, primaryRootId },
+      props: { entry, root },
     };
   });
 }
 
-const { entry, primaryRootId } = Astro.props;
+const { entry, root } = Astro.props;
 
 if (!entry) {
   return new Response(null, { status: 404, statusText: "Not Found" });
@@ -62,7 +62,7 @@ const mappedSidebarItems = sidebarItems.map((item) => {
   const folderName = slugParts.length > 1 ? slugParts[0] : null;
   const category = item.data.category || folderName || "General";
 
-  const isRoot = item.id === primaryRootId;
+  const isRoot = item.id === root;
   
   return {
     id: item.id,
@@ -130,6 +130,7 @@ const fullMarkdownContent = markdown;
 ---
 
 <DocsLayout meta={metaProps} schema={pageSchema}>
+  <div data-pagefind-weight="2" class="hidden" />
   <MobileToc title={entry.data.title} headings={headings} />
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
@@ -155,7 +156,7 @@ const fullMarkdownContent = markdown;
               lastUpdated={entry.data.lastUpdated}
               prev={prevEntry}
               next={nextEntry}
-              primaryRootId={primaryRootId} />
+              root={root} />
           </Container>
         </article>
       </Section>

@@ -15,7 +15,8 @@ import { formatDate } from '@lib/utils';
 import { components } from "@/components/mdx/MDXComponents";
 
 import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/ui/Container.astro";
+import Section from "@ui/Section.astro";
+import Container from "@ui/Container.astro";
 
 export async function getStaticPaths() {
   const legalEntries = await getCollection("legal");
@@ -47,37 +48,48 @@ const pageSchema = schemaWebPage({
   description: entry.data.description || SITE.description,
   url: currentUrl,
 });
+
+const $ = {
+  main: "flex flex-col min-h-[calc(100vh-var(--header-height))] flex-1 mx-auto pb-(--safe-bottom)",
+  divider: "bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8",
+  header: "mb-6 md:mb-8",
+  title: "mb-4 text-heading-32 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)",
+  meta: "justify-center items-center gap-4 space-y-2 text-sm text-(--fg-muted)",
+  description: "text-sm text-(--fg-muted)"
+}
 ---
 
 <Layout meta={metaProps} schema={pageSchema}>
-  <Container size="md">
-    <main>
-      <article data-pagefind-body data-pagefind-filter="type:legal">
-          <div class="py-12 md:py-16">
-            <header data-pagefind-ignore class="mb-8">
-              <h1 data-pagefind-meta="title" class="mb-3 text-3xl font-bold tracking-tight text-(--fg-strong) sm:text-4xl">
-                {entry.data.title}
-              </h1>
-              <div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-(--fg-muted)">
-                <p data-pagefind-meta="description" class="mb-0 border-b border-none pb-0 text-sm text-(--fg-muted)">
-                  {entry.data.description}
+  <div data-pagefind-weight="1" class="hidden" />
+  <main id="main-content" class={$.main}>
+    <article data-pagefind-body data-pagefind-filter="type:legal">
+      <Section size="lg">
+        <Container size="md">
+          <header data-pagefind-ignore class={$.header}>
+            <h1 data-pagefind-meta="title" class={$.title}>
+              {entry.data.title}
+            </h1>
+            <div class={$.meta}>
+              {entry.data.lastUpdated && (
+                <p>
+                  <time data-pagfind-meta="date" data-pagefind-sort="date" datetime={entry.data.lastUpdated.toISOString()}>
+                    Last updated: {formatDate(entry.data.lastUpdated)}
+                  </time>
                 </p>
-                <div class="flex items-center gap-1.5 rounded-md border border-(--border)/60 bg-(--bg-subtle) px-2.5 py-1 font-medium">
-                  {entry.data.lastUpdated && (
-                    <span>Last updated:</span>
-                    <time data-pagefind-sort="date" datetime={entry.data.lastUpdated.toISOString()}>
-                      {formatDate(entry.data.lastUpdated)}
-                    </time>
-                  )}
-                </div>
-              </div>
-            </header>
-            <div class="my-6 h-px bg-(--border)/60"></div>
-            <div class="prose">
-              <Content components={components} />
+              )}
+              <p data-pagefind-meta="description" class={$.description}>
+                {entry.data.description}
+              </p>
             </div>
+          </header>
+        </Container>
+        <div class={$.divider} />
+        <Container size="md">
+          <div class="prose">
+            <Content components={components} />
           </div>
-      </article>
-    </main>
-  </Container>
+        </Container>
+      </Section>
+    </article>
+  </main>
 </Layout>

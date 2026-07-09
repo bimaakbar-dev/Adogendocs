@@ -30,6 +30,7 @@
   padding: 0.5rem 0;
   border: none !important;
   border-radius: none !important;
+  background-color: transparent !important;
 }
 
 .astro-code,
@@ -44,7 +45,7 @@
   scrollbar-width: none;
   color: var(--fg);
   line-height: 1.5;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
 }
 

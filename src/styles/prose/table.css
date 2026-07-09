@@ -10,13 +10,11 @@
 
 .prose > table {
   margin: 2.5rem 0;
-  border: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
-  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .prose thead {
-  background: var(--bg-muted);
+  background: rgb(from var(--bg-subtle) r g b / 0.5);
 }
 
 .prose thead th {
@@ -98,6 +96,6 @@
   .prose thead th,
   .prose tbody td {
     @apply text-numeric-14;
-    padding: 0.625rem 1rem;
+    padding: 0.75rem 1rem;
   }
 }

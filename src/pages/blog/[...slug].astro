@@ -96,6 +96,7 @@ const pageSchema = schemaWebPage({
 ---
 
 <BlogLayout meta={metaProps} schema={pageSchema}>
+  <div data-pagefind-weight="3" class="hidden" />
   <MobileToc title={entry.data.title} headings={headings} />
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
@@ -130,13 +131,15 @@ const pageSchema = schemaWebPage({
       </Section>
     </div>
   </Fragment>
-  <Fragment slot="right" class="flex items-center gap-4">
-    <div class="sticky top-0 right-0 space-y-2">
-      <ScrollToTop label="Scroll to top" />
-    </div>
-    <div class="fixed top-1/2 right-2 z-40 hidden -translate-y-1/2 lg:block">
-      <Toc headings={headings} />
-    </div>
+  <Fragment slot="right">
+    <Section size="md">
+      <div class="sticky top-[calc(--header-height)] right-0 space-y-2">
+        <ScrollToTop label="Scroll to top" />
+      </div>
+      <div class="fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 lg:block">
+        <Toc headings={headings} />
+      </div>
+    </Section>
   </Fragment>
   <CopyCode />
 </BlogLayout>
