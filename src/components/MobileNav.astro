@@ -5,6 +5,8 @@ import Icon from "./ui/Icons.astro";
 import Socials from "./Socials.astro";
 import Theme from "./Theme.astro";
 
+const currentPath = Astro.url.pathname;
+
 const links = [
   ...NAV.mobileNavBar.map((item) => ({
     label: item.label,
@@ -12,48 +14,67 @@ const links = [
     icon: item.icon,
   })),
 ];
----
-<details id="mobile-menu-details" class="group md:hidden relative select-none">
-  <summary aria-label="Open menu" class="flex h-8 w-8 aspect-square items-center justify-center rounded-md text-(--fg-muted) hover:bg-(--bg-muted) active:bg-(--bg-muted) active:scale-[0.94] cursor-pointer transition-transform list-none [&::-webkit-details-marker]:hidden">
-    <span id="mobile-chevron" class="inline-flex transition-transform duration-(--duration-fast)">
-      <Icon name="chevron-down" class="h-5 w-5 text-(--fg-muted) hover:text-(--fg-strong) active:text-(--fg-strong)" />
-    </span>
-  </summary>
 
-  <div
-    id="mobile-menu-panel"
-    class="fixed left-0 right-0 z-40 overscroll-contain bg-(--bg) rounded-b-xl border-b border-(--border-subtle)/80 shadow-lg"
-    style="top: var(--header-height, 56px);"
-  >
-    <nav class="px-4 py-3 space-y-2">
-      <div class="grid grid-cols-1 gap-2">
-        {
-          links.map((item, idx) => (
-            <a
-              aria-label={item.label}
-              href={item.href}
-              class="mobile-nav-link flex items-center gap-3 rounded-md p-2 text-sm font-medium text-(--fg) hover:bg-(--bg-muted)/40 active:bg-(--bg-muted) transform translate-y-2 opacity-0 transition-opacity duration-(--duration) ease-snappy"
-              style={`transition-delay: ${idx * 40}ms;`}
-            >
-              <span class="inline-flex items-center justify-center w-5 h-5">
-                <Icon name={item.icon as any} class="w-full h-full" />
-              </span>
-              {item.label}
-            </a>
-          ))
-        }
-      </div>
-      <div 
-        id="mobile-nav-footer"
-        class="flex items-center p-1 mb-2 justify-between rounded-lg bg-(--bg-subtle)"
-        style={`transition-delay: ${links.length * 40}ms;`}
-      >
+const $ = {
+  wrapper: "group/nav md:hidden relative select-none",
+  trigger: [
+    "block aspect-square items-center justify-center shrink-0 p-1 rounded-md",
+    "text-(--fg-muted) hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+    "cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+  ].join(" "),
+  triggerIcon: [
+    "size-6 rotate-0",
+    "hover:text-(--fg-strong) active:text-(--fg-strong)",
+    "transition-transform duration-(--duration)",
+    "group-open/nav:rotate-180",
+  ].join(" "),
+  panel: [
+    "fixed left-0 right-0 top-[calc(--header-height)] z-40",
+    "bg-(--bg) rounded-b-xl border-b shadow-(--shadow-md) border-(--border-subtle)/80",
+    "overscroll-contain"
+  ].join(" "),
+  panelWrapper: "px-2 py-3 space-y-2 gap-2",
+  panelItem: [
+    "mobile-nav-link",
+    "flex rounded-md gap-3 p-2 items-center text-sm",
+    "font-medium hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+    "opacity-0 translate-y-full group-open/nav:opacity-100 group-open/nav:translate-0",
+    "transition-transform duration-(--duration) ease-(--ease-out)"
+  ].join(" "),
+  panelPrefix: "inline-flex items-center justify-center w-5 h-5",
+  panelFooter: "flex items-center p-1 mt-4 justify-between rounded-lg bg-(--bg-subtle)"
+}
+---
+
+<details id="mobile-menu-details" class={$.wrapper}>
+  <summary aria-label="Open menu" class={$.trigger}>
+    <Icon id="mobile-chevron" name="chevron-down" class={$.triggerIcon} />
+  </summary>
+  <div id="mobile-menu-panel" class={$.panel}>
+    <nav class={$.panelWrapper}>
+      {links.map((item) => (
+        <a
+          aria-label={item.label}
+          href={item.href}
+          class:list={[
+            $.panelItem,
+            currentPath === item.href 
+            ? "text-(--fg-strong) bg-(--bg-muted)" 
+            : "text-(--fg) bg-transparent"
+          ]}
+        >
+          <Icon name={item.icon as any} class={$.panelPrefix} />
+          {item.label}
+        </a>
+      ))}
+      <div class={$.panelFooter}>
         <Socials />
         <Theme />
       </div>
     </nav>
   </div>
 </details>
+
 
 <script>
   function initMobileNavDetails() {
@@ -81,7 +102,7 @@ const links = [
 
     details.addEventListener("toggle", () => {
       if (details.open) {
-        document.body.style.overflow = "hidden";
+    //    document.body.style.overflow = "hidden";
       } else {
         document.body.style.overflow = "";
       }
@@ -90,35 +111,3 @@ const links = [
 
   initMobileNavDetails();
 </script>
-
-<style is:global>
-  details[open] #mobile-chevron {
-    transform: rotate(180deg);
-  }
-
-  details[open] #mobile-menu-panel {
-    animation: detailsSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes detailsSlideDown {
-    from {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0);
-    }
-    to {
-      opacity: 1;
-      clip-path: inset(0 0 0 0);
-    }
-  }
-
-  details[open] .mobile-nav-link,
-  details[open] #mobile-nav-footer {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  #mobile-chevron {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center;
-  }
-</style>

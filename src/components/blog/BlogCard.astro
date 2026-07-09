@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import { formatDateCompact } from "@lib/utils";
 import { IMAGE, SITE } from "@/consts";
 import Button from "@ui/Button.astro";
+import Card from "../ui/Card.astro";
 
 interface Props {
   entry: CollectionEntry<"blog">;
@@ -35,8 +36,8 @@ const imageLoading = isCritical ? "eager" : "lazy";
 const imagePriority = isCritical ? "high" : "low";
 
 const $ = {
-  card: "flex flex-col rounded-lg border border-(--border-subtle)/80 bg-(--bg-subtle)",
-  body: "flex flex-1 flex-col p-3",
+  wrapper: "flex flex-col",
+  body: "flex flex-1 flex-col",
   meta: "mb-2 flex items-center justify-between text-label-14 text-(--fg-muted)",
   metaRight: "flex items-center gap-1.5",
   avatar: "flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border border-(--border-subtle)",
@@ -48,8 +49,8 @@ const $ = {
 };
 ---
 
-<article class={$.card}>
-  <div class={$.body}>
+<article class={$.wrapper}>
+  <Card padding="md" radius="sm" variant="secondary" class={$.body}>
     <div class={$.meta}>
       <span>{category}</span>
       <div class={$.metaRight}>
@@ -88,10 +89,11 @@ const $ = {
           href={href}
           variant="primary"
           size="sm"
-          block>
+          block
+          class="rounded!">
           Read More
         </Button>
       </div>
     </div>
-  </div>
+  </Card>
 </article>

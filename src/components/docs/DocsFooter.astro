@@ -1,27 +1,47 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import DocsPager from "./DocsPager.astro";
 import { formatDate } from "@lib/utils";
-// import Feedback from "../Feedback.astro";
+import Feedback from "../Feedback.astro";
 
 interface Props {
-    prev: CollectionEntry<"docs"> | null;
-    next: CollectionEntry<"docs"> | null;
-    primaryRootId: string;
+    prev: any;
+    next: any;
+    root: string;
     lastUpdated?: Date;
 }
 
-const { prev, next, primaryRootId, lastUpdated } = Astro.props;
+const { 
+    prev, 
+    next, 
+    root, 
+    lastUpdated 
+} = Astro.props;
+
+const $ = {
+    wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) space-y-6",
+    date: "text-body-14 text-(--fg-muted)"
+}
 ---
-<div data-pagefind-ignore class="items-center justify-center w-full shrink-0 mb-(--safe-bottom)">
-    <!--<Feedback />-->
-    <p class="text-(--fg-muted)/80 py-4">
+<div 
+  data-pagefind-ignore 
+  class={$.wrapper}
+>
+    <Feedback />
+    <p class={$.date}>
         {lastUpdated && (
-            <time data-pagefind-meta="date" data-pagefind-sort="date" datetime={lastUpdated.toISOString()}>
-                <span>Last Updated: </span>
+            <time 
+              data-page-meta="date" 
+              data-pagefind-sort="date" 
+              datetime={lastUpdated.toISOString()}
+            >
+                <span>Diperbarui: </span>
                 {formatDate(lastUpdated)}
             </time>
         )}
     </p>
-    <DocsPager primaryRootId={primaryRootId} prev={prev} next={next} />
+    <DocsPager 
+      root={root} 
+      prev={prev} 
+      next={next} 
+    />
 </div>

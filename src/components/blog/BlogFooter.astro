@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@lib/utils";
 
 import BlogPager from "./BlogPager.astro";
+import Badge from "../ui/Badge.astro";
 
 interface Props {
   prev: CollectionEntry<"blog"> | null;
@@ -18,29 +19,39 @@ const {
   lastUpdated,
   tags = [],
 } = Astro.props;
+
+const $ = {
+  wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
+  date: "text-body-14 text-(--fg-muted)",
+  tags: "rounded-md! text-body-13 text-(--fg-muted)!"
+}
 ---
 
-<footer data-pagefind-ignore class="w-full shrink-0 space-y-8 pt-4 pb-(--safe-bottom)">
-  {lastUpdated && (
-    <p class="text-body-14 text-(--fg-muted)/80">
-      <time datetime={lastUpdated.toISOString()}>
-        <span>Last updated: </span>
+<footer data-pagefind-ignore class={$.wrapper}>
+  <p class={$.date}>
+    {lastUpdated && (
+      <time 
+        data-page-meta="date" 
+        data-pagefind-sort="date" 
+        datetime={lastUpdated.toISOString()}
+      >
+        <span>Diperbarui: </span>
         {formatDate(lastUpdated)}
       </time>
-    </p>
-  )}
-
+    )}
+  </p>
   {tags.length > 0 && (
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <span data-pagefind-filter="tag"
-          class="rounded-md border border-(--border-subtle)/80 px-2.5 py-1 text-label-13 text-(--fg-muted)">
+        <Badge 
+          data-pagefind-meta="tag" 
+          data-pagefind-filter="tag"
+          class={$.tags}>
           {tag}
-        </span>
+        </Badge>
       ))}
     </div>
   )}
-
   <BlogPager
     prev={prev}
     next={next}

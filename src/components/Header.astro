@@ -9,10 +9,18 @@ import SearchBar from "./ui/SearchBar.astro";
 import NavLink from "./NavLink.astro";
 
 const $ = {
-  header: "sticky top-0 z-50 w-full bg-transparent border-b border-(--border-subtle)/40 lg:border-transparent h-full pt-(--safe-top) transition-opacity duration-(--duration) ease-out",
-  wrapper: "mx-auto flex h-(--header-height) w-full items-center justify-between",
-  left: "flex items-center shrink-0 gap-4",
-  right: "flex items-center shrink-0 gap-0.5"
+  header: [
+    "sticky top-0 z-50 w-full h-full pt-(--safe-top)",
+    "bg-none border-b lg:border-b-none border-(--border-subtle)/40",
+    "transition-opacity duration-(--duration-fast) ease-(--ease-out)"
+  ].join(" "),
+
+  wrapper: [
+    "flex h-(--header-height) mx-auto items-center justify-between",
+  ].join(" "),
+
+  left: "inline-flex items-center shrink-0 gap-4",
+  right: "flex items-center shrink-0 gap-1"
 }
 ---
 <header id="main-header" class={$.header}>
@@ -45,23 +53,25 @@ const $ = {
     const toggleHeader = () => {
       if (window.scrollY > 10) {
         header.classList.add(
-          "bg-(--bg)",
+          "bg-(--bg)/80",
           "lg:border-(--border-subtle)/40",
-          "shadow-sm"
+          "backdrop-blur-sm",
+          "shadow-(--shadow-sm)"
         );
         header.classList.remove(
-          "bg-transparent",
-          "lg:border-transparent"
+          "bg-none",
+          "lg:border-none"
         );
       } else {
         header.classList.remove(
-          "bg-(--bg)",
+          "bg-(--bg)/80",
           "lg:border-(--border-subtle)/40",
-          "shadow-sm"
+          "backdrop-blur-sm",
+          "shadow-(--shadow-sm)"
         );
         header.classList.add(
-          "bg-transparent",
-          "lg:border-transparent"
+          "bg-none",
+          "lg:border-none"
         );
       }
     };

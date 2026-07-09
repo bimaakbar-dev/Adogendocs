@@ -16,38 +16,47 @@ const {
 } = Astro.props;
 
 const isExternal = href.startsWith('http');
+
+const $ = {
+  wrapper: [
+    "group relative flex items-center justify-between pr-3 py-2 my-6 md:my-8 rounded ring-1",
+    "ring-(--border-subtle) bg-(--bg-subtle)",
+    "hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+    "no-underline!"
+  ].join(" "),
+  cardItem: "flex items-center gap-3",
+  cardLeft: "shrink-0 items-center justify-start border-r border-(--accent) p-3",
+  prefix: "block shrink-0 items-center justify-center size-6 text-(--fg)",
+  suffix: [
+    "block shrink-0 items-center justify-center size-5",
+    "text-(--fg-muted)",
+    "group-hover:text-(--fg-strong) group-active:text-(--fg-strong)"
+  ].join(" "),
+  meta: "flex flex-col justify-start",
+  label: "text-body-16 font-semibold text-(--fg-strong)",
+  subLabel: "text-body-14 text-(--fg-muted) line-clamp-1",
+}
 ---
 
 <a 
   href={href} 
   target={isExternal ? "_blank" : "_self"}
   rel={isExternal ? "noopener noreferrer" : ""}
-  class="link-card group relative flex items-center justify-between gap-4 p-4 my-4 rounded-md border border-(--border-subtle) bg-(--bg-subtle) hover:bg-(--bg-muted) active:bg-(--bg-muted) transition-opacity duration-(--duration)"
+  class={$.wrapper}
 >
-  <div class="flex items-center gap-4">
+  <div class={$.cardItem}>
+    <div class={$.cardLeft}>
     {icon && (
-      <div class="inline-flex shrink-0 items-center justify-center">
-        <Icon name={icon as any} class="w-5 h-5 text-(--fg-strong)" />
-      </div>
-    )}
-    <div class="flex flex-col">
-      <span class="text-body-16 font-medium text-(--fg-strong)">{title}</span>
+     <Icon name={icon as any} class={$.prefix} />
+    )}</div>
+    <div class={$.meta}>
+      <span class={$.label}>{title}</span>
       {description && (
-        <span class="text-body-14 text-(--fg-muted) line-clamp-1 leading-relaxed">{description}</span>
+        <span class={$.subLabel}>
+          {description}
+        </span>
       )}
     </div>
   </div>
-  
-  <div class="flex items-center justify-center shrink-0">
-    <Icon 
-      name={isExternal ? "external" : "arrow-right" as any} 
-      class="w-4 h-4 text-(--fg-muted) group-hover:text-(--fg-strong) group-active:text-(--fg-strong) transition-opacity" 
-    />
-  </div>
+  <Icon name={isExternal ? "external" : "arrow-right" as any} class={$.suffix} />
 </a>
-
-<style is:global>
-    .link-card {
-        text-decoration: none !important;
-    }
-</style>

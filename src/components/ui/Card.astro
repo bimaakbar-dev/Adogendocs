@@ -6,16 +6,10 @@ type CardPadding = "none" | "sm" | "md" | "lg";
 type CardRadius = "sm" | "md" | "lg";
 type CardVariant =
   | "default"
-  | "elevated"
   | "outline"
   | "ghost"
   | "primary"
   | "secondary"
-  | "icon"
-  | "icon-outline"
-  | "icon-ghost"
-  | "icon-left"
-  | "icon-right";
 
 interface Props extends HTMLAttributes<"div"> {
   variant?: CardVariant;
@@ -34,33 +28,24 @@ const {
 } = Astro.props;
 
 const variantClasses: Record<CardVariant, string> = {
-  default: "border border-(--border) bg-(--bg)",
-  elevated: "border border-(--border) bg-(--bg) shadow-(--shadow-md)",
-  outline: "border border-(--border) bg-transparent",
-  ghost: "border-none bg-(--bg-subtle)",
-  primary: "border border-(--border) bg-(--accent-soft)",
-  secondary: "border border-(--border) bg-(--bg-subtle)",
-  icon: "border border-(--border) bg-(--bg) flex items-center justify-center",
-  "icon-outline":
-    "border-2 border-(--border-strong) bg-transparent flex items-center justify-center",
-  "icon-ghost": "border-none bg-transparent flex items-center justify-center",
-  "icon-left":
-    "flex flex-row items-center gap-2 border border-(--border) bg-(--bg)",
-  "icon-right":
-    "flex flex-row-reverse items-center gap-2 border border-(--border) bg-(--bg)",
+  default: "ring-1 ring-(--border-subtle) bg-transparent",
+  outline: "ring-1 ring-(--border-subtle) bg-transparent",
+  ghost: "ring-1 ring-transparent bg-(--bg-subtle)",
+  primary: "ring-1 ring-(--border-subtle) bg-(--bg)/8-",
+  secondary: "ring-1 ring-(--border-subtle) bg-(--bg-subtle)",
 };
 
 const paddingMap: Record<CardPadding, string> = {
   none: "p-0",
   sm: "p-2",
-  md: "p-4",
-  lg: "p-6",
+  md: "p-3",
+  lg: "p-4",
 };
 
 const radiusMap: Record<CardRadius, string> = {
   sm: "rounded-md",
   md: "rounded-lg",
-  lg: "rounded-2xl",
+  lg: "rounded-xl",
 };
 
 const cardClasses = [
@@ -68,7 +53,7 @@ const cardClasses = [
   variantClasses[variant],
   paddingMap[padding],
   radiusMap[radius],
-  hover && "cursor-pointer transition-all duration-200 hover:shadow-(--shadow-md)",
+  hover && "cursor-pointer hover:shadow-(--shadow-md)",
   className,
 ];
 ---

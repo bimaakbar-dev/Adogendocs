@@ -1,9 +1,11 @@
 ---
+import { SITE } from "@/consts";
 import Button from "@ui/Button.astro";
-import Badge from "./ui/Badge.astro";
+import Icon from "@ui/Icons.astro";
+import Badge from "@ui/Badge.astro";
 
-const tagline = "the Astro docs framework you love.";
-const description = "Adogen excellent documentation, your";
+const tagline = SITE.tagline;
+const description = SITE.description;
 ---
 
 <section class="hero-container relative flex flex-col w-full border border-(--border-subtle) rounded-xl items-center justify-center overflow-hidden px-4 py-32 bg-(--bg)">
@@ -72,7 +74,7 @@ const description = "Adogen excellent documentation, your";
     </h1>
     <div class="flex gap-4 mt-2">
       <Button variant="primary" size="md" href="/docs" class="rounded-full!">Get Started</Button>
-      <Button variant="secondary" size="md" href="/blog" class="rounded-full!">Read Blog</Button>
+      <Button variant="ghost" size="md" href="/blog" suffix={<Icon name="arrow-right" />} class="rounded-full!">Read Blog</Button>
     </div>
   </div>
 </section>

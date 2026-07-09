@@ -7,7 +7,7 @@ import SidebarLink from '@/components/ui/SidebarLink.astro';
 const allDocs = await getCollection('docs');
 
 const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
-const primaryRootId = sortedDocs[0]?.id || "overview";
+const primaryRootId = sortedDocs[0]?.id;
 
 const docsByCategory = allDocs.reduce((acc, doc) => {
   const category = doc.data.category || 'Overview';
@@ -42,7 +42,7 @@ const checkIsActive = (href: string) => {
 };
 
 const $ = {
-  wrapper: "flex flex-col space-y-2 px-2 w-full",
+  wrapper: "flex flex-col space-y-1 w-full flex-1 px-2 md:px-4 py-2",
 }
 ---
 

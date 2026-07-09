@@ -2,7 +2,12 @@
 // src/components/ui/Badge.astro
 import type { HTMLAttributes } from 'astro/types';
 
-type BadgeVariant = 'default' | 'accent' | 'success' | 'warning' | 'error';
+type BadgeVariant = 
+  'default' | 
+  'accent'  | 
+  'success' | 
+  'warning' | 
+  'error';
 
 interface Props extends HTMLAttributes<'span'> {
   variant?: BadgeVariant;
@@ -14,20 +19,44 @@ const {
   class: className, 
 } = Astro.props;
 
-const baseClasses = "inline-flex items-center px-2 py-0.5 text-sm font-medium rounded-full transition-colors";
+const baseClasses = [
+  "inline-flex items-center px-2 py-0.5",
+  "border rounded-full",
+  "text-sm font-medium"
+].join(" ");
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: "bg-(--bg-subtle) text-(--fg-strong) border border-(--border-subtle)/40",
-  accent:  "bg-(--accent-soft) text-(--accent) border border-(--accent-soft)",
-  success: "bg-(--success-soft) text-(--success) border border-(--success-soft)",
-  warning: "bg-(--warning-soft) text-(--warning) border border-(--warning-soft)",
-  error:   "bg-(--error-soft) text-(--error) border border-(--error-soft)",
+  default: [
+    "text-(--fg-strong)",
+    "bg-(--bg-subtle) border-(--border-subtle)/40"
+  ].join(" "),
+
+  accent:  [
+    "text-(--accent)",
+    "bg-(--accent-soft)/80 border-(--accent-soft)"
+  ].join(" "),
+
+  success: [
+    "text-(--success)",
+    "bg-(--success-soft) border-(--success-soft)"
+  ].join(" "),
+
+  warning: [
+    "text-(--warning)",
+    "bg-(--warning-soft) border-(--warning-soft)"
+  ].join(" "),
+
+  error: [
+    "text-(--error)",
+    "bg-(--error-soft) border-(--error-soft)"
+  ].join(" "),
 };
 ---
 
 <span class:list={[
-    baseClasses,
-    variantClasses[variant], 
-    className]}>
+  baseClasses,
+  variantClasses[variant], 
+  className
+]}>
   <slot />
 </span>

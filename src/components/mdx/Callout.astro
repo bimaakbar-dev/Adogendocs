@@ -29,11 +29,22 @@ const icons = {
 const label = type.charAt(0).toUpperCase() + type.slice(1);
 
 const s = {
-  callout: 'flex my-6 md:my-8 border border-(--c-border) rounded-md bg-(--bg-subtle) text-(--c-text)',
-  calloutHeader: 'flex flex-col shrink-0 items-center justify-start border-r border-(--c-border) text-(--c-icon) p-3',
-  calloutIcon: 'inline-flex shrink-0 items-center justify-center w-4.5 h-4.5',
+  callout: [
+    'flex my-6 md:my-8 ring-1 rounded',
+    'bg-(--bg-subtle) text-(--c-text) ring-(--border-subtle)',
+  ].join(" "),
+
+  calloutHeader: [
+    'flex flex-col shrink-0 items-center justify-start border-r p-2.5',
+    'border-(--border-subtle) text-(--c-icon)',
+  ].join(" "),
+
+  calloutIcon: 'inline-flex shrink-0 items-center justify-center size-4.5',
   calloutBody: 'flex-1 pl-3 pr-3 py-2 min-w-0',
-  calloutContent: 'callout-content items-center text-(--c-text)'
+  calloutContent: [
+    'callout-content items-center',
+    'text-(--c-text)'
+  ].join(" ")
 }
 ---
 
@@ -52,58 +63,58 @@ const s = {
 
 <style is:global>
   [data-callout="note"] {
-    --c-bg: var(--callout-note-bg);
+    --c-bg: var(--bg-subtle);
     --c-border: var(--border-subtle);
     --c-text: var(--fg);
-    --c-icon: var(--callout-note-icon);
-    --c-title: var(--callout-note-title);
+    --c-icon: var(--fg-subtle);
+    --c-title: var(--fg-strong);
   }
 
   [data-callout="info"] {
-    --c-bg: var(--callout-info-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--color-chart-2);
+    --c-border: var(--color-chart-2);
     --c-text: var(--fg);
-    --c-icon: var(--callout-info-icon);
-    --c-title: var(--callout-info-title);
+    --c-icon: var(--color-chart-2);
+    --c-title: var(--color-chart-2);
   }
 
   [data-callout="tip"] {
-    --c-bg: var(--callout-tip-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--accent);
+    --c-border: var(--accent);
     --c-text: var(--fg);
-    --c-icon: var(--callout-tip-icon);
-    --c-title: var(--callout-tip-title);
+    --c-icon: var(--accent);
+    --c-title: var(--accent);
   }
 
   [data-callout="warning"] {
-    --c-bg: var(--callout-warning-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--color-warning);
+    --c-border: var(--color-warning);
     --c-text: var(--fg);
-    --c-icon: var(--callout-warning-icon);
-    --c-title: var(--callout-warning-title);
+    --c-icon: var(--color-warning);
+    --c-title: var(--color-warning);
   }
 
   [data-callout="caution"] {
-    --c-bg: var(--callout-caution-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--color-chart-5);
+    --c-border: var(--color-chart-5);
     --c-text: var(--fg);
-    --c-icon: var(--callout-caution-icon);
-    --c-title: var(--callout-caution-title);
+    --c-icon: var(--color-chart-5);
+    --c-title: var(--color-chart-5);
   }
 
   [data-callout="important"] {
-    --c-bg: var(--callout-important-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--color-chart-3);
+    --c-border: var(--color-chart-3);
     --c-text: var(--fg);
-    --c-icon: var(--callout-important-icon);
-    --c-title: var(--callout-important-title);
+    --c-icon: var(--color-chart-3);
+    --c-title: var(--color-chart-3);
   }
 
   [data-callout="danger"] {
-    --c-bg: var(--callout-danger-bg);
-    --c-border: var(--border-subtle);
+    --c-bg: var(--color-error);
+    --c-border: var(--color-error);
     --c-text: var(--fg);
-    --c-icon: var(--callout-danger-icon);
-    --c-title: var(--callout-danger-title);
+    --c-icon: var(--color-error);
+    --c-title: var(--color-error);
   }
 </style>

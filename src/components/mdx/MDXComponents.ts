@@ -43,7 +43,6 @@ export const components = {
   Kbd,
   Video,
   table: Table,
-  Table,
   Blockquote,
   Figure,
   LinkCard,

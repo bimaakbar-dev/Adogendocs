@@ -6,7 +6,20 @@ import {
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
 
+interface Props {
+  class?: string;
+}
+
+const { 
+    class: className = " " 
+} = Astro.props;
+
 const socials = NAV.Social || [];
+
+const $ = {
+    trigger: "relative p-1.5 rounded-md",
+    iconSize: "size-5"
+}
 ---
 
 {socials.map((item) => (
@@ -18,7 +31,9 @@ const socials = NAV.Social || [];
         size="md"
         thisIcon
         aria-label={item.label}
-    >
-        <Icon name={item.icon as any} class="h-5 w-5" />
+        class:list={[
+            $.trigger,
+            className]}>
+        <Icon name={item.icon as any} class={$.iconSize} />
     </Button>
 ))}

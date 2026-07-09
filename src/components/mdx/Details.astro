@@ -9,10 +9,10 @@ interface Props {
 const { summary = "Details" } = Astro.props || {};
 
 const s = {
-  details: 'details my-6 md:my-8 border border-(--border-subtle)/80 rounded-md bg-(--bg-subtle)',
-  summary: 'summary flex items-center gap-2 px-3 py-2 text-(--fg-strong) rounded-md hover:bg-(--bg-muted)',
-  icon: 'icon shrink-0 w-4 h-4 text-(--fg-muted)/80 transition-transform duration-200',
-  content: 'content px-4 pt-2 pb-4 border-t border-(--border-subtle)/80 text-(--fg)'
+  details: 'details my-6 md:my-8 ring-1 ring-(--border-subtle)/80 rounded bg-(--bg-subtle)',
+  summary: 'summary flex items-center gap-2 px-3 py-2 text-(--fg-strong) rounded',
+  icon: 'icon shrink-0 size-4.5 text-(--fg-muted)/80 transition-transform duration-200',
+  content: 'content px-4 pt-2 pb-4 text-(--fg) border-t border-(--border-subtle)'
 }
 ---
 

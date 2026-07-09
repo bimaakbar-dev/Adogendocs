@@ -2,19 +2,28 @@
 // src/components/Theme.astro
 import Button from "@ui/Button.astro";
 import Icon from "@ui/Icons.astro";
+
+const $ = {
+  trigger: "theme-btn relative p-1.5 rounded-md",
+  iconSize: "size-5"
+}
 ---
 
-<bima-theme-toggle>
+<theme-toggle>
   <Button 
     variant="icon"
     size="md"
     thisIcon
     aria-label="Toggle tema"
-    class="theme-btn relative">
-    <Icon name="moon" class="icon-moon h-5 w-5" />
-    <Icon name="sun" class="icon-sun h-5 w-5" />
+    class={$.trigger}>
+    <Icon name="moon" class:list={[
+      "icon-moon",
+      $.iconSize ]} />
+    <Icon name="sun" class:list={[
+      "icon-sun",
+      $.iconSize ]} />
   </Button>
-</bima-theme-toggle>
+</theme-toggle>
 
 <style is:global>
   .icon-moon, 
@@ -28,7 +37,7 @@ import Icon from "@ui/Icons.astro";
 
 
 <script>
-  class BimaThemeToggle extends HTMLElement {
+  class ThemeToggle extends HTMLElement {
     constructor() {
       super();
       const btn = this.querySelector('.theme-btn');
@@ -54,5 +63,5 @@ import Icon from "@ui/Icons.astro";
       });
     }
   }
-  customElements.define('bima-theme-toggle', BimaThemeToggle);
+  customElements.define('theme-toggle', ThemeToggle);
 </script>

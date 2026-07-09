@@ -32,7 +32,7 @@ const separators = {
         {index === items.length - 1 ? (
           <span data-pagefind-filter="category" class="font-medium text-(--fg-strong)">{item.label}</span>
         ) : (
-          <a data-pagefind-filter="category" href={item.href} class="hover:text-(--fg-strong) transition-opacity">
+          <a data-pagefind-meta="category" data-pagefind-filter="category" href={item.href} class="hover:text-(--fg-strong) transition-opacity">
             {item.label}
           </a>
         )}
