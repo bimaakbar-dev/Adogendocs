@@ -1,41 +1,59 @@
 ---
-// src/components/SidebarLink.astro
+// src/components/ui/SidebarLink.astro
 interface Props {
   href: string;
   isActive?: boolean;
+  grouped?: boolean;
 }
 
 const { 
   href, 
-  isActive = false 
+  isActive = false,
+  grouped = true,
 } = Astro.props;
 
 const $ = {
   wrapper: "relative flex items-center text-body-13 font-medium",
 }
 ---
-<ul class:list={[
-  "relative ml-4 border-l",
-  isActive 
-    ? "border-(--accent)" 
-    : "border-(--border-subtle)",
-]}>
-  <li class:list={[
-    "relative px-2 py-1.5 -ml-2 pl-4 rounded",
-    "before:absolute before:inset-0 before:rounded before:-z-10",
+
+{grouped ? (
+  <ul class:list={[
+    "relative ml-4 border-l",
     isActive 
-      ? "before:bg-(--bg-muted)" 
-      : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
+      ? "border-(--accent)" 
+      : "border-(--border-subtle)",
   ]}>
-    <a
-      href={href}
-      class:list={[
-        $.wrapper,
-        isActive
-          ? "text-(--fg-strong)"
-          : "text-(--fg)"
-      ]}>
-      <slot />
-    </a>
-  </li>
-</ul>
+    <li class:list={[
+      "relative px-2 py-1.5 -ml-2 pl-4 rounded",
+      "before:absolute before:inset-0 before:rounded before:-z-10",
+      isActive 
+        ? "before:bg-(--bg-muted)" 
+        : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
+    ]}>
+      <a
+        href={href}
+        class:list={[
+          $.wrapper,
+          isActive
+            ? "text-(--fg-strong)"
+            : "text-(--fg)"
+        ]}>
+        <slot />
+      </a>
+    </li>
+  </ul>
+) : (
+  <a
+    href={href}
+    class:list={[
+      $.wrapper,
+      "px-2 py-1.5 rounded",
+      "before:absolute before:inset-0 before:rounded before:-z-10",
+      isActive 
+        ? "before:bg-(--bg-muted) text-(--fg-strong)" 
+        : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted) text-(--fg)",
+    ]}>
+    <slot />
+  </a>
+)}
