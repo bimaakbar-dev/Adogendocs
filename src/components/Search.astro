@@ -38,7 +38,7 @@ const card = {
   group: [
     "result-group",
     "rounded overflow-hidden ring-1",
-    "bg-(--bg-subtle) ring-(--border-strong)/40"
+    "bg-(--bg-subtle) ring-(--border-subtle)/80"
   ].join(" "),
 
   link: [
@@ -229,7 +229,7 @@ const card = {
   }
 
   .result-excerpt mark {
-    background-color: color-mix(in srgb, var(--color-chart-2) 80%, transparent) !important;
+    background-color: color-mix(in srgb, var(--accent) 40%, transparent) !important;
     color:            var(--accent) !important;
     border-radius:    0 !important;
     padding:          0 4px !important;
