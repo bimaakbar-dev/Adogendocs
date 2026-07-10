@@ -28,7 +28,7 @@ const $ = {
       "relative px-2 py-1.5 -ml-2 pl-4 rounded",
       "before:absolute before:inset-0 before:rounded before:-z-10",
       isActive 
-        ? "before:bg-(--bg-muted)" 
+        ? "before:bg-(--accent)/40" 
         : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
     ]}>
       <a
@@ -36,7 +36,7 @@ const $ = {
         class:list={[
           $.wrapper,
           isActive
-            ? "text-(--fg-strong)"
+            ? "text-(--accent)"
             : "text-(--fg)"
         ]}>
         <slot />
