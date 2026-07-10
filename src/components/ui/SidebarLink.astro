@@ -19,12 +19,13 @@ const $ = {
   isActive 
     ? "border-(--accent)" 
     : "border-(--border-subtle)",
-  ]}>
+]}>
   <li class:list={[
-    "px-2 py-1.5 -ml-3 pl-4 rounded",
+    "relative px-2 py-1.5 -ml-3 pl-4 rounded",
+    "before:absolute before:inset-0 before:rounded before:-z-10",
     isActive 
-      ? "bg-(--bg-muted)" 
-      : "hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+      ? "before:bg-(--bg-muted)" 
+      : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
   ]}>
     <a
       href={href}
