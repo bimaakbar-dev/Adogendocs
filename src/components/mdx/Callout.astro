@@ -28,19 +28,20 @@ const icons = {
 
 const label = type.charAt(0).toUpperCase() + type.slice(1);
 
-const s = {
+const $ = {
   callout: [
     'flex my-6 md:my-8 ring-1 rounded',
     'bg-(--bg-subtle) text-(--c-text) ring-(--border-subtle)',
   ].join(" "),
 
   calloutHeader: [
-    'flex flex-col shrink-0 items-center justify-start border-r p-2.5',
+    'items-center justify-start p-2.5 border-r',
     'border-(--border-subtle) text-(--c-icon)',
   ].join(" "),
 
-  calloutIcon: 'inline-flex shrink-0 items-center justify-center size-4.5',
-  calloutBody: 'flex-1 pl-3 pr-3 py-2 min-w-0',
+  calloutIcon: 'shrink-0 items-center size-4.5',
+  calloutLabel: 'text-heading-16 font-medium text-(--c-title) hidden',
+  calloutBody: 'flex-1 px-3 py-2 min-w-0',
   calloutContent: [
     'callout-content items-center',
     'text-(--c-text)'
@@ -48,14 +49,13 @@ const s = {
 }
 ---
 
-<aside class={s.callout} data-callout={type} role="note" aria-label={label}>
-  <div class={s.calloutHeader}>
-    <span class={s.calloutIcon} aria-hidden="true">
-      <Icon name={icons[type] as any} class="h-full w-full" />
-    </span>
+<aside class={$.callout} data-callout={type} role="note" aria-label={label}>
+  <div class={$.calloutHeader}>
+    <Icon name={icons[type]} class={$.calloutIcon} />
   </div>
-  <div class={s.calloutBody}>
-    <div class={s.calloutContent}>
+  <div class={$.calloutBody}>
+    <span class={$.calloutLabel}>{label}</span>
+    <div class={$.calloutContent}>
       <slot />
     </div>
   </div>
