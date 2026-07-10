@@ -30,7 +30,8 @@ const ui = {
   results:   "max-h-[55vh] sm:max-h-[75vh] overflow-y-auto overscroll-contain",
   list:      "hidden space-y-4 p-2",
   empty:     "p-10 text-center text-sm text-(--fg-muted)",
-  sentinel:  "h-px",
+  footer:    "hidden px-2 pb-2",
+  total:     "text-xs text-(--fg-muted) px-2 py-1.5",
 };
 
 const card = {
@@ -132,6 +133,7 @@ const card = {
       </Button>
     </div>
     <div id="search-results" class={ui.results}>
+      <div id="search-total" class={`${ui.total} hidden`}></div>
       <div id="search-empty" class="hidden"></div>
       <ul
         id="search-list"
@@ -139,7 +141,15 @@ const card = {
         role="listbox"
         aria-label="Hasil pencarian">
       </ul>
-      <div id="search-sentinel" class={ui.sentinel}></div>
+      <div id="search-footer" class={ui.footer}>
+        <Button
+          id="search-load-more"
+          variant="secondary"
+          size="md"
+          block>
+          Tampilkan lebih banyak
+        </Button>
+      </div>
     </div>
   </div>
 </div>
@@ -149,7 +159,7 @@ const card = {
     <a class={card.link} tabindex="-1">
       <img data-slot="image" class={card.cover} src="" alt="" loading="lazy" />
       <div class={card.body}>
-        <div data-slot="meta"    class={card.meta}>
+        <div data-slot="meta" class={card.meta}>
           <span data-slot="author"></span>
           <span data-slot="date"></span>
         </div>
@@ -239,9 +249,11 @@ const card = {
     const resultsEl = $("search-results");
     const list      = $("search-list");
     const emptyEl   = $("search-empty");
+    const totalEl   = $("search-total");
+    const footerEl  = $("search-footer");
+    const loadMoreBtn = $("search-load-more");
     const iconEl    = $("search-icon");
     const spinnerEl = $("search-spinner");
-    const sentinel  = $("search-sentinel");
 
     const tplResult    = $("tpl-result");
     const tplSubresult = $("tpl-subresult");
@@ -254,7 +266,6 @@ const card = {
     let rendered  = 0;
     let token     = 0;
     let activeIdx = -1;
-    let observer  = null;
 
     function loadPF() {
       if (!pfLoader) pfLoader = import("/pagefind/pagefind.js").then(async (m) => {
@@ -282,6 +293,8 @@ const card = {
       list.classList.add("hidden");
       emptyEl.innerHTML = "";
       emptyEl.classList.add("hidden");
+      totalEl.classList.add("hidden");
+      footerEl.classList.add("hidden");
       input.setAttribute("aria-expanded", "false");
       results   = [];
       rendered  = 0;
@@ -291,6 +304,19 @@ const card = {
     function showEmpty() {
       emptyEl.appendChild(tplEmpty.content.cloneNode(true));
       emptyEl.classList.remove("hidden");
+    }
+
+    function updateTotal() {
+      totalEl.textContent = `${results.length} hasil ditemukan`;
+      totalEl.classList.remove("hidden");
+    }
+
+    function updateFooter() {
+      if (rendered < results.length) {
+        footerEl.classList.remove("hidden");
+      } else {
+        footerEl.classList.add("hidden");
+      }
     }
 
     function setActive(idx) {
@@ -312,7 +338,6 @@ const card = {
       }
 
       const target = links[idx];
-      
       target.closest('[role="option"]')?.setAttribute("aria-selected", "true");
       target.classList.add("bg-(--bg-muted)");
       target.scrollIntoView({ block: "nearest" });
@@ -326,27 +351,15 @@ const card = {
       node.querySelector('[data-slot="title"]').textContent = subTitle;
 
       const excEl = node.querySelector('[data-slot="excerpt"]');
-      
-      let excerpt = sub.excerpt || sub.meta?.description || "";
+      const excerpt = sub.excerpt || sub.meta?.description || "";
 
       if (excerpt) {
-        let cleanText = excerpt.replace(/<[^>]*>/g, '').trim();
         excEl.innerHTML = excerpt;
-        if (subTitle && cleanText.toLowerCase().startsWith(subTitle.toLowerCase())) {
-          cleanText = cleanText.substring(subTitle.length);
-          cleanText = cleanText.replace(/^[\s.,:;\-]+/, '');
-        }
-
-        if (cleanText.length > 120) {
-          cleanText = cleanText.slice(0, 120) + '...';
-        }
-
-        excEl.textContent = cleanText;
       } else {
-          excEl.remove();
-        }
+        excEl.remove();
+      }
 
-        return node;
+      return node;
     }
 
     function buildResult(item) {
@@ -355,11 +368,10 @@ const card = {
       node.querySelector('[data-slot="title"]').textContent = item.meta?.title ?? item.url;
 
       const img = node.querySelector('[data-slot="image"]');
-      
       if (item.meta?.image) { 
         img.src = item.meta.image; 
-        // img.classList.remove("hidden");        
       }
+
       const author = node.querySelector('[data-slot="author"]');
       const date   = node.querySelector('[data-slot="date"]');
       
@@ -369,7 +381,7 @@ const card = {
 
       const excEl = node.querySelector('[data-slot="excerpt"]');
       const exc   = item.meta?.description || item.excerpt || "";
-    
+      
       if (exc) excEl.innerHTML = exc; else excEl.remove();
 
       const subsEl = node.querySelector('[data-slot="subs"]');
@@ -379,16 +391,6 @@ const card = {
       else subsEl.remove();
 
       return node;
-    }
-
-    function setupObserver() {
-      observer?.disconnect();
-      observer = new IntersectionObserver(async ([entry]) => {
-        if (!entry.isIntersecting) return;
-        if (rendered >= results.length) { observer.disconnect(); return; }
-        await renderPage(token);
-      }, { root: resultsEl, threshold: 0 });
-      observer.observe(sentinel);
     }
 
     async function renderPage(t) {
@@ -402,6 +404,7 @@ const card = {
       items.forEach((i) => frag.appendChild(buildResult(i)));
       list.appendChild(frag);
       rendered += batch.length;
+      updateFooter();
     }
 
     async function search() {
@@ -409,7 +412,6 @@ const card = {
       const query = input.value.trim();
 
       reset();
-      observer?.disconnect();
       if (!query) { setLoading(false); return; }
 
       setLoading(true);
@@ -423,15 +425,18 @@ const card = {
 
       if (!results.length) { showEmpty(); setLoading(false); return; }
 
+      updateTotal();
       list.classList.remove("hidden");
       input.setAttribute("aria-expanded", "true");
 
       await renderPage(t);
-      if (t === token) {
-        setLoading(false);
-        setupObserver();
-      }
+      if (t === token) setLoading(false);
     }
+
+    loadMoreBtn?.addEventListener("click", async () => {
+      const t = token;
+      await renderPage(t);
+    });
 
     input?.addEventListener("input", search);
 
@@ -441,34 +446,16 @@ const card = {
         return;
       }
 
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setActive(activeIdx + 1);
-        return;
-      }
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setActive(activeIdx - 1);
-        return;
-      }
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIdx + 1); return; }
+      if (e.key === "ArrowUp")   { e.preventDefault(); setActive(activeIdx - 1); return; }
       if (e.key === "Enter" && activeIdx >= 0) {
         e.preventDefault();
         getFocusables()[activeIdx]?.click();
         return;
       }
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        close();
-        return;
-      }
-      if (e.key === "Escape") {
-        close();
-        return;
-      }
-
-      if (activeIdx >= 0 && e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
-        setActive(-1);
-      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); close(); return; }
+      if (e.key === "Escape") { close(); return; }
+      if (activeIdx >= 0 && e.key.length === 1 && !e.metaKey && !e.ctrlKey) setActive(-1);
     });
 
     function open() {
@@ -494,7 +481,6 @@ const card = {
 
     function close() {
       if (!isOpen) return;
-      observer?.disconnect();
 
       if (isMobile()) {
         modal.classList.remove("translate-y-0");
