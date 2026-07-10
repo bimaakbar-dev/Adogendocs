@@ -16,16 +16,23 @@ const $ = {
 ---
 <ul class:list={[
   "relative ml-4 border-l",
-  isActive ? "border-(--accent)" : "border-(--border-subtle)",
+  isActive 
+    ? "border-(--accent)" 
+    : "border-(--border-subtle)",
   ]}>
-  <li class="px-2 py-1.5 -ml-2 pl-4 rounded">
+  <li class:list={[
+    "px-2 py-1.5 -ml-3 pl-4 rounded",
+    isActive 
+      ? "bg-(--bg-muted)" 
+      : "hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+  ]}>
     <a
       href={href}
       class:list={[
         $.wrapper,
         isActive
-          ? "bg-(--bg-muted) text-(--fg-strong)"
-          : "text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted)"
+          ? "text-(--fg-strong)"
+          : "text-(--fg)"
       ]}>
       <slot />
     </a>
