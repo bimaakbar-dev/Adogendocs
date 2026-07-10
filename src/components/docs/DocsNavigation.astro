@@ -9,7 +9,7 @@ const allDocs = await getCollection('docs');
 const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 const primaryRootId = sortedDocs[0]?.id;
 
-const ungroupedDocs = sortedDocs.filter(doc => !doc.data.category);
+const ungroupedDocs = sortedDocs.filter((doc) => !doc.data.category);
 
 const docsByCategory = sortedDocs.reduce((acc, doc) => {
   const category = doc.data.category;
@@ -46,13 +46,13 @@ const $ = {
 
 <nav class={$.wrapper}>
   {ungroupedDocs.map((doc) => (
-    <SidebarLink href={getHref(doc)} isActive={checkIsActive(getHref(doc))}>
+    <SidebarLink href={getHref(doc)} isActive={checkIsActive(getHref(doc))} grouped={false}>
       {doc.data.title}
     </SidebarLink>
   ))}
 
   {sortedCategories.map((category) => {
-    const hasActiveChild = docsByCategory[category].some(doc =>
+    const hasActiveChild = docsByCategory[category].some((doc) =>
       checkIsActive(getHref(doc))
     );
     return (
