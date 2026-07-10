@@ -15,13 +15,13 @@ const $ = {
 }
 ---
 <ul>
-  <li class="ml-4 pl-3 border-l border-(--border)">
+  <li class="ml-4 pl-3 border-l border-(--border-subtle)">
     <a
       href={href}
       class:list={[
         $.wrapper,
         isActive
-          ? "bg-(--bg-muted) text-(--fg-strong)"
+          ? "bg-(--bg-subtle) text-(--accent)"
           : "text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted)"
       ]}>
       <slot />
