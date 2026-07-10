@@ -11,17 +11,17 @@ const {
 } = Astro.props;
 
 const $ = {
-  wrapper: "flex items-center text-body-13 px-2 py-1.5 font-medium rounded",
+  wrapper: "flex items-center text-body-13 px-2 py-1.5 -ml-3 pl-4 font-medium rounded",
 }
 ---
 <ul>
-  <li class="ml-4 pl-3 border-l border-(--border-subtle)">
+  <li class="ml-4 border-l border-(--border)">
     <a
       href={href}
       class:list={[
         $.wrapper,
         isActive
-          ? "bg-(--bg-subtle) text-(--accent)"
+          ? "bg-(--bg-muted) text-(--fg-strong)"
           : "text-(--fg) hover:bg-(--bg-muted) active:bg-(--bg-muted)"
       ]}>
       <slot />
