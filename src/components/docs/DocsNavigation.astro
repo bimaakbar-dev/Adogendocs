@@ -45,12 +45,6 @@ const $ = {
 ---
 
 <nav class={$.wrapper}>
-  {ungroupedDocs.map((doc) => (
-    <SidebarLink href={getHref(doc)} isActive={checkIsActive(getHref(doc))} grouped={false}>
-      {doc.data.title}
-    </SidebarLink>
-  ))}
-
   {sortedCategories.map((category) => {
     const hasActiveChild = docsByCategory[category].some((doc) =>
       checkIsActive(getHref(doc))
@@ -65,4 +59,9 @@ const $ = {
       </SidebarGroup>
     );
   })}
+  {ungroupedDocs.map((doc) => (
+    <SidebarLink href={getHref(doc)} isActive={checkIsActive(getHref(doc))} grouped={false}>
+      {doc.data.title}
+    </SidebarLink>
+  ))}
 </nav>
