@@ -13,7 +13,7 @@ const $ = {
   label: "text-body-13 font-semibold text-(--fg-strong)",
   icon: "transition-transform duration-(--duration) group-open:rotate-90",
   iconSize: "w-4 h-4",
-  content: "flex flex-col border-l border-(--border-subtle)/80 ml-2 pl-3 space-y-0.5 mt-1"
+  content: "flex flex-col"
 }
 ---
 
@@ -24,7 +24,7 @@ const $ = {
         <Icon name='chevron-right' class={$.iconSize} />
     </span>
   </summary>
-  <div class={$.content}>
+  <nav class={$.content}>
     <slot />
-  </div>
+  </nav>
 </details>
