@@ -4,9 +4,19 @@ interface Props {
   class?: string;
 }
 
-const { id, class: className = '' } = Astro.props;
+const { 
+  id, 
+  class: className = '' 
+} = Astro.props;
+
+const $ = {
+  baseClass: "flex h-screen flex-col py-2 flex-1 scrollbar-hide"
+}
 ---
 
-<div id={id} class={`flex h-screen flex-col scrollbar-hide py-2 ${className}`}>
+<div id={id} class:list={[
+  $.baseClass,
+  className
+]}>
   <slot />
 </div>
