@@ -13,20 +13,23 @@ const {
 } = Astro.props;
 
 const $ = {
-  wrapper: "relative flex items-center text-body-14 font-medium",
+  group: "relative ml-3",
+  groupItems: [
+    "relative pr-2 py-1.5 -ml-3 rounded",
+    "before:absolute before:inset-0 before:rounded before:-z-10"
+  ].join(" "),
+  items: "relative flex items-center w-full text-body-14 font-medium",
+  itemsIndicator: "absolute left-0 top-0 bottom-0 w-px bg-(--border-subtle) rounded-full"
 }
 ---
 
 {grouped ? (
   <ul class:list={[
-    "relative ml-3 border-l",
-    isActive 
-      ? "border-(--accent)" 
-      : "border-(--border-subtle)",
+    $.group,
   ]}>
+    <span class={$.itemsIndicator} />
     <li class:list={[
-      "relative pr-2 py-1.5 -ml-3 pl-4 rounded",
-      "before:absolute before:inset-0 before:rounded before:-z-10",
+      $.groupItems,
       isActive 
         ? "before:bg-(--accent)/10" 
         : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
@@ -34,11 +37,19 @@ const $ = {
       <a
         href={href}
         class:list={[
-          $.wrapper,
+          $.items,
+          "pl-6",
           isActive
-            ? "text-(--accent)"
-            : "text-(--fg)"
+            ? "text-(--accent) border-(--accent)"
+            : "text-(--fg) border-transparent"
         ]}>
+        {isActive && (
+          <span class:list={[
+            $.itemsIndicator,
+            "left-3",
+            isActive ? "bg-(--accent)!" : ""
+          ]} />
+        )}
         <slot />
       </a>
     </li>
@@ -47,12 +58,12 @@ const $ = {
   <a
     href={href}
     class:list={[
-      $.wrapper,
+      $.items,
       "px-2 py-1.5 rounded",
       "before:absolute before:inset-0 before:rounded before:-z-10",
       isActive 
         ? "before:bg-(--bg-muted) text-(--fg-strong)" 
-        : "hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted) text-(--fg)",
+        : "text-(--fg) hover:before:bg-(--bg-muted) active:before:bg-(--bg-muted)",
     ]}>
     <slot />
   </a>
