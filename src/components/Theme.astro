@@ -4,7 +4,7 @@ import Button from "@ui/Button.astro";
 import Icon from "@ui/Icons.astro";
 
 const $ = {
-  trigger: "theme-btn relative p-1.5 rounded-md",
+  trigger: "relative shrink-0 items-center justify-center p-1.5 rounded-md",
   iconSize: "size-5"
 }
 ---
@@ -15,23 +15,25 @@ const $ = {
     size="md"
     thisIcon
     aria-label="Toggle tema"
-    class={$.trigger}>
-    <Icon name="moon" class:list={[
-      "icon-moon",
+    class:list={[
+      "theme-btn",
+      $.trigger
+    ]}>
+    <Icon name="moon" fill class:list={[
+      "icon-moon hidden",
       $.iconSize ]} />
-    <Icon name="sun" class:list={[
-      "icon-sun",
+    <Icon name="sun" fill class:list={[
+      "icon-sun hidden",
       $.iconSize ]} />
   </Button>
 </theme-toggle>
 
 <style is:global>
-  .icon-moon, 
-  .icon-sun { 
-    display: none; 
+  .theme-btn {
+    display: flex;
   }
-  [data-theme='dark'] .icon-sun { display: block; }
-  [data-theme='light'] .icon-moon { display: block; }
+  [data-theme='dark'] .icon-sun { display: flex; }
+  [data-theme='light'] .icon-moon { display: flex; }
 </style>
 
 
@@ -40,6 +42,7 @@ const $ = {
   class ThemeToggle extends HTMLElement {
     constructor() {
       super();
+
       const btn = this.querySelector('.theme-btn');
       
       const updateTheme = (newTheme: string) => {
