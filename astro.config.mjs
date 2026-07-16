@@ -34,6 +34,8 @@ import { satteriTabs } from "./src/lib/mdx/satteri-tabs";
 
 import pagefind from "astro-pagefind";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
@@ -86,8 +88,9 @@ export default defineConfig({
     mdx({
       optimize: false,
       extendMarkdownConfig: true,
-    }),
+    }), 
     pagefind(),
+     sitemap()
   ],
   vite: {
     plugins: [tailwindcss()],
