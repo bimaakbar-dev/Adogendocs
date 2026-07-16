@@ -1,7 +1,6 @@
 // src/content.config.ts
 import { 
-  defineCollection,
-  reference
+  defineCollection
 } from "astro:content";
 
 import { glob } from "astro/loaders";
@@ -24,42 +23,6 @@ const SEO = z.object({
   description: z.string().optional(),
   ogImage: z.string().optional(),
   noIndex: z.boolean().default(false).optional(),
-});
-
-const novels = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/_meta.yml" }),
-  schema: z.object({
-    title: z.string(),
-    author: z.string(),
-    synopsis: z.string(),
-    cover: z.string().optional(),
-    genre: z.array(z.string()).default([]),
-    status: z.enum(['Ongoing', 'Completed']).default('Ongoing'),
-    publishedDate: z.date().optional(),
-  }),
-});
-
-const volumes = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/vol-*/_meta.yml" }),
-  schema: z.object({
-    novel: reference('novels'),
-    volumeNumber: z.number(),
-    title: z.string().optional(),
-    cover: z.string().optional(),
-    releaseDate: z.date().optional(),
-  }),
-});
-
-const chapters = defineCollection({
-  loader: glob({ base: "./src/content/novels", pattern: "**/*.{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    chapterNumber: z.number(),
-    novel: reference('novels'),
-    volume: reference('volumes').optional(),
-    category: z.string().optional(),
-    publishedDate: z.date().optional(),
-  }),
 });
 
 const blog = defineCollection({
@@ -96,10 +59,7 @@ const legal = defineCollection({
 });
 
 export const collections = {
-  novels,
-  volumes,
-  chapters,
   blog,
   docs,
-  legal,
+  legal
 };
