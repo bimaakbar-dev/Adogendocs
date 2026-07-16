@@ -2,6 +2,7 @@
 // src/pages/index.astro
 import {
   buildMeta,
+  ROUTES,
   SITE,
 } from "@/consts";
 
@@ -22,9 +23,16 @@ const meta = buildMeta({
   <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
     <Container size="full">
       <Section size="sm">
-        <Hero />
+        <Hero 
+          tagline={SITE.tagline} 
+          title={SITE.description}
+          action={ROUTES.docs}
+          actionLabel='Get Started'
+          action2={ROUTES.blog}
+          actionLabel2='Read Blog' />
       </Section>
     </Container>
+    
     <Container size="xl">
       <Section size="sm">
         <p class="text-heading-24 font-normal">c0docs is a Astro documentation framework for Developers, beautifully designed by c0desk1. Bringing powerful features for your docs workflows, with high customizability to fit your preferences, works seamlessly with any React.js framework, CMS — anything.</p>
