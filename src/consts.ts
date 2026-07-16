@@ -25,9 +25,9 @@ const ThumbnailPlaceHolder = `/org/placeholder.svg`;
 const OGIMAGE = "/org/placeholder.svg";
 
 export const SITE = {
-  name: "Bimadocs",
-  tagline: "Official Arogent Docs",
-  description: "Generate SEO-optimized titles, keywords, and categories for Adobe Stock images instantly.",
+  name: "c0docs",
+  tagline: "Official c0desk1 Docs",
+  description: "Create a beautiful Docs from Astro",
   url: "https://docs.c0desk1.my.id",
   ogImage: OGIMAGE,
   locale: "id_ID",
@@ -49,6 +49,7 @@ export const ORG = {
 
 export const ROUTES = {
   home: "/",
+  anime: "/anime",
   novel: "/novel",
   about: "/about",
   docs: "/docs",
@@ -66,11 +67,9 @@ export const ROUTES = {
 export const NAV = {
   navBar: [
     { label: "Docs", href: ROUTES.docs, icon: "learn" },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" },
-    { label: "Novel", href: ROUTES.novel, icon: "vocabulary" }
+    { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
   mobileNavBar: [
-    { label: "Novel", href: ROUTES.novel, icon: "vocabulary" },
     { label: "Docs", href: ROUTES.docs, icon: "learn" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
