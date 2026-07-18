@@ -4,9 +4,9 @@
 import { getCollection } from "astro:content";
 import {
   buildMeta,
-  ROUTES,
   schemaWebPage,
   SITE,
+  ROUTES,
   PAGINATION,
 } from "@/consts";
 import Layout from "@/layouts/Layout.astro";
@@ -45,6 +45,7 @@ export async function getStaticPaths() {
         posts: postsForThisPage,
         currentPage: page,
         totalPages,
+        featuredPosts: publishedPosts.slice(0, 3),
       },
     });
   }
@@ -52,17 +53,29 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { posts: pagePosts, currentPage, totalPages } = Astro.props;
+const { 
+  posts: pagePosts, 
+  currentPage, 
+  totalPages, 
+  featuredPosts 
+} = Astro.props;
+
+const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
+
+const blog = {
+  title: "Blog",
+  description: "Latest articles, tutorials and updates."
+}
 
 const meta = buildMeta({
-  title: "Blog",
-  description: "Latest articles, tutorials and updates.",
-  canonical: "/blog",
+  title: blog.title,
+  description: blog.description,
+  canonical: ROUTES.blog,
 });
 
 const schema = schemaWebPage({
-  title: "Blog",
-  description: "Latest articles, tutorials and updates.",
+  title: blog.title,
+  description: blog.description,
   url: `${SITE.url}/blog`,
 });
 ---
@@ -70,35 +83,142 @@ const schema = schemaWebPage({
 <Layout meta={meta} schema={schema}>
   <Section size="md">
     <Container size="lg">
-      <header class="flex items-center mb-8 space-y-3 w-full justify-between">
-        <h1 class="text-heading-40 font-semibold text-(--fg-strong)">
-          Blog
-        </h1>
-        <Button
-          aria-label="RSS Feed"
-          variant="icon"
-          size="md"
-          href={ROUTES.rss}
-          thisIcon
-          class="rounded-full!"
-        >
-          <Icon name="rss" class="size-5" />
-        </Button>
+      <header class="relative overflow-hidden rounded-md bg-(--bg) px-6 py-10 md:px-10 md:py-14 mb-8 w-full">
+       <div class="absolute inset-0 z-0 pointer-events-none select-none" aria-hidden="true">
+          <div class="absolute inset-0 bg-[linear-gradient(to_top,var(--bg-subtle)_20%,transparent_80%)]"></div>
+          
+          <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-[120%] stroke-(--border)/40 stroke-[0.75] mask-[radial-gradient(50%_50%_at_50%_50%,var(--fg-strong),transparent)]" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="horizon-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="var(--fg-strong)" stop-opacity="0" />
+                <stop offset="100%" stop-color="var(--fg-strong)" stop-opacity="0.5" />
+              </linearGradient>
+            </defs>
+            
+            <path d="M500 100 L-500 600 M500 100 L-300 600 M500 100 L-100 600 M500 100 L100 600 M500 100 L300 600 M500 100 L500 600 M500 100 L700 600 M500 100 L900 600 M500 100 L1100 600 M500 100 L1500 600" />
+            
+            <line x1="-500" y1="150" x2="1500" y2="150" opacity="0.2" />
+            <line x1="-500" y1="210" x2="1500" y2="210" opacity="0.3" />
+            <line x1="-500" y1="280" x2="1500" y2="280" opacity="0.4" />
+            <line x1="-500" y1="365" x2="1500" y2="365" opacity="0.6" />
+            <line x1="-500" y1="465" x2="1500" y2="465" opacity="0.8" />
+            <line x1="-500" y1="580" x2="1500" y2="580" stroke="url(#horizon-fade)" />
+          </svg>
+          <span aria-hidden="true" class="pointer-events-none absolute inset-0">
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/70"
+              style="left:1%;top:30%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:3%;top:70%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/60"
+              style="left:5%;top:22%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/45"
+              style="left:7%;top:58%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/55"
+              style="left:9%;top:84%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:12%;top:36%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/60"
+              style="left:15%;top:18%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/40"
+              style="left:18%;top:64%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:21%;top:80%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/55"
+              style="left:24%;top:28%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/55"
+              style="left:76%;top:24%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:79%;top:76%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/60"
+              style="left:82%;top:40%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/45"
+              style="left:85%;top:60%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:88%;top:18%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/60"
+              style="left:91%;top:82%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/55"
+              style="left:94%;top:32%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/45"
+              style="left:96%;top:66%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/50"
+              style="left:98%;top:24%"></span>
+            <span
+              class="absolute size-px rounded-full bg-(--fg-strong)/60"
+              style="left:99%;top:78%"></span>
+          </span>
+        </div>
+
+        <div class="relative z-10 flex items-start justify-between w-full gap-6">
+          <div class="max-w-xl">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-(--fg-strong) mb-2 text-balance">
+              {blog.title}
+            </h1>
+            <p class="text-sm md:text-base text-(--fg-muted) font-normal leading-relaxed">
+              {blog.description}
+            </p>
+          </div>
+
+          <Button
+            aria-label="RSS Feed"
+            variant="icon"
+            size="md"
+            href={ROUTES.rss}
+            thisIcon
+            class="bg-(--bg-elevated) hover:bg-(--bg-muted) backdrop-blur-sm">
+            <Icon name="rss" class="size-4 text-(--fg)" />
+          </Button>
+        </div>
       </header>
+
+      {currentPage === 1 && featuredPosts && featuredPosts.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+          {featuredPosts.map((post, index) => (
+            <BlogCard entry={post} index={index} />
+          ))}
+        </div>
+      )}
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        {pagePosts.map((post, index) => (
-          <BlogCard entry={post} index={index} />
-        ))}
+        {displayPosts.map((post, index) => {
+          const cleanPostData = {
+            ...post,
+            data: {
+              ...post.data,
+              cover: undefined
+            }
+          };
+          
+          return <BlogCard entry={cleanPostData} index={index + 3} />;
+        })}
       </div>
+
       {totalPages > 1 && (
         <div class="mt-10">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             href={(page) =>
-              page === 1
-                ? "/blog"
-                : `/blog/${page}`
+              page === 1 ? "/blog" : `/blog/${page}`
             }
           />
         </div>
