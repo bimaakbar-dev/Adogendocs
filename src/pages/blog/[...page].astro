@@ -83,91 +83,25 @@ const schema = schemaWebPage({
 <Layout meta={meta} schema={schema}>
   <Section size="md">
     <Container size="lg">
-      <header class="relative overflow-hidden rounded-md bg-(--bg) px-6 py-10 md:px-10 md:py-14 mb-8 w-full">
-       <div class="absolute inset-0 z-0 pointer-events-none select-none" aria-hidden="true">
-          <div class="absolute inset-0 bg-[linear-gradient(to_top,var(--bg-subtle)_20%,transparent_80%)]"></div>
-          
-          <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-[120%] stroke-(--border)/40 stroke-[0.75] mask-[radial-gradient(50%_50%_at_50%_50%,var(--fg-strong),transparent)]" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="horizon-fade" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="var(--fg-strong)" stop-opacity="0" />
-                <stop offset="100%" stop-color="var(--fg-strong)" stop-opacity="0.5" />
-              </linearGradient>
-            </defs>
-            
-            <path d="M500 100 L-500 600 M500 100 L-300 600 M500 100 L-100 600 M500 100 L100 600 M500 100 L300 600 M500 100 L500 600 M500 100 L700 600 M500 100 L900 600 M500 100 L1100 600 M500 100 L1500 600" />
-            
-            <line x1="-500" y1="150" x2="1500" y2="150" opacity="0.2" />
-            <line x1="-500" y1="210" x2="1500" y2="210" opacity="0.3" />
-            <line x1="-500" y1="280" x2="1500" y2="280" opacity="0.4" />
-            <line x1="-500" y1="365" x2="1500" y2="365" opacity="0.6" />
-            <line x1="-500" y1="465" x2="1500" y2="465" opacity="0.8" />
-            <line x1="-500" y1="580" x2="1500" y2="580" stroke="url(#horizon-fade)" />
-          </svg>
-          <span aria-hidden="true" class="pointer-events-none absolute inset-0">
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/70"
-              style="left:1%;top:30%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:3%;top:70%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/60"
-              style="left:5%;top:22%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/45"
-              style="left:7%;top:58%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/55"
-              style="left:9%;top:84%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:12%;top:36%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/60"
-              style="left:15%;top:18%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/40"
-              style="left:18%;top:64%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:21%;top:80%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/55"
-              style="left:24%;top:28%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/55"
-              style="left:76%;top:24%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:79%;top:76%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/60"
-              style="left:82%;top:40%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/45"
-              style="left:85%;top:60%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:88%;top:18%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/60"
-              style="left:91%;top:82%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/55"
-              style="left:94%;top:32%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/45"
-              style="left:96%;top:66%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/50"
-              style="left:98%;top:24%"></span>
-            <span
-              class="absolute size-px rounded-full bg-(--fg-strong)/60"
-              style="left:99%;top:78%"></span>
-          </span>
-        </div>
-
+      <header class="relative overflow-hidden ring-1 ring-(--border)/0 rounded-md bg-(--bg-subtle)/40 px-6 py-10 md:px-10 md:py-14 mb-8 w-full">
+        <span aria-hidden="true" class="pointer-events-none absolute inset-0 select-none">
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/75" style="left:85%; top:15%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/60" style="left:88%; top:12%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/65" style="left:84%; top:22%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/50" style="left:92%; top:18%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/70" style="left:78%; top:25%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/45" style="left:81%; top:30%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/60" style="left:95%; top:28%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/55" style="left:65%; top:40%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/40" style="left:72%; top:52%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/50" style="left:58%; top:20%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/45" style="left:50%; top:35%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/35" style="left:62%; top:68%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/30" style="left:15%; top:25%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/25" style="left:28%; top:45%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/40" style="left:8%;  top:60%"></span>
+          <span class="absolute size-px rounded-full bg-(--fg-strong)/20" style="left:22%; top:75%"></span>
+        </span>
         <div class="relative z-10 flex items-start justify-between w-full gap-6">
           <div class="max-w-xl">
             <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-(--fg-strong) mb-2 text-balance">
@@ -177,14 +111,13 @@ const schema = schemaWebPage({
               {blog.description}
             </p>
           </div>
-
           <Button
             aria-label="RSS Feed"
             variant="icon"
             size="md"
             href={ROUTES.rss}
             thisIcon
-            class="bg-(--bg-elevated) hover:bg-(--bg-muted) backdrop-blur-sm">
+            class="rounded-md backdrop-blur-sm">
             <Icon name="rss" class="size-4 text-(--fg)" />
           </Button>
         </div>
