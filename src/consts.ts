@@ -25,8 +25,8 @@ const ThumbnailPlaceHolder = `/org/placeholder.svg`;
 const OGIMAGE = "/org/placeholder.svg";
 
 export const SITE = {
-  name: "c0docs",
-  tagline: "Official c0desk1 Docs",
+  name: "Arogant",
+  tagline: "Arogant Official Docs",
   description: "Create a beautiful Docs from Astro",
   url: "https://docs.c0desk1.my.id",
   ogImage: OGIMAGE,
@@ -66,19 +66,20 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Docs", href: ROUTES.docs, icon: "learn" },
+    { label: "Documents", href: ROUTES.docs, icon: "learn" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
   mobileNavBar: [
-    { label: "Docs", href: ROUTES.docs, icon: "learn" },
+    { label: "Documents", href: ROUTES.docs, icon: "learn" },
     { label: "Blog", href: ROUTES.blog, icon: "blog" }
   ] as NavItem[],
   footerBar: [
     {
       title: "Resource",
       items: [
-        { label: "Docs", href: ROUTES.docs },
-        { label: "About", href: ROUTES.about }
+        { label: "Documents", href: ROUTES.docs },
+        { label: "About", href: ROUTES.about },
+        { label: "Blog", href: ROUTES.blog }
       ],
     },
     {
