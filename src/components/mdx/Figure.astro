@@ -1,7 +1,10 @@
 ---
 // src/components/ui/Figure.astro
-import { Image } from 'astro:assets';
-import { cdnImage, isCdnUrl } from '@/lib/utils';
+import { 
+ cdnImage, 
+ isCdnUrl 
+} from '@/lib/utils';
+
 import { IMAGE } from '@/consts';
 
 interface Props {
@@ -17,7 +20,7 @@ const { src, alt = '', title, caption, href } = Astro.props;
 const isPlaceholder = !src;
 const optimizedSrc = !isPlaceholder && isCdnUrl(src) 
   ? cdnImage(src, { w: IMAGE.thumbnail.width, h: IMAGE.thumbnail.height, q: IMAGE.thumbnail.quality }) 
-  : src || IMAGE.thumbnail.placeholder;
+  : src ?? IMAGE.thumbnail.placeholder;
   
 const hasLink = !!href;
 
@@ -26,13 +29,44 @@ const imageClass = `relative w-full h-auto object-cover block rounded-md ring-1 
 
 <figure class="full-width-figure not-prose">
   {hasLink ? (
-    <a data-pagefind-ignore href={href} target="_blank" rel="nofollow noopener noreferrer" title={title} class="block focus:outline-none rounded-lg overflow-hidden">
-      <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+    <a data-pagefind-ignore 
+      href={href} 
+      target="_blank" 
+      rel="nofollow noopener noreferrer" 
+      title={title} 
+      class="block focus:outline-none rounded-lg overflow-hidden">
+      <img 
+        src={optimizedSrc} 
+        alt={alt} 
+        title={title} 
+        loading="lazy" 
+        fetchpriority="low" 
+        decoding="async" 
+        width={1200} 
+        height={630} 
+        onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+        class={imageClass}
+       />
     </a>
   ) : (
-    <Image src={optimizedSrc} alt={alt} title={title} loading="lazy" fetchpriority="low" decoding="async" width={1200} height={630} class={imageClass} />
+    <img 
+      src={optimizedSrc} 
+      alt={alt} 
+      title={title} 
+      loading="lazy" 
+      fetchpriority="low" 
+      decoding="async" 
+      width={1200} 
+      height={630} 
+      onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+      class={imageClass} 
+    />
   )}
-  {caption && <figcaption>{caption}</figcaption>}
+  {caption && 
+    <figcaption>
+      {caption}
+    </figcaption>
+  }
 </figure>
 
 <script>
