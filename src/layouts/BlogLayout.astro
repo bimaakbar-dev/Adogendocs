@@ -1,12 +1,18 @@
 ---
-// src/layouts/DocsLayout.astro
+// src/layouts/BlogLayout.astro
 
 import Layout from "./Layout.astro";
+import PageFrame from "@/components/PageFrame.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
 
 const $ = {
-  PageFrame: "grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_16rem] mx-auto min-h-screen w-full",
   main: "w-full min-w-0 flex-1",
+  left: [
+    "w-full min-w-0 px-2 pb-(--safe-bottom) lg:h-[calc(100vh-var(--header-height))]",
+    "sticky top-(--header-height)",
+    "hidden lg:block",
+    "overflow-y-auto"
+  ].join(" "),
   right: [
     "w-full min-w-0 px-2 pb-(--safe-bottom) lg:h-[calc(100vh-var(--header-height))]",
     "sticky top-(--header-height)",
@@ -16,13 +22,16 @@ const $ = {
 }
 ---
 <Layout>
-  <div class={$.PageFrame}>
+  <PageFrame>
+    <aside class={$.left}>
+      <slot name="left" />
+    </aside>
     <main id="main-content" class={$.main}>
       <slot />
     </main>
     <aside class={$.right}>
       <slot name="right" />
     </aside>
-  </div>
+  </PageFrame>
   <ScrollToTop />
 </Layout>

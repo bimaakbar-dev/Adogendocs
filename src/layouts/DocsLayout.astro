@@ -1,7 +1,6 @@
 ---
 // src/layouts/DocsLayout.astro
 import Layout from "./Layout.astro";
-import Footer from "@/components/Footer.astro";
 import DocsNavbar from "@docs/DocsNavbar.astro";
 import DocsNavbarMobile from "@docs/mobile/DocsNavbar.astro";
 import DocsNavigation from "@docs/DocsNavigation.astro"; 
@@ -11,13 +10,12 @@ import MobileHeader from "@/components/MobileHeader.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
 
 ---
-<Layout hideHeader hideFooter>
+<Layout hideHeader>
   <MobileHeader>
     <DocsNavbarMobile />
     <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
       <DocsNavigation />
     </div>
-    <Footer />
   </MobileHeader>
   <PageFrame>
     <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-0 lg:block h-[calc(100vh)] w-full">
@@ -26,7 +24,6 @@ import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
         <div class="flex-1 overflow-y-auto">
           <DocsNavigation />
         </div>
-        <Footer />
       </Sidebar>
     </aside>
     <main id="main-content" class="w-full min-w-0 flex-1">

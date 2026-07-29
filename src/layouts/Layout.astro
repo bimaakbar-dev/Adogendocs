@@ -9,6 +9,7 @@ import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import SkipLink from "@components/SkipLink.astro";
 import ThemeProvider from "@components/ThemeProvider.astro";
+import Footer from "@/components/Footer.astro";
 
 interface Props {
   meta?: Partial<ReturnType<typeof BuildMetaFn>>;
@@ -47,7 +48,7 @@ const {
       />-->
       {!hideHeader && <Header />}
       <slot />
-      {!hideFooter && <div />}
+      {!hideFooter && <Footer />}
     </Page>
   </body>
 </html>
