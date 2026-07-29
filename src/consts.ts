@@ -1,4 +1,8 @@
 // src/consts.ts
+import Logo from './assets/images/c0desk1.svg';
+import Thumbnails from './assets/images/placeholder.svg';
+import Avatar from './assets/images/placeholder-user.jpg';
+
 type NavItem = {
   label: string;
   href: string;
@@ -19,17 +23,12 @@ type Socials = {
   isExternal?: boolean;
 };
 
-const LOGO = "/org/c0desk1-logo.svg";
-const AUTHOR = "/org/placeholder-user.jpg";
-const ThumbnailPlaceHolder = `/org/placeholder.svg`;
-const OGIMAGE = "/org/placeholder.svg";
-
 export const SITE = {
-  name: "Arogant",
-  tagline: "Arogant Official Docs",
+  name: "Codocs",
+  tagline: "Welcome Official Docs",
   description: "Create a beautiful Docs from Astro",
   url: "https://docs.c0desk1.my.id",
-  ogImage: OGIMAGE,
+  ogImage: Thumbnails,
   locale: "id_ID",
   lang: "id",
   dir: "ltr",
@@ -41,9 +40,9 @@ export const SITE = {
 } as const;
 
 export const ORG = {
-  name: "c0docs",
+  name: SITE.name,
   url: SITE.url,
-  logo: LOGO,
+  logo: Logo,
   sameAs: [] as string[],
 } as const;
 
@@ -54,6 +53,8 @@ export const ROUTES = {
   about: "/about",
   docs: "/docs",
   blog: "/blog",
+  archive: "/blog/archive",
+  genre: "/anime/genres",
   privacy: "/privacy",
   terms: "/terms",
   sitemap: "/sitemap-index.xml",
@@ -66,20 +67,22 @@ export const ROUTES = {
 
 export const NAV = {
   navBar: [
-    { label: "Documents", href: ROUTES.docs, icon: "learn" },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" }
+    { label: "Documentation", href: ROUTES.docs, icon: "learn" },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" },
+    { label: "Archive", href: ROUTES.archive, icon: "ai-agent" }
   ] as NavItem[],
   mobileNavBar: [
-    { label: "Documents", href: ROUTES.docs, icon: "learn" },
-    { label: "Blog", href: ROUTES.blog, icon: "blog" }
+    { label: "Documentation", href: ROUTES.docs, icon: "learn" },
+    { label: "Blog", href: ROUTES.blog, icon: "blog" },
+    { label: "Archive", href: ROUTES.archive, icon: "ai-agent" }
   ] as NavItem[],
   footerBar: [
     {
       title: "Resource",
       items: [
-        { label: "Documents", href: ROUTES.docs },
-        { label: "About", href: ROUTES.about },
-        { label: "Blog", href: ROUTES.blog }
+        { label: "Documentation", href: ROUTES.docs},
+        { label: "Blog", href: ROUTES.blog },
+        { label: "Archive", href: ROUTES.archive }
       ],
     },
     {
@@ -91,7 +94,7 @@ export const NAV = {
     },
   ] as FooterNav[],
   Social: [
-    { label: "Github", href: ROUTES.docs, icon: "github" }
+    { label: "Github", href: "https://github.com/bimaakbar-dev", icon: "github" }
   ] as Socials[]
 } as const;
 
@@ -102,10 +105,10 @@ export const SEO = {
   description: SITE.description,
   descriptionMaxLength: 160,
   canonical: SITE.url,
-  ogImage: OGIMAGE,
+  ogImage: Thumbnails,
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  ogImageAlt: `${SITE.name} — ${SITE.tagline}`,
+  ogImageAlt: SITE.name,
   twitterCard: "summary_large_image" as const,
   twitterSite: "@adogen_tool",
   twitterCreator: "@adogen_tool",
@@ -337,7 +340,7 @@ export function buildMeta(opts: {
 //  PAGINATION
 // ----------------------------------------------------------------------------
 export const PAGINATION = {
-  postsPerPage: 12,
+  postsPerPage: 9,
   postsPerFeed: 20,
   postsPerSitemap: 1000,
 } as const;
@@ -352,16 +355,16 @@ export const IMAGE = {
     placeholder: OG,
   },
   thumbnail: {
-    width: 800,
-    height: 450,
+    width: 600,
+    height: 400,
     quality: 80,
-    placeholder: ThumbnailPlaceHolder,
+    placeholder: Thumbnails,
   },
   avatar: {
     width: 96,
     height: 96,
     quality: 80,
-    placeholder: AUTHOR,
+    placeholder: Avatar,
   },
   logo: {
     width: 512,
