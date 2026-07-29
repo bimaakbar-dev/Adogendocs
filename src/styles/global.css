@@ -223,6 +223,7 @@
       "kern" on;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgb(from var(--accent) r g b / 0.2) inherit;
     -moz-osx-font-smoothing: grayscale;
   }
 
@@ -279,14 +280,6 @@
     text-decoration: none;
   }
 
-  /* a:hover { opacity: 0.75; }
-*/
-  /* a:active { opacity: 0.6; }
-*/
-
-  /* button:active { opacity: 0.9; }
-*/
-
   h1,
   h2,
   h3,
@@ -322,7 +315,6 @@
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
-
     border: 1px solid var(--border) !important;
     border-radius: var(--radius-md);
     background: linear-gradient(
