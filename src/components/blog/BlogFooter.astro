@@ -23,13 +23,13 @@ const {
 const $ = {
   wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
   date: "text-body-14 text-(--fg-muted)",
-  tags: "rounded-md! text-body-13 text-(--fg-muted)!"
+  tags: "text-sm text-(--fg-muted)"
 }
 ---
 
 <footer data-pagefind-ignore class={$.wrapper}>
-  <p class={$.date}>
-    {lastUpdated && (
+  {lastUpdated && (
+    <p class={$.date}>
       <time 
         data-page-meta="date" 
         data-pagefind-sort="date" 
@@ -38,8 +38,8 @@ const $ = {
         <span>Diperbarui: </span>
         {formatDate(lastUpdated)}
       </time>
-    )}
-  </p>
+    </p>
+  )}
   {tags.length > 0 && (
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (

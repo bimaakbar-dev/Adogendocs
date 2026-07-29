@@ -12,6 +12,7 @@ import {
 
 import Breadcrumb from "@components/Breadcrumb.astro";
 import ActionShare from "@components/ActionShare.astro";
+import { Image } from "astro:assets";
 
 interface Props {
   title: string;
@@ -44,7 +45,7 @@ const {
 } = Astro.props;
 
 const HeroImage = {
- src: cover?.src ?? IMAGE.thumbnail.placeholder,
+ src: cover?.src,
  alt: cover?.alt ?? title,
  width: IMAGE.thumbnail.width,
  height: IMAGE.thumbnail.height
@@ -76,7 +77,7 @@ const Divider = "text-(--fg-muted)/50";
   <div class="space-y-4">
     <div class={Meta}>
       <span class={Item}>
-        <span class="text-(--fg-muted)">Written by </span>
+        <span class="text-(--fg-muted)">Ditulis oleh </span>
         <span data-pagefind-meta="author" class="text-(--fg-strong)">{Author.name}</span>
       </span>
     </div>
@@ -110,4 +111,4 @@ const Divider = "text-(--fg-muted)/50";
       </figure>
     )}
   </div>
-</header>
+</header>

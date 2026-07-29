@@ -20,35 +20,35 @@ const {
 } = Astro.props;
 
 const baseClasses = [
-  "inline-flex items-center px-2 py-0.5",
-  "border rounded-full",
-  "text-sm font-medium"
+  "inline-flex items-center shrink-0 px-2 py-0.5",
+  "ring-1 rounded-full",
+  "font-medium"
 ].join(" ");
 
 const variantClasses: Record<BadgeVariant, string> = {
   default: [
-    "text-(--fg-strong)",
-    "bg-(--bg-subtle) border-(--border-subtle)/40"
+    "text-(--fg-muted)",
+    "bg-(--bg-subtle) ring-transparent"
   ].join(" "),
 
   accent:  [
     "text-(--accent)",
-    "bg-(--accent-soft)/80 border-(--accent-soft)"
+    "bg-(--accent-soft)/80 ring-(--accent-soft)"
   ].join(" "),
 
   success: [
     "text-(--success)",
-    "bg-(--success-soft) border-(--success-soft)"
+    "bg-(--success-soft) ring-(--success-soft)"
   ].join(" "),
 
   warning: [
     "text-(--warning)",
-    "bg-(--warning-soft) border-(--warning-soft)"
+    "bg-(--warning-soft) ring-(--warning-soft)"
   ].join(" "),
 
   error: [
     "text-(--error)",
-    "bg-(--error-soft) border-(--error-soft)"
+    "bg-(--error-soft) ring-(--error-soft)"
   ].join(" "),
 };
 ---

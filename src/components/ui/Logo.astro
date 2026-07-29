@@ -6,7 +6,7 @@ import {
 } from "@/consts";
 
 import Button from "./Button.astro";
-import Icon from "@ui/Icons.astro";
+import Icon from "./Icons.astro";
 
 interface Props {
   label?: boolean;
@@ -19,8 +19,8 @@ const { label = true } = Astro.props;
     aria-label={SITE.name}
     variant="ghost"
     size="lg"
-    prefix={<Icon name="ai-agent" class="size-6" />}
-    class="p-0! hover:bg-transparent! gap-1.5! text-heading-20 font-semibold text-(--fg-strong)">
+    class="p-0! hover:bg-transparent! active:bg-transparent! text-heading-24 font-semibold text-(--fg-strong)">
+    <Icon name="ai-agent" class="w-8 h-8" />
     {label && ( 
         <span>
             {SITE.name}

@@ -2,12 +2,19 @@
 // src/components/ui/Card.astro
 import type { HTMLAttributes } from "astro/types";
 
-type CardPadding = "none" | "sm" | "md" | "lg";
-type CardRadius = "sm" | "md" | "lg";
+type CardPadding = 
+  | "none"
+  | 'xs' 
+  | "sm" 
+  | "md" 
+  | "lg";
+type CardRadius = 
+  | "sm" 
+  | "md" 
+  | "lg";
 type CardVariant =
   | "default"
   | "outline"
-  | "ghost"
   | "primary"
   | "secondary"
 
@@ -28,15 +35,15 @@ const {
 } = Astro.props;
 
 const variantClasses: Record<CardVariant, string> = {
-  default: "ring-1 ring-(--border-subtle) bg-transparent",
-  outline: "ring-1 ring-(--border-subtle) bg-transparent",
-  ghost: "ring-1 ring-transparent bg-(--bg-subtle)",
-  primary: "ring-1 ring-(--border-subtle) bg-(--bg)/8-",
-  secondary: "ring-1 ring-(--border-subtle) bg-(--bg-subtle)",
+  default: "ring-transparent bg-(--bg-subtle)",
+  primary: "ring-(--border)/80 bg-(--bg)/80",
+  secondary: "ring-(--border-subtle)/80 bg-(--bg-subtle)",
+  outline: "ring-(--border-strong)/80 bg-transparent"
 };
 
 const paddingMap: Record<CardPadding, string> = {
   none: "p-0",
+  xs: 'p-1',
   sm: "p-2",
   md: "p-3",
   lg: "p-4",
@@ -49,7 +56,7 @@ const radiusMap: Record<CardRadius, string> = {
 };
 
 const cardClasses = [
-  "min-w-0",
+  'ring-1 min-w-0',
   variantClasses[variant],
   paddingMap[padding],
   radiusMap[radius],

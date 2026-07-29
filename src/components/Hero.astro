@@ -23,7 +23,7 @@ const {
  } = Astro.props;
 ---
 
-<section class="hero-container relative flex flex-col w-full ring-1 ring-(--border-subtle) rounded-xl items-center justify-center overflow-hidden p-4 bg-(--bg-subtle)">
+<section class="hero-container relative flex flex-col w-full ring-1 ring-(--border-subtle)/40 rounded-lg items-center justify-center overflow-hidden p-4 bg-(--bg-subtle)">
   <span aria-hidden="true" class="pointer-events-none absolute inset-0">
     <span
       class="absolute size-px rounded-full bg-(--fg-strong)/70"
@@ -88,7 +88,7 @@ const {
   </span>
   <Section size="md">
     <div class="z-10 flex flex-col items-center gap-6 text-center">
-      {tagline && (<Badge variant="accent">{tagline}</Badge>)}
+      {tagline && (<Badge variant="accent" class="text-sm">{tagline}</Badge>)}
       <h1 class="max-w-xl text-heading-32 md:text-heading-48 font-medium text-(--fg-muted) leading-tight tracking-tight">
         {title}
       </h1>
