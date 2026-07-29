@@ -14,7 +14,10 @@ interface Props {
 }
 
 const props = typeof Astro !== "undefined" && Astro.props ? Astro.props : {};
-const { type = "note" } = props as Props;
+
+const { 
+  type = "note" 
+} = props as Props;
 
 const icons = {
   note: "note",
@@ -31,7 +34,7 @@ const label = type.charAt(0).toUpperCase() + type.slice(1);
 const $ = {
   callout: [
     'flex my-6 md:my-8 ring-1 rounded',
-    'bg-(--bg-subtle) text-(--c-text) ring-(--border-subtle)',
+    'bg-(--bg-subtle)/0 text-(--c-text) ring-(--border-subtle)',
   ].join(" "),
 
   calloutHeader: [
@@ -89,7 +92,7 @@ const $ = {
   [data-callout="warning"] {
     --c-bg: var(--color-warning);
     --c-border: var(--color-warning);
-    --c-text: var(--fg);
+    --c-text: var(--color-warning);
     --c-icon: var(--color-warning);
     --c-title: var(--color-warning);
   }
@@ -113,7 +116,7 @@ const $ = {
   [data-callout="danger"] {
     --c-bg: var(--color-error);
     --c-border: var(--color-error);
-    --c-text: var(--fg);
+    --c-text: var(--color-error);
     --c-icon: var(--color-error);
     --c-title: var(--color-error);
   }

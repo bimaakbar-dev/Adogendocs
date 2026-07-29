@@ -19,22 +19,22 @@ const isExternal = href.startsWith('http');
 
 const $ = {
   wrapper: [
-    "link-card group relative flex items-center justify-between pr-3 py-2 my-6 md:my-8 rounded ring-1",
+    "link-card group relative flex items-center justify-between px-3 py-2 my-6 md:my-8 rounded ring-1",
     "ring-(--border-subtle) bg-(--bg-subtle)",
     "hover:bg-(--bg-muted) active:bg-(--bg-muted)",
     "no-underline!"
   ].join(" "),
-  cardItem: "flex items-center gap-3",
-  cardLeft: "shrink-0 items-center justify-start border-r border-(--accent) p-3",
-  prefix: "block shrink-0 items-center justify-center size-6 text-(--fg)",
+  cardItem: "flex items-center gap-2",
+  cardLeft: "shrink-0 items-center justify-start pr-2 border-r",
+  prefix: "block shrink-0 items-center justify-center size-5 text-(--fg)",
   suffix: [
     "block shrink-0 items-center justify-center size-5",
     "text-(--fg-muted)",
     "group-hover:text-(--fg-strong) group-active:text-(--fg-strong)"
   ].join(" "),
   meta: "flex flex-col justify-start",
-  label: "text-body-16 font-semibold text-(--fg-strong)",
-  subLabel: "text-body-14 text-(--fg-muted) line-clamp-1",
+  label: "text-body-16 font-medium text-(--fg-strong)",
+  subLabel: "text-body-16 text-(--fg-muted) line-clamp-1",
 }
 ---
 
@@ -47,7 +47,7 @@ const $ = {
   <div class={$.cardItem}>
     <div class={$.cardLeft}>
     {icon && (
-     <Icon name={icon as any} class={$.prefix} />
+     <Icon name={icon} class={$.prefix} />
     )}</div>
     <div class={$.meta}>
       <span class={$.label}>{title}</span>
@@ -58,5 +58,10 @@ const $ = {
       )}
     </div>
   </div>
-  <Icon name={isExternal ? "external" : "arrow-right" as any} class={$.suffix} />
+  <Icon 
+    name={
+      isExternal ? "external" : "arrow-right"
+    } 
+    class={$.suffix} 
+  />
 </a>

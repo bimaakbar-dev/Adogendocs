@@ -32,7 +32,7 @@ const s = {
 
   actionIcon: [
     'relative inline-flex items-center justify-center shrink-0',
-    'size-4.5',
+    'size-4',
   ].join(" "),
 
   actionSuffix: 'relative inline-flex items-center justify-center shrink-0',
@@ -61,14 +61,14 @@ const s = {
     data-action="copy-default" 
     aria-label="Copy page URL" 
     class:list={[
-      "px-2 py-1.5",
-      "rounded-l-md",
+      "px-2.5 py-2",
+      "rounded-l",
       s.actionGroup
     ]}>
     <div class:list={[
       s.actionIcon
     ]}>
-      <Icon name="copy" class="icon-copy w-full h-full text-(--fg-muted) hover:text-(--fg-strong) active:text-(--fg-strong)" />
+      <Icon name="copy" class="icon-copy w-full h-full text-(--fg-strong)" />
       <Icon name="check" class="icon-check w-full h-full hidden absolute inset-0 text-(--accent) transition-opacity duration-(--duration)" />
     </div>
     <span>{label}</span>
@@ -77,14 +77,14 @@ const s = {
     aria-label="More copy options" 
     class:list={[
       "copy-trigger",
-      "p-1.5",
-      "rounded-r-md border-l border-(--border-subtle)",
+      "px-2.5 py-2",
+      "rounded-r border-l border-(--border-subtle)",
       s.actionGroup
     ]}>
     <div class:list={[
       s.actionIcon
     ]}>
-      <Icon name="chevron-down" class="w-full h-full text-(--fg-muted) hover:text-(--fg-strong) active:text-(--fg-strong)" />
+      <Icon name="chevron-down" class="w-full h-full text-(--fg-strong)" />
     </div>
   </button>
 
