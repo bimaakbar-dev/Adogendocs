@@ -25,24 +25,28 @@ const SEO = z.object({
   noIndex: z.boolean().default(false).optional(),
 });
 
+const AUTHOR = z.object({
+  author: z.object({
+    name: z.string(),
+    role: z.string().optional(),
+    avatar: z.string().optional(),
+  })
+});
+
 const blog = defineCollection({
-  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
+  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
     ...METADATA.shape,
-    draft: z.boolean().default(false),
+    ...AUTHOR.shape,
     category: z.string().optional(),
-    author: z.object({
-      name: z.string(),
-      role: z.string().optional(),
-      avatar: z.string().optional(),
-    }),
     tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
     seo: SEO,
   }),
 });
 
 const docs = defineCollection({
-  loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}" }),
+  loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
     ...METADATA.shape,
     category: z.string().optional(),
@@ -52,7 +56,7 @@ const docs = defineCollection({
 });
 
 const legal = defineCollection({
-  loader: glob({ base: "./src/content/legal", pattern: "**/*.{md,mdx}" }),
+  loader: glob({ base: "./src/content/legal", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
     ...METADATA.shape,
   }),
