@@ -9,6 +9,7 @@ import Container from "./ui/Container.astro";
 import Section from "./ui/Section.astro";
 import Socials from "./Socials.astro";
 import Theme from "./Theme.astro";
+import Logo from "./ui/Logo.astro";
 
 const currentYear = new Date().getFullYear();
 
@@ -22,6 +23,7 @@ const copyrightYear =
   <Section size="md">
     <Container size="full">
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <Logo />
         { NAV.footerBar.map((section) => (
             <div>
               <h3 class="mb-4 text-body-14 font-medium uppercase font-mono text-(--fg-strong)">
