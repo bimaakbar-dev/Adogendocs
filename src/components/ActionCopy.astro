@@ -158,7 +158,21 @@ const s = {
           }
           
           if (action === 'agent') {
-            window.location.href = `/agent?page=${window.location.pathname}`;
+            const drawerTrigger = document.querySelector('[data-drawer-trigger="ai-assistant-drawer"]');
+            
+            if (drawerTrigger) {
+              (drawerTrigger as HTMLElement).click();
+
+              setTimeout(() => {
+                const aiInput = document.getElementById('ai-drawer-input') as HTMLInputElement;
+                if (aiInput) {
+                  aiInput.value = `Tolong jelaskan atau rangkum halaman ini: ${window.location.href}`;
+                  aiInput.focus();
+                }
+              }, 300);
+            } else {
+              window.location.href = `/agent?page=${window.location.pathname}`;
+            }
           }
         });
       });
