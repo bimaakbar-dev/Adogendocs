@@ -24,11 +24,11 @@ type Socials = {
 };
 
 export const SITE = {
-  name: "Codocs",
-  tagline: "Welcome Official Docs",
-  description: "Create a beautiful Docs from Astro",
-  url: "https://docs.c0desk1.my.id",
-  ogImage: Thumbnails,
+  name: "c0desk1",
+  tagline: "Beyond the Void",
+  description: "Platform kuratif untuk pop culture, game, anime, tutorial, dan modding.",
+  url: "https://c0desk1.my.id",
+  ogImage: Thumbnails.src,
   locale: "id_ID",
   lang: "id",
   dir: "ltr",
@@ -42,7 +42,7 @@ export const SITE = {
 export const ORG = {
   name: SITE.name,
   url: SITE.url,
-  logo: Logo,
+  logo: Logo.src,
   sameAs: [] as string[],
 } as const;
 
@@ -55,8 +55,8 @@ export const ROUTES = {
   blog: "/blog",
   archive: "/blog/archive",
   genre: "/anime/genres",
-  privacy: "/privacy",
-  terms: "/terms",
+  privacy: "/privacy-policy",
+  terms: "/terms-of-service",
   sitemap: "/sitemap-index.xml",
   feed: "/feed.xml",
   feedAtom: "/feed.atom",
@@ -80,7 +80,7 @@ export const NAV = {
     {
       title: "Resource",
       items: [
-        { label: "Documentation", href: ROUTES.docs},
+        { label: "Documentation", href: ROUTES.docs },
         { label: "Blog", href: ROUTES.blog },
         { label: "Archive", href: ROUTES.archive }
       ],
@@ -94,7 +94,8 @@ export const NAV = {
     },
   ] as FooterNav[],
   Social: [
-    { label: "Github", href: "https://github.com/bimaakbar-dev", icon: "github" }
+    { label: "Github", href: "https://github.com/bimaakbar-dev", icon: "github" },
+    { label: "Instagram", href: "https://instagram.com/bimaakbarmusic", icon: "instagram" }
   ] as Socials[]
 } as const;
 
@@ -105,7 +106,7 @@ export const SEO = {
   description: SITE.description,
   descriptionMaxLength: 160,
   canonical: SITE.url,
-  ogImage: Thumbnails,
+  ogImage: Thumbnails.src,
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogImageAlt: SITE.name,
