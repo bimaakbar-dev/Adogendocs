@@ -1,6 +1,6 @@
 ---
 import Button from "@ui/Button.astro";
-import Icon from "@ui/Icon.astro";
+import Icon from "@ui/Icons.astro";
 import Input from "@ui/Input.astro";
 
 export interface Props {
@@ -20,7 +20,7 @@ const { label = "", pageContent = "", pageTitle } = Astro.props;
     class="ask-ai-trigger inline-flex w-full items-center gap-2 px-1.5 py-1 text-[13px] font-medium text-(--fg-muted) transition-colors hover:text-(--fg-strong)"
   >
     <span class="inline-flex h-4 w-4">
-      <Icon name="ai-agent" className="h-full w-full" />
+      <Icon name="ai-agent" class="size-4" />
     </span>
     <span>{label}</span>
   </button>
@@ -32,7 +32,7 @@ const { label = "", pageContent = "", pageTitle } = Astro.props;
       class="flex items-center justify-between border-b border-(--border) px-4 py-3"
     >
       <div class="flex items-center gap-2">
-        <Icon name="ask-ai" className="h-6 w-6" />
+        <Icon name="ask-ai" class="size-4" />
         <div>
           <h3 class="text-[14px] font-semibold">Ask AI</h3>
           {
@@ -46,7 +46,7 @@ const { label = "", pageContent = "", pageTitle } = Astro.props;
         type="button"
         class="ask-ai-close rounded p-1.5 hover:bg-(--bg-muted) active:bg-(--bg-muted)"
       >
-        <Icon name="close" className="h-4 w-4" />
+        <Icon name="close" class="size-4" />
       </button>
     </div>
 
