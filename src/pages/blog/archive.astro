@@ -99,6 +99,7 @@ function getYearActivity(year: number) {
 
 const activityGrid = getYearActivity(activeYear);
 const activeYearTotal = archive[activeYear] ? Object.values(archive[activeYear]).flat().length : 0;
+const hasPosts = allPosts.length > 0;
 
 const monthsLabel = [
   "Jan", 
@@ -141,135 +142,152 @@ const meta = buildMeta({
         <p class="text-(--fg-muted) mt-2 text-body-16">Jelajahi riwayat publikasi artikel dari waktu ke waktu.</p>
       </Section>
 
-      <Section size="sm">
-        <Card padding='md' radius='md' variant='outline' class="mb-8 shadow-sm">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-             <div>
-               <h2 class="text-heading-18 font-semibold text-(--fg-strong) flex items-center gap-2">
-                 Riwayat Publikasi ({activeYear})
-               </h2>
-               <p class="text-sm text-(--fg-muted) mt-1">{activeYearTotal} artikel dipublikasikan sepanjang tahun ini.</p>
-             </div>
-          </div>
-          
-          <div class="w-full overflow-x-auto pb-4 custom-scrollbar">
-            <div class="min-w-180 flex flex-col gap-2">
+      {!hasPosts ? (
+        <Section size="sm">
+          <Card padding="lg" radius="md" variant="outline" class="text-center">
+            <p class="text-(--fg-strong) font-medium">Belum ada artikel</p>
+            <p class="text-sm text-(--fg-muted) mt-1">Arsip akan terisi begitu artikel pertama dipublikasikan.</p>
+          </Card>
+        </Section>
+      ) : (
+        <>
+          <Section size="sm">
+            <Card padding='md' radius='md' variant='outline' class="mb-8 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                 <div>
+                   <h2 class="text-heading-18 font-semibold text-(--fg-strong) flex items-center gap-2">
+                    Log ({activeYear})
+                   </h2>
+                   <p class="text-sm text-(--fg-muted) mt-1">{activeYearTotal} artikel dipublikasikan sepanjang tahun ini.</p>
+                 </div>
+              </div>
+              
+              <div class="w-full overflow-x-auto pb-4 custom-scrollbar">
+                <div class="min-w-180 flex flex-col gap-2">
 
-              <div class="flex text-xs font-medium text-(--fg-muted) ml-8 justify-between pr-4">
-                {monthsLabel.map(month => (
-                  <span>{month}</span>
+                  <div class="flex text-xs font-medium text-(--fg-muted) ml-8 justify-between pr-4">
+                    {monthsLabel.map(month => (
+                      <span>{month}</span>
+                    ))}
+                  </div>
+
+                  <div class="flex gap-3">
+                    <div class="grid grid-rows-7 gap-1.5 text-[10px] font-medium text-(--fg-muted) leading-3 pt-0.5">
+                      <span class="invisible">Min</span>
+                      <span>Sen</span>
+                      <span class="invisible">Sel</span>
+                      <span>Rab</span>
+                      <span class="invisible">Kam</span>
+                      <span>Jum</span>
+                      <span class="invisible">Sab</span>
+                    </div>
+
+                    <div class="inline-grid grid-rows-7 grid-flow-col gap-1.5 flex-1">
+                      {activityGrid.map((day) => (
+                        <div 
+                          class={`heatmap-cell size-3 rounded-sm hover:z-10 hover:ring-2 hover:ring-(--accent) hover:scale-125 cursor-default ${day.date ? levelColors[day.level as keyof typeof levelColors] : 'bg-transparent'}`}
+                          title={day.date ? `${day.count} artikel pada ${formatFullDate(day.date)}` : undefined}
+                        ></div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex items-center justify-end gap-2 mt-4 text-xs font-medium text-(--fg-muted)">
+                <span class="mr-1">Sedikit</span>
+                <div class={`size-3.5 rounded-sm ${levelColors[0]}`}></div>
+                <div class={`size-3.5 rounded-sm ${levelColors[1]}`}></div>
+                <div class={`size-3.5 rounded-sm ${levelColors[2]}`}></div>
+                <div class={`size-3.5 rounded-sm ${levelColors[3]}`}></div>
+                <span class="ml-1">Banyak</span>
+              </div>
+            </Card>
+            <div class="flex items-center gap-3 mt-10 mb-6">
+              <span class="text-body-14 font-medium text-(--fg-strong)">Lompat ke Tahun:</span>
+              <div class="flex flex-wrap gap-2">
+                {years.map((year, i) => (
+                  <Button
+                    href={`#year-${year}`}
+                    variant='outline'
+                    size='sm'
+                    data-year-pill={year}
+                    aria-current={i === 0 ? "true" : undefined}
+                    class:list={["year-pill rounded-full!", i === 0 && "is-active"]}>
+                    {year}
+                  </Button>
                 ))}
               </div>
-
-              <div class="flex gap-3">
-                <div class="grid grid-rows-7 gap-1.5 text-[10px] font-medium text-(--fg-muted) leading-3 pt-0.5">
-                  <span class="invisible">Min</span>
-                  <span>Sen</span>
-                  <span class="invisible">Sel</span>
-                  <span>Rab</span>
-                  <span class="invisible">Kam</span>
-                  <span>Jum</span>
-                  <span class="invisible">Sab</span>
-                </div>
-
-                <div class="inline-grid grid-rows-7 grid-flow-col gap-1.5 flex-1">
-                  {activityGrid.map((day) => (
-                    <div 
-                      class={`size-3 rounded-sm hover:z-10 hover:ring-2 hover:ring-(--accent) cursor-default ${day.date ? levelColors[day.level as keyof typeof levelColors] : 'bg-transparent'}`}
-                      title={day.date ? `${day.count} artikel pada ${formatFullDate(day.date)}` : undefined}
-                    ></div>
-                  ))}
-                </div>
-              </div>
             </div>
-          </div>
-          
-          <div class="flex items-center justify-end gap-2 mt-4 text-xs font-medium text-(--fg-muted)">
-            <span class="mr-1">Sedikit</span>
-            <div class={`size-3.5 rounded-sm ${levelColors[0]}`}></div>
-            <div class={`size-3.5 rounded-sm ${levelColors[1]}`}></div>
-            <div class={`size-3.5 rounded-sm ${levelColors[2]}`}></div>
-            <div class={`size-3.5 rounded-sm ${levelColors[3]}`}></div>
-            <span class="ml-1">Banyak</span>
-          </div>
-        </Card>
-        <div class="flex items-center gap-3 mt-10 mb-6">
-          <span class="text-body-14 font-medium text-(--fg-strong)">Lompat ke Tahun:</span>
-          <div class="flex flex-wrap gap-2">
-            {years.map((year) => (
-              <Button
-                href={`#year-${year}`}
-                variant='primary'
-                size='sm'
-                class="rounded-full!">
-                {year}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </Section>
+          </Section>
 
-      <Section size="none">
-        <div class="space-y-16">
-          {years.map((year) => (
-            <div id={`year-${year}`} class="scroll-mt-(--scroll-padding)">
-              
-              <h2 class="text-heading-24 md:text-heading-32 font-semibold text-(--fg-strong) mb-8 flex items-center gap-4">
-                {year}
-                <div class="h-px flex-1 bg-linear-to-r from-(--border-subtle) to-transparent"></div>
-              </h2>
-              
-              <div class="relative border-l border-(--border-subtle) ml-3 md:ml-4 space-y-12 py-2">
-                {Object.keys(archive[year])
-                  .map(Number)
-                  .sort((a, b) => b - a)
-                  .map((month) => (
-                    <div class="relative pl-6 md:pl-8">
-                      <div class="absolute -left-2 top-1 size-4 bg-(--bg) border-2 border-(--accent) ring-4 ring-(--bg)"></div>
-                      
-                      <h3 class="flex items-center gap-3 text-label-14 font-semibold text-(--fg-strong) mb-5">
-                        {formatMonthName(month)}
-                        <Badge variant='accent' class="text-label-14">
-                          {archive[year][month].length} post
-                        </Badge>
-                      </h3>
-                      
-                      <ul class="space-y-2">
-                        {archive[year][month].map((post) => {
-                          const slug = post.data.slug ?? post.id.replace(/\.(md|mdx)$/, '');
-                          return (
-                            <li class="group">
-                              <Card padding='none' radius='sm'>
-                                <a href={`/blog/${slug}`}
-                                  class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2"
-                                >
-                                  <span class="text-body-14 font-medium text-(--fg-muted) group-hover:text-(--fg-strong) line-clamp-1">
-                                    {post.data.title}
-                                  </span>
-                                  
-                                  <div class="flex items-center gap-3 shrink-0">
-                                    <time class="text-xs! text-(--fg-muted)/80 bg-(--bg-muted) px-2 py-1 rounded">
-                                      {formatDate(post.data.pubDate)}
-                                    </time>
-                                  </div>
-                                </a>
-                              </Card>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  ))}
-              </div>
+          <Section size="none">
+            <div class="space-y-16">
+              {years.map((year) => (
+                <div id={`year-${year}`} data-year-block class="archive-year-block scroll-mt-(--scroll-padding)">
+                  
+                  <h2 class="text-heading-24 md:text-heading-32 font-semibold text-(--fg-strong) mb-8 flex items-center gap-4">
+                    {year}
+                    <div class="h-px flex-1 bg-linear-to-r from-(--border-subtle) to-transparent"></div>
+                  </h2>
+                  
+                  <div class="relative border-l border-(--border-subtle) ml-3 md:ml-4 space-y-12 py-2">
+                    {Object.keys(archive[year])
+                      .map(Number)
+                      .sort((a, b) => b - a)
+                      .map((month) => (
+                        <div class="relative pl-6 md:pl-8">
+                          <div class="absolute -left-2 top-1 size-4 bg-(--bg) border-2 border-(--accent) ring-4 ring-(--bg)"></div>
+                          
+                          <h3 class="flex items-center gap-3 text-label-14 font-semibold text-(--fg-strong) mb-5">
+                            {formatMonthName(month)}
+                            <Badge variant='accent' class="text-label-14">
+                              {archive[year][month].length} post
+                            </Badge>
+                          </h3>
+                          
+                          <ul class="space-y-2">
+                            {archive[year][month].map((post) => {
+                              const slug = post.data.slug ?? post.id.replace(/\.(md|mdx)$/, '');
+                              return (
+                                <li class="group">
+                                  <Card padding='none' radius='sm' class="archive-post-card">
+                                    <a href={`/blog/${slug}`}
+                                      class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2"
+                                    >
+                                      <span class="text-body-14 font-medium text-(--fg-muted) group-hover:text-(--fg-strong) line-clamp-1 transition-colors duration-(--duration)">
+                                        {post.data.title}
+                                      </span>
+                                      
+                                      <div class="flex items-center gap-3 shrink-0">
+                                        <time class="text-xs! text-(--fg-muted)/80 bg-(--bg-muted) px-2 py-1 rounded">
+                                          {formatDate(post.data.pubDate)}
+                                        </time>
+                                      </div>
+                                    </a>
+                                  </Card>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Section>
+          </Section>
+        </>
+      )}
     </Container>
   </Section>
 </Layout>
 
 <style is:global>
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
+  }
   .custom-scrollbar::-webkit-scrollbar {
     height: 6px;
   }
@@ -284,3 +302,78 @@ const meta = buildMeta({
     background-color: var(--fg-muted);
   }
 </style>
+
+<style>
+  .heatmap-cell {
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .archive-post-card {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .group:hover .archive-post-card {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(2px);
+  }
+
+  .year-pill {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .year-pill.is-active {
+    background-color: var(--accent) !important;
+    color: var(--accent-fg) !important;
+    border-color: transparent !important;
+  }
+
+  .archive-year-block {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .archive-year-block.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function initArchivePage() {
+    const yearBlocks = document.querySelectorAll<HTMLElement>('[data-year-block]');
+    const yearPills = document.querySelectorAll<HTMLAnchorElement>('.year-pill');
+
+    if (yearBlocks.length === 0) return;
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+    yearBlocks.forEach((block) => revealObserver.observe(block));
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const year = (entry.target as HTMLElement).id.replace('year-', '');
+
+        yearPills.forEach((pill) => {
+          const isActive = pill.dataset.yearPill === year;
+          pill.classList.toggle('is-active', isActive);
+          if (isActive) {
+            pill.setAttribute('aria-current', 'true');
+          } else {
+            pill.removeAttribute('aria-current');
+          }
+        });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    yearBlocks.forEach((block) => spyObserver.observe(block));
+  }
+
+  initArchivePage();
+</script>
