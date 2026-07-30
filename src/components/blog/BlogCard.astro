@@ -68,7 +68,7 @@ const $ = {
           loading={imageLoading}
           fetchpriority={imagePriority}
           decoding="async"
-          onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+          onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder.src}'`}
           class={$.coverImage}
         />
       </div>
@@ -93,8 +93,8 @@ const $ = {
               loading={imageLoading}           
               decoding="async"
               fetchpriority={imagePriority}
-              onerror={`this.onerror=null; this.src='${IMAGE.avatar.placeholder}'`}
-              class={$.avatarImage}      
+              onerror={`this.onerror=null; this.src='${IMAGE.avatar.placeholder.src}'`}
+              class={$.avatarImage}     
             />
           </div>
         )}
