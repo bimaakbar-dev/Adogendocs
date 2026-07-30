@@ -12,17 +12,25 @@ interface Props {
   label?: boolean;
 }
 
-const { label = true } = Astro.props;
+const { 
+    label = true 
+} = Astro.props;
+
+const $ = {
+    wrapper: "p-0! hover:bg-transparent! active:bg-transparent!",
+    logo: "size-6",
+    label: "text-heading-20 font-semibold text-(--fg-strong)"
+}
 ---
 <Button
     href={ROUTES.home}
     aria-label={SITE.name}
     variant="ghost"
     size="lg"
-    class="p-0! hover:bg-transparent! active:bg-transparent! text-heading-24 font-semibold text-(--fg-strong)">
-    <Icon name="logo" class="size-6" />
+    class={$.wrapper}>
+    <Icon name="logo" class={$.logo} />
     {label && ( 
-        <span>
+        <span class={$.label}>
             {SITE.name}
         </span> 
     )}
