@@ -1,0 +1,30 @@
+---
+import Button from "./ui/Button.astro";
+import Icons from "./ui/Icons.astro";
+
+interface Props {
+  iconOnly?: boolean;
+  class?: string;
+}
+
+const { 
+  iconOnly = false,
+  class: className= ""
+} = Astro.props;
+---
+{iconOnly && (
+    <Button data-drawer-trigger="ai-assistant-drawer"
+        variant="icon"
+        thisIcon
+        size="md">
+        <Icons name="ask-ai" class="size-4.5" />
+    </Button>
+)}
+{!iconOnly && (
+    <Button data-drawer-trigger="ai-assistant-drawer"
+        variant="secondary"
+        size="md"
+        prefix={<Icons name="ask-ai" class="size-4.5" />}>
+        Tanya AI
+    </Button>
+)}
