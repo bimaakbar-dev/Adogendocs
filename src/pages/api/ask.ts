@@ -1,6 +1,4 @@
 // src/pages/api/ask.ts
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 
 interface AskRequestBody {
