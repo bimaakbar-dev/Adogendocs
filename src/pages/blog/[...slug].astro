@@ -22,6 +22,7 @@ import ScrollToTop from "@docs/ScrollToTop.astro";
 import BlogFooter from "@/components/blog/BlogFooter.astro";
 import BlogHeader from "@/components/blog/BlogHeader.astro";
 import CopyCode from "@/components/CopyCode.astro";
+import RelatedPosts from "@/components/blog/BlogRelated.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("blog");
@@ -37,7 +38,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 
 if (!entry) {
-  return new Response(null, { status: 404, statusText: "Not Found" });
+  return Astro.redirect("/404");
 }
 
 const { Content, headings } = await render(entry);
@@ -62,8 +63,6 @@ const nextEntry =
     ? allPosts[currentIndex - 1]
     : null;
 
-const currentPath = Astro.url.pathname;
-
 const breadcrumbItems = [
   {label: "Blog", href: "/blog",},
 ];
@@ -80,7 +79,7 @@ const currentUrl = `${SITE.url}/blog/${cleanSlug}`;
 const metaProps = buildMeta({
   title: entry.data.seo.title,
   description: entry.data.seo.description ?? entry.data.description,
-  canonical: currentPath,
+  canonical: currentUrl,
   ogImage: entry.data.seo.ogImage,
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),
@@ -131,6 +130,15 @@ const pageSchema = schemaWebPage({
               next={nextEntry} />
           </Container>
         </article>
+      </Section>
+      <Section size="sm">
+        <Container size="md">
+          <RelatedPosts
+            currentEntry={entry}
+            allPosts={allPosts}
+            maxItems={3}
+          />
+        </Container>
       </Section>
     </div>
   </Fragment>

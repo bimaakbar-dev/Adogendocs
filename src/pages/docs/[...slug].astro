@@ -45,7 +45,7 @@ export async function getStaticPaths() {
 const { entry, root } = Astro.props;
 
 if (!entry) {
-  return new Response(null, { status: 404, statusText: "Not Found" });
+  return Astro.redirect("/404");
 }
 
 const { Content, headings } = await render(entry);
@@ -54,8 +54,6 @@ const allDocs = await getCollection("docs");
 const sidebarItems = allDocs.sort(
   (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
 );
-
-const currentPath = Astro.url.pathname;
 
 const cleanSlug = Astro.params.slug;
 const currentUrl = `${SITE.url}/docs${cleanSlug ? `/${cleanSlug}` : ""}`;
@@ -70,7 +68,7 @@ const nextEntry =
 const metaProps = buildMeta({
   title: entry.data.seo.title,
   description: entry.data.seo.description ?? entry.data.description,
-  canonical: currentPath,
+  canonical: currentUrl,
   ogImage: entry.data.seo.ogImage,
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),

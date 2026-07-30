@@ -1,0 +1,44 @@
+---
+// src/pages/404.astro
+import { 
+    SITE,
+    buildMeta 
+} from "@/consts";
+
+import Layout from "@/layouts/Layout.astro";
+import Section from "@ui/Section.astro";
+import Container from "@ui/Container.astro";
+import Button from "@/components/ui/Button.astro";
+import Icons from "@/components/ui/Icons.astro";
+
+
+const meta = buildMeta({
+  title: "Halaman Tidak Ditemukan",
+  description: "Maaf, halaman yang Anda cari tidak ada.",
+  canonical: `${SITE.url}/404`,
+  noindex: true,
+});
+---
+
+<Layout hideHeader hideFooter meta={meta}>
+  <main id="main-content" data-pagefind-ignore class="min-h-screen flex items-center">
+    <Section size="lg" class="w-full">
+      <Container size="md" class="text-center items-center">
+        <h1 class="text-heading-56 text-display-64 font-bold text-(--fg-strong) mb-4">
+          404
+        </h1>
+        <p class="text-body-16 text-(--fg-muted) mb-6">
+          Halaman yang Anda cari tidak ditemukan.
+        </p>
+        <Button
+          href="/"
+          variant="primary"
+          size="md"
+          prefix={<Icons name="arrow-left" class="size-4" />}
+        >
+          Kembali ke Beranda
+        </Button>
+      </Container>
+    </Section>
+  </main>
+</Layout>
