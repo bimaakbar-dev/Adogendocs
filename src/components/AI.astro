@@ -4,27 +4,29 @@ import Icons from "./ui/Icons.astro";
 
 interface Props {
   iconOnly?: boolean;
-  class?: string;
 }
 
 const { 
   iconOnly = false,
-  class: className= ""
 } = Astro.props;
+
+const $ = {
+    icon: "size-5"
+}
 ---
 {iconOnly && (
     <Button data-drawer-trigger="ai-assistant-drawer"
         variant="icon"
         thisIcon
         size="md">
-        <Icons name="ask-ai" class="size-4.5" />
+        <Icons name="ask-ai" class={$.icon} />
     </Button>
 )}
 {!iconOnly && (
     <Button data-drawer-trigger="ai-assistant-drawer"
-        variant="secondary"
+        variant="outline"
         size="md"
-        prefix={<Icons name="ask-ai" class="size-4.5" />}>
+        prefix={<Icons name="ask-ai" class={$.icon} />}>
         Tanya AI
     </Button>
 )}
