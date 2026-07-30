@@ -55,9 +55,9 @@ const $ = {
     const toggleHeader = () => {
       if (window.scrollY > 10) {
         header.classList.add(
-          "bg-(--bg)/80",
+          "bg-(--bg)",
           "lg:border-(--border-subtle)/40",
-          "backdrop-blur-sm",
+          //"backdrop-blur-md",
           "shadow-(--shadow-sm)"
         );
         header.classList.remove(
@@ -66,9 +66,9 @@ const $ = {
         );
       } else {
         header.classList.remove(
-          "bg-(--bg)/80",
+          "bg-(--bg)",
           "lg:border-(--border-subtle)/40",
-          "backdrop-blur-sm",
+          //"backdrop-blur-md",
           "shadow-(--shadow-sm)"
         );
         header.classList.add(
