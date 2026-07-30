@@ -1,0 +1,137 @@
+---
+// src/components/AiDrawerContent.astro
+import Button from "./ui/Button.astro";
+import Icons from "./ui/Icons.astro";
+import Input from "./ui/Input.astro";
+---
+
+<div class="flex flex-col h-full max-w-2xl mx-auto w-full pb-(--safe-bottom)">
+  <div class="flex items-center gap-2 mb-4 px-2 shrink-0">
+    <Icons name="ask-ai" class="size-5" />
+    <h2 class="text-heading-14 font-semibold text-(--fg-strong)">AI Assistant</h2>
+  </div>
+
+  <div id="ai-chat-container" class="flex-1 overflow-y-auto space-y-4 mb-4 px-2 text-sm">
+    <div class="flex gap-3 items-start">
+      <div class="flex size-7 shrink-0 items-center justify-center rounded-full bg-(--bg-subtle) border border-(--border-subtle) text-(--fg-strong)">
+        <Icons name="ai-agent" class="size-4" />
+      </div>
+      <div class="p-2 rounded-2xl rounded-tl-sm bg-(--bg-subtle) border border-(--border-subtle) text-(--fg-muted) max-w-[85%] leading-relaxed">
+        Halo! Tanyakan apa saja tentang dokumentasi, artikel, atau kode teknikal di situs ini. AI akan membantu meresponsnya secara instan.
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-2 px-2 shrink-0 pt-2">
+    <Input 
+      type="text" 
+      id="ai-drawer-input" 
+      placeholder="Ketik pertanyaan teknis..." 
+    />
+    <Button 
+      id="ai-drawer-submit"
+      variant="primary"
+      size="md">
+      Kirim
+    </Button>
+  </div>
+</div>
+
+<template id="template-msg-user">
+  <div class="flex gap-3 justify-end items-start animate-fade-in">
+    <div class="p-2 rounded-2xl rounded-tr-sm bg-(--accent) border border-transparent text-(--fg-strong) max-w-[85%] whitespace-pre-wrap leading-relaxed shadow-sm">
+    </div>
+  </div>
+</template>
+
+<template id="template-msg-ai">
+  <div class="flex gap-3 justify-start items-start animate-fade-in">
+    <div class="flex size-7 shrink-0 items-center justify-center rounded-full bg-(--bg-subtle) border border-(--border-subtle) text-(--fg-strong) shadow-xs">
+      <Icons name="ai-agent" class="size-4" />
+    </div>
+    <div data-ai-text class="p-2 rounded-2xl rounded-tl-sm bg-(--bg-subtle) border border-(--border-subtle) text-(--fg-strong) max-w-[85%] whitespace-pre-wrap leading-relaxed shadow-xs">
+    </div>
+  </div>
+</template>
+
+<script>
+  const submitBtn = document.getElementById('ai-drawer-submit');
+  const inputEl = document.getElementById('ai-drawer-input') as HTMLInputElement;
+  const chatContainer = document.getElementById('ai-chat-container');
+
+  const tmplUser = document.getElementById('template-msg-user') as HTMLTemplateElement;
+  const tmplAi = document.getElementById('template-msg-ai') as HTMLTemplateElement;
+
+  function appendUserMessage(text: string) {
+    const clone = tmplUser.content.cloneNode(true) as HTMLElement;
+    const bubble = clone.querySelector('div > div') as HTMLElement;
+    if (bubble) bubble.textContent = text;
+    chatContainer?.appendChild(clone);
+    scrollToBottom();
+  }
+
+  function appendAiMessage(text: string, isLoading = false) {
+    const clone = tmplAi.content.cloneNode(true) as HTMLElement;
+    const bubble = clone.querySelector('[data-ai-text]') as HTMLElement;
+    
+    if (bubble) {
+      bubble.textContent = text;
+      if (isLoading) {
+        bubble.classList.add('italic', 'opacity-60');
+      }
+    }
+    
+    chatContainer?.appendChild(clone);
+    scrollToBottom();
+    return bubble;
+  }
+
+  function scrollToBottom() {
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  }
+
+  async function handleDrawerAsk() {
+    const question = inputEl?.value.trim();
+    if (!question) return;
+
+    inputEl.value = '';
+    submitBtn?.setAttribute('disabled', 'true');
+    if (submitBtn) submitBtn.textContent = '...';
+
+    appendUserMessage(question);
+
+    const aiBubbleEl = appendAiMessage('Memproses jawaban...', true);
+
+    const context = document.querySelector('article')?.innerText || '';
+
+    try {
+      const res = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, context }),
+      });
+      const data = await res.json();
+      
+      if (aiBubbleEl) {
+        aiBubbleEl.textContent = data.answer || 'Tidak ada respons.';
+        aiBubbleEl.classList.remove('italic', 'opacity-60');
+      }
+    } catch (err) {
+      if (aiBubbleEl) {
+        aiBubbleEl.textContent = 'Gagal menghubungi server AI.';
+        aiBubbleEl.classList.remove('italic', 'opacity-60');
+      }
+    } finally {
+      submitBtn?.removeAttribute('disabled');
+      if (submitBtn) submitBtn.textContent = 'Kirim';
+      inputEl?.focus();
+    }
+  }
+
+  submitBtn?.addEventListener('click', handleDrawerAsk);
+  inputEl?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleDrawerAsk();
+  });
+</script>
