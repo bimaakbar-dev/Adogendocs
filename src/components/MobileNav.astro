@@ -29,9 +29,16 @@ const $ = {
     "transition-transform duration-(--duration)",
     "group-open/nav:rotate-180",
   ].join(" "),
+  backdrop: [
+    "mobile-nav-backdrop",
+    "fixed inset-x-0 bottom-0 top-[var(--header-height)] z-40",
+    "bg-black/30 opacity-0 pointer-events-none",
+    "transition-opacity duration-(--duration)",
+    "group-open/nav:opacity-100 group-open/nav:pointer-events-auto",
+  ].join(" "),
   panel: [
-    "fixed left-0 right-0 top-[calc(--header-height)] z-40",
-    "bg-(--bg) rounded-b-lg border-b shadow-(--shadow-md) border-(--border)/80",
+    "fixed left-0 right-0 top-[var(--header-height)] z-40",
+    "bg-(--bg)/95 backdrop-blur-md rounded-b-lg border-b shadow-(--shadow-md) border-(--border)/80",
     "overscroll-contain"
   ].join(" "),
   panelWrapper: "px-2 py-3 space-y-2 gap-2",
@@ -40,7 +47,7 @@ const $ = {
     "flex gap-3 p-2 items-center text-body-14 font-medium",
     "hover:text-(--fg-strong) active:text-(--fg-strong)",
     "opacity-0 translate-y-full group-open/nav:opacity-100 group-open/nav:translate-0",
-    "transition-transform duration-(--duration) ease-(--ease-out)"
+    "transition-[opacity,transform] duration-(--duration) ease-(--ease-out)"
   ].join(" "),
   panelPrefix: "inline-flex items-center justify-center size-5",
   panelFooter: "flex items-center justify-between items-center"
@@ -51,12 +58,16 @@ const $ = {
   <summary aria-label="Open menu" class={$.trigger}>
     <Icon id="mobile-chevron" name="chevron-down" class={$.triggerIcon} />
   </summary>
+
+  <div class={$.backdrop} aria-hidden="true"></div>
+
   <div id="mobile-menu-panel" class={$.panel}>
     <nav class={$.panelWrapper}>
-      {links.map((item) => (
+      {links.map((item, i) => (
         <a
           aria-label={item.label}
           href={item.href}
+          style={`transition-delay: ${i * 30}ms`}
           class:list={[
             $.panelItem,
             currentPath === item.href 
@@ -68,7 +79,7 @@ const $ = {
           {item.label}
         </a>
       ))}
-      <Card padding="xs" radius="sm" class="mt-4">
+      <Card variant="outline" padding="xs" radius="sm" class="mt-4" style={`transition-delay: ${links.length * 30}ms`}>
         <div class={$.panelFooter}>
           <Socials />
           <Theme />
@@ -78,36 +89,50 @@ const $ = {
   </div>
 </details>
 
-
 <script>
   function initMobileNavDetails() {
     const details = document.getElementById("mobile-menu-details") as HTMLDetailsElement | null;
     if (!details) return;
 
     const links = details.querySelectorAll(".mobile-nav-link");
+    const backdrop = details.querySelector(".mobile-nav-backdrop");
+
+    function closeMenu() {
+      details?.removeAttribute("open");
+    }
 
     links.forEach((link) => {
-      link.addEventListener("click", () => {
-        details.removeAttribute("open");
-      });
+      link.addEventListener("click", closeMenu);
     });
+
+    backdrop?.addEventListener("click", closeMenu);
 
     const mq = window.matchMedia("(min-width: 768px)");
     mq.addEventListener("change", (e) => {
-      if (e.matches) details.removeAttribute("open");
+      if (e.matches) closeMenu();
     });
 
     document.addEventListener("click", (e) => {
       if (details.hasAttribute("open") && !details.contains(e.target as Node)) {
-        details.removeAttribute("open");
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && details.hasAttribute("open")) {
+        closeMenu();
+        (details.querySelector("summary") as HTMLElement | null)?.focus();
       }
     });
 
     details.addEventListener("toggle", () => {
       if (details.open) {
-    //    document.body.style.overflow = "hidden";
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = "hidden";
+        if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
       } else {
         document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
       }
     });
   }
