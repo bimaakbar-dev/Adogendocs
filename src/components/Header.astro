@@ -7,6 +7,7 @@ import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
 import SearchBar from "./ui/SearchBar.astro";
 import NavLink from "./NavLink.astro";
+import AI from "./AI.astro";
 
 const $ = {
   header: [
@@ -31,11 +32,13 @@ const $ = {
         <NavLink />
       </div>
       <div class={$.right}>
-        <div class="items-center flex md:hidden">
+        <div class="items-center flex md:hidden gap-1">
           <SearchBar iconOnly />
+          <AI iconOnly />
         </div>
         <div class="items-center hidden md:flex gap-2">
           <SearchBar class="min-w-64" />
+          <AI />
           <div class="flex items-center gap-1">
             <Socials />
             <Theme />
