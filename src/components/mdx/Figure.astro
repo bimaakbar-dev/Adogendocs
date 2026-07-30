@@ -15,12 +15,18 @@ interface Props {
   href?: string;
 }
 
-const { src, alt = '', title, caption, href } = Astro.props;
+const { 
+  src, 
+  alt = '', 
+  title, 
+  caption, 
+  href 
+} = Astro.props;
 
 const isPlaceholder = !src;
 const optimizedSrc = !isPlaceholder && isCdnUrl(src) 
   ? cdnImage(src, { w: IMAGE.thumbnail.width, h: IMAGE.thumbnail.height, q: IMAGE.thumbnail.quality }) 
-  : src ?? IMAGE.thumbnail.placeholder;
+  : src ?? IMAGE.thumbnail.placeholder.src;
   
 const hasLink = !!href;
 
@@ -44,7 +50,7 @@ const imageClass = `relative w-full h-auto object-cover block rounded-md ring-1 
         decoding="async" 
         width={1200} 
         height={630} 
-        onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+        onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder.src}'`}
         class={imageClass}
        />
     </a>
@@ -58,7 +64,7 @@ const imageClass = `relative w-full h-auto object-cover block rounded-md ring-1 
       decoding="async" 
       width={1200} 
       height={630} 
-      onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+      onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder.src}'`}
       class={imageClass} 
     />
   )}
