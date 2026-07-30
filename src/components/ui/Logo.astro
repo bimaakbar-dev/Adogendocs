@@ -6,7 +6,7 @@ import {
 } from "@/consts";
 
 import Button from "./Button.astro";
-import Icon from "./Icons.astro";
+import L from "../../assets/images/c0desk1.svg"
 
 interface Props {
   label?: boolean;
@@ -18,7 +18,7 @@ const {
 
 const $ = {
     wrapper: "p-0! hover:bg-transparent! active:bg-transparent!",
-    logo: "size-6",
+    logo: "size-6 text-(--fg-strong)",
     label: "text-heading-20 font-semibold text-(--fg-strong)"
 }
 ---
@@ -28,7 +28,7 @@ const $ = {
     variant="ghost"
     size="lg"
     class={$.wrapper}>
-    <Icon name="logo" class={$.logo} />
+    <L class={$.logo}/>
     {label && ( 
         <span class={$.label}>
             {SITE.name}
