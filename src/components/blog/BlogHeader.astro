@@ -99,14 +99,14 @@ const Divider = "text-(--fg-muted)/50";
         <img
           data-pagefind-meta="image[src], image_alt[alt]"
           src={HeroImage.src}
-          alt={HeroImage.alt}
-          class={CoverImage}
+          alt={HeroImage.alt}  
           width={HeroImage.width}
           height={HeroImage.height}
+          onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder.src}'`}
           loading="eager"
           decoding="async"
           fetchpriority="high"
-          onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+          class={CoverImage}
         />
       </figure>
     )}
