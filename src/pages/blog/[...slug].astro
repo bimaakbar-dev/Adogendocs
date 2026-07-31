@@ -63,18 +63,18 @@ const nextEntry =
     ? allPosts[currentIndex - 1]
     : null;
 
+const cleanSlug = Astro.params.slug;
+const currentUrl = `${SITE.url}/blog/${cleanSlug}`;
+
 const breadcrumbItems = [
-  {label: "Blog", href: "/blog",},
+  { label: "Blog", href: "/blog" },
 ];
 
 if (entry.data.category) {
   breadcrumbItems.push({
-    label: entry.data.category, href: "/blog"
+    label: entry.data.category, href: currentUrl
   });
 }
-
-const cleanSlug = Astro.params.slug;
-const currentUrl = `${SITE.url}/blog/${cleanSlug}`;
 
 const metaProps = buildMeta({
   title: entry.data.seo.title,
