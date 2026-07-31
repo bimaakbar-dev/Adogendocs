@@ -1,5 +1,5 @@
 ---
-slug: "terms"
+slug: "terms-of-service"
 title: "Terms of Service"
 description: "Terms and conditions for using Adogen"
 lastUpdated: 2026-06-05T00:12Z
