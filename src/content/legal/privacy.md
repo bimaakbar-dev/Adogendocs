@@ -1,5 +1,5 @@
 ---
-slug: "privacy"
+slug: "privacy-policy"
 title: "Privacy Policy"
 description: "How Adogen handles your data and protects your privacy"
 lastUpdated: 2026-06-05T00:12Z
