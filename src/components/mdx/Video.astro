@@ -19,7 +19,6 @@ const {
 
 const getYouTubeId = (url: string) => {
   if (!url) return null;
-  // Dukung: watch?v=, embed/, youtu.be/, shorts/
   const m = url.match(
     /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
   );
@@ -48,7 +47,7 @@ const embedSrc = ytId
     : null;
 ---
 
-<figure class="video-figure not-prose ring-1 ring-(--border-subtle)/40">
+<figure class="video-figure">
   <div class="video-wrapper">
     {isDirect ? (
       <video
@@ -72,5 +71,9 @@ const embedSrc = ytId
       />
     )}
   </div>
-  {caption && <figcaption>{caption}</figcaption>}
+  {caption && 
+    <figcaption>
+      {caption}
+    </figcaption>
+  }
 </figure>
