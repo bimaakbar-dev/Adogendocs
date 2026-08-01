@@ -1,5 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
 import Section from "./ui/Section.astro";
+import Particles from '@ui/Particles.astro';
 import Button from "@ui/Button.astro";
 import Icon from "@ui/Icons.astro";
 import Badge from "@ui/Badge.astro";
@@ -7,6 +10,7 @@ import Badge from "@ui/Badge.astro";
 interface Props {
   tagline?: string;
   title: string;
+  image?: any;
   action?: string;
   actionLabel?: string
   action2?: string;
@@ -15,87 +19,109 @@ interface Props {
 
 const { 
   tagline,
+  image,
   title,
   action,
   actionLabel,
   action2,
   actionLabel2
  } = Astro.props;
+
+ const imageAttrs = {
+	loading: 'eager' as const,
+	decoding: 'async' as const,
+	fetchpriority: 'high' as const,
+	width: 400,
+	height: 400,
+	alt: title || '',
+};
+
+const $ = {
+  title: "text-heading-32 md:text-heading-48 font-medium text-(--fg-strong) text-balance",
+}
 ---
 
-<section class="hero-container relative flex flex-col w-full ring-1 ring-(--border-subtle)/40 rounded-lg items-center justify-center overflow-hidden p-4 bg-(--bg-subtle)">
-  <span aria-hidden="true" class="pointer-events-none absolute inset-0">
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/70"
-      style="left:1%;top:30%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:3%;top:70%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/60"
-      style="left:5%;top:22%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/45"
-      style="left:7%;top:58%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/55"
-      style="left:9%;top:84%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:12%;top:36%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/60"
-      style="left:15%;top:18%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/40"
-      style="left:18%;top:64%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:21%;top:80%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/55"
-      style="left:24%;top:28%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/55"
-      style="left:76%;top:24%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:79%;top:76%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/60"
-      style="left:82%;top:40%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/45"
-      style="left:85%;top:60%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:88%;top:18%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/60"
-      style="left:91%;top:82%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/55"
-      style="left:94%;top:32%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/45"
-      style="left:96%;top:66%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/50"
-      style="left:98%;top:24%"></span>
-    <span
-      class="absolute size-px rounded-full bg-(--fg-strong)/60"
-      style="left:99%;top:78%"></span>
-  </span>
-  <Section size="md">
-    <div class="z-10 flex flex-col items-center gap-6 text-center">
-      {tagline && (<Badge variant="accent" class="text-sm">{tagline}</Badge>)}
-      <h1 class="max-w-xl text-heading-32 md:text-heading-48 font-medium text-(--fg-muted) leading-tight tracking-tight">
-        {title}
-      </h1>
-      <div class="flex gap-4 mt-2">
-        {action && (<Button variant="primary" size="md" href={action} class="rounded-full!">{actionLabel}</Button>)}
-        {action2 && (<Button variant="ghost" size="md" href={action2} suffix={<Icon name="arrow-right" />} class="rounded-full!">{actionLabel2}</Button>)}
-      </div>
+<Section size="none" class="hero">
+  <Particles />
+  <Image src={image} {...imageAttrs}/>
+  <div class="flex stack">
+    <div class="flex meta">
+      {tagline && ( <Badge variant="accent" set:html={tagline} /> )}
+      <h1 class={$.title} set:html={title} />
     </div>
-  </Section>
-</section>
+    <div class="flex actions">
+      {action && ( 
+        <Button 
+          variant="primary" 
+          size="lg" 
+          href={action} 
+        >{actionLabel}
+        </Button>
+      )}
+      {action2 && ( 
+        <Button 
+          variant="ghost" 
+          size="lg" 
+          href={action2} 
+          suffix={<Icon name="arrow-right" />} 
+        >{actionLabel2}
+        </Button> 
+      )}
+    </div>
+  </div>
+</Section>
+<style is:global>
+  	.hero {
+		display: grid;
+    	position: relative;
+		grid-template-columns: 100%;
+		align-items: center;
+		gap: 1rem;
+		padding-bottom: 1rem;
+	}
+  	.hero > img {
+		object-fit: contain;
+		width: min(70%, 20rem);
+		height: auto;
+		margin-inline: auto;
+	}
+  	.stack {
+		flex-direction: column;
+		gap: clamp(1.5rem, calc(1.5rem + 1vw), 2rem);
+		text-align: center;
+    	z-index: 10;
+	}
+  	.meta {
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+	}
+	.meta > * {
+		max-width: 50ch;
+	}
+  	.actions {
+		gap: 1rem 2rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+  	@media (min-width: 50rem) {
+		.hero {
+			grid-template-columns: 7fr 4fr;
+			gap: 3%;
+			padding-block: clamp(2.5rem, calc(1rem + 10vmin), 10rem);
+		}
+		.hero > img {
+			order: 2;
+			width: min(100%, 25rem);
+		}
+		.stack {
+			text-align: start;
+		}
+    	.meta {
+			align-items: flex-start;
+		}
+		.actions {
+			justify-content: flex-start;
+		}
+	}
+</style>

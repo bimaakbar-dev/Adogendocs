@@ -56,18 +56,16 @@ const related = postsWithScore.slice(0, maxItems).map((item) => item.post);
 
 const $ = {
     label: "text-heading-24 font-semibold text-(--fg-strong) mb-6",
-    card: "block rounded ring-1 ring-(--border-subtle)/60 p-4 hover:ring-(--border)/80 active:ring-(--border)/80",
-    title: "text-heading-14 md:text-heading-16 font-medium text-(--fg) group-hover:text-(--fg-strong) group-active:text-(--fg-strong)",
-    date: "text-body-14! text-(--fg-muted) mt-auto block"
+    card: "flex flex-col rounded ring-1 ring-(--border-subtle)/80 p-3 gap-1 hover:ring-(--border)/80 active:ring-(--border)/80",
+    title: "text-heading-16 font-medium text-(--fg) group-hover:text-(--fg-strong) group-active:text-(--fg-strong)",
+    date: "text-body-14! text-(--fg-muted) mt-auto"
 }
 ---
 
 {
   related.length > 0 && (
     <section>
-      <h2 class={$.label}>
-        Terkait.
-      </h2>
+      <h2 class={$.label} set:text="Terkait." />
       <ul class="grid grid-cols-1 gap-4">
         {related.map((post) => (
           <li class="group">
@@ -75,14 +73,12 @@ const $ = {
               href={`/blog/${post.data.slug || post.id}`}
               class={$.card}
             >
-              <h3 class={$.title}>
-                {post.data.title}
-              </h3>
-              {post.data.pubDate && (
-                <time class={$.date}>
-                  {formatDate(post.data.pubDate)}
-                </time>
-              )}
+              <h3 class={$.title} set:html={post.data.title} />
+              <p>
+                {post.data.pubDate && (
+                  <time class={$.date} set:html={formatDate(post.data.pubDate)} />
+                )}
+              </p> 
             </a>
           </li>
         ))}

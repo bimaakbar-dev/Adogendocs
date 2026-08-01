@@ -50,14 +50,14 @@ const $ = {
   avatar: "hidden size-5 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-(--border-subtle)",
   avatarImage: "size-full object-cover",
   content: "flex flex-1 flex-col gap-4",
-  title: "text-heading-18 font-semibold text-(--fg-strong) line-clamp-3",
+  title: "text-heading-18 font-semibold text-(--fg-strong) line-clamp-2",
   description: "text-body-14 text-(--fg-muted) line-clamp-4",
   footer: "mt-auto pt-2 flex items-center justify-between",
 };
 ---
 
 <article class={$.wrapper}>
-  <Card padding="md" radius="sm" variant="secondary" class={$.body}>
+  <Card padding="md" radius="sm" variant="primary" class={$.body}>
     {cover?.src && (
       <div class={$.coverWrapper}>
         <img
@@ -74,13 +74,11 @@ const $ = {
       </div>
     )}
     <div class={$.meta}>
-      <span>{category}</span>
+      <span set:html={category} />
       <div class={$.metaRight}>
         <p>
           {pubDate && (
-            <time datetime={pubDate.toISOString()}>
-              {formatDateCompact(pubDate)}
-            </time>
+            <time datetime={pubDate.toISOString()} set:html={formatDateCompact(pubDate)} />
           )}
         </p>
         {author.avatar && (
@@ -101,18 +99,15 @@ const $ = {
       </div>
     </div>
     <div class={$.content}>
-      <h3 class={$.title}>
-        {title}
-      </h3>
-      <p class={$.description}>
-        {description}
-      </p>
+      <h3 class={$.title} set:html={title} />
+      <p class={$.description} set:html={description} />
       <div class={$.footer}>
         <Button
           href={href}
           variant="primary"
           size="md"
-          block>
+          block
+          class="rounded!">
           Baca Selengkapnya
         </Button>
       </div>

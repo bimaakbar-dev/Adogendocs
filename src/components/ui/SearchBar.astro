@@ -15,7 +15,7 @@ const {
 ---
 {iconOnly && (
   <Button 
-    data-search-trigger
+    data-drawer-trigger="search-drawer"
     aria-label="Buka pencarian"
     variant="icon"
     size="md"
@@ -26,7 +26,7 @@ const {
 )}
 {!iconOnly && (
   <Button
-    data-search-trigger
+    data-drawer-trigger="search-drawer"
     aria-label="Buka pencarian"
     variant="outline"
     size="md"
@@ -52,7 +52,7 @@ const {
 <script>
   (() => {
     const initSearchTrigger = () => {
-      const triggers = document.querySelectorAll("[data-search-trigger]");
+      const triggers = document.querySelectorAll("[data-drawer-trigger]");
       
       triggers.forEach((trigger) => {
         trigger.addEventListener("click", (e) => {

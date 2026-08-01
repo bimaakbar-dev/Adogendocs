@@ -12,9 +12,9 @@ type ButtonVariant =
   | 'icon';
 
 type ButtonSize = 
-  'sm' | 
-  'md' | 
-  'lg';
+  | 'sm'
+  | 'md'
+  | 'lg';
 
 export interface Props extends HTMLAttributes<'button'> {
   href?: string;
@@ -52,63 +52,61 @@ const isDisabled = loading || (props as any).disabled;
 const isIconOnly = variant === 'icon';
 
 const baseClasses = [
-  'inline-flex items-center rounded shrink-0 ring-1',
+  'inline-flex items-center shrink-0 ring-1 border outline-offset-4',
   'font-medium whitespace-nowrap',
   'transition-opacity duration-(--duration)',
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent-ring)',
+  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)',
   'disabled:opacity-50 disabled:pointer-events-none'
 ].join(" ");
 
 const variantClasses: Record<ButtonVariant, string> = {
   accent: [
-    'bg-(--accent) text-(--accent-fg) ring-transparent',
-    'hover:opacity-60 active:opacity-60'
+    'bg-(--accent) text-(--accent-fg) ring-transparent border-transparent',
+    'hover:bg-(--accent)/80 active:bg-(--accent)/80'
   ].join(" "),
 
   primary: [
-    'bg-(--fg-strong) text-(--fg-inverted)! ring-transparent',
-    'hover:opacity-60 active:opacity-60'
+    'bg-(--fg-strong) text-(--fg-inverted)! ring-transparent border-transparent',
+    'hover:bg-(--fg-strong)/80 active:bg-(--fg-strong)/80'
   ].join(" "),
 
   secondary: [
-    'bg-(--bg-subtle) text-(--fg) ring-(--border-subtle)',
+    'bg-(--bg-subtle) text-(--fg) ring-(--border-subtle) border-transparent',
     'hover:bg-(--bg-muted)/80 active:bg-(--bg-muted)/80'
   ].join(" "),
 
   outline: [
-    'ring-(--border-subtle) text-(--fg)',
-    'hover:bg-(--bg-muted)/60 active:bg-(--bg-muted)/60'
+    'bg-transparent ring-(--border-subtle) text-(--fg) border-transparent',
+    'hover:bg-(--bg-muted)/80 active:bg-(--bg-muted)/80'
   ].join(" "),
 
   ghost: [
-    'bg-transparent text-(--fg-muted) ring-transparent',
-    'hover:bg-(--bg-muted)/80 hover:text-(--fg)',
-    'active:bg-(--bg-muted)/80 active:text-(--fg)'
+    'bg-transparent text-(--fg) ring-transparent border-transparent',
+    'hover:bg-(--bg-muted)/80 active:bg-(--bg-muted)/80'
   ].join(" "),
 
   danger: [
-    'bg-(--error) text-(--error-fg) ring-transparent',
-    'hover:opacity-90 active:opacity-90'
+    'bg-(--color-error) text-(--error-fg) ring-transparent border-transparent',
+    'hover:bg-(--color-error)/80 active:bg-(--error)/80'
   ].join(" "),
 
   icon: [
-    'text-(--fg-muted) ring-transparent',
-    'hover:bg-(--bg-muted) hover:text-(--fg)',
-    'active:bg-(--bg-muted) active:text-(--fg)',
+    'bg-transparent text-(--fg) ring-transparent border-transparent',
+    'hover:bg-(--bg-muted)/80 active:bg-(--bg-muted)/80'
   ].join(" ")
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
   sm: [
-    'h-6 px-2 text-button-13 gap-1.5',
+    'h-3 px-2.5 py-3.5 text-button-13 gap-1.5',
   ].join(" "),
 
   md: [
-    'h-8 px-3 text-button-14 gap-2',
+    'h-7 px-2.5 py-3.5 text-button-14 gap-2',
   ].join(" "),
 
   lg: [
-    'h-10 px-4 text-button-16 gap-3',
+    'h-9 px-3.5 py-4.5 text-button-16 gap-3',
   ].join(" ")
 };
 
@@ -156,7 +154,10 @@ const classes = [
       href={href}
       target={target}
       rel={rel}
-      class={classes}
+      class:list={[
+        'rounded-full no-underline',
+        classes
+      ]}
       aria-busy={loading || undefined}
       aria-disabled={isDisabled ? 'true' : undefined}
       {...(props as HTMLAttributes<'a'>)}
@@ -189,7 +190,10 @@ const classes = [
     <button
       type={(props as any).type || 'button'}
       disabled={isDisabled}
-      class={classes}
+      class:list={[
+        'rounded',
+        classes
+      ]}
       aria-busy={loading || undefined}
       aria-disabled={isDisabled ? 'true' : undefined}
       {...(props as HTMLAttributes<'button'>)}

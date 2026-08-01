@@ -1,4 +1,7 @@
 ---
+//src/components/Search.astro
+
+import Drawer from "./ui/Drawer.astro";
 import Button from "./ui/Button.astro";
 import Icon from "./ui/Icons.astro";
 import Input from "./ui/Input.astro";
@@ -7,14 +10,6 @@ import Spinner from "./ui/Spinner.astro";
 const PAGE_SIZE = 6;
 
 const ui = {
-  overlay:   "fixed inset-0 z-9999 hidden bg-black/50 backdrop-blur-sm",
-  modal: [
-    "fixed w-full left-0 border-t border-(--border-subtle) sm:border-none sm:left-1/2 bottom-0 sm:bottom-auto sm:top-4 rounded-t-md sm:rounded-md",
-    "sm:w-[95%] sm:max-w-2xl",
-    "sm:-translate-x-1/2",
-    "sm:ring-1 ring-(--border-subtle) bg-(--bg)",
-    "shadow-2xl opacity-0 scale-95"
-  ].join(" "),
   iconSlot: [
     "relative block shrink-0 items-center justify-center size-5",
     "transition-opacity duration-(--duration)"
@@ -27,10 +22,10 @@ const ui = {
   bar:       "flex items-center gap-2 py-2 px-3",
   closeDesk: "font-mono rounded! hidden! sm:inline-flex!",
   closeMob:  "inline-flex! sm:hidden! shrink-0 p-1.5",
-  results:   "max-h-[55vh] sm:max-h-[75vh] overflow-y-auto overscroll-contain",
+  results:   "flex-1 overflow-y-auto overscroll-contain",
   list:      "hidden space-y-4 p-2",
   empty:     "p-10 text-center text-sm text-(--fg-muted)",
-  footer:    "hidden px-2 pb-2",
+  footer:    "hidden px-2 pb-2 pt-4",
   total:     "text-xs text-(--fg-muted) px-2 py-1.5",
 };
 
@@ -88,71 +83,64 @@ const card = {
 };
 ---
 
-<div
-  id="search-overlay"
-  class={ui.overlay}
-  role="dialog"
-  aria-modal="true"
-  aria-label="Pencarian"
->
-  <div id="search-modal" class={ui.modal}>
-    <div class={ui.bar}>
-      <Input
-        id="search-input"
-        type="text"
-        role="combobox"
-        aria-autocomplete="list"
-        aria-controls="search-list"
-        aria-expanded="false"
-        placeholder="Ketik untuk mencari..."
-        autocomplete="off"
-        spellcheck="false">
-        <Fragment slot="prefix">
-          <div class={ui.iconSlot}>
-            <Icon id="search-icon" name="search" fill class="h-full w-full" />
-            <Spinner id="search-spinner" size="sm" class={ui.spinner} />
-          </div>
-        </Fragment>
-      </Input>
-      <Button 
-        data-action="close-search" 
-        aria-label="Tutup pencarian" 
-        variant="icon" 
-        size="md" 
-        thisIcon 
-        class={ui.closeMob}>
-        <Icon name="remove" class="size-5" />
+<Drawer id="search-drawer">
+  <div class={ui.bar}>
+    <Input
+      id="search-input"
+      type="text"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-controls="search-list"
+      aria-expanded="false"
+      placeholder="Ketik untuk mencari..."
+      autocomplete="off"
+      spellcheck="false">
+      <Fragment slot="prefix">
+        <div class={ui.iconSlot}>
+          <Icon id="search-icon" name="search" fill class="h-full w-full" />
+          <Spinner id="search-spinner" size="sm" class={ui.spinner} />
+        </div>
+      </Fragment>
+    </Input>
+    <Button 
+      data-action="close-search" 
+      aria-label="Tutup pencarian" 
+      variant="icon" 
+      size="md" 
+      thisIcon 
+      class={ui.closeMob}>
+      <Icon name="remove" class="size-5" />
+    </Button>
+    <Button 
+      data-action="close-search" 
+      aria-label="Tutup pencarian" 
+      variant="secondary" 
+      size="sm" 
+      class={ui.closeDesk}>
+      ESC
+    </Button>
+  </div>
+
+  <div id="search-results" class={ui.results}>
+    <div id="search-total" class={`${ui.total} hidden`}></div>
+    <div id="search-empty" class="hidden"></div>
+    <ul
+      id="search-list"
+      class={ui.list}
+      role="listbox"
+      aria-label="Hasil pencarian">
+    </ul>
+    <div id="search-footer" class={ui.footer}>
+      <Button
+        id="search-load-more"
+        variant="secondary"
+        size="md"
+        block>
+        Tampilkan lebih banyak
       </Button>
-      <Button 
-        data-action="close-search" 
-        aria-label="Tutup pencarian" 
-        variant="secondary" 
-        size="sm" 
-        class={ui.closeDesk}>
-        ESC
-      </Button>
-    </div>
-    <div id="search-results" class={ui.results}>
-      <div id="search-total" class={`${ui.total} hidden`}></div>
-      <div id="search-empty" class="hidden"></div>
-      <ul
-        id="search-list"
-        class={ui.list}
-        role="listbox"
-        aria-label="Hasil pencarian">
-      </ul>
-      <div id="search-footer" class={ui.footer}>
-        <Button
-          id="search-load-more"
-          variant="secondary"
-          size="md"
-          block>
-          Tampilkan lebih banyak
-        </Button>
-      </div>
     </div>
   </div>
-</div>
+</Drawer>
 
 <template id="tpl-result">
   <li class={card.group} role="option" aria-selected="false">
@@ -187,23 +175,6 @@ const card = {
 </template>
 
 <style is:global>
-  #search-modal {
-    transition:
-      transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity   0.18s ease-out;
-  }
-
-  @media (max-width: 639px) {
-    #search-modal {
-      transform: translateY(100%);
-      opacity: 1 !important;
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #search-modal.translate-y-0 {
-      transform: translateY(0);
-    }
-  }
-
   .result-item:hover,
   .sub-result:hover {
     background-color: var(--bg-muted);
@@ -219,6 +190,7 @@ const card = {
     border-left:   1.5px solid var(--border-subtle);
     border-bottom: 1.5px solid var(--border-subtle);
   }
+  
   .sub-result:not(:last-of-type)::after {
     content: "";
     position: absolute;
@@ -234,19 +206,13 @@ const card = {
     border-radius:    0 !important;
     padding:          0 4px !important;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    #search-modal { transition: none !important; }
-  }
 </style>
 
 <script is:inline define:vars={{ PAGE_SIZE }}>
   (() => {
     const $         = (id) => document.getElementById(id);
-    const overlay   = $("search-overlay");
-    const modal     = $("search-modal");
+    const drawerEl  = $("search-drawer");
     const input     = $("search-input");
-    const resultsEl = $("search-results");
     const list      = $("search-list");
     const emptyEl   = $("search-empty");
     const totalEl   = $("search-total");
@@ -275,10 +241,6 @@ const card = {
       return pfLoader;
     }
 
-    function isMobile() {
-      return window.innerWidth < 640;
-    }
-
     function setLoading(on) {
       iconEl?.classList.toggle("opacity-0", on);
       spinnerEl?.classList.toggle("hidden", !on);
@@ -295,7 +257,7 @@ const card = {
       emptyEl.classList.add("hidden");
       totalEl.classList.add("hidden");
       footerEl.classList.add("hidden");
-      input.setAttribute("aria-expanded", "false");
+      input?.setAttribute("aria-expanded", "false");
       results   = [];
       rendered  = 0;
       activeIdx = -1;
@@ -333,7 +295,7 @@ const card = {
       activeIdx = idx;
 
       if (idx === -1) {
-        input.focus();
+        input?.focus();
         return;
       }
 
@@ -440,9 +402,69 @@ const card = {
 
     input?.addEventListener("input", search);
 
+    function open(targetId) {
+      if (targetId && targetId !== drawerEl?.id) return;
+      if (isOpen || !drawerEl) return;
+
+      loadPF();
+
+      const backdrop = drawerEl.querySelector('[data-drawer-backdrop]');
+      const panel = drawerEl.querySelector('[data-drawer-panel]');
+      const mainWrapper = document.querySelector('main') || document.body.firstElementChild;
+
+      drawerEl.classList.remove("hidden");
+      drawerEl.classList.add("flex");
+
+      requestAnimationFrame(() => {
+        backdrop?.classList.remove("opacity-0");
+        panel?.classList.remove("translate-y-full");
+
+        if (mainWrapper && window.innerWidth > 640) {
+          mainWrapper.style.transform = 'scale(0.96) translateY(12px)';
+          mainWrapper.style.borderRadius = '12px';
+        }
+      });
+
+      document.body.style.overflow = "hidden";
+      isOpen = true;
+      setTimeout(() => input?.focus(), 150);
+      reset();
+    }
+
+    function close() {
+      if (!isOpen || !drawerEl) return;
+
+      const backdrop = drawerEl.querySelector('[data-drawer-backdrop]');
+      const panel = drawerEl.querySelector('[data-drawer-panel]');
+      const mainWrapper = document.querySelector('main') || document.body.firstElementChild;
+
+      backdrop?.classList.add("opacity-0");
+      panel?.classList.add("translate-y-full");
+      if (panel) panel.style.transform = '';
+
+      if (mainWrapper) {
+        mainWrapper.style.transform = '';
+        mainWrapper.style.borderRadius = '';
+      }
+
+      setTimeout(() => {
+        drawerEl.classList.add("hidden");
+        drawerEl.classList.remove("flex");
+        document.body.style.overflow = "";
+      }, 300);
+
+      isOpen = false;
+      if (input) input.value = "";
+      reset();
+      setLoading(false);
+    }
+
     document.addEventListener("keydown", (e) => {
       if (!isOpen) {
-        if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); open(); }
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault();
+          open("search-drawer");
+        }
         return;
       }
 
@@ -458,58 +480,11 @@ const card = {
       if (activeIdx >= 0 && e.key.length === 1 && !e.metaKey && !e.ctrlKey) setActive(-1);
     });
 
-    function open() {
-      if (isOpen) return;
-      loadPF();
-      overlay.classList.remove("hidden");
-      isOpen = true;
-      document.body.style.overflow = "hidden";
+    document.addEventListener("open-search", (e) => {
+      const targetId = e.detail?.targetId;
+      open(targetId);
+    });
 
-      requestAnimationFrame(() => {
-        if (isMobile()) {
-          modal.classList.remove("scale-95", "opacity-0");
-          modal.classList.add("scale-100", "opacity-100", "translate-y-0");
-        } else {
-          modal.classList.remove("scale-95", "opacity-0");
-          modal.classList.add("scale-100", "opacity-100");
-        }
-      });
-
-      setTimeout(() => input?.focus(), 100);
-      reset();
-    }
-
-    function close() {
-      if (!isOpen) return;
-
-      if (isMobile()) {
-        modal.classList.remove("translate-y-0");
-        setTimeout(() => {
-          overlay.classList.add("hidden");
-          modal.classList.remove("scale-100", "opacity-100");
-          modal.classList.add("scale-95", "opacity-0");
-          isOpen = false;
-          document.body.style.overflow = "";
-          if (input) input.value = "";
-          reset();
-          setLoading(false);
-        }, 280);
-      } else {
-        modal.classList.remove("scale-100", "opacity-100");
-        modal.classList.add("scale-95", "opacity-0");
-        setTimeout(() => {
-          overlay.classList.add("hidden");
-          isOpen = false;
-          document.body.style.overflow = "";
-          if (input) input.value = "";
-          reset();
-          setLoading(false);
-        }, 200);
-      }
-    }
-
-    document.addEventListener("open-search", open);
-    overlay?.addEventListener("click", (e) => { if (e.target === overlay) close(); });
     document.querySelectorAll('[data-action="close-search"]').forEach((el) => el.addEventListener("click", close));
   })();
 </script>

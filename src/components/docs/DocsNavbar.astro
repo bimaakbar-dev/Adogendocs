@@ -2,8 +2,6 @@
 // src/components/docs/DocsNavbar.astro
 import { NAV } from "@/consts";
 import Select from "@ui/Select.astro";
-import SearchBar from "@ui/SearchBar.astro";
-import Logo from "@ui/Logo.astro";
 
 const currentPath = Astro.url.pathname;
 
@@ -23,16 +21,12 @@ const activeNavItem = navItems.find((item) => {
 ---
 
 <header>
-  <div class="flex flex-col mb-4 gap-2 px-4">
-    <div>
-      <Logo />
-    </div>
+  <div class="flex flex-col gap-3 px-4">
     <Select 
       size="md"
       options={navItems} 
       selectedValue={activeNavItem?.value} 
       placeholder="Select Page"
     />
-    <SearchBar />
   </div>
 </header>

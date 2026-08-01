@@ -43,24 +43,13 @@ if (totalPages <= 7) {
 }
 
 const $ = {
-  nav: "flex justify-center pt-10",
-
+  nav: "flex justify-center",
   list: "flex items-center gap-2",
-
-  item:
-    "ring-1! ring-(--border-subtle)/40! text-body-14",
-
-  active:
-    "bg-(--bg-subtle) text-(--accent-fg)",
-
-  disabled:
-    "pointer-events-none opacity-40",
-
-  dots:
-    "text-(--fg-muted)",
-
-  icon:
-    "size-4.5",
+  item: "ring-1! ring-(--border-subtle)/80! text-body-14",
+  active: "bg-(--fg-strong)! text-(--fg-inverted)! ring-transparent!",
+  disabled: "pointer-events-none opacity-40",
+  dots: "text-(--fg-muted)",
+  icon: "size-4.5",
 };
 ---
 

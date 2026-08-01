@@ -60,8 +60,8 @@ const readingTime = getReadingTime(content);
 const Header = "space-y-6";
 const Cover = "prose overflow-hidden";
 const CoverImage = "aspect-video w-full h-auto object-cover";
-const Title = "text-heading-32 md:text-heading-40 font-semibold tracking-tight leading-tight text-balance text-(--fg-strong)";
-const Description = "max-w-3xl text-body-16 leading-relaxed text-(--fg-muted)/80";
+const Title = "text-heading-32 md:text-heading-40 font-semibold text-balance text-(--fg-strong)";
+const Description = "max-w-3xl text-body-16 text-(--fg-muted) text-pretty";
 const Meta = "flex flex-wrap items-center gap-2 text-body-14 text-(--fg-muted)";
 const Item = "inline-flex items-center gap-1.5";
 const Divider = "text-(--fg-muted)/50";
@@ -78,22 +78,20 @@ const Divider = "text-(--fg-muted)/50";
     <div class={Meta}>
       <span class={Item}>
         <span class="text-(--fg-muted)">Ditulis oleh </span>
-        <span data-pagefind-meta="author" class="text-(--fg-strong)">{Author.name}</span>
+        <span data-pagefind-meta="author" class="text-(--fg-strong)" set:html={Author.name} />
       </span>
     </div>
-    <h1 data-pagefind-meta="title" class={Title}>{title}</h1>
+    <h1 data-pagefind-meta="title" class={Title} set:html={title} />
     <div class={Meta}>
       {pubDate && (
         <p class={Item}>
-          <time data-pagefind-meta="date" data-pagefind-sort="date" datetime={pubDate.toISOString()}>
-            {formatDate(pubDate)}
-          </time>
+          <time data-pagefind-meta="date" data-pagefind-sort="date" datetime={pubDate.toISOString()} set:html={formatDate(pubDate)} />
         </p>
       )}
       <span aria-hidden="true" class={Divider}>/</span>
-      <span class={Item}>{readingTime}</span>
+      <span class={Item} set:html={readingTime} />
     </div>
-    <p data-pagefind-meta="description" class={Description}>{description}</p>
+    <p data-pagefind-meta="description" class={Description} set:html={description} />
     {cover && (
       <figure class={Cover}>
         <img

@@ -34,11 +34,21 @@ const {
   ...rest
 } = Astro.props;
 
+const BaseClasses = [
+  'min-w-0 gap-1.5',
+  'ring-1 border'
+].join(" ");
+
+const HoverClasses = [
+  'cursor-pointer',
+  'hover:ring-(--accent) hover:shadow-(--shadow-md)'
+].join(" ");
+
 const variantClasses: Record<CardVariant, string> = {
-  default: "ring-transparent bg-(--bg-subtle)",
-  primary: "ring-(--border)/80 bg-(--bg)/80",
-  secondary: "ring-(--border-subtle)/80 bg-(--bg-subtle)",
-  outline: "ring-(--border-strong)/80 bg-transparent"
+  default: "bg-(--bg-subtle) ring-transparent border-transparent",
+  primary: "bg-(--bg)/80 ring-(--border-subtle)/80 border-transparent",
+  secondary: "bg-(--bg-subtle) ring-(--border-subtle)/80 border-transparent",
+  outline: "bg-transparent ring-(--border-subtle)/80 border-transparent"
 };
 
 const paddingMap: Record<CardPadding, string> = {
@@ -56,11 +66,11 @@ const radiusMap: Record<CardRadius, string> = {
 };
 
 const cardClasses = [
-  'ring-1 min-w-0',
+  BaseClasses,
   variantClasses[variant],
   paddingMap[padding],
   radiusMap[radius],
-  hover && "cursor-pointer hover:shadow-(--shadow-md)",
+  hover && HoverClasses,
   className,
 ];
 ---
