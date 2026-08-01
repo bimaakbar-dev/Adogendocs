@@ -14,6 +14,7 @@ import Hero from "@/components/Hero.astro";
 import LatestBlog from '@/components/blog/BlogLatest.astro';
 import Button from '@/components/ui/Button.astro';
 import Icons from '@/components/ui/Icons.astro';
+import HeroImage from '@/assets/images/houston.webp';
 
 const allBlog = await getCollection('blog');
 const latestBlog = allBlog
@@ -37,7 +38,7 @@ const meta = buildMeta({
     <Container size="xl">
       <Section size="sm">
         <Hero 
-          tagline={SITE.tagline} 
+          image={HeroImage}
           title={SITE.description}
           action={ROUTES.docs}
           actionLabel='Get Started'

@@ -4,7 +4,6 @@
 import { getCollection } from "astro:content";
 import {
   SITE,
-  ROUTES,
   PAGINATION,
   buildMeta,
   schemaWebPage,
@@ -13,10 +12,9 @@ import {
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
+import BlogHero from "@/components/blog/BlogHero.astro";
 import BlogCard from "@/components/blog/BlogCard.astro";
-import Pagination from "@/components/blog/BlogPagination.astro";
-import Icon from "@/components/ui/Icons.astro";
-import Button from "@/components/ui/Button.astro";
+import Pagination from "@/components/Pagination.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -86,80 +84,48 @@ const schema = schemaWebPage({
 <Layout meta={meta} schema={schema}>
   <Section size="md">
     <Container size="lg">
-      <header class="relative overflow-hidden items-center ring-1 ring-(--border)/0 rounded-sm bg-(--bg-subtle)/40 px-4 py-10 md:px-10 md:py-14 mb-8 w-full">
-        <div class="absolute top-0 inset-x-0 h-px w-full bg-linear-to-r from-transparent via-(--accent)/50 to-transparent opacity-50"></div>
-        <div class="absolute -top-24 -right-10 w-160 h-160 bg-(--accent)/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <div class="absolute bottom-0 left-10 w-120 h-120 bg-(--accent)/10 rounded-full blur-[80px] pointer-events-none translate-y-1/2"></div>
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(128,128,128,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(128,128,128,0.1)_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_80%_80%_at_50%_0%,#000_40%,transparent_100%)] pointer-events-none z-0"></div>
-        <div class="absolute -bottom-6 -right-6 text-[10rem] md:text-[14rem] font-black text-(--fg-strong) opacity-[0.03] dark:opacity-[0.05] select-none pointer-events-none tracking-tighter leading-none z-0">
-          BLOG
-        </div>
-        <div class="absolute inset-0 z-0 pointer-events-none mix-blend-overlay opacity-[0.35] dark:opacity-[0.15]">
-          <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <filter id="noiseFilter">
-              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
-            </filter>
-            <rect width="100%" height="100%" filter="url(#noiseFilter)"></rect>
-          </svg>
-        </div>
-        <div class="relative z-10 flex items-start justify-between w-full gap-6">
-          <div class="max-w-xl">
-            <h1 class="text-heading-32 font-semibold text-(--fg-strong) mb-2 text-balance">
-              {blog.title}
-            </h1>
-            <p class="text-body-16 text-(--fg-muted) text-pretty">
-              {blog.description}
-            </p>
+      <Section size="none" class="pb-4 md:pb-6">
+        <BlogHero {...blog} />
+      </Section>
+    </Container>
+    <Section size="sm">
+      <Container size="lg">
+        {currentPage === 1 && featuredPosts && featuredPosts.length > 0 && (
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+            {featuredPosts.map((post, index) => (
+              <BlogCard entry={post} index={index} />
+            ))}
           </div>
-          <Button
-            aria-label="RSS Feed"
-            title="RSS Feed"
-            variant="secondary"
-            size="md"
-            href={ROUTES.rss}
-            prefix={<Icon name="rss" class="size-4.5" />}
-            class="text-button-14">
-            Subscribe
-          </Button>
+        )}
+      </Container>
+      <Container size="lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {displayPosts.map((post, index) => {
+            const cleanPostData = {
+              ...post,
+              data: {
+                ...post.data,
+                cover: undefined
+              }
+            };
+            
+            return <BlogCard entry={cleanPostData} index={index + 3} />;
+          })}
         </div>
-      </header>
-    </Container>
-    <Container size="lg">
-      {currentPage === 1 && featuredPosts && featuredPosts.length > 0 && (
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
-          {featuredPosts.map((post, index) => (
-            <BlogCard entry={post} index={index} />
-          ))}
-        </div>
-      )}
-    </Container>
-    <Container size="lg">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        {displayPosts.map((post, index) => {
-          const cleanPostData = {
-            ...post,
-            data: {
-              ...post.data,
-              cover: undefined
-            }
-          };
-          
-          return <BlogCard entry={cleanPostData} index={index + 3} />;
-        })}
-      </div>
-    </Container>
-    <Container size="lg">
-      {totalPages > 1 && (
-        <div class="mt-10">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            href={(page) =>
-              page === 1 ? "/blog" : `/blog/${page}`
-            }
-          />
-        </div>
-      )}
-    </Container>
+      </Container>
+      <Container size="lg">
+        {totalPages > 1 && (
+          <div class="mt-10">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              href={(page) =>
+                page === 1 ? "/blog" : `/blog/${page}`
+              }
+            />
+          </div>
+        )}
+      </Container>
+    </Section>
   </Section>
 </Layout>
