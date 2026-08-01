@@ -48,19 +48,3 @@ const {
     Cari...
   </Button>
 )}
-
-<script>
-  (() => {
-    const initSearchTrigger = () => {
-      const triggers = document.querySelectorAll("[data-drawer-trigger]");
-      
-      triggers.forEach((trigger) => {
-        trigger.addEventListener("click", (e) => {
-          e.preventDefault();
-          document.dispatchEvent(new CustomEvent("open-search"));
-        });
-      });
-    };
-    initSearchTrigger();
-  })();
-</script>
