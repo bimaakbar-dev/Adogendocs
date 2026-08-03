@@ -1,5 +1,5 @@
 ---
-// src/pages/docs/[...slug].astro
+// src/pages/blog/[...slug].astro
 import { 
   getCollection, 
   render 
@@ -7,8 +7,10 @@ import {
 
 import { 
   buildMeta, 
-  schemaWebPage, 
-  SITE 
+  schemaArticle,
+  schemaBreadcrumb,
+  SITE,
+  ROUTES
 } from "@/consts";
 
 import { components } from "@components/mdx/MDXComponents";
@@ -67,14 +69,12 @@ const cleanSlug = Astro.params.slug;
 const currentUrl = `${SITE.url}/blog/${cleanSlug}`;
 
 const breadcrumbItems = [
-  { label: "Blog", href: "/blog" },
+  { label: "Beranda", href: ROUTES.home },
+  { label: "Blog", href: ROUTES.blog },
+  ...(entry.data.category
+    ? [{ label: entry.data.category, href: currentUrl }]
+    : []),
 ];
-
-if (entry.data.category) {
-  breadcrumbItems.push({
-    label: entry.data.category, href: currentUrl
-  });
-}
 
 const metaProps = buildMeta({
   title: entry.data.seo.title,
@@ -87,14 +87,27 @@ const metaProps = buildMeta({
   authorName: entry.data.author.name,
 });
 
-const pageSchema = schemaWebPage({
-  title: entry.data.title,
-  description: entry.data.description || SITE.description,
-  url: currentUrl,
-});
+const schema = [
+  schemaArticle({
+    title: entry.data.title,
+    description: entry.data.description || SITE.description,
+    url: currentUrl,
+    image: entry.data.seo.ogImage,
+    datePublished: entry.data.pubDate?.toISOString(),
+    dateModified: entry.data.lastUpdated?.toISOString(),
+    authorName: entry.data.author.name,
+  }),
+  schemaBreadcrumb([
+    { name: "Beranda", url: SITE.url },
+    { name: "Blog", url: `${SITE.url}/blog` },
+    ...(entry.data.category
+      ? [{ name: entry.data.category, url: currentUrl }]
+      : []),
+  ]),
+];
 ---
 
-<BlogLayout meta={metaProps} schema={pageSchema}>
+<BlogLayout meta={metaProps} schema={schema}>
   <div data-pagefind-weight="3" class="hidden" />
   <MobileToc title={entry.data.title} headings={headings} />
   <Fragment slot="left">
