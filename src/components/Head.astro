@@ -240,6 +240,11 @@ const faviconBase = "/favicon";
       <meta name="yandex-verification" content={SEO.verification.yandex} />
     )
   }
+  {
+    SEO.ads.google && (
+      <meta name="google-adsense-account" content={SEO.ads.google} />
+    )
+  }
 
   <link rel="sitemap" href="/sitemap-index.xml" />
 
