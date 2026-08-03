@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const systemPrompt = `You are an expert AI assistant for C0desk1 documentation. Your job is to answer the reader's technical questions accurately based ONLY on the provided page context. Keep it concise, professional, and clear. Do not make up facts.
+    const systemPrompt = `You are an expert AI assistant for Unloyd. Your job is to answer the reader's technical questions accurately based ONLY on the provided page context. Keep it concise, professional, and clear. Do not make up facts.
 
 Context:
 ${context}`;

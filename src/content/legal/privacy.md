@@ -1,77 +1,180 @@
 ---
 slug: "privacy-policy"
 title: "Privacy Policy"
-description: "How Adogen handles your data and protects your privacy"
-lastUpdated: 2026-06-05T00:12Z
+description: Privacy policy of C0desk1 regarding data collection, cookies, advertising, and user rights.
+lastUpdated: 2026-05-25T15:04Z
+seo:
+  title: Privacy Policy
+  description: Read C0desk1's privacy policy to understand how we collect, use, and protect your personal data, including our use of Google and Yandex services.
+  noIndex: false
 ---
 
-**Effective Date:** January 15, 2025
+Welcome to **C0desk1** (c0desk1.my.id). Your privacy is important to us. This Privacy Policy explains what information we collect, how we use it, and your rights regarding that information when you visit our website.
 
-At Adogen, your privacy is our priority. This Privacy Policy explains how we handle your information when you use our tool.
+We comply with applicable privacy laws, including the General Data Protection Regulation (GDPR) and ePrivacy Directive, and we work with advertising partners such as **Google AdSense** and **Yandex Ads** to display relevant ads.
 
 ---
 
-## 1. Information We Do NOT Collect
+## 1. Information We Collect
 
-Adogen is designed to be **privacy-first**. We do **not** collect, store, or have access to:
+We may collect the following types of data:
 
-- Your images (processed entirely in your browser)
-- Your generated metadata
-- Your API keys (stored locally in your browser's localStorage)
-- Any personal information (name, email, payment details)
+| Category | Examples | Method |
+|----------|----------|--------|
+| **Technical data** | IP address, browser type, device, operating system, screen resolution | Automatically via analytics & server logs |
+| **Usage data** | Pages visited, time spent, clicks, scroll depth, referral source | Automatically via analytics (Google Analytics, Yandex Metrica) |
+| **Communication data** | Name, email address, message content | Submitted via contact or comment forms |
+| **Cookies & similar technologies** | User preferences, session IDs, ad tracking identifiers | Stored on your device (see Section 4) |
 
-## 2. How Your Data is Handled
+We do **not** collect sensitive personal data (e.g., health, political opinions, biometric data).
 
-### Images
+---
 
-When you upload an image, it is **resized locally in your browser** and sent directly to your chosen AI engine. We do **not** store, cache, or log your images on our servers.
+## 2. How We Use Your Information
 
-### API Keys
+We use the collected information for the following purposes:
 
-Your API keys are stored **locally in your browser** using localStorage. They are only transmitted to your chosen AI engine when making generation requests. We never see or store your keys.
+- To operate, maintain, and improve the website
+- To analyze traffic, user behavior, and performance (using Google Analytics & Yandex Metrica)
+- To personalize content and user experience (e.g., dark/light mode preference)
+- To serve relevant advertisements through **Google AdSense** and **Yandex Ads**
+- To respond to your inquiries or comments
+- To detect and prevent fraud or security issues
 
-### Settings & History
+We do **not** sell your personal data to third parties.
 
-All your preferences (max title length, max keywords, delay, custom prompts) and generation history are saved **locally in your browser**. You can clear them at any time.
+---
 
-## 3. Third-Party AI Engines
+## 3. Third-Party Services (Data Processors)
 
-When you generate metadata, your image and API key are forwarded to the AI engine you selected:
+We use the following third-party services that may process your data:
 
-- **Groq** – [Privacy Policy](https://groq.com/privacy/)
-- **Mistral AI** – [Privacy Policy](https://mistral.ai/privacy/)
-- **OpenRouter** – [Privacy Policy](https://openrouter.ai/privacy)
-- **Cloudflare** – [Privacy Policy](https://www.cloudflare.com/privacypolicy/)
-- **Custom Endpoint** – Refer to your provider's policy
+| Service | Function | Data Location | Privacy Policy |
+|---------|----------|---------------|----------------|
+| **Google Analytics** | Traffic analysis | Google servers (US/EU) | [Google Privacy](https://policies.google.com/privacy) |
+| **Yandex Metrica** | Traffic analysis | Yandex servers (Russia/EU) | [Yandex Privacy](https://yandex.com/legal/confidential/) |
+| **Google AdSense** | Advertising | Google servers | [Google AdSense](https://policies.google.com/technologies/ads) |
+| **Yandex Ads** | Advertising | Yandex servers | [Yandex Ads](https://yandex.com/legal/advertising/) |
+| **Cloudflare** | CDN, DDoS protection, security | Global | [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/) |
+| **GitHub** | Hosting (repository) | GitHub servers | [GitHub Privacy](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) |
 
-Please review their respective privacy policies for details on how they handle your data.
+These third parties may collect and process your data according to their own privacy policies. We recommend you review them.
 
-## 4. Cookies
+---
 
-Adogen does **not** use any cookies.
+## 4. Cookies & Similar Technologies
 
-## 5. Data Retention
+This website uses **cookies** and similar tracking technologies to enhance functionality, analyze traffic, and serve personalized ads.
 
-Since we do not collect any data, there is nothing to retain. All your data remains in your browser and is under your control.
+### What are cookies?
+Cookies are small text files stored on your device when you visit a website. They help remember your preferences and track your activity.
 
-## 6. Your Rights
+### Types of cookies we use:
 
-You have full control over your data:
+| Type | Purpose | Examples |
+|------|---------|----------|
+| **Strictly Necessary** | Required for basic site functions (navigation, security) | Session cookies, load balancing |
+| **Preference Cookies** | Remember your settings (theme, language) | Dark/light mode, font size |
+| **Analytics Cookies** | Collect anonymous usage statistics | Google Analytics, Yandex Metrica |
+| **Advertising Cookies** | Deliver relevant ads, limit ad frequency | Google AdSense, Yandex Ads |
 
-- **Access** – All your data is visible in your browser (settings, history).
-- **Delete** – Clear your data at any time using the in-app buttons or your browser's localStorage settings.
-- **Portability** – Export your generation history as CSV from the History page.
+### Consent Management (CMP)
+We use a **Consent Management Platform** to obtain and manage your cookie preferences. When you first visit our website, a banner will appear allowing you to accept, reject, or customize your cookie settings. You can change your preferences at any time by clicking the "Cookie Preferences" link in the footer.
 
-## 7. Children's Privacy
+**Your choices:**
+- Accept all cookies
+- Reject non-essential cookies (only necessary cookies will be used)
+- Manage specific vendor preferences
 
-Adogen is not intended for children under 13. We do not knowingly collect data from children.
+Without accepting advertising cookies, you will still see ads, but they may be less relevant (non-personalized).
 
-## 8. Changes to This Policy
+---
 
-We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.
+## 5. Advertising & Mediation
 
-## 9. Contact
+This website uses **Google AdSense** and **Yandex Ads** to display relevant advertisements.
 
-If you have any questions about this Privacy Policy, contact us at:
+### How Google AdSense works:
+- Google uses cookies to serve ads based on your prior visits to our website or other websites.
+- Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our site and/or other sites on the Internet.
+- You may opt out of personalized advertising by visiting [Google Ad Settings](https://adssettings.google.com/).
 
-**Email:** hello@adogen.dev
+### How Yandex Ads works:
+- Yandex Ads may collect data about your browsing behavior to show you relevant advertisements.
+- You can manage your ad preferences at [Yandex Ad Settings](https://yandex.com/support/ad-settings/).
+
+### Opt-out options:
+- **Google Ad Settings**: [https://adssettings.google.com/](https://adssettings.google.com/)
+- **Yandex Ad Settings**: [https://yandex.com/support/ad-settings/](https://yandex.com/support/ad-settings/)
+- **Network Advertising Initiative (NAI)** opt-out: [https://optout.networkadvertising.org/](https://optout.networkadvertising.org/)
+- **Your Online Choices (EDAA)**: [https://www.youronlinechoices.com/](https://www.youronlinechoices.com/)
+
+---
+
+## 6. Data Retention
+
+We retain your personal data only as long as necessary for the purposes outlined in this policy:
+
+- **Analytics data**: 14–26 months (Google Analytics), 12 months (Yandex Metrica)
+- **Ad tracking data**: up to 13 months (Google & Yandex partners)
+- **Contact form messages**: 12 months (or until resolved)
+
+After the retention period, data is automatically deleted or anonymized.
+
+---
+
+## 7. Data Security
+
+We implement reasonable security measures to protect your data from unauthorized access, alteration, or disclosure. These include:
+
+- SSL/TLS encryption (HTTPS)
+- Regular software updates
+- Restricted access to personal data
+
+However, **no method of transmission over the Internet is 100% secure**. We cannot guarantee absolute security.
+
+---
+
+## 8. Children's Privacy
+
+Our website is **not intended for children under the age of 13** (or under 16 in certain jurisdictions). We do not knowingly collect personal data from children. If you believe we have inadvertently collected data from a child, please contact us immediately, and we will delete it.
+
+---
+
+## 9. Your Rights (Based on Your Location)
+
+Depending on your jurisdiction (e.g., EU/EEA, UK, Brazil, California), you may have the following rights:
+
+- **Right to access** – Request a copy of your personal data.
+- **Right to rectification** – Correct inaccurate or incomplete data.
+- **Right to erasure** (right to be forgotten) – Request deletion of your data.
+- **Right to restrict processing** – Limit how we use your data.
+- **Right to data portability** – Receive your data in a structured, machine-readable format.
+- **Right to object** – Object to processing for direct marketing or legitimate interests.
+- **Right to withdraw consent** – Withdraw previously given consent (e.g., cookies).
+
+To exercise these rights, contact us at: [Contact](/contact). We will respond within 30 days.
+
+For EU residents, you also have the right to lodge a complaint with your local Data Protection Authority (DPA).
+
+---
+
+## 10. Do Not Track (DNT)
+
+Our website does not currently respond to "Do Not Track" signals because no standard has been adopted. However, you can still control cookies and ad personalization through the consent banner and browser settings.
+
+---
+
+## 11. Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or third-party services. Any updates will be posted on this page with a revised "Last Updated" date.
+
+We encourage you to review this page periodically. Continued use of the website after changes constitutes acceptance of the updated policy.
+
+---
+
+## 12. Contact Us
+
+If you have any questions, concerns, or requests regarding this Privacy Policy or your data, please contact us at [Contact](/contact).
+
+For privacy-related issues, you may also reach our data protection officer (if applicable) at the same email.

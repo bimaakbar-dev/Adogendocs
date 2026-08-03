@@ -1,0 +1,73 @@
+---
+// src/pages/contact/index.astro
+import { 
+  SITE, 
+  ROUTES, 
+  NAV, 
+  buildMeta, 
+  schemaWebPage, 
+  schemaOrganization, 
+  schemaBreadcrumb 
+} from "@/consts";
+
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/ui/Container.astro";
+import Section from "@/components/ui/Section.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import ContactForm from "@ui/ContactForm.astro";
+import Icon from "@ui/Icons.astro";
+
+const pageTitle = "Kontak";
+const pageDesc = "Punya proyek atau sekadar ingin menyapa? Isi formulir di bawah dan kami akan merespons dalam 1×24 jam.";
+
+const currentPath = Astro.url.pathname;
+const canonicalURL = new URL(currentPath, SITE.url).href;
+
+const meta = buildMeta({
+  title: pageTitle,
+  description: pageDesc,
+  canonical: canonicalURL,
+  ogType: "website", 
+});
+
+const schemas = [
+  schemaWebPage({ title: pageTitle, description: pageDesc, url: canonicalURL, type: "ContactPage" }),
+  schemaOrganization,
+  schemaBreadcrumb([
+    { name: "Beranda", url: SITE.url },
+    { name: pageTitle, url: canonicalURL },
+  ]),
+];
+
+const email = SITE.email;
+
+const breadcrumbItems = [
+  { label: "Beranda", href: ROUTES.home || "/" },
+  { label: pageTitle, href: currentPath },
+];
+---
+
+<Layout {meta} schema={schemas}>
+  <Section size="lg">
+    <Section size="sm">
+      <Container size="lg">
+        <div class="flex items-center self-start">
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
+      </Container>
+    </Section>
+    <Section size="sm">
+      <Container size="lg">
+        <div class="max-w-2xl mb-12">
+          <h1 class="text-heading-32 md:text-heading-40 lg:text-heading-56 font-semibold text-balance mb-4">
+            Mari bekerja sama.
+          </h1>
+          <p class="text-body-16 text-(--fg-muted) max-w-xl text-pretty">
+            {pageDesc}
+          </p>
+        </div>
+        <ContactForm />
+      </Container>
+    </Section>
+  </Section>
+</Layout>

@@ -16,10 +16,10 @@ export const GET: APIRoute = async (context) => {
   });
 
   return rss({
-    title: `Blog | ${SITE.name}`,
+    title: `${SITE.name} Blog`,
     description: SITE.description || 'Latest articles, tutorials and updates.',
     site: context.site ?? SITE.url, 
-    trailingSlash: false,
+    trailingSlash: true,
     customData: `<language>${SITE.lang || 'id'}</language>`,
     
     items: sortedBlog.map((post) => {
