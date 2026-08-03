@@ -20,7 +20,7 @@ const {
     variant="icon"
     size="md"
     thisIcon>
-    <Icon name="search" fill class="h-5 w-5"
+    <Icon name="search" fill class="size-4.5"
     />
   </Button>
 )}
@@ -30,11 +30,12 @@ const {
     aria-label="Buka pencarian"
     variant="outline"
     size="md"
+    block
     class:list={[
-      "group flex items-center text-(--fg-muted) justify-between w-auto rounded-md! px-2",
+      "group flex items-center text-(--fg-muted) justify-between w-auto rounded-md!",
       className
     ]}
-    prefix={<Icon name="search" fill class="h-4 w-4" />}
+    prefix={<Icon name="search" fill class="size-4" />}
     suffix={
       <div class="hidden items-center gap-1 font-mono text-[10px] font-medium text-(--fg-muted) transition-colors group-hover:text-(--fg) lg:flex select-none pointer-events-none">
         <kbd class="flex h-5 items-center justify-center rounded border border-(--border-subtle) bg-(--bg-muted) px-1.5 min-w-5 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">

@@ -38,8 +38,6 @@ export const components = {
   a: Link,
   FileTree,
   Code,
-  footnotes: Footnotes,
-  Footnotes,
   Kbd,
   Video,
   table: Table,

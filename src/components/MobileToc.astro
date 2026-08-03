@@ -212,7 +212,7 @@ const s =
       linksArray.forEach((link) => {
         const isActive = link.dataset.tocMobileSlug === active;
         link.classList.toggle("text-(--accent)", isActive);
-        link.classList.toggle("bg-(--bg-muted)/60", isActive);
+        link.classList.toggle("bg-(--accent)/10", isActive);
         link.classList.toggle("text-(--fg-muted)", !isActive);
 
         const parentLi = link.closest('li');

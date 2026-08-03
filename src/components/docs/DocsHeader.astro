@@ -16,12 +16,8 @@ const Description = "text-body-16 max-w-3xl leading-relaxed text-(--fg-muted)";
 ---
 
 <header data-pagefind-ignore class={Header}>
-  <h1 data-pagefind-meta="title" class={Title}>
-    {title}
-  </h1>
-  <p data-pagefind-meta="description" class={Description}>
-    {description}
-  </p>
+  <h1 data-pagefind-meta="title" class={Title} set:html={title} />
+  <p data-pagefind-meta="description" class={Description} set:html={description} />
   <div class="flex items-center justify-end">
     <ActionCopy rawMarkdown={content} />
   </div>

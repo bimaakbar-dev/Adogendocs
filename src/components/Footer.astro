@@ -5,8 +5,9 @@ import {
   NAV 
 } from "@/consts";
 
-import Container from "./ui/Container.astro";
-import Section from "./ui/Section.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+import Particles from "./ui/Particles.astro";
 import Socials from "./Socials.astro";
 import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
@@ -17,37 +18,46 @@ const copyrightYear =
   currentYear > SITE.foundingYear
     ? `${SITE.foundingYear}–${currentYear}`
     : SITE.foundingYear;
+
+const $ = {
+  wrapper: "relative mt-auto shrink-0 border-t border-(--border-subtle)/80",
+  group: "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3",
+  navigation: "flex flex-col gap-3 items-start",
+  label: "text-label-14 font-medium uppercase font-mono text-(--fg-strong)",
+  title: "text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong)",
+  meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60",
+  metaAction: "flex items-center gap-1.5"
+
+}
 ---
 
-<footer class="mt-auto shrink-0 border-t border-(--border-subtle)/40">
+<footer class={$.wrapper}>
+  <Particles />
   <Section size="sm">
     <Container size="lg">
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <div class={$.group}>
         <div class="flex items-start">
           <Logo />
         </div>
-        { NAV.footerBar.map((section) => (
-            <div>
-              <h3 class="mb-4 text-body-14 font-medium uppercase font-mono text-(--fg-strong)">
-                {section.title}
-              </h3>
-              <ul class="space-y-2">
-                {section.items.map((item) => (
-                  <li>
-                    <a href={item.href}
-                      class="text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong)">
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
+        {NAV.footerBar.map((section) => (
+          <div class={$.navigation}>
+            <h3 class={$.label} set:html={section.title} />
+            <ul class="space-y-1.5">
+              {section.items.map((item) => (
+                <li>
+                  <a href={item.href}
+                    class={$.title}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      <div class="flex flex-col-reverse sm:flex justify-between mt-8 border-t border-(--border)/40 pt-4 gap-4 items-center text-center text-sm text-(--fg-muted)/60">
+      <div class={$.meta}>
         Copyright {SITE.name} {copyrightYear}. All rights reserved.
-        <div class="flex items-center gap-1.5">
+        <div class={$.metaAction}>
           <Socials />
           <Theme />
         </div>
