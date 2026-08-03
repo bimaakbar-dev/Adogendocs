@@ -8,6 +8,9 @@ import PageFrame from "@/components/PageFrame.astro";
 import Sidebar from "@/components/ui/Sidebar.astro";
 import MobileHeader from "@/components/MobileHeader.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
+import Card from "@/components/ui/Card.astro";
+import Socials from "@/components/Socials.astro";
+import Theme from "@/components/Theme.astro";
 
 ---
 <Layout hideHeader>
@@ -16,6 +19,12 @@ import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
     <div class="flex-1 overflow-y-auto mb-0 scrollbar-hide">
       <DocsNavigation />
     </div>
+    <Card padding="xs" radius="sm" class="flex md:hidden items-center justify-between">
+      <div class="flex items-center">
+        <Socials />
+      </div>
+      <Theme />
+    </Card>
   </MobileHeader>
   <PageFrame>
     <aside class="bg-(--bg) rounded-none border-r border-(--border-subtle)/80 hidden sticky top-[calc(var(--header-height))] lg:block h-[calc(100vh)] w-full">

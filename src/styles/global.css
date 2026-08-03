@@ -391,7 +391,7 @@
   input[type="range"]::-moz-range-track {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    background-color: var(--bg-muted);
+    background-color: var(--bg-subtle);
     height: 6px;
   }
 
@@ -439,7 +439,7 @@
   meter::-webkit-meter-bar,
   meter::-moz-meter-bar {
     border-radius: var(--radius-md);
-    background-color: var(--bg-muted);
+    background-color: var(--bg-subtle);
   }
   progress::-webkit-progress-value {
     border-radius: var(--radius-md);

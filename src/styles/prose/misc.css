@@ -50,9 +50,15 @@ time {
 
 .prose mark {
   border-radius: var(--radius-xs);
-  background: rgb(from var(--color-chart-4) r g b / 0.3) !important;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-chart-4) 25%, transparent) 0%,
+    color-mix(in srgb, var(--color-chart-4) 15%, transparent) 100%
+  ) !important;
   padding: 0.1em 0.25em;
   color: var(--fg-strong);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .prose abbr[title] {
@@ -60,8 +66,6 @@ time {
   font-feature-settings: "calt" 1;
   text-decoration: none;
   cursor: help;
-  transition:
-    color var(--duration) var(--ease-out);
 }
 
 .prose abbr[title]:hover,
@@ -170,10 +174,31 @@ time {
 }
 
 .prose hr {
-  margin: 2rem 0;
+  position: relative;
+  margin: 2.5rem 0;
   border: none;
-  border-top: 1px solid color-mix(in srgb, var(--border-subtle) 60%, transparent);
-  
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border-subtle) 20%,
+    var(--border) 50%,
+    var(--border-subtle) 80%,
+    transparent
+  );
+  overflow: visible;
+}
+
+.prose hr::after {
+  content: "✦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  color: var(--border);
+  font-size: 0.8rem;
 }
 
 @media (max-width: 767px) {
