@@ -24,7 +24,7 @@ type Socials = {
 };
 
 export const SITE = {
-  name: "Arogant",
+  name: "Unloyd",
   tagline: "Beyond the Void",
   description: "Platform kuratif untuk pop culture, game, anime, tutorial, dan modding.",
   url: "https://c0desk1.my.id",
@@ -49,7 +49,8 @@ export const ORG = {
 export const ROUTES = {
   home: "/",
   anime: "/anime",
-  novel: "/novel",
+  cookie: "/cookie-policy",
+  contact: "/contact",
   about: "/about",
   docs: "/docs",
   blog: "/blog",
@@ -82,12 +83,14 @@ export const NAV = {
       items: [
         { label: "Documentation", href: ROUTES.docs },
         { label: "Blog", href: ROUTES.blog },
-        { label: "Archive", href: ROUTES.archive }
+        { label: "Archive", href: ROUTES.archive },
+        { label: "Contact", href: ROUTES.contact }
       ],
     },
     {
       title: "Legal",
       items: [
+        { label: "Cookie Policy", href: ROUTES.cookie },
         { label: "Privacy Policy", href: ROUTES.privacy },
         { label: "Terms of Service", href: ROUTES.terms },
       ],
@@ -95,7 +98,8 @@ export const NAV = {
   ] as FooterNav[],
   Social: [
     { label: "Github", href: "https://github.com/bimaakbar-dev", icon: "github" },
-    { label: "Instagram", href: "https://instagram.com/bimaakbarmusic", icon: "instagram" }
+    { label: "Facebook", href: "https://facebook.com/c0desk1Page", icon: "facebook" },
+    { label: "Whatsapp", href: "https://whatsapp.com/channel/0029VaxZggiFnSzHLKybx42h", icon: "whatsapp" },
   ] as Socials[]
 } as const;
 
@@ -126,10 +130,18 @@ export const SEO = {
     },
   },
   verification: {
-    google: "",
+    google: "ZxoHYWipAMoGhvwVi5nxolWsZOntrYkNkVcG9HTfFZQ",
     bing: "",
-    yandex: "",
+    yandex: "1878480c0d7b5510",
   },
+  ads: {
+    google: "ca-pub-4943136052113535",
+    yandex: "R-A-19179231"
+  },
+  analytics: {
+    google: "G-2TKFP229HJ",
+    yandex: "108731154"
+  }
 } as const;
 
 export const OG = {
