@@ -235,6 +235,45 @@ export function schemaWebPage(opts: {
   };
 }
 
+export function schemaArticle(opts: {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  datePublished?: string;
+  dateModified?: string;
+  authorName?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: opts.title,
+    description: opts.description,
+    url: opts.url,
+    inLanguage: SITE.lang,
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#website`,
+    },
+    ...(opts.image ? { image: opts.image } : {}),
+    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+    ...(opts.authorName
+      ? {
+          author: {
+            "@type": "Person",
+            name: opts.authorName,
+          },
+          publisher: {
+            "@type": "Organization",
+            name: SITE.name,
+            url: SITE.url,
+          },
+        }
+      : {}),
+  };
+}
+
 export function schemaSoftwareApplication(opts: {
   name: string;
   description: string;
