@@ -61,7 +61,9 @@ const {
 
 const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
 
-const currentUrl = `${SITE.url}/blog`;
+const currentUrl = currentPage === 1
+  ? `${SITE.url}/blog`
+  : `${SITE.url}/blog/${currentPage}`;
 
 const blog = {
   title: "Blog",
