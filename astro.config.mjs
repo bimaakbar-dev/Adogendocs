@@ -43,29 +43,16 @@ export default defineConfig({
   trailingSlash: "never",
   output: "static",
   markdown: {
-    syntaxHighlight: "shiki",
-    shikiConfig: {
-      themes: {
-        light: "github-light",
-        dark: "github-dark",
-      },
-      transformers: [
-        transformerMetaHighlight(),
-        transformerMetaWordHighlight(),
-        transformerNotationDiff({ matchAlgorithm: "v3" }),
-        transformerNotationHighlight({ matchAlgorithm: "v3" }),
-        transformerNotationWordHighlight({ matchAlgorithm: "v3" }),
-        transformerNotationErrorLevel({ matchAlgorithm: "v3" }),
-        transformerRemoveLineBreak(),
-      ],
-      wrap: false,
-    },
     processor: satteri({
       features: {
         directive: true,
         gfm: true,
-        math: true,
+        math: false,
         headingAttributes: true,
+        smartPunctuation: true,
+        wikilinks: true,
+        superscript: true,
+        subscript: true,
       },
       hastPlugins: [
         satteriHeadingIdsPlugin()
@@ -83,6 +70,23 @@ export default defineConfig({
         satteriTabs
       ],
     }),
+    syntaxHighlight: "shiki",
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      transformers: [
+        transformerMetaHighlight(),
+        transformerMetaWordHighlight(),
+        transformerNotationDiff({ matchAlgorithm: "v3" }),
+        transformerNotationHighlight({ matchAlgorithm: "v3" }),
+        transformerNotationWordHighlight({ matchAlgorithm: "v3" }),
+        transformerNotationErrorLevel({ matchAlgorithm: "v3" }),
+        transformerRemoveLineBreak(),
+      ],
+      wrap: false,
+    }
   },
   integrations: [
     mdx({
