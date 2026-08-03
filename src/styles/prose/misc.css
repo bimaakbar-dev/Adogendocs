@@ -19,9 +19,9 @@
 }
 
 .prose sup a {
-  transition: color var(--duration) var(--ease-out);
   color: inherit;
   text-decoration: none;
+  transition: color var(--duration) var(--ease-out);
 }
 
 .prose sup a:hover {
@@ -50,28 +50,24 @@ time {
 
 .prose mark {
   border-radius: var(--radius-xs);
-  background: rgb(from var(--color-chart-4) r g b / 0.2) !important;
+  background: rgb(from var(--color-chart-4) r g b / 0.3) !important;
   padding: 0.1em 0.25em;
   color: var(--fg-strong);
 }
 
 .prose abbr[title] {
-  transition:
-    color var(--duration) var(--ease-out);
-  cursor: help;
-  border-bottom: 1px dashed var(--border-subtle);
+  border-bottom: 1px dashed var(--border);
   font-feature-settings: "calt" 1;
   text-decoration: none;
+  cursor: help;
+  transition:
+    color var(--duration) var(--ease-out);
 }
 
-.prose abbr[title]:hover {
+.prose abbr[title]:hover,
+.prose abbr[title]:active {
   border-bottom-color: var(--fg-strong);
   color: var(--fg-strong);
-}
-
-.prose abbr[title]:active {
-  transition: none;
-  border-bottom-style: solid;
 }
 
 .prose cite {
@@ -105,7 +101,10 @@ time {
 }
 
 .prose dl {
-  margin: 20px 0;
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 1.5rem;
 }
 
 .prose dl :last-child {
@@ -113,20 +112,14 @@ time {
 }
 
 .prose dt {
-  margin-top: 16px;
   color: var(--fg-strong);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.prose dt:first-child {
-  margin-top: 0;
+  text-align: start;
 }
 
 .prose dd {
-  margin-top: 4px;
-  margin-left: 20px;
-  color: var(--fg-subtle);
+  margin: 0;
+  color: var(--fg);
+  text-align: start;
 }
 
 .prose dt + dd {
@@ -135,7 +128,6 @@ time {
 
 .prose address {
   @apply text-body-14;
-  transition: border-color var(--duration) var(--ease-out);
   margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -143,6 +135,7 @@ time {
   padding: 0.75rem 1rem;
   color: var(--fg-subtle);
   font-style: normal;
+  transition: border-color var(--duration) var(--ease-out);
 }
 
 .prose address:hover {
@@ -150,13 +143,14 @@ time {
 }
 
 .prose address a {
-  transition: border-color var(--duration) var(--ease-out);
   border-bottom: 1px solid transparent;
   color: var(--accent);
   text-decoration: none;
+  transition: border-color var(--duration) var(--ease-out);
 }
 
-.prose address a:hover {
+.prose address a:hover,
+.prose address a:active {
   border-bottom-color: var(--accent);
 }
 

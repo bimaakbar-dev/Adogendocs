@@ -24,23 +24,6 @@
   white-space: nowrap;
 }
 
-.prose .kbd-key:hover,
-.prose kbd:hover {
-  top: -1px;
-  cursor: pointer;
-  box-shadow: 0 2px 0 var(--border-strong);
-  border-bottom-width: 2px;
-  background: var(--bg-muted);
-}
-
-.prose kbd:active,
-.prose .kbd-key:active {
-  top: 1px;
-  box-shadow: 0 2px 0 var(--border-strong);
-  border-bottom-width: 1px;
-  background: var(--bg-muted);
-}
-
 .prose .kbd-separator {
   color: var(--fg);
   user-select: none;

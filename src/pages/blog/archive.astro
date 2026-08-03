@@ -210,10 +210,10 @@ const meta = buildMeta({
                   <Button
                     href={`#year-${year}`}
                     variant='outline'
-                    size='sm'
+                    size='md'
                     data-year-pill={year}
                     aria-current={i === 0 ? "true" : undefined}
-                    class:list={["year-pill rounded-full!", i === 0 && "is-active"]}>
+                    class:list={["year-pill", i === 0 && "is-active"]}>
                     {year}
                   </Button>
                 ))}
@@ -317,13 +317,9 @@ const meta = buildMeta({
     transform: translateX(2px);
   }
 
-  .year-pill {
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  }
   .year-pill.is-active {
     background-color: var(--accent) !important;
     color: var(--accent-fg) !important;
-    border-color: transparent !important;
   }
 
   .archive-year-block {

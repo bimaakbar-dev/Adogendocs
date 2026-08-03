@@ -44,14 +44,12 @@ const {
       <AiAsk />
     </Drawer>
     <Page>
-      <!--<Alert
-        title="ALERT"
-        message="Docs Khusus A0"
-        icon="virus"
-        actionLabel="Read docs"
-        actionHref="/docs"
-      />-->
       {!hideHeader && <Header />}
+      <Alert
+        message="Selamat datang di c0desk1"
+        actionLabel="Learn how to use"
+        actionHref="/docs"
+      />
       <slot />
       {!hideFooter && <Footer />}
     </Page>

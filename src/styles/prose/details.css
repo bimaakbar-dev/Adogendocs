@@ -1,5 +1,4 @@
 /* src/styles/prose/details.css */
-
 .prose .summary {
   @apply text-heading-14;
   cursor: pointer;
@@ -10,7 +9,7 @@
 .prose .summary::-webkit-details-marker {
   display: none;
 }
-
+.prose details :not(summary) *,
 .prose .content ul,
 .prose .content ol,
 .prose .content p {

@@ -1,7 +1,7 @@
 @media print {
   .prose a[href]::after {
     content: " (" attr(href) ")";
-    color: var(--prose-fg-subtle);
+    color: var(--fg-subtle);
     font-size: 0.75em;
   }
   .prose pre,

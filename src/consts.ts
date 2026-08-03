@@ -24,7 +24,7 @@ type Socials = {
 };
 
 export const SITE = {
-  name: "c0desk1",
+  name: "Arogant",
   tagline: "Beyond the Void",
   description: "Platform kuratif untuk pop culture, game, anime, tutorial, dan modding.",
   url: "https://c0desk1.my.id",

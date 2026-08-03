@@ -6,6 +6,7 @@
   color: var(--fg);
   font-size: inherit;
   line-height: inherit;
+  border-radius: var(--radius-sm);
 }
 
 .prose > table {

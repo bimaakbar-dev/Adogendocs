@@ -17,13 +17,14 @@ import Icons from '@/components/ui/Icons.astro';
 import HeroImage from '@/assets/images/houston.webp';
 
 const allBlog = await getCollection('blog');
+
 const latestBlog = allBlog
   .sort((a, b) => {
     const dateA = a.data.pubDate || new Date(0);
     const dateB = b.data.pubDate || new Date(0);
     return dateB.getTime() - dateA.getTime();
   })
-  .slice(0, 4);
+  .slice(0, 6);
 
 const meta = buildMeta({
   description: SITE.description,
