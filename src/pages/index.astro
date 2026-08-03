@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import {
   buildMeta,
   schemaWebPage,
+  schemaBreadcrumb,
   ROUTES,
   SITE,
 } from "@/consts";
@@ -34,14 +35,19 @@ const meta = buildMeta({
   keywords: [],
 });
 
-const schema = schemaWebPage({
-  title: SITE.name,
-  description: SITE.description,
-  url: SITE.url,
-});
+const schema = [
+  schemaWebPage({
+    title: SITE.name,
+    description: SITE.description,
+    url: SITE.url,
+  }),
+  schemaBreadcrumb([
+    { name: "Beranda", url: SITE.url },
+  ]),
+];
 ---
 
-<Layout {meta} isHome>
+<Layout {meta} {schema} isHome>
   <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
     <Container size="xl">
       <Section size="sm">
