@@ -1,9 +1,12 @@
 ---
+//src/pages/blog/archive.astro
+
 import { 
   getCollection, 
   type CollectionEntry 
 } from 'astro:content';
-import { buildMeta } from "@/consts";
+
+import { buildMeta, schemaWebPage, schemaBreadcrumb, SITE, ROUTES } from "@/consts";
 
 import Layout from '@/layouts/Layout.astro';
 import Section from "@/components/ui/Section.astro";
@@ -52,7 +55,7 @@ const archive = sortedPosts.reduce<GroupedArchive>((acc, post) => {
 
 const years = Object.keys(archive).map(Number).sort((a, b) => b - a);
 const currentYear = new Date().getFullYear();
-const activeYear = years.length > 0 ? years[0] : currentYear; 
+const activeYear = years.length > 0 ? years[0] : currentYear;
 
 const levelColors = {
   0: "bg-(--bg-muted)/50 ring-1 ring-(--border-subtle)/50 ring-inset",
@@ -102,36 +105,40 @@ const activeYearTotal = archive[activeYear] ? Object.values(archive[activeYear])
 const hasPosts = allPosts.length > 0;
 
 const monthsLabel = [
-  "Jan", 
-  "Feb", 
-  "Mar", 
-  "Apr", 
-  "Mei", 
-  "Jun", 
-  "Jul", 
-  "Ags", 
-  "Sep", 
-  "Okt", 
-  "Nov", 
-  "Des"
+  "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+  "Jul", "Ags", "Sep", "Okt", "Nov", "Des"
 ];
 
-const currentPath = Astro.url.pathname;
+const canonicalURL = `${SITE.url}/blog/archive`;
 
 const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Archive", href: currentPath },
+  { label: "Home", href: ROUTES.home},
+  { label: "Blog", href: ROUTES.blog },
+  { label: "Archive", href: ROUTES.archive },
 ];
 
 const meta = buildMeta({
   title: "Archive",
   description: "Arsip lengkap seluruh artikel blog berdasarkan tahun dan bulan terbit.",
-  canonical: currentPath,
+  canonical: canonicalURL,
   ogType: "website",
 });
+
+const schema = [
+  schemaWebPage({
+    title: "Archive",
+    description: "Arsip lengkap seluruh artikel blog berdasarkan tahun dan bulan terbit.",
+    url: canonicalURL,
+  }),
+  schemaBreadcrumb([
+    { name: "Beranda", url: SITE.url },
+    { name: "Blog", url: `${SITE.url}/blog` },
+    { name: "Archive", url: canonicalURL },
+  ]),
+];
 ---
 
-<Layout {meta}>
+<Layout {meta} {schema}>
   <Section size="md">
     <Container size="lg">
       <Section size="sm">
