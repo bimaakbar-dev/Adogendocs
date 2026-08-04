@@ -2,6 +2,7 @@
 // src/components/ui/DocsPager.astro
 import type { CollectionEntry } from "astro:content";
 import Icon from "@ui/Icons.astro";
+import { ROUTES } from "@/consts";
 
 interface Props {
   prev?: CollectionEntry<"docs"> | null;
@@ -17,7 +18,9 @@ const {
 
 const getHref = (item: CollectionEntry<"docs">) => {
   const isRoot = item.id === root;
-  return isRoot ? "/docs" : `/docs/${item.data.slug || item.id}`;
+  const cleanSlug = item.data.slug || item.id.replace(/\.(md|mdx)$/, '');
+  
+  return isRoot ? `${ROUTES.docs}/` : `${ROUTES.docs}/${cleanSlug}/`;
 };
 
 const aria = "Docs pagination";
