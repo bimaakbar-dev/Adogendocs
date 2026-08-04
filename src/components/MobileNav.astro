@@ -1,19 +1,24 @@
 ---
 // src/components/MobileNav.astro
-import { NAV } from "../consts";
+import { NAV, SITE } from "../consts";
 import Icon from "./ui/Icons.astro";
 import Socials from "./Socials.astro";
 import Theme from "./Theme.astro";
 import Card from "./ui/Card.astro";
 
 const currentPath = Astro.url.pathname;
+const baseUrl = SITE.url.replace(/\/$/, "");
 
 const links = [
-  ...NAV.mobileNavBar.map((item) => ({
-    label: item.label,
-    href: item.href,
-    icon: item.icon,
-  })),
+  ...NAV.mobileNavBar.map((item) => {
+    const isExternal = item.href.startsWith("http");
+    const href = isExternal ? item.href : `${baseUrl}${item.href.endsWith('/') ? item.href : `${item.href}/`}`;
+    return {
+      label: item.label,
+      href,
+      icon: item.icon,
+    };
+  }),
 ];
 
 const $ = {
@@ -63,22 +68,28 @@ const $ = {
 
   <div id="mobile-menu-panel" class={$.panel}>
     <nav class={$.panelWrapper}>
-      {links.map((item, i) => (
-        <a
-          aria-label={item.label}
-          href={item.href}
-          style={`transition-delay: ${i * 30}ms`}
-          class:list={[
-            $.panelItem,
-            currentPath === item.href 
-            ? "text-(--fg-strong)" 
-            : "text-(--fg-muted)"
-          ]}
-        >
-          <Icon name={item.icon as any} class={$.panelPrefix} />
-          {item.label}
-        </a>
-      ))}
+      {links.map((item, i) => {
+        const cleanHref = item.href.replace(/\/$/, "");
+        const cleanPath = currentPath.replace(/\/$/, "");
+        const isActive = cleanPath === cleanHref;
+
+        return (
+          <a
+            aria-label={item.label}
+            href={item.href}
+            style={`transition-delay: ${i * 30}ms`}
+            class:list={[
+              $.panelItem,
+              isActive 
+              ? "text-(--fg-strong)" 
+              : "text-(--fg-muted)"
+            ]}
+          >
+            <Icon name={item.icon as any} class={$.panelPrefix} />
+            {item.label}
+          </a>
+        );
+      })}
       <Card variant="outline" padding="xs" radius="sm" class="mt-4" style={`transition-delay: ${links.length * 30}ms`}>
         <div class={$.panelFooter}>
           <div class="flex items-center gap-1">
