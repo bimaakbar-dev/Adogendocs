@@ -1,8 +1,8 @@
 /* src/styles/prose/components/table.css */
 .prose table {
-  display: block;
+  display: table;
   width: 100%;
-  max-width: 100%;
+  min-width: 100%;
   color: var(--fg);
   font-size: inherit;
   line-height: inherit;
@@ -34,7 +34,7 @@
 }
 
 .prose thead {
-  background-color: rgb(from var(--bg-subtle) r g b / 0.5);
+  background-color: rgb(from var(--bg) r g b / 0.5);
 }
 
 .prose thead th {
@@ -54,9 +54,6 @@
   background-color: var(--bg-subtle);
 }
 
-.prose tbody tr {
-  transition: background-color 0.15s ease;
-}
 .prose tbody tr:hover {
   background-color: var(--bg-muted);
 }
@@ -69,6 +66,11 @@
 
 .prose th a,
 .prose td a {
+  white-space: normal;
+  word-break: break-all;
+}
+
+.prose thead th a {
   white-space: nowrap;
 }
 
