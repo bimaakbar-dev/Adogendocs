@@ -4,7 +4,8 @@ import type { CollectionEntry } from "astro:content";
 import { formatDateCompact } from "@lib/utils";
 import { 
   IMAGE, 
-  SITE 
+  SITE,
+  ROUTES // 1. IMPORT ROUTES DI SINI
 } from "@/consts";
 
 import Button from "@ui/Button.astro";
@@ -27,11 +28,12 @@ const {
   cover,
 } = entry.data;
 
-const href = `/blog/${slug || entry.id}`;
+const cleanSlug = slug || entry.id.replace(/\.(md|mdx)$/, '');
+const href = `${ROUTES.blog}/${cleanSlug}/`;
 
 const Author = {
-  avatar: author.avatar,
-  alt: author.name ?? SITE.name,
+  avatar: author?.avatar,
+  alt: author?.name ?? SITE.name,
   width: IMAGE.avatar.width,
   height: IMAGE.avatar.height
 }
@@ -81,14 +83,14 @@ const $ = {
             <time datetime={pubDate.toISOString()} set:html={formatDateCompact(pubDate)} />
           )}
         </p>
-        {author.avatar && (
+        {author?.avatar && (
           <div class={$.avatar}>
             <img
               src={Author.avatar}
               alt={Author.alt}
               width={Author.width}
               height={Author.height}
-              loading={imageLoading}           
+              loading={imageLoading}          
               decoding="async"
               fetchpriority={imagePriority}
               onerror={`this.onerror=null; this.src='${IMAGE.avatar.placeholder.src}'`}
