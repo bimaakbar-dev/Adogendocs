@@ -30,7 +30,7 @@ const AUTHOR = z.object({
     name: z.string(),
     role: z.string().optional(),
     avatar: z.string().optional(),
-  })
+  }).optional()
 });
 
 const blog = defineCollection({
@@ -49,8 +49,10 @@ const docs = defineCollection({
   loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
     ...METADATA.shape,
+    ...AUTHOR.shape,
     category: z.string().optional(),
     order: z.number().optional(),
+    draft: z.boolean().default(false),
     seo: SEO,
   }),
 });
@@ -58,7 +60,8 @@ const docs = defineCollection({
 const legal = defineCollection({
   loader: glob({ base: "./src/content/legal", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
-    ...METADATA.shape,
+  ...METADATA.shape,
+  seo: SEO,
   }),
 });
 
