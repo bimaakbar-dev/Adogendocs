@@ -4,23 +4,24 @@ import { getCollection } from 'astro:content';
 import { SITE, ROUTES } from '@/consts';
 
 export const GET: APIRoute = async ({ site }) => {
-  const baseUrl = site?.href || SITE.url;
+  const baseUrl = (site?.href || SITE.url).replace(/\/$/, '');
 
   const blog = await getCollection('blog', ({ data }) => !data.draft && !data.seo?.noIndex);
   const docs = await getCollection('docs', ({ data }) => !data.seo?.noIndex);
-  const legal = await getCollection('legal'); 
+  const legal = await getCollection('legal', ({ data }) => !data.seo?.noIndex); 
 
-  const urls: { loc: string; lastmod?: string }[] = [];
+  const urls: { loc: string; lastmod?: string; changefreq?: string; priority?: number }[] = [];
 
   const staticRoutes = [
-    ROUTES.home,
-    ROUTES.docs,
-    ROUTES.blog,
-    ROUTES.archive,
+    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },
+    { path: ROUTES.docs, priority: 0.9, changefreq: 'weekly' },
+    { path: ROUTES.blog, priority: 0.8, changefreq: 'weekly' },
+    { path: ROUTES.archive, priority: 0.5, changefreq: 'monthly' },
   ];
 
-  staticRoutes.forEach((route) => {
-    urls.push({ loc: new URL(route, baseUrl).href });
+  staticRoutes.forEach(({ path, priority, changefreq }) => {
+    const loc = path === '/' ? `${baseUrl}/` : `${baseUrl}${path}/`;
+    urls.push({ loc, priority, changefreq });
   });
 
   blog.forEach((post) => {
@@ -28,8 +29,10 @@ export const GET: APIRoute = async ({ site }) => {
     const date = post.data.lastUpdated || post.data.pubDate;
     
     urls.push({
-      loc: new URL(`/blog/${slug}`, baseUrl).href,
+      loc: `${baseUrl}${ROUTES.blog}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
+      changefreq: 'weekly',
+      priority: 0.7,
     });
   });
 
@@ -38,8 +41,10 @@ export const GET: APIRoute = async ({ site }) => {
     const date = doc.data.lastUpdated || doc.data.pubDate;
     
     urls.push({
-      loc: new URL(`/docs/${slug}`, baseUrl).href,
+      loc: `${baseUrl}${ROUTES.docs}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
+      changefreq: 'weekly',
+      priority: 0.9,
     });
   });
 
@@ -48,22 +53,24 @@ export const GET: APIRoute = async ({ site }) => {
     const date = item.data.lastUpdated || item.data.pubDate;
     
     urls.push({
-      loc: new URL(`/legal/${slug}`, baseUrl).href,
+      loc: `${baseUrl}/${slug}/`, 
       lastmod: date ? new Date(date).toISOString() : undefined,
+      changefreq: 'yearly',
+      priority: 0.2,
     });
   });
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map(
     (url) => `  <url>
     <loc>${url.loc}</loc>${
       url.lastmod ? `\n    <lastmod>${url.lastmod}</lastmod>` : ''
+    }${
+      url.changefreq ? `\n    <changefreq>${url.changefreq}</changefreq>` : ''
+    }${
+      url.priority ? `\n    <priority>${url.priority}</priority>` : ''
     }
   </url>`
   )
