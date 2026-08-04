@@ -19,6 +19,8 @@ const copyrightYear =
     ? `${SITE.foundingYear}–${currentYear}`
     : SITE.foundingYear;
 
+const baseUrl = SITE.url.replace(/\/$/, "");
+
 const $ = {
   wrapper: "relative mt-auto shrink-0 border-t border-(--border-subtle)/80",
   group: "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3",
@@ -27,7 +29,6 @@ const $ = {
   title: "text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong)",
   meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60",
   metaAction: "flex items-center gap-1.5"
-
 }
 ---
 
@@ -43,14 +44,20 @@ const $ = {
           <div class={$.navigation}>
             <h3 class={$.label} set:html={section.title} />
             <ul class="space-y-1.5">
-              {section.items.map((item) => (
-                <li>
-                  <a href={item.href}
-                    class={$.title}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {section.items.map((item) => {
+                const isExternal = item.href.startsWith("http");
+                const href = isExternal ? item.href : `${baseUrl}${item.href.endsWith('/') ? item.href : `${item.href}/`}`;
+                
+                return (
+                  <li>
+                    <a href={href}
+                      class={$.title}
+                      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
