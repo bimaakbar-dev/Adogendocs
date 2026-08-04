@@ -1,6 +1,8 @@
 /* src/styles/prose/components/table.css */
 .prose table {
+  display: block;
   width: 100%;
+  max-width: 100%;
   color: var(--fg);
   font-size: inherit;
   line-height: inherit;
@@ -8,9 +10,27 @@
   border-collapse: collapse;
   border-spacing: 0;
   margin: 2.5rem 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   outline: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
   outline-offset: 4px;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.prose table::-webkit-scrollbar {
+  height: 6px;
+}
+.prose table::-webkit-scrollbar-track {
+  background: transparent;
+}
+.prose table::-webkit-scrollbar-thumb {
+  background-color: var(--border-subtle);
+  border-radius: 10px;
+}
+.prose table::-webkit-scrollbar-thumb:hover {
+  background-color: var(--fg-muted);
 }
 
 .prose thead {
@@ -32,6 +52,13 @@
 .prose tbody,
 .prose tbody tr {
   background-color: var(--bg-subtle);
+}
+
+.prose tbody tr {
+  transition: background-color 0.15s ease;
+}
+.prose tbody tr:hover {
+  background-color: var(--bg-muted);
 }
 
 .prose th,
