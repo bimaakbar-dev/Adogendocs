@@ -2,6 +2,7 @@
 // src/components/ui/Button.astro
 import type { HTMLAttributes } from 'astro/types';
 import Spinner from './Spinner.astro';
+import Icons from './Icons.astro';
 
 type ButtonVariant =
   | 'accent'
@@ -25,6 +26,8 @@ export interface Props extends Omit<HTMLAttributes<'button'>, 'prefix'> {
   size?: ButtonSize;
   prefix?: any;
   suffix?: any;
+  prefixIcon?: string;
+  suffixIcon?: string;
   loading?: boolean;
   loadingText?: string;
   block?: boolean;
@@ -38,7 +41,9 @@ const {
   variant = 'primary',
   size = 'md',
   prefix,
+  prefixIcon,
   suffix,
+  suffixIcon,
   loading = false,
   loadingText,
   block = false,
@@ -85,8 +90,8 @@ const variantClasses: Record<ButtonVariant, string> = {
   ].join(" "),
 
   danger: [
-    'bg-(--error) text-white ring-transparent border-transparent',
-    'hover:bg-(--error)/90 active:scale-[0.98]'
+    'bg-(--color-error) text-white ring-transparent border-transparent',
+    'hover:bg-(--color-error)/90 active:scale-[0.98]'
   ].join(" "),
 
   icon: [
@@ -136,28 +141,24 @@ const textContainerClasses = [
       href={href}
       target={target}
       rel={rel}
-      class:list={['rounded-full no-underline', classes]}
+      class:list={['rounded-full no-underline!', classes]}
       aria-busy={loading || undefined}
       aria-disabled={isDisabled ? 'true' : undefined}
       {...(props as any)}
     >
       {loading && <Spinner size="sm" class="inline-block items-center shrink-0" />}
       
-      {prefix && !loading && (
-        <span class="inline-block items-center shrink-0">{prefix}</span>
-      )}
+      {!loading && (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
 
       {!isIconOnly && (
         <span class={textContainerClasses}>
           {loading && loadingText ? loadingText : <slot />}
         </span>
       )}
-
       {isIconOnly && !loading && <slot />}
 
-      {suffix && (
-        <span class="inline-block items-center shrink-0 ml-auto">{suffix}</span>
-      )}
+      {suffixIcon && !loading && <Icons name={suffixIcon} class="size-4" />}
+      {suffix && !loading && <span>{suffix}</span>}
     </a>
   ) : (
     <button
@@ -170,9 +171,7 @@ const textContainerClasses = [
     >
       {loading && <Spinner size="sm" class="inline-block items-center shrink-0" />}
       
-      {prefix && !loading && (
-        <span class="inline-block items-center shrink-0">{prefix}</span>
-      )}
+      {!loading && (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
 
       {!isIconOnly && (
         <span class={textContainerClasses}>
@@ -182,9 +181,8 @@ const textContainerClasses = [
 
       {isIconOnly && !loading && <slot />}
 
-      {suffix && (
-        <span class="inline-block items-center shrink-0 ml-auto">{suffix}</span>
-      )}
+      {suffixIcon && !loading && <Icons name={suffixIcon} class="size-4" />}
+      {suffix && !loading && <span>{suffix}</span>}
     </button>
   )
 }
