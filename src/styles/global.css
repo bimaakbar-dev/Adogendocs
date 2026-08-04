@@ -137,7 +137,7 @@
 
   --info: #395a7a;
   --info-soft: rgba(57, 90, 122, 0.12);
-  --info-fg: #ffffff;
+  --info-fg: #5c584f;
 
   --shadow-sm: 0 1px 2px rgba(31, 30, 28, 0.05);
   --shadow-md: 0 4px 12px -2px rgba(31, 30, 28, 0.08);
@@ -184,7 +184,7 @@
 
   --info: #6a93b8;
   --info-soft: rgba(106, 147, 184, 0.15);
-  --info-fg: #ffffff;
+  --info-fg: #a39d8c;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.8);
   --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.6);

@@ -1,41 +1,64 @@
 /* src/styles/prose/details.css */
-.prose .summary {
-  @apply text-heading-14;
-  cursor: pointer;
-  list-style: none;
+.prose details {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  margin: 1rem 0;
+  gap: 0;
+  border: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
   user-select: none;
 }
 
-.prose .summary::-webkit-details-marker {
-  display: none;
+.prose summary {
+  @apply text-heading-16;
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.prose details :not(summary) *,
-.prose .content ul,
-.prose .content ol,
-.prose .content p {
+
+.prose summary::marker,
+.prose summary::-webkit-details-marker {
+  display: none;
+  content: none;
+  color: transparent
+}
+
+.prose summary::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.125em;
+  height: 1.125em;
+  margin: 0;
+  color: var(--accent);
+  background-color: currentColor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.prose details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.prose details[open] :not(summary) * {
   @apply text-body-14;
 }
 
-.prose .content > *:first-child {
-  margin-top: 10px !important;
+.prose details[open] *:first-child {
+  margin-top: 0 !important;
 }
 
-.prose .content > *:last-child {
+.prose details[open] *:last-child {
   margin-bottom: 0 !important;
-}
-
-@media (min-width: 768px) {
-  .prose .summary {
-    @apply text-heading-14;
-  }
-
-  .prose .content ul,
-  .prose .content ol,
-  .prose .content p {
-    @apply text-body-16;
-  }
-
-  .prose .content > *:first-child {
-    margin-top: 12px !important;
-  }
 }

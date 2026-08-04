@@ -1,21 +1,20 @@
 /* src/styles/prose/components/table.css */
 .prose table {
-  border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
   color: var(--fg);
   font-size: inherit;
   line-height: inherit;
-  border-radius: var(--radius-sm);
-}
-
-.prose > table {
+  border-radius: var(--radius-md);
+  border-collapse: collapse;
+  border-spacing: 0;
   margin: 2.5rem 0;
   overflow: hidden;
+  outline: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
+  outline-offset: 4px;
 }
 
 .prose thead {
-  background: rgb(from var(--bg-subtle) r g b / 0.5);
+  background-color: rgb(from var(--bg-subtle) r g b / 0.5);
 }
 
 .prose thead th {
@@ -32,13 +31,13 @@
 
 .prose tbody,
 .prose tbody tr {
-  background: var(--bg-subtle);
+  background-color: var(--bg-subtle);
 }
 
 .prose th,
 .prose td {
   vertical-align: top;
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .prose th a,
@@ -59,7 +58,7 @@
 
 .prose tbody td {
   border-bottom: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
-  background: transparent;
+  background-color: transparent;
   color: var(--fg);
 }
 
@@ -82,7 +81,7 @@
 }
 
 @media (max-width: 767px) {
-  .prose > table {
+  .prose table {
     margin: 2rem 0;
   }
 

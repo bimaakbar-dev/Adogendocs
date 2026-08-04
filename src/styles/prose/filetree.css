@@ -1,5 +1,22 @@
 /* src/styles/prose/components/file-tree.css */
 
+.prose .file-tree details {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0;
+  border: none;
+}
+
+.prose .file-tree summary::before {
+  display: none;
+  content: none;
+  color: transparent
+}
+
+.prose .file-tree {
+  min-width: max-content;
+}
+
 .prose .file-tree,
 .prose .file-tree-list,
 .prose .file-tree-list ul,
@@ -10,8 +27,8 @@
   list-style: none;
 }
 
-.prose .file-tree {
-  min-width: max-content;
+.prose .file-tree-list *:first-child {
+  margin-top: 0 !important;
 }
 
 .prose .file-tree-list *:last-child {
@@ -26,7 +43,7 @@
 }
 
 .prose .file-tree-list li + li {
-  margin-top: 0.55rem;
+  margin-top: 0.5rem;
 }
 
 .prose .file-tree-children {
@@ -36,7 +53,7 @@
   margin-left: 0.45rem;
   border-left: 1px solid
     color-mix(in srgb, var(--border) 90%, transparent);
-  padding-left: 0.85rem;
+  padding-left: 1rem;
 }
 
 .prose .file-tree-folder.open > .file-tree-children {
@@ -94,7 +111,7 @@
 }
 
 .prose .file-tree-label.is-marked .file-name mark {
-  background-color: transparent !important;
+  background: none !important;
   color: inherit;
   font-weight: 600;
 }
