@@ -23,7 +23,7 @@ interface Props {
   };
   pubDate?: Date;
   content?: string;
-  author: {
+  author?: {
     name: string;
     role?: string;
     avatar?: string;
@@ -52,7 +52,7 @@ const HeroImage = {
 }
 
 const Author = {
-  name: author.name ?? SITE.name
+  name: author?.name ?? SITE.name
 }
 
 const readingTime = getReadingTime(content);
