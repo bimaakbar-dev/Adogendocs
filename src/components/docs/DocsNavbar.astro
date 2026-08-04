@@ -14,10 +14,14 @@ const navItems = NAV.navBar.map((item) => ({
 }));
 
 const activeNavItem = navItems.find((item) => {
-  if (item.href === "/") return currentPath === "/";
-  return currentPath.startsWith(item.href);
-});
+  const cleanHref = item.href.replace(/\/$/, "");
+  const cleanPath = currentPath.replace(/\/$/, "");
 
+  if (cleanHref === "") {
+    return cleanPath === "";
+  }
+  return cleanPath === cleanHref || cleanPath.startsWith(`${cleanHref}/`);
+});
 ---
 
 <header>
