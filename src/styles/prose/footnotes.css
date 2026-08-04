@@ -11,14 +11,16 @@
   background-color: rgb(from var(--bg-subtle) r g b / 0.5);
 }
 
-.prose section[data-footnotes] * {
-  @apply text-body-14;
-}
+
 
 .prose section[data-footnotes] h2,
 .prose section[data-footnotes] h2.sr-only {
-  @apply text-body-14;
+  margin-top: 0;
   display: hidden !important;
+}
+
+.prose section[data-footnotes] :not(h2) * {
+  @apply text-label-14
 }
 
 .prose .footnotes * :first-child,
