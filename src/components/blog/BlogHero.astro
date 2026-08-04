@@ -1,5 +1,5 @@
 ---
-import { ROUTES } from "@/consts";
+import { ROUTES, SITE } from "@/consts";
 import Section from "@ui/Section.astro";
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
@@ -13,6 +13,9 @@ const {
     title,
     description
 } = Astro.props;
+
+const baseUrl = SITE.url.replace(/\/$/, "");
+const rssUrl = `${baseUrl}${ROUTES.rss}`;
 
 const $ = {
     wrapper: "relative overflow-hidden items-center w-full",
@@ -44,7 +47,7 @@ const $ = {
                 title="RSS Feed"
                 variant="secondary"
                 size="md"
-                href={ROUTES.rss}
+                href={rssUrl}
                 prefix={<Icon name="rss" class="size-4.5" />}>
                 Subscribe
             </Button>
