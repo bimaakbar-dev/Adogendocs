@@ -1,5 +1,5 @@
 ---
-//src/pages/blog/archive.astro
+// src/pages/blog/archive.astro
 
 import { 
   getCollection, 
@@ -109,12 +109,13 @@ const monthsLabel = [
   "Jul", "Ags", "Sep", "Okt", "Nov", "Des"
 ];
 
-const canonicalURL = `${SITE.url}/blog/archive`;
+const baseUrl = SITE.url.replace(/\/$/, "");
+const canonicalURL = `${baseUrl}${ROUTES.archive}/`;
 
 const breadcrumbItems = [
-  { label: "Home", href: ROUTES.home},
-  { label: "Blog", href: ROUTES.blog },
-  { label: "Archive", href: ROUTES.archive },
+  { label: "Home", href: `${baseUrl}${ROUTES.home}`},
+  { label: "Blog", href: `${baseUrl}${ROUTES.blog}/` },
+  { label: "Archive", href: canonicalURL },
 ];
 
 const meta = buildMeta({
@@ -131,8 +132,8 @@ const schema = [
     url: canonicalURL,
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: SITE.url },
-    { name: "Blog", url: `${SITE.url}/blog` },
+    { name: "Beranda", url: `${baseUrl}/` },
+    { name: "Blog", url: `${baseUrl}${ROUTES.blog}/` },
     { name: "Archive", url: canonicalURL },
   ]),
 ];
@@ -163,7 +164,7 @@ const schema = [
               <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                  <div>
                    <h2 class="text-heading-18 font-semibold text-(--fg-strong) flex items-center gap-2">
-                    Log ({activeYear})
+                   Log ({activeYear})
                    </h2>
                    <p class="text-sm text-(--fg-muted) mt-1">{activeYearTotal} artikel dipublikasikan sepanjang tahun ini.</p>
                  </div>
@@ -259,7 +260,8 @@ const schema = [
                               return (
                                 <li class="group">
                                   <Card padding='none' radius='sm' class="archive-post-card">
-                                    <a href={`/blog/${slug}`}
+                                    {/* PERBAIKAN: Menggunakan ROUTES.blog dengan slug bersih dan trailing slash */}
+                                    <a href={`${baseUrl}${ROUTES.blog}/${slug}/`}
                                       class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2"
                                     >
                                       <span class="text-body-14 font-medium text-(--fg-muted) group-hover:text-(--fg-strong) line-clamp-1 transition-colors duration-(--duration)">
