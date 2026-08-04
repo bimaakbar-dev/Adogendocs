@@ -36,8 +36,8 @@
 
 .prose th,
 .prose td {
-  vertical-align: top;
-  text-wrap: balance;
+  vertical-align: start;
+  text-wrap: pretty;
 }
 
 .prose th a,
@@ -75,10 +75,10 @@
   color: var(--fg-subtle);
 }
 
-.prose th:not(:last-child),
+/* .prose th:not(:last-child),
 .prose td:not(:last-child) {
   border-inline-end: 1px solid rgb(from var(--border-subtle) r g b / 0.5);
-}
+} */
 
 @media (max-width: 767px) {
   .prose table {
