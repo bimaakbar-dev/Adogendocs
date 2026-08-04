@@ -2,6 +2,7 @@
 // src/components/blog/RelatedPosts.astro
 import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@lib/utils";
+import { ROUTES } from "@/consts";
 
 export interface Props {
   currentEntry: CollectionEntry<"blog">;
@@ -67,21 +68,26 @@ const $ = {
     <section>
       <h2 class={$.label} set:text="Terkait." />
       <ul class="grid grid-cols-1 gap-4">
-        {related.map((post) => (
-          <li class="group">
-            <a
-              href={`/blog/${post.data.slug || post.id}`}
-              class={$.card}
-            >
-              <h3 class={$.title} set:html={post.data.title} />
-              <p>
-                {post.data.pubDate && (
-                  <time class={$.date} set:html={formatDate(post.data.pubDate)} />
-                )}
-              </p> 
-            </a>
-          </li>
-        ))}
+        {related.map((post) => {
+          const slug = post.data.slug || post.id.replace(/\.(md|mdx)$/, '');
+          const postHref = `${ROUTES.blog}/${slug}/`;
+
+          return (
+            <li class="group">
+              <a
+                href={postHref}
+                class={$.card}
+              >
+                <h3 class={$.title} set:html={post.data.title} />
+                <p>
+                  {post.data.pubDate && (
+                    <time class={$.date} set:html={formatDate(post.data.pubDate)} />
+                  )}
+                </p> 
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </section>
   )
