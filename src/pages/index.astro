@@ -62,21 +62,23 @@ const schema = [
     </Container>
     <Container size="xl">
       <Section size="sm">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
-            Terbaru.
-          </h2>
-          <Button
-            href="/blog"
-            variant='ghost'
-            size='md'
-            suffix={<Icons name="arrow-right" class='size-4.5'/>}
-            class="text-sm"
-          >
-            Lihat Semua
-          </Button>
-        </div>
-        <LatestBlog items={latestBlog} />
+        {latestBlog && (
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
+              Terbaru.
+            </h2>
+            <Button
+              href="/blog"
+              variant='ghost'
+              size='md'
+              suffix={<Icons name="arrow-right" class='size-4.5'/>}
+              class="text-sm"
+            >
+              Lihat Semua
+            </Button>
+          </div>
+          <LatestBlog items={latestBlog} />
+        )}
       </Section>
     </Container>
   </div>
