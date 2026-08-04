@@ -204,13 +204,16 @@ const faviconBase = "/favicon";
     sizes="512x512"
     type="image/png"
   />
-  <link rel="manifest" href="/manifest.webmanifest" />
+  <link 
+    rel="manifest" 
+    href={`${SITE.url}/manifest.json`}
+  />
 
   <link
     rel="alternate"
     type="application/rss+xml"
     title={`${SITE.name} RSS Feed`}
-    href={`${SITE.url}/feed.xml`}
+    href={`${SITE.url}/rss.xml`}
   />
   <link
     rel="alternate"
@@ -223,6 +226,11 @@ const faviconBase = "/favicon";
     type="application/json"
     title={`${SITE.name} JSON Feed`}
     href={`${SITE.url}/feed.json`}
+  />
+
+  <link 
+    rel="sitemap" 
+    href={`${SITE.url}/sitemap-index.xml`} 
   />
 
   {
@@ -245,8 +253,6 @@ const faviconBase = "/favicon";
       <meta name="google-adsense-account" content={SEO.ads.google} />
     )
   }
-
-  <link rel="sitemap" href="/sitemap-index.xml" />
 
   {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
