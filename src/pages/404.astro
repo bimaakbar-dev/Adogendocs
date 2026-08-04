@@ -1,8 +1,9 @@
 ---
 // src/pages/404.astro
 import { 
-    SITE,
-    buildMeta 
+  ROUTES,
+  SITE,
+  buildMeta 
 } from "@/consts";
 
 import Layout from "@/layouts/Layout.astro";
@@ -11,11 +12,10 @@ import Container from "@ui/Container.astro";
 import Button from "@/components/ui/Button.astro";
 import Icons from "@/components/ui/Icons.astro";
 
-
 const meta = buildMeta({
   title: "Halaman Tidak Ditemukan",
   description: "Maaf, halaman yang Anda cari tidak ada.",
-  canonical: `${SITE.url}/404`,
+  canonical: `${SITE.url}/404/`,
   noindex: true,
 });
 ---
@@ -31,7 +31,7 @@ const meta = buildMeta({
           Halaman yang Anda cari tidak ditemukan.
         </p>
         <Button
-          href="/"
+          href={`${SITE.url}${ROUTES.home}`}
           variant="primary"
           size="md"
           prefix={<Icons name="arrow-left" class="size-4" />}
