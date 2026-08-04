@@ -27,20 +27,23 @@ import CopyCode from "@/components/CopyCode.astro";
 import RelatedPosts from "@/components/blog/BlogRelated.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("blog");
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
 
-  return entries.map((entry) => ({
-    params: {
-      slug: entry.data.slug || entry.id,
-    },
-    props: { entry },
-  }));
+  return entries.map((entry) => {
+    const cleanSlug = entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '');
+    return {
+      params: {
+        slug: cleanSlug,
+      },
+      props: { entry },
+    };
+  });
 }
 
 const { entry } = Astro.props;
 
 if (!entry) {
-  return Astro.redirect("/404");
+  return Astro.redirect("/404/");
 }
 
 const { Content, headings } = await render(entry);
@@ -66,11 +69,12 @@ const nextEntry =
     : null;
 
 const cleanSlug = Astro.params.slug;
-const currentUrl = `${SITE.url}/blog/${cleanSlug}`;
+const baseUrl = SITE.url.replace(/\/$/, "");
+const currentUrl = `${baseUrl}${ROUTES.blog}/${cleanSlug}/`;
 
 const breadcrumbItems = [
-  { label: "Beranda", href: ROUTES.home },
-  { label: "Blog", href: ROUTES.blog },
+  { label: "Beranda", href: `${baseUrl}${ROUTES.home}` },
+  { label: "Blog", href: `${baseUrl}${ROUTES.blog}/` },
   ...(entry.data.category
     ? [{ label: entry.data.category, href: currentUrl }]
     : []),
@@ -84,7 +88,7 @@ const metaProps = buildMeta({
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),
   dateModified: entry.data.lastUpdated?.toISOString(),
-  authorName: entry.data.author.name,
+  authorName: entry.data.author?.name,
 });
 
 const schema = [
@@ -95,11 +99,11 @@ const schema = [
     image: entry.data.seo.ogImage,
     datePublished: entry.data.pubDate?.toISOString(),
     dateModified: entry.data.lastUpdated?.toISOString(),
-    authorName: entry.data.author.name,
+    authorName: entry.data.author?.name,
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: SITE.url },
-    { name: "Blog", url: `${SITE.url}/blog` },
+    { name: "Beranda", url: `${baseUrl}/` },
+    { name: "Blog", url: `${baseUrl}${ROUTES.blog}/` },
     ...(entry.data.category
       ? [{ name: entry.data.category, url: currentUrl }]
       : []),
