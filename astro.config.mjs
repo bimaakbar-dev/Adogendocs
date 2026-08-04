@@ -95,7 +95,7 @@ export default defineConfig({
   },
   integrations: [
     mdx({
-      optimize: false,
+      optimize: true,
       extendMarkdownConfig: true,
     }), 
     pagefind(),
