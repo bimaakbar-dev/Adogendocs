@@ -18,7 +18,7 @@ import Button from '@/components/ui/Button.astro';
 import Icons from '@/components/ui/Icons.astro';
 import HeroImage from '@/assets/images/houston.webp';
 
-const allBlog = await getCollection('blog');
+const allBlog = await getCollection('blog', ({ data }) => !data.draft);
 
 const latestBlog = allBlog
   .sort((a, b) => {
@@ -28,21 +28,23 @@ const latestBlog = allBlog
   })
   .slice(0, 6);
 
+const rootUrl = `${SITE.url}/`;
+
 const meta = buildMeta({
   description: SITE.description,
-  canonical: SITE.url,
+  canonical: rootUrl,
   ogType: "website",
-  keywords: [],
+  keywords: ["tutorial", "modding", "pop culture", "anime", "game"],
 });
 
 const schema = [
   schemaWebPage({
     title: SITE.name,
     description: SITE.description,
-    url: SITE.url,
+    url: rootUrl,
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: SITE.url },
+    { name: "Beranda", url: rootUrl },
   ]),
 ];
 ---
@@ -54,21 +56,21 @@ const schema = [
         <Hero 
           image={HeroImage}
           title={SITE.description}
-          action={ROUTES.docs}
+          action={`${ROUTES.docs}/`}
           actionLabel='Get Started'
-          action2={ROUTES.blog}
+          action2={`${ROUTES.blog}/`}
           actionLabel2='Baca Blog' />
       </Section>
     </Container>
     <Container size="xl">
       <Section size="sm">
-        {latestBlog && (
+        {latestBlog && latestBlog.length > 0 && (
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
               Terbaru.
             </h2>
             <Button
-              href="/blog"
+              href={`${ROUTES.blog}/`}
               variant='ghost'
               size='md'
               suffix={<Icons name="arrow-right" class='size-4.5'/>}
