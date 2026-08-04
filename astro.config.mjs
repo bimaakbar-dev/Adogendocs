@@ -39,7 +39,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: SITE.url,
   base: "/",
-  trailingSlash: "never",
+  trailingSlash: "always",
   output: "static",
   markdown: {
     processor: satteri({
@@ -99,7 +99,7 @@ export default defineConfig({
       extendMarkdownConfig: true,
     }), 
     pagefind(),
-     sitemap()
+    //sitemap()
   ],
   vite: {
     plugins: [tailwindcss()],
