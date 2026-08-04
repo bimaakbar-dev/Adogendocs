@@ -33,7 +33,6 @@ import { satteriSteps } from "./src/lib/mdx/satteri-steps";
 import { satteriTabs } from "./src/lib/mdx/satteri-tabs";
 
 import pagefind from "astro-pagefind";
-
 import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
@@ -46,8 +45,14 @@ export default defineConfig({
     processor: satteri({
       features: {
         directive: true,
-        gfm: true,
-        math: false,
+        gfm: {
+          footnotes: {
+            label: "Catatan kaki",
+            backContent: "↑",
+            backLabel: "Kembali ke referensi {reference}",
+          },
+        },
+        math: { singleDollarTextMath: false },
         headingAttributes: true,
         smartPunctuation: true,
         wikilinks: true,
