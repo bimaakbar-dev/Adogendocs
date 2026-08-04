@@ -9,7 +9,8 @@ import {
   buildMeta, 
   schemaWebPage,
   schemaBreadcrumb,
-  SITE 
+  SITE,
+  ROUTES 
 } from "@/consts";
 
 import { components } from "@components/mdx/MDXComponents";
@@ -25,7 +26,7 @@ import DocsFooter from "@docs/DocsFooter.astro";
 import CopyCode from "@/components/CopyCode.astro";
 
 export async function getStaticPaths() {
-  const docsEntries = await getCollection("docs");
+  const docsEntries = await getCollection("docs", ({ data }) => !data.seo?.noIndex);
 
   const sorted = [...docsEntries].sort(
     (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
@@ -33,11 +34,11 @@ export async function getStaticPaths() {
   const root = sorted[0]?.id;
 
   return docsEntries.map((entry) => {
-    const currentSlug = entry.data.slug || entry.id;
+    const cleanSlug = entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '');
     const isRoot = entry.id === root;
 
     return {
-      params: { slug: isRoot ? undefined : currentSlug },
+      params: { slug: isRoot ? undefined : cleanSlug },
       props: { entry, root },
     };
   });
@@ -46,18 +47,21 @@ export async function getStaticPaths() {
 const { entry, root } = Astro.props;
 
 if (!entry) {
-  return Astro.redirect("/404");
+  return Astro.redirect("/404/");
 }
 
 const { Content, headings } = await render(entry);
 
-const allDocs = await getCollection("docs");
+const allDocs = await getCollection("docs", ({ data }) => !data.seo?.noIndex);
 const sidebarItems = allDocs.sort(
   (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
 );
 
 const cleanSlug = Astro.params.slug;
-const currentUrl = `${SITE.url}/docs${cleanSlug ? `/${cleanSlug}` : ""}`;
+const baseUrl = SITE.url.replace(/\/$/, "");
+const currentUrl = cleanSlug 
+  ? `${baseUrl}${ROUTES.docs}/${cleanSlug}/` 
+  : `${baseUrl}${ROUTES.docs}/`;
 
 const currentIndex = sidebarItems.findIndex((item) => item.id === entry.id);
 const prevEntry = currentIndex > 0 ? sidebarItems[currentIndex - 1] : null;
@@ -84,8 +88,8 @@ const schema = [
     url: currentUrl,
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: SITE.url },
-    { name: "Dokumentasi", url: `${SITE.url}/docs` },
+    { name: "Beranda", url: `${baseUrl}/` },
+    { name: "Dokumentasi", url: `${baseUrl}${ROUTES.docs}/` },
     ...(cleanSlug
       ? [{ name: entry.data.title, url: currentUrl }]
       : []),
