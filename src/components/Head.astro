@@ -5,6 +5,7 @@ import {
   SEO,
   OG,
   TWITTER,
+  ROUTES,
   schemaWebSite,
   schemaOrganization,
   type buildMeta as BuildMetaFn,
@@ -36,7 +37,8 @@ const robots =
   "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
 const keywords = meta?.keywords ?? "";
 
-// OG
+const baseUrl = SITE.url.replace(/\/$/, "");
+
 const ogTitle = meta?.og?.title ?? title;
 const ogDescription = meta?.og?.description ?? description;
 const ogUrl = meta?.og?.url ?? canonical;
@@ -204,33 +206,34 @@ const faviconBase = "/favicon";
     sizes="512x512"
     type="image/png"
   />
+
   <link 
     rel="manifest" 
-    href={`${SITE.url}/manifest.json`}
+    href={`${baseUrl}/manifest.json`}
   />
 
   <link
     rel="alternate"
     type="application/rss+xml"
     title={`${SITE.name} RSS Feed`}
-    href={`${SITE.url}/rss.xml`}
+    href={`${baseUrl}${ROUTES.rss}`}
   />
   <link
     rel="alternate"
     type="application/atom+xml"
     title={`${SITE.name} Atom Feed`}
-    href={`${SITE.url}/feed.atom`}
+    href={`${baseUrl}${ROUTES.feedAtom}`}
   />
   <link
     rel="alternate"
-    type="application/json"
+    type="application/feed+json"
     title={`${SITE.name} JSON Feed`}
-    href={`${SITE.url}/feed.json`}
+    href={`${baseUrl}${ROUTES.feedJson}`}
   />
 
   <link 
     rel="sitemap" 
-    href={`${SITE.url}/sitemap-index.xml`} 
+    href={`${baseUrl}${ROUTES.sitemap}`} 
   />
 
   {
