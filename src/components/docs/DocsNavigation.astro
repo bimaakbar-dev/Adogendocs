@@ -1,10 +1,11 @@
 ---
 // src/components/docs/DocsNavigation.astro
 import { getCollection } from 'astro:content';
+import { ROUTES } from '@/consts';
 import SidebarGroup from '@/components/ui/SidebarGroup.astro';
 import SidebarLink from '@/components/ui/SidebarLink.astro';
 
-const allDocs = await getCollection('docs');
+const allDocs = await getCollection('docs', ({ data }) => !data.seo?.noIndex);
 
 const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 const primaryRootId = sortedDocs[0]?.id;
@@ -27,16 +28,18 @@ const sortedCategories = Object.keys(docsByCategory).sort((a, b) => {
 
 const currentPath = Astro.url.pathname;
 
+const docsRootPath = `${ROUTES.docs}/`;
+
 const checkIsActive = (href: string) => {
-  if (href === '/docs') {
-    return currentPath === '/docs' || currentPath === '/docs/';
+  if (href === docsRootPath) {
+    return currentPath === ROUTES.docs || currentPath === docsRootPath;
   }
   return currentPath === href || currentPath === `${href}/`;
 };
 
 const getHref = (doc: (typeof allDocs)[number]) => {
-  const finalSlug = doc.data.slug || doc.id;
-  return doc.id === primaryRootId ? '/docs' : `/docs/${finalSlug}`;
+  const finalSlug = doc.data.slug || doc.id.replace(/\.(md|mdx)$/, '');
+  return doc.id === primaryRootId ? docsRootPath : `${ROUTES.docs}/${finalSlug}/`;
 };
 
 const $ = {
