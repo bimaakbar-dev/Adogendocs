@@ -1,43 +1,22 @@
+// src/lib/mdx/satteri-callout.ts
+
 import { defineMdastPlugin } from "satteri";
 
-const VALID_TYPES = new Set([
-  "note",
-  "info",
-  "tip",
-  "warning",
-  "danger",
-  "important",
-  "caution",
-]);
+const CALLOUT_TYPES = {
+  NOTE: "note",
+  TIP: "tip",
+  IMPORTANT: "important",
+  WARNING: "warning",
+  CAUTION: "caution",
+} as const;
 
-function createCallout(type: string, children: any[]) {
-  return {
-    type: "mdxJsxFlowElement",
-    name: "Callout",
-    attributes: [
-      {
-        type: "mdxJsxAttribute",
-        name: "type",
-        value: type,
-      },
-    ],
-    children,
-  };
-}
+type CalloutType = keyof typeof CALLOUT_TYPES;
+
+const CALLOUT_PATTERN =
+  /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*$/i;
 
 export const satteriCallout = defineMdastPlugin({
   name: "satteri-callout",
-
-  containerDirective(node, ctx) {
-    const type = node.name.toLowerCase();
-
-    if (!VALID_TYPES.has(type)) return;
-
-    ctx.replaceNode(
-      node,
-      createCallout(type, node.children),
-    );
-  },
 
   blockquote(node, ctx) {
     const firstChild = node.children[0];
@@ -46,34 +25,32 @@ export const satteriCallout = defineMdastPlugin({
       return;
     }
 
-    const firstText = firstChild.children[0];
+    const marker = ctx.textContent(firstChild).trim();
+    const match = marker.match(CALLOUT_PATTERN);
 
-    if (
-      !firstText ||
-      firstText.type !== "text"
-    ) {
+    if (!match) {
       return;
     }
 
-    const match = firstText.value.match(
-      /^\[!(NOTE|INFO|TIP|WARNING|DANGER|IMPORTANT|CAUTION)\]\s*/i
-    );
+    const rawType = match[1].toUpperCase() as CalloutType;
+    const type = CALLOUT_TYPES[rawType];
 
-    if (!match) return;
+    ctx.removeChildAt(node, 0);
 
-    const type = match[1].toLowerCase();
-
-    firstText.value = firstText.value.slice(match[0].length);
-    if (
-      firstChild.children.length === 1 &&
-      firstText.value.trim() === ""
-    ) {
-      node.children.shift();
+    if (node.children.length === 0) {
+      return;
     }
 
-    ctx.replaceNode(
-      node,
-      createCallout(type, node.children),
-    );
+    return {
+      type: "callout",
+      data: {
+        hName: "blockquote",
+        hProperties: {
+          "data-callout": type,
+          "aria-label": rawType,
+        },
+      },
+      children: node.children,
+    };
   },
 });
