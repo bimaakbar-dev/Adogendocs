@@ -27,7 +27,7 @@ export const SITE = {
   name: "Unloyd",
   tagline: "Beyond the Void",
   description: "Platform kuratif untuk pop culture, game, anime, tutorial, dan modding.",
-  url: "https://adogendocs.pages.dev",
+  url: "https://c0desk1.my.id",
   ogImage: Thumbnails.src,
   locale: "id_ID",
   lang: "id",
@@ -202,7 +202,7 @@ export const schemaOrganization = {
   },
 } as const;
 
-export function schemaBreadcrumb(items: { name: string; url?: string }[]) {
+export function schemaBreadcrumb(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -210,7 +210,7 @@ export function schemaBreadcrumb(items: { name: string; url?: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      ...(item.url ? { item: item.url } : {}),
+      item: item.url,
     })),
   } as const;
 }
@@ -241,7 +241,12 @@ export function schemaArticle(opts: {
   title: string;
   description: string;
   url: string;
-  image?: string;
+  image?: {
+    url: string;
+    width?: number;
+    height?: number;
+    caption?: string;
+  };
   datePublished?: string;
   dateModified?: string;
   authorName?: string;
@@ -257,7 +262,17 @@ export function schemaArticle(opts: {
       "@type": "WebSite",
       "@id": `${SITE.url}/#website`,
     },
-    ...(opts.image ? { image: opts.image } : {}),
+    ...(opts.image
+      ? {
+          image: {
+            "@type": "ImageObject",
+            url: opts.image.url,
+            ...(opts.image.width ? { width: opts.image.width } : {}),
+            ...(opts.image.height ? { height: opts.image.height } : {}),
+            ...(opts.image.caption ? { caption: opts.image.caption } : {}),
+          },
+        }
+      : {}),
     ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
     ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
     ...(opts.authorName
@@ -271,6 +286,12 @@ export function schemaArticle(opts: {
             "@type": "Organization",
             name: SITE.name,
             url: SITE.url,
+            logo: {
+              "@type": "ImageObject",
+              url: Logo.src,
+              width: 512,
+              height: 512
+            }
           },
         }
       : {}),
