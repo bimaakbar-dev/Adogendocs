@@ -78,7 +78,8 @@ const metaProps = buildMeta({
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),
   dateModified: entry.data.lastUpdated?.toISOString(),
-  authorName: "Bima Akbar",
+  authorName: entry.data.author?.name || SITE.name,
+  noindex: entry.data.seo.noIndex
 });
 
 const schema = [
