@@ -168,17 +168,17 @@ export const schemaWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE.name,
-  alternateName: SITE.name,
+  alternateName: [SITE.name, "c0desk1"],
   url: SITE.url,
   description: SITE.description,
-  inLanguage: SITE.lang,
+  inLanguage: SITE.lang || "id-ID",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${SITE.url}/search?q={search_term_string}`,
+      urlTemplate: `https://google.com{SITE.url.replace(/^https?:\/\//, "")}+{search_term_string}`,
     },
-    "query-input": "required name=search_term_string",
+    "query-input": "required name=search_term_string"
   },
 } as const;
 
@@ -202,7 +202,7 @@ export const schemaOrganization = {
   },
 } as const;
 
-export function schemaBreadcrumb(items: { name: string; url: string }[]) {
+export function schemaBreadcrumb(items: { name: string; url?: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -210,9 +210,9 @@ export function schemaBreadcrumb(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: item.url,
+      ...(item.url ? { item: item.url } : {}),
     })),
-  };
+  } as const;
 }
 
 export function schemaWebPage(opts: {
@@ -234,7 +234,7 @@ export function schemaWebPage(opts: {
       "@id": `${SITE.url}/#website`,
     },
     ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
-  };
+  } as const;
 }
 
 export function schemaArticle(opts: {
@@ -274,7 +274,7 @@ export function schemaArticle(opts: {
           },
         }
       : {}),
-  };
+  } as const;
 }
 
 export function schemaSoftwareApplication(opts: {
@@ -301,7 +301,7 @@ export function schemaSoftwareApplication(opts: {
       price: opts.price || "0",
       priceCurrency: opts.priceCurrency || "USD",
     },
-  };
+  } as const;
 }
 
 export function schemaFAQ(items: { question: string; answer: string }[]) {
@@ -316,7 +316,7 @@ export function schemaFAQ(items: { question: string; answer: string }[]) {
         text: item.answer,
       },
     })),
-  };
+  } as const;
 }
 
 // ----------------------------------------------------------------------------
@@ -388,7 +388,7 @@ export function buildMeta(opts: {
       image: ogImage,
       imageAlt: ogImageAlt,
     },
-  };
+  } as const;
 }
 
 // ----------------------------------------------------------------------------
