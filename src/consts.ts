@@ -27,7 +27,7 @@ export const SITE = {
   name: "Unloyd",
   tagline: "Beyond the Void",
   description: "Platform kuratif untuk pop culture, game, anime, tutorial, dan modding.",
-  url: "https://adogendocs.pages.dev",
+  url: "https://c0desk1.my.id",
   ogImage: Thumbnails.src,
   locale: "id_ID",
   lang: "id",
@@ -97,7 +97,7 @@ export const NAV = {
     },
   ] as FooterNav[],
   Social: [
-    { label: "Github", href: "https://github.com/bimaakbar-dev", icon: "github" },
+    { label: "Github", href: "https://github.com/c0desk1", icon: "github" },
     { label: "Facebook", href: "https://facebook.com/c0desk1Page", icon: "facebook" },
     { label: "Whatsapp", href: "https://whatsapp.com/channel/0029VaxZggiFnSzHLKybx42h", icon: "whatsapp" },
   ] as Socials[]
@@ -136,7 +136,8 @@ export const SEO = {
   },
   ads: {
     google: "ca-pub-4943136052113535",
-    yandex: "R-A-19179231"
+    yandex: "R-A-19179231",
+    monetag: "98464dea950ab2405c90bcb6fc2f1226"
   },
   analytics: {
     google: "G-2TKFP229HJ",
