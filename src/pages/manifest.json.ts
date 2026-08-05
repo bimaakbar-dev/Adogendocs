@@ -1,13 +1,13 @@
 // src/pages/manifest.json.ts
 import type { APIRoute } from 'astro';
-import { SITE, IMAGE } from '@/consts';
+import { SITE, ROUTES, IMAGE } from '@/consts';
 
 export const GET: APIRoute = () => {
   const manifest = {
     name: SITE.name,
     short_name: SITE.name,
     description: SITE.description,
-    start_url: "/",
+    start_url: ROUTES.home,
     display: "standalone",
     background_color: SITE.bgColor,
     theme_color: SITE.themeColor,
