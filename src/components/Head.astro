@@ -89,10 +89,7 @@ const faviconBase = "/favicon";
 
 <head>
   <meta charset={SITE.charset} />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <title>{title}</title>
@@ -103,10 +100,7 @@ const faviconBase = "/favicon";
   <link rel="canonical" href={canonical} />
   <meta name="author" content={SITE.name} />
   <meta name="publisher" content={SITE.name} />
-  <meta
-    name="copyright"
-    content={`© ${new Date().getFullYear()} ${SITE.name}`}
-  />
+  <meta name="copyright" content={`© ${new Date().getFullYear()} ${SITE.name}`} />
   <meta name="language" content={SITE.lang} />
   <meta http-equiv="content-language" content={SITE.lang} />
   <meta name="generator" content={Astro.generator} />
@@ -132,22 +126,10 @@ const faviconBase = "/favicon";
   <meta property="og:image:alt" content={ogImageAlt} />
   <meta property="og:image:type" content="image/png" />
 
-  {
-    ogPublishedTime && (
-      <meta property="article:published_time" content={ogPublishedTime} />
-    )
-  }
-  {
-    ogModifiedTime && (
-      <meta property="article:modified_time" content={ogModifiedTime} />
-    )
-  }
+  {ogPublishedTime && (<meta property="article:published_time" content={ogPublishedTime} />)}
+  {ogModifiedTime && (<meta property="article:modified_time" content={ogModifiedTime} />)}
   {ogAuthor && <meta property="article:author" content={ogAuthor} />}
-  {
-    ogType === "article" && (
-      <meta property="article:publisher" content={SITE.url} />
-    )
-  }
+  {ogType === "article" && (<meta property="article:publisher" content={SITE.url} />)}
 
   <meta name="twitter:card" content={twitterCard} />
   <meta name="twitter:site" content={twitterSite} />
@@ -236,28 +218,13 @@ const faviconBase = "/favicon";
     href={`${baseUrl}${ROUTES.sitemap}`} 
   />
 
-  {
-    SEO.verification.google && (
-      <meta name="google-site-verification" content={SEO.verification.google} />
-    )
-  }
-  {
-    SEO.verification.bing && (
-      <meta name="msvalidate.01" content={SEO.verification.bing} />
-    )
-  }
-  {
-    SEO.verification.yandex && (
-      <meta name="yandex-verification" content={SEO.verification.yandex} />
-    )
-  }
-  {
-    SEO.ads.google && (
-      <meta name="google-adsense-account" content={SEO.ads.google} />
-    )
-  }
-
   {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+
+  {SEO.verification.google && (<meta name="google-site-verification" content={SEO.verification.google} />)}
+  {SEO.verification.bing && (<meta name="msvalidate.01" content={SEO.verification.bing} />)}
+  {SEO.verification.yandex && (<meta name="yandex-verification" content={SEO.verification.yandex} />)}
+  {SEO.ads.google && (<meta name="google-adsense-account" content={SEO.ads.google} />)}
+  {SEO.ads.monetag && (<meta name="monetag" content={SEO.ads.monetag} />)}
 
   <Font cssVariable="--font-Geist" preload />
   <Font cssVariable="--font-GeistMono" preload />
