@@ -4,7 +4,7 @@
   @apply text-code-14;
   border: 1px solid rgb(from var(--border) r g b / 0.2);
   border-radius: var(--radius-md);
-  background-color: var(--bg-subtle);
+  background-color: rgb(from var(--bg-subtle) r g b / 1);
   padding: 0.15em 0.4em;
   color: var(--fg);
   white-space: break-spaces;
@@ -17,9 +17,9 @@
 .prose h5 code,
 .prose h6 code {
   border: 1px solid rgb(from var(--border) r g b / 0.2);
-  background-color: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  padding: 0.15em 0.4em;
+  background-color: rgb(from var(--bg-subtle) r g b / 1);
+  border-radius: var(--radius-lg);
+  padding: 0.15em 0.3em;
   color: inherit !important;
   font-size: inherit !important;
   font-family: var(--font-mono) !important;

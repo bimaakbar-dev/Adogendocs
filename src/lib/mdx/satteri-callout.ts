@@ -8,12 +8,13 @@ const CALLOUT_TYPES = {
   IMPORTANT: "important",
   WARNING: "warning",
   CAUTION: "caution",
+  DANGER: "danger"
 } as const;
 
 type CalloutType = keyof typeof CALLOUT_TYPES;
 
 const CALLOUT_PATTERN =
-  /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*$/i;
+  /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|DANGER)\]\s*/i;
 
 export const satteriCallout = defineMdastPlugin({
   name: "satteri-callout",
@@ -25,8 +26,13 @@ export const satteriCallout = defineMdastPlugin({
       return;
     }
 
-    const marker = ctx.textContent(firstChild).trim();
-    const match = marker.match(CALLOUT_PATTERN);
+    const firstText = firstChild.children[0];
+
+    if (!firstText || firstText.type !== "text") {
+      return;
+    }
+
+    const match = firstText.value.match(CALLOUT_PATTERN);
 
     if (!match) {
       return;
@@ -35,22 +41,39 @@ export const satteriCallout = defineMdastPlugin({
     const rawType = match[1].toUpperCase() as CalloutType;
     const type = CALLOUT_TYPES[rawType];
 
-    ctx.removeChildAt(node, 0);
+    const remainingText = firstText.value.slice(match[0].length);
 
-    if (node.children.length === 0) {
-      return;
+    const newChildren = [...firstChild.children];
+
+    if (remainingText) {
+      newChildren[0] = {
+        ...firstText,
+        value: remainingText,
+      };
+    } else {
+      newChildren.shift();
     }
 
-    return {
-      type: "callout",
+    const newParagraph = {
+      ...firstChild,
+      children: newChildren,
+    };
+
+    const newNode = {
+      ...node,
+      children: [
+        newParagraph,
+        ...node.children.slice(1),
+      ],
       data: {
-        hName: "blockquote",
+        ...node.data,
         hProperties: {
+          ...node.data?.hProperties,
           "data-callout": type,
-          "aria-label": rawType,
         },
       },
-      children: node.children,
     };
+
+    ctx.replaceNode(node, newNode);
   },
 });
