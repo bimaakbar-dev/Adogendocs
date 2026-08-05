@@ -161,6 +161,36 @@ export const TWITTER = {
   creator: SEO.twitterCreator,
 } as const;
 
+export const IMAGE = {
+  og: {
+    width: 1200,
+    height: 630,
+    placeholder: OG,
+  },
+  thumbnail: {
+    width: 600,
+    height: 400,
+    quality: 80,
+    placeholder: Thumbnails,
+  },
+  avatar: {
+    width: 96,
+    height: 96,
+    quality: 80,
+    placeholder: Avatar,
+  },
+  logo: {
+    width: 512,
+    height: 512,
+  },
+} as const;
+
+export const PAGINATION = {
+  postsPerPage: 9,
+  postsPerFeed: 20,
+  postsPerSitemap: 1000,
+} as const;
+
 // ----------------------------------------------------------------------------
 //  STRUCTURED DATA
 // ----------------------------------------------------------------------------
@@ -190,8 +220,8 @@ export const schemaOrganization = {
   logo: {
     "@type": "ImageObject",
     url: ORG.logo,
-    width: 512,
-    height: 512,
+    width: IMAGE.logo.width,
+    height: IMAGE.logo.height,
   },
   sameAs: ORG.sameAs,
   contactPoint: {
@@ -289,8 +319,8 @@ export function schemaArticle(opts: {
             logo: {
               "@type": "ImageObject",
               url: Logo.src,
-              width: 512,
-              height: 512
+              width: IMAGE.logo.width,
+              height: IMAGE.logo.height
             }
           },
         }
@@ -411,39 +441,3 @@ export function buildMeta(opts: {
     },
   } as const;
 }
-
-// ----------------------------------------------------------------------------
-//  PAGINATION
-// ----------------------------------------------------------------------------
-export const PAGINATION = {
-  postsPerPage: 9,
-  postsPerFeed: 20,
-  postsPerSitemap: 1000,
-} as const;
-
-// ----------------------------------------------------------------------------
-//  IMAGE DEFAULTS (for website, not for processing)
-// ----------------------------------------------------------------------------
-export const IMAGE = {
-  og: {
-    width: 1200,
-    height: 630,
-    placeholder: OG,
-  },
-  thumbnail: {
-    width: 600,
-    height: 400,
-    quality: 80,
-    placeholder: Thumbnails,
-  },
-  avatar: {
-    width: 96,
-    height: 96,
-    quality: 80,
-    placeholder: Avatar,
-  },
-  logo: {
-    width: 512,
-    height: 512,
-  },
-} as const;
