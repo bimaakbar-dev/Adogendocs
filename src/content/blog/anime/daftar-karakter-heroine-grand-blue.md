@@ -61,7 +61,7 @@ Hubungannya dengan Iori berkembang seiring berjalannya cerita, terutama karena k
 
 ## Aina Yoshiwara
 
-![Aina Yoshiwara](https://m.media-amazon.com/images/M/MV5BMWU1OGQ4ZjUtNmZhMi00MWQ1LTgzNDMtOGQzNjA2ZjkzMDUyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
+![Aina Yoshiwara](https://static.wikia.nocookie.net/grand-blue/images/a/a6/Aina1.jpg/revision/latest?cb=20210108073110)
 
 **Aina Yoshiwara** adalah anggota Peek-a-Boo yang memiliki kepribadian jauh lebih pemalu dibandingkan Chisa.
 
@@ -111,7 +111,7 @@ Meski begitu, ia sebenarnya cukup dewasa ketika menghadapi persoalan tertentu da
 
 ## Nanaka Kotegawa
 
-![Nanaka Kotegawa](https://i.ytimg.com/vi/JXulMaOFgn8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDxYnk3ll9GwUfnzcpeXB4CeyUXUg)
+![Nanaka Kotegawa](https://cdn.c0desk1.my.id/img/AgACAgUAAxkBAAOranMIk5BLyA2NM9eaDtVkKDl9vnkAAnwRaxvfO5hXyE_Qt5N5L7MBAAMCAAN4AAM9BA)
 
 **Nanaka Kotegawa** adalah kakak dari Chisa dan juga merupakan salah satu karakter perempuan penting dalam cerita.
 
