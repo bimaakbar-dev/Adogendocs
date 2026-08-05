@@ -88,7 +88,8 @@ const metaProps = buildMeta({
   ogType: "article",
   datePublished: entry.data.pubDate?.toISOString(),
   dateModified: entry.data.lastUpdated?.toISOString(),
-  authorName: entry.data.author?.name,
+  authorName: entry.data.author?.name || SITE.name,
+  noindex: entry.data.seo.noIndex
 });
 
 const schema = [
@@ -99,7 +100,7 @@ const schema = [
     image: entry.data.seo.ogImage,
     datePublished: entry.data.pubDate?.toISOString(),
     dateModified: entry.data.lastUpdated?.toISOString(),
-    authorName: entry.data.author?.name,
+    authorName: entry.data.author?.name || SITE.name,
   }),
   schemaBreadcrumb([
     { name: "Beranda", url: `${baseUrl}/` },
