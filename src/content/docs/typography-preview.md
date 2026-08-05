@@ -8,7 +8,7 @@ order: 2
 seo:
   title: "Typography & Markdown Preview"
   description: "Preview seluruh elemen typography dan Markdown."
-  noIndex: false
+  noIndex: true
 ---
 
 Halaman ini digunakan untuk menguji tampilan **typography**, komponen Markdown, dan fitur Satteri yang digunakan di website.
@@ -103,11 +103,6 @@ Callout mendukung dua syntax.
 
 > [!note]
 > Ini adalah callout note.
-
-### Info
-
-> [!INFO]
-> Ini adalah callout info.
 
 ### Tip
 
