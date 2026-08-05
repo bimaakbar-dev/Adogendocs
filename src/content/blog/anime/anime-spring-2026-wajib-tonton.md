@@ -39,7 +39,7 @@ This season could be called a "feast of kings" because so many major series are 
 
 A season wouldn't be complete without the adventures of the Straw Hat pirates. This time, after being promised for so long, Luffy and his crew finally reach **Elbaf, the legendary land of giants**! Aren't you curious about Usopp's reaction, who has dreamed of going here since forever? This arc will also introduce Prince Loki and hold major secrets about the world's history. The good news is, the animation quality has been upgraded because the series has switched to a seasonal format for better quality. Airing from **April 5, 2026**, this is a must-watch!
 
-### 2. Re:Zero - Starting Life in Another World Season 4 {#rezero-season4}
+### 2. Re\:Zero - Starting Life in Another World Season 4 {#rezero-season4}
 ![Re:Zero - Starting Life in Another World Season 4](https://cdn.c0desk1.my.id/img/AgACAgUAAxkBAAMnafIZsGwfy0IeH5qsrYWhL8s_6HIAAsIOaxsYJZFX43Jw_GDTZ4gBAAMCAAN5AAM7BA)
 
 Brace yourselves, suffering lovers! Subaru is back with new levels of torment in its fourth season, which is rumored to be the darkest yet. Adapting the "Loss" arc, this season will test Subaru's psyche even deeper. Staying consistent, this anime still delivers psychological thrills that will keep you on the edge of your seat. Airing from **April 8, 2026**.
@@ -49,7 +49,7 @@ Brace yourselves, suffering lovers! Subaru is back with new levels of torment in
 
 Who hasn't missed Rimuru the slime demon? In this fourth season, Rimuru's newly established kingdom will face formidable enemies, including powerful figures from the Demon Lord ranks. So highly anticipated, in Japan this anime even ranked first as the most anticipated anime according to an Animate Times poll. We'll witness how a former salaryman reincarnated as a slime builds an ideal civilization amidst political intrigue and fierce battles. Airing from **April 3, 2026**.
 
-### 4. Classroom of the Elite Season 4: Second Year Arc {#classroom-of-the-elite-season4}
+### 4. Classroom of the Elite Season 4\: Second Year Arc {#classroom-of-the-elite-season4}
 ![Classroom of the Elite Season 4: Second Year Arc](https://cdn.c0desk1.my.id/img/AgACAgUAAxkBAAMrafIaAAEjMWG_P_k9Tt9i583rFF6BAALFDmsbGCWRV9CSJp2kgCt8AQADAgADeQADOwQ)
 
 Plot twists, intrigue, and manipulation. This series is truly a champion of mind games. The fourth season begins adapting the second-year arc, which promises to be even more intense as Ayanokoji now has to deal with upperclassmen as well as the new batch of students beneath him. The appearance of a mysterious new student also from the White Room makes the conflict even more heated. For those who love anime with a mysterious genius protagonist, this is your pick. Starts **April 1, 2026**.
@@ -102,7 +102,7 @@ To help you schedule your watchlist, here's a summary table:
 | Anime Title | Release Date | Streaming Platform |
 | :--- | :--- | :--- |
 | **One Piece: Elbaf Arc** | April 5, 2026 | Crunchyroll, Netflix |
-| **Re:Zero Season 4** | April 8, 2026 | Crunchyroll |
+| **Re\:Zero Season 4** | April 8, 2026 | Crunchyroll |
 | **Tensura (Slime) Season 4** | April 3, 2026 | Crunchyroll |
 | **Classroom of the Elite S4** | April 1, 2026 | Crunchyroll |
 | **Dorohedoro Season 2** | April 1, 2026 | Crunchyroll, Netflix |
