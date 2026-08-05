@@ -35,7 +35,7 @@ Mereka memiliki kepribadian yang berbeda-beda. Ada yang serius, ada yang pemalu,
 
 Berikut adalah beberapa karakter heroine yang paling penting dalam *Grand Blue*.
 
-## Chisa Kotegawa
+## Chisa Kotegawa {#chisa-kotegawa}
 
 ![Chisa Kotegawa](https://i.pinimg.com/736x/23/49/e6/2349e682cacc3ab2b9370a22d54fba2f.jpg)
 
@@ -57,9 +57,7 @@ Hubungannya dengan Iori berkembang seiring berjalannya cerita, terutama karena k
   <dd>Heroine utama dan salah satu karakter yang menghubungkan Iori dengan dunia diving.</dd>
 </dl>
 
----
-
-## Aina Yoshiwara
+## Aina Yoshiwara {#aina-yoshiwara}
 
 ![Aina Yoshiwara](https://static.wikia.nocookie.net/grand-blue/images/a/a6/Aina1.jpg/revision/latest?cb=20210108073110)
 
@@ -83,9 +81,7 @@ Hubungannya dengan Iori menjadi salah satu bagian penting dari perkembangan kara
   <dd>Anggota Peek-a-Boo dan salah satu heroine yang memiliki hubungan dekat dengan Iori.</dd>
 </dl>
 
----
-
-## Azusa Hamaoka
+## Azusa Hamaoka {azusa-hamaoka}
 
 ![Azusa Hamaoka](https://pbs.twimg.com/media/ECfwkSDXUAA2IjL.jpg)
 
@@ -107,9 +103,7 @@ Meski begitu, ia sebenarnya cukup dewasa ketika menghadapi persoalan tertentu da
   <dd>Senior Peek-a-Boo yang sering menjadi sumber maupun penggerak berbagai kejadian dalam cerita.</dd>
 </dl>
 
----
-
-## Nanaka Kotegawa
+## Nanaka Kotegawa {#nanaka-kotegawa}
 
 ![Nanaka Kotegawa](https://cdn.c0desk1.my.id/img/AgACAgUAAxkBAAOranMIk5BLyA2NM9eaDtVkKDl9vnkAAnwRaxvfO5hXyE_Qt5N5L7MBAAMCAAN4AAM9BA)
 
@@ -130,9 +124,9 @@ Nanaka juga memiliki perhatian khusus terhadap hubungan Chisa dengan Iori.
   <dt>Peran</dt>
   <dd>Kakak Chisa dan salah satu karakter yang memiliki hubungan dekat dengan dunia diving.</dd>
 </dl>
----
 
-## Sakurako Busujima
+## Sakurako Busujima {#sakurako-busujima}
+
 ![Sakurako Busujima](https://cdn.c0desk1.my.id/img/AgACAgUAAxkBAAOpanL06vXMS9mGIsv2gsI5txASm88AAkwRaxvfO5hXewS8fAZPhS8BAAMCAAN5AAM9BA)
 
 **Sakurako Busujima** merupakan salah satu karakter perempuan yang muncul dalam perkembangan cerita *Grand Blue*.
@@ -150,7 +144,6 @@ Kehadirannya menambah dinamika baru dalam hubungan antar-karakter, terutama keti
   <dt>Peran</dt>
   <dd>Karakter perempuan yang menambah dinamika hubungan dan konflik romantis dalam cerita.</dd>
 </dl>
----
 
 ## Siapa heroine utama Grand Blue?
 
