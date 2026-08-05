@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 
   return docsEntries.map((entry) => {
     const cleanSlug = entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '');
-    const isRoot = entry.id === root;
+    const isRoot =  entry.data.slug === root || entry.id === root;
 
     return {
       params: { slug: isRoot ? undefined : cleanSlug },
