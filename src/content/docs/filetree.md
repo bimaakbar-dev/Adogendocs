@@ -3,7 +3,7 @@ slug: "filetree"
 title: "Filetree"
 description: "Halaman untuk menguji tampilan filetree dengan berbagai variasi."
 category: "Playground"
-lastUpdated: 2026-08-08T00:00:00Z
+lastUpdated: 2026-08-08T00:00:10Z
 order: 1
 draft: false
 seo:
@@ -28,7 +28,7 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
 ### 1. Struktur Dasar
 
 ```md
-::filetree
+:::filetree
 - src/
   - components/
     - Header.astro
@@ -40,10 +40,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
 - package.json
 - astro.config.mjs
 - README.md
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - components/
     - Header.astro
@@ -55,12 +55,12 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
 - package.json
 - astro.config.mjs
 - README.md
-::
+:::
 
 ### 2. Dengan Highlight (**bold**)
 
 ```md
-::filetree
+:::filetree
 - src/
   - components/
     - **Header.astro**
@@ -68,10 +68,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
     - **index.astro** # halaman utama
 - **package.json**
 - README.md
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - components/
     - **Header.astro**
@@ -79,12 +79,12 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
     - **index.astro** # halaman utama
 - **package.json**
 - README.md
-::
+:::
 
 ### 3. Dengan Komentar (# dan //)
 
 ```md
-::filetree
+:::filetree
 - src/
   - lib/
     - utils.ts # utility functions
@@ -93,10 +93,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
     - global.css # styles utama
 - .env // environment variables
 - tsconfig.json # TypeScript config
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - lib/
     - utils.ts # utility functions
@@ -105,12 +105,12 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
     - global.css # styles utama
 - .env // environment variables
 - tsconfig.json # TypeScript config
-::
+:::
 
 ### 4. Dengan Placeholder (...)
 
 ```md
-::filetree
+:::filetree
 - src/
   - components/
     - Header.astro
@@ -118,10 +118,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
   - pages/
     - ...
 - ...
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - components/
     - Header.astro
@@ -129,12 +129,12 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
   - pages/
     - ...
 - ...
-::
+:::
 
 ### 5. Nested Folder (Bersarang)
 
 ```md
-::filetree
+:::filetree
 - src/
   - components/
     - ui/
@@ -153,10 +153,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
   - images/
     - logo.svg
     - favicon.ico
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - components/
     - ui/
@@ -175,12 +175,12 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
   - images/
     - logo.svg
     - favicon.ico
-::
+:::
 
 ### 6. Kombinasi Semua Fitur
 
 ```md
-::filetree
+:::filetree
 - src/
   - **components/** # folder utama
     - ui/
@@ -199,10 +199,10 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
 - package.json
 - **astro.config.mjs** # config utama
 - .env // environment
-::
+:::
 ```
 
-::filetree
+:::filetree
 - src/
   - **components/** # folder utama
     - ui/
@@ -221,7 +221,7 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
 - package.json
 - **astro.config.mjs** # config utama
 - .env // environment
-::
+:::
 
 ## Catatan Testing
 Fitur Status
