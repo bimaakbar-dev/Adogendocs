@@ -1,8 +1,5 @@
 /* src/styles/prose/filetree.css */
 
-/* ============================================
-   ROOT VARIABLE — ISI IKON DI SINI
-   ============================================ */
 :root {
   /* ===== IKON DASAR (WAJIB DIISI) ===== */
   --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
@@ -47,9 +44,6 @@
   /* --ic-ft-txt: url("..."); */
 }
 
-/* ============================================
-   CONTAINER
-   ============================================ */
 .prose .file-tree {
   background-color: var(--bg-muted);
   border: 1px solid rgb(from var(--border) r g b / 80%);
@@ -64,13 +58,10 @@
 
 .prose .file-tree,
 .prose .file-tree * {
-  font-size: 14px !important;
-  font-family: var(--font-mono);
+  @apply text-code-14;
+  font-size: 14px !important; 
 }
 
-/* ============================================
-   LIST
-   ============================================ */
 .prose .file-tree ul {
   list-style: none;
   padding: 0;
@@ -82,18 +73,12 @@
   padding-inline-start: 1.5rem;
 }
 
-/* ============================================
-   ITEM (li)
-   ============================================ */
 .prose .file-tree li {
   position: relative;
   margin: 0;
   padding-block: 0.15rem;
 }
 
-/* ============================================
-   DEPTH — INDENTASI
-   ============================================ */
 .prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
 .prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
 .prose .file-tree li.tree-depth-2,
@@ -104,9 +89,6 @@
   padding-left: 0.5rem !important;
 }
 
-/* ============================================
-   GARIS TREE (border left)
-   ============================================ */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
@@ -133,9 +115,6 @@
   height: 1rem;
 }
 
-/* ============================================
-   HOVER — BORDER BERUBAH WARNA
-   ============================================ */
 .prose .file-tree li.tree-file:hover ~ .tree-file::before,
 .prose .file-tree li.tree-file:hover ~ .tree-file::after,
 .prose .file-tree li.tree-file:hover::before,
@@ -150,9 +129,6 @@
   border-color: var(--accent) !important;
 }
 
-/* ============================================
-   WRAPPER (summary atau div)
-   ============================================ */
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
@@ -165,9 +141,6 @@
   box-sizing: border-box;
 }
 
-/* ============================================
-   SPAN UTAMA — IKON VIA ::before
-   ============================================ */
 .prose .file-tree .tree-label span {
   display: inline-flex;
   align-items: center;
@@ -177,9 +150,6 @@
   text-overflow: ellipsis;
 }
 
-/* ============================================
-   IKON FOLDER & FILE (VIA MASK-IMAGE)
-   ============================================ */
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
@@ -198,13 +168,11 @@
   transition: background-color 0.2s;
 }
 
-/* Ikon folder */
 .prose .file-tree span.tree-folder::before {
   mask-image: var(--ic-ft-folder);
   -webkit-mask-image: var(--ic-ft-folder);
 }
 
-/* Ikon file (default / fallback) */
 .prose .file-tree span.tree-file::before {
   mask-image: var(--ic-ft-file);
   -webkit-mask-image: var(--ic-ft-file);
@@ -236,9 +204,6 @@
 }
 */
 
-/* ============================================
-   PLACEHOLDER — TANPA IKON
-   ============================================ */
 .prose .file-tree span.tree-placeholder::before {
   display: none !important;
 }
@@ -249,19 +214,12 @@
   color: var(--fg-muted);
 }
 
-/* ============================================
-   KOMENTAR
-   ============================================ */
 .prose .file-tree .tree-comment {
+  @apply text-code-12;
   color: var(--fg-muted);
-  font-size: 0.75rem;
-  font-style: italic;
   margin-left: 0.25rem;
 }
 
-/* ============================================
-   HIGHLIGHT — PADA WRAPPER (summary atau div)
-   ============================================ */
 .prose .file-tree .tree-label.tree-highlight {
   padding: 0.1rem 0.75rem;
   color: var(--accent) !important;
@@ -279,9 +237,6 @@
   font-weight: 600;
 }
 
-/* ============================================
-   HOVER — IKON BERUBAH WARNA
-   ============================================ */
 .prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
   background-color: var(--accent) !important;
 }
@@ -297,12 +252,9 @@
   color: var(--accent);
 }
 
-/* ============================================
-   MARKER DEFAULT — HILANGKAN
-   ============================================ */
-.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+/*.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
   display: none !important;
 }
 .prose .file-tree .tree-folder > details > summary::marker {
   content: none !important;
-}
+}*/
