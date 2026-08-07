@@ -1,127 +1,308 @@
-/* src/styles/prose/components/file-tree.css */
+/* src/styles/prose/filetree.css */
 
-.prose .file-tree details {
-  padding: 0 !important;
-  margin: 0 !important;
-  gap: 0;
-  border: none;
+/* ============================================
+   ROOT VARIABLE — ISI IKON DI SINI
+   ============================================ */
+:root {
+  /* ===== IKON DASAR (WAJIB DIISI) ===== */
+  --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
+  --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* ===== IKON EKSTENSI (TAMBAHKAN SENDIRI) ===== */
+  /* --ic-ft-astro: url("..."); */
+  /* --ic-ft-ts: url("..."); */
+  /* --ic-ft-js: url("..."); */
+  /* --ic-ft-css: url("..."); */
+  /* --ic-ft-json: url("..."); */
+  /* --ic-ft-md: url("..."); */
+  /* --ic-ft-mdx: url("..."); */
+  /* --ic-ft-html: url("..."); */
+  /* --ic-ft-vue: url("..."); */
+  /* --ic-ft-svelte: url("..."); */
+  /* --ic-ft-react: url("..."); */
+  /* --ic-ft-php: url("..."); */
+  /* --ic-ft-py: url("..."); */
+  /* --ic-ft-go: url("..."); */
+  /* --ic-ft-rust: url("..."); */
+  /* --ic-ft-sh: url("..."); */
+  /* --ic-ft-yaml: url("..."); */
+  /* --ic-ft-toml: url("..."); */
+  /* --ic-ft-xml: url("..."); */
+  /* --ic-ft-svg: url("..."); */
+  /* --ic-ft-png: url("..."); */
+  /* --ic-ft-jpg: url("..."); */
+  /* --ic-ft-gif: url("..."); */
+  /* --ic-ft-webp: url("..."); */
+  /* --ic-ft-ico: url("..."); */
+  /* --ic-ft-pdf: url("..."); */
+  /* --ic-ft-zip: url("..."); */
+  /* --ic-ft-tar: url("..."); */
+  /* --ic-ft-gz: url("..."); */
+  /* --ic-ft-lock: url("..."); */
+  /* --ic-ft-gitignore: url("..."); */
+  /* --ic-ft-dockerfile: url("..."); */
+  /* --ic-ft-makefile: url("..."); */
+  /* --ic-ft-env: url("..."); */
+  /* --ic-ft-log: url("..."); */
+  /* --ic-ft-txt: url("..."); */
 }
 
-.prose .file-tree summary::before {
-  display: none;
-  content: none;
-  color: transparent
-}
-
+/* ============================================
+   CONTAINER
+   ============================================ */
 .prose .file-tree {
-  min-width: max-content;
+  background-color: var(--bg-muted);
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 2rem;
+  margin: 2rem 0;
+  overflow-x: auto;
 }
+
+.prose .file-tree *:first-child { margin-top: 0; }
+.prose .file-tree *:last-child { margin-bottom: 0; }
 
 .prose .file-tree,
-.prose .file-tree-list,
-.prose .file-tree-list ul,
-.prose .file-tree-list ol,
-.prose .file-tree-list li {
-  margin: 0;
-  padding: 0;
+.prose .file-tree * {
+  font-size: 14px !important;
+  font-family: var(--font-mono);
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+.prose .file-tree ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.prose .file-tree-list *:first-child {
-  margin-top: 0 !important;
+.prose .file-tree ul ul {
+  margin: 0;
+  padding-inline-start: 1.5rem;
 }
 
-.prose .file-tree-list *:last-child {
-  margin-bottom: 0 !important;
+/* ============================================
+   ITEM (li)
+   ============================================ */
+.prose .file-tree li {
+  position: relative;
+  margin: 0;
+  padding-block: 0.15rem;
 }
 
-.prose .file-tree-list li::marker,
-.prose .file-tree-list li::before,
-.prose .file-tree-list li::after {
-  display: none;
-  content: none;
+/* ============================================
+   DEPTH — INDENTASI
+   ============================================ */
+.prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
+.prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
+.prose .file-tree li.tree-depth-2,
+.prose .file-tree li.tree-depth-3,
+.prose .file-tree li.tree-depth-4,
+.prose .file-tree li.tree-depth-5,
+.prose .file-tree li.tree-depth-6 {
+  padding-left: 0.5rem !important;
 }
 
-.prose .file-tree-list li + li {
-  margin-top: 0.5rem;
+/* ============================================
+   GARIS TREE (border left)
+   ============================================ */
+.prose .file-tree ul ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 1rem;
+  width: 0.5rem;
+  border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
+  transition: border-color 0.2s;
 }
 
-.prose .file-tree-children {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.25s var(--ease-out);
-  margin-left: 0.45rem;
-  border-left: 1px solid
-    color-mix(in srgb, var(--border) 90%, transparent);
-  padding-left: 1rem;
+.prose .file-tree ul ul > li::after {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  height: 100%;
+  border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
+  transition: border-color 0.2s;
 }
 
-.prose .file-tree-folder.open > .file-tree-children {
-  grid-template-rows: 1fr;
+.prose .file-tree ul ul > li:last-child::after {
+  height: 1rem;
 }
 
-.prose .file-tree-children > ul,
-.prose .file-tree-children > ol {
-  overflow: hidden;
+/* ============================================
+   HOVER — BORDER BERUBAH WARNA
+   ============================================ */
+.prose .file-tree li.tree-file:hover ~ .tree-file::before,
+.prose .file-tree li.tree-file:hover ~ .tree-file::after,
+.prose .file-tree li.tree-file:hover::before,
+.prose .file-tree li.tree-file:hover::after {
+  border-color: var(--accent) !important;
 }
 
-.prose .file-tree-label {
-  @apply text-code-14;
+.prose .file-tree li.tree-folder:hover ~ .tree-folder::before,
+.prose .file-tree li.tree-folder:hover ~ .tree-folder::after,
+.prose .file-tree li.tree-folder:hover::before,
+.prose .file-tree li.tree-folder:hover::after {
+  border-color: var(--accent) !important;
+}
+
+/* ============================================
+   WRAPPER (summary atau div)
+   ============================================ */
+.prose .file-tree .tree-label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: color var(--prose-duration) var(--ease-out);
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
   padding: 0.15rem 0;
-  color: var(--fg-muted);
-  user-select: none;
-  white-space: nowrap;
-  margin-block-start: 4px;
-  margin-block-end: 4px;
+  padding-left: 0 !important;
+  color: var(--fg);
+  box-sizing: border-box;
 }
 
-.prose .file-tree-folder > .file-tree-label {
-  cursor: pointer;
-  font-weight: 500;
-}
-.prose .file-tree-label:active
-.prose .file-tree-label:hover,
-.prose .file-tree-folder.open > .file-tree-label {
-  color: var(--fg-strong);
-}
-
-.prose .file-tree-label .icon {
+/* ============================================
+   SPAN UTAMA — IKON VIA ::before
+   ============================================ */
+.prose .file-tree .tree-label span {
   display: inline-flex;
-  flex-shrink: 0;
   align-items: center;
-  transition: color var(--duration) var(--ease-out);
-  color: var(--fg-subtle);
-}
-
-.prose .file-tree-folder.open > .file-tree-label .icon {
-  color: var(--fg-strong);
-}
-
-.prose .file-tree-label.is-marked {
-  background-color: rgb(from var(--accent) r g b / 0.6) !important;
-  border-radius: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
-  color: var(--fg-strong) !important;
   gap: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.prose .file-tree-label.is-marked .file-name mark {
-  background: none !important;
-  color: inherit;
+/* ============================================
+   IKON FOLDER & FILE (VIA MASK-IMAGE)
+   ============================================ */
+.prose .file-tree span.tree-folder::before,
+.prose .file-tree span.tree-file::before {
+  content: "";
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: background-color 0.2s;
+}
+
+/* Ikon folder */
+.prose .file-tree span.tree-folder::before {
+  mask-image: var(--ic-ft-folder);
+  -webkit-mask-image: var(--ic-ft-folder);
+}
+
+/* Ikon file (default / fallback) */
+.prose .file-tree span.tree-file::before {
+  mask-image: var(--ic-ft-file);
+  -webkit-mask-image: var(--ic-ft-file);
+}
+
+/* ============================================
+   IKON EKSTENSI — TAMBAHKAN SENDIRI
+   ============================================ */
+/*
+  Cara menambahkan:
+  1. Di :root, tambahkan variable: --ic-ft-<ekstensi>: url("...");
+  2. Di sini, tambahkan selector:
+
+.prose .file-tree span.tree-file[data-ext="astro"]::before {
+  mask-image: var(--ic-ft-astro);
+  -webkit-mask-image: var(--ic-ft-astro);
+}
+.prose .file-tree span.tree-file[data-ext="ts"]::before {
+  mask-image: var(--ic-ft-ts);
+  -webkit-mask-image: var(--ic-ft-ts);
+}
+.prose .file-tree span.tree-file[data-ext="js"]::before {
+  mask-image: var(--ic-ft-js);
+  -webkit-mask-image: var(--ic-ft-js);
+}
+.prose .file-tree span.tree-file[data-ext="css"]::before {
+  mask-image: var(--ic-ft-css);
+  -webkit-mask-image: var(--ic-ft-css);
+}
+*/
+
+/* ============================================
+   PLACEHOLDER — TANPA IKON
+   ============================================ */
+.prose .file-tree span.tree-placeholder::before {
+  display: none !important;
+}
+
+.prose .file-tree .tree-placeholder {
+  opacity: 0.5;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* ============================================
+   KOMENTAR
+   ============================================ */
+.prose .file-tree .tree-comment {
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-left: 0.25rem;
+}
+
+/* ============================================
+   HIGHLIGHT — PADA WRAPPER (summary atau div)
+   ============================================ */
+.prose .file-tree .tree-label.tree-highlight {
+  padding: 0.1rem 0.75rem;
+  color: var(--accent) !important;
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree .tree-label.tree-highlight span.tree-file::before,
+.prose .file-tree .tree-label.tree-highlight span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-label.tree-highlight span strong {
+  color: var(--accent) !important;
   font-weight: 600;
 }
 
-.prose .file-tree-label.is-marked .icon {
-  color: var(--fg-strong) !important;
+/* ============================================
+   HOVER — IKON BERUBAH WARNA
+   ============================================ */
+.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
+  background-color: var(--accent) !important;
+}
+.prose .file-tree .tree-file:hover .tree-label {
+  color: var(--accent);
+  cursor: default;
 }
 
-@media (min-width: 768px) {
-  .prose .file-tree-label {
-    @apply text-code-14;
-  }
+.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+.prose .file-tree .tree-folder > details > summary:hover .tree-label {
+  color: var(--accent);
+}
+
+/* ============================================
+   MARKER DEFAULT — HILANGKAN
+   ============================================ */
+.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  display: none !important;
+}
+.prose .file-tree .tree-folder > details > summary::marker {
+  content: none !important;
 }
