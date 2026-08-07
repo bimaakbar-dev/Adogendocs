@@ -1,7 +1,9 @@
 /* src/styles/prose/filetree.css */
 
+/* ============================================
+   ROOT VARIABLE — ISI IKON DI SINI
+   ============================================ */
 :root {
-  /* Ikon dasar (WAJIB diisi) */
   --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
   --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
 
@@ -9,16 +11,35 @@
   /* --ic-ft-astro: url("..."); */
 }
 
+/* ============================================
+   CONTAINER — SCROLL HORIZONTAL
+   ============================================ */
 .prose .file-tree {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-muted);
   border: 1px solid rgb(from var(--border) r g b / 80%);
   border-radius: var(--radius-md);
   padding: 0.75rem 2rem;
   margin: 2rem 0;
-  width: 100%;
-  max-width: 100%;
+}
+
+/* Pastikan konten tidak wrap */
+.prose .file-tree ul {
   display: block;
-  overflow-x: auto;
+  min-width: max-content;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prose .file-tree ul ul {
+  margin: 0;
+  padding-inline-start: 1.5rem;
 }
 
 .prose .file-tree *:first-child { margin-top: 0; }
@@ -26,26 +47,22 @@
 
 .prose .file-tree,
 .prose .file-tree * {
-  @apply text-code-14;
   font-size: 14px !important;
+  font-family: var(--font-mono);
 }
 
-.prose .file-tree ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.prose .file-tree ul ul {
-  margin: 0;
-  padding-inline-start: 1.5rem;
-}
-
+/* ============================================
+   ITEM
+   ============================================ */
 .prose .file-tree li {
   position: relative;
   margin: 0;
   padding-block: 0.15rem;
 }
 
+/* ============================================
+   DEPTH
+   ============================================ */
 .prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
 .prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
 .prose .file-tree li.tree-depth-2,
@@ -56,6 +73,9 @@
   padding-left: 0.5rem !important;
 }
 
+/* ============================================
+   GARIS TREE
+   ============================================ */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
@@ -80,6 +100,9 @@
   height: 1rem;
 }
 
+/* ============================================
+   HOVER — BORDER BERUBAH
+   ============================================ */
 .prose .file-tree li.tree-file:hover ~ .tree-file::before,
 .prose .file-tree li.tree-file:hover ~ .tree-file::after,
 .prose .file-tree li.tree-file:hover::before,
@@ -91,6 +114,9 @@
   border-color: var(--accent) !important;
 }
 
+/* ============================================
+   WRAPPER (summary atau div) — PASTI ADA tree-label
+   ============================================ */
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
@@ -103,6 +129,9 @@
   box-sizing: border-box;
 }
 
+/* ============================================
+   SPAN UTAMA
+   ============================================ */
 .prose .file-tree .tree-label span {
   display: inline-flex;
   align-items: center;
@@ -112,12 +141,15 @@
   text-overflow: ellipsis;
 }
 
+/* ============================================
+   IKON FOLDER & FILE
+   ============================================ */
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1.125rem;
+  height: 1.125rem;
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
@@ -139,7 +171,7 @@
 }
 
 /* ============================================
-   IKON EKSTENSI
+   IKON EKSTENSI (TAMBAHKAN SENDIRI)
    ============================================ */
 /* Contoh:
 .prose .file-tree span.tree-file[data-ext="astro"]::before {
@@ -148,6 +180,9 @@
 }
 */
 
+/* ============================================
+   PLACEHOLDER
+   ============================================ */
 .prose .file-tree span.tree-placeholder::before {
   display: none !important;
 }
@@ -157,14 +192,19 @@
   color: var(--fg-muted);
 }
 
-.prose .file-tree span.tree-comment {
-  @apply text-code-12;
+/* ============================================
+   KOMENTAR
+   ============================================ */
+.prose .file-tree .tree-comment {
   color: var(--fg-muted);
   font-size: 0.75rem;
   font-style: italic;
   margin-left: 0.25rem;
 }
 
+/* ============================================
+   HIGHLIGHT — PADA WRAPPER
+   ============================================ */
 .prose .file-tree .tree-label.tree-highlight {
   padding: 0.1rem 0.75rem;
   color: var(--accent) !important;
@@ -180,6 +220,9 @@
   font-weight: 600;
 }
 
+/* ============================================
+   HOVER — IKON & TEKS BERUBAH
+   ============================================ */
 .prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
   background-color: var(--accent) !important;
 }
@@ -193,3 +236,15 @@
 .prose .file-tree .tree-folder > details > summary:hover .tree-label {
   color: var(--accent);
 }
+
+/* ============================================
+   MARKER DEFAULT — MUNCUL
+   ============================================ */
+/*.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  display: initial !important;
+  color: inherit !important;
+}
+.prose .file-tree .tree-folder > details > summary::marker {
+  content: normal !important;
+  color: inherit !important;
+}*/
