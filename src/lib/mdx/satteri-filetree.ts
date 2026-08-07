@@ -161,7 +161,6 @@ export const satteriFileTree = defineMdastPlugin({
       fileName = 'untitled';
     }
 
-   
     isPlaceholder = isPlaceholderName(fileName);
 
     const isFolder = !isPlaceholder && (fileName.endsWith('/') || hasNestedList);
@@ -175,7 +174,7 @@ export const satteriFileTree = defineMdastPlugin({
     } else if (isFile) {
       ext = getFileExtension(fileName);
     }
-    
+
     const spanClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
 
     const spanChildren: any[] = [];
@@ -195,7 +194,6 @@ export const satteriFileTree = defineMdastPlugin({
       } else {
         spanChildren.push({ type: 'text', value: displayName });
       }
-      // Komentar (jika ada)
       if (comment) {
         const trimmedComment = comment.trim();
         if (trimmedComment) {
@@ -242,13 +240,10 @@ export const satteriFileTree = defineMdastPlugin({
       ctx.setProperty(node, 'children', [labelNode as any]);
     } else if (isFolder && hasNestedList) {
       const summaryNode = {
-        type: 'paragraph',
+        type: 'containerDirective',
         data: {
           hName: 'summary',
-          hProperties: {
-    		...(node.data?.hProperties || {}),
-    		className: wrapperClasses,
-  		},
+          hProperties: { className: wrapperClasses },
         },
         children: [contentSpan],
       };
@@ -264,16 +259,12 @@ export const satteriFileTree = defineMdastPlugin({
         type: 'containerDirective',
         data: {
           hName: 'div',
-          hProperties: {
-    		...(node.data?.hProperties || {}),
-    		className: wrapperClasses,
-  		},
+          hProperties: { className: wrapperClasses },
         },
         children: [contentSpan],
       };
       ctx.setProperty(node, 'children', [labelNode as any]);
     }
-
 
     const bData = node.data || {};
     const liProps: any = {
