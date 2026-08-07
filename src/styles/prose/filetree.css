@@ -1,24 +1,41 @@
 /* src/styles/prose/filetree.css */
 
+/* ============================================
+   ROOT VARIABLE — ISI IKON DI SINI
+   ============================================ */
 :root {
   --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
   --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
-
-  /* Tambahkan ikon ekstensi di sini */
-  /* --ic-ft-astro: url("..."); */
 }
 
 /* ============================================
-   CONTAINER
+   CONTAINER — SCROLL HORIZONTAL
    ============================================ */
-
 .prose .file-tree {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-muted);
   border: 1px solid rgb(from var(--border) r g b / 80%);
   border-radius: var(--radius-md);
   padding: 0.75rem 2rem;
   margin: 2rem 0;
-  overflow-x: auto;
+}
+
+.prose .file-tree ul {
+  display: block;
+  min-width: max-content;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prose .file-tree ul ul {
+  margin: 0;
+  padding-inline-start: 1.5rem;
 }
 
 .prose .file-tree *:first-child { margin-top: 0; }
@@ -26,32 +43,24 @@
 
 .prose .file-tree,
 .prose .file-tree * {
-  @apply text-code-14;
   font-size: 14px !important;
+  font-family: var(--font-mono);
 }
 
 /* ============================================
-   LIST
+   ITEM
    ============================================ */
-
-.prose .file-tree ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.prose .file-tree ul ul {
-  margin: 0;
-  padding-inline-start: 1.5rem;
-}
-
 .prose .file-tree li {
   position: relative;
   margin: 0;
   padding-block: 0.15rem;
 }
 
+/* ============================================
+   DEPTH
+   ============================================ */
 .prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
-.prose .file-tree li.tree-depth-1 { padding-left: 0 !important; }
+.prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
 .prose .file-tree li.tree-depth-2,
 .prose .file-tree li.tree-depth-3,
 .prose .file-tree li.tree-depth-4,
@@ -61,9 +70,8 @@
 }
 
 /* ============================================
-   GARIS KONEKTOR
+   GARIS TREE
    ============================================ */
-
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
@@ -88,6 +96,9 @@
   height: 1rem;
 }
 
+/* ============================================
+   HOVER — BORDER BERUBAH
+   ============================================ */
 .prose .file-tree li.tree-file:hover ~ .tree-file::before,
 .prose .file-tree li.tree-file:hover ~ .tree-file::after,
 .prose .file-tree li.tree-file:hover::before,
@@ -100,13 +111,9 @@
 }
 
 /* ============================================
-   LABEL WRAPPER — div (file/placeholder) dan summary (folder)
-   Class tidak bisa di-set pada child node buatan manual di satteri,
-   jadi semua state diatur via data-* attribute di <li>
+   WRAPPER (summary atau div) — tree-label WAJIB ADA
    ============================================ */
-
-.prose .file-tree li > div,
-.prose .file-tree li > details > summary {
+.prose .file-tree .tree-label {
   display: flex;
   align-items: center;
   width: 100%;
@@ -119,15 +126,9 @@
 }
 
 /* ============================================
-   DETAILS / SUMMARY — sembunyikan marker default
+   SPAN UTAMA
    ============================================ */
-
-.prose .file-tree details > summary {
-  cursor: default;
-}
-
-.prose .file-tree li > div span,
-.prose .file-tree li > details > summary span {
+.prose .file-tree .tree-label span {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -137,15 +138,14 @@
 }
 
 /* ============================================
-   IKON FILE & FOLDER
+   IKON FOLDER & FILE
    ============================================ */
-
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
@@ -167,34 +167,42 @@
 }
 
 /* ============================================
-   IKON EKSTENSI — via data-ext di <li>
+   HIGHLIGHT — PAKAI ATRIBUT data-highlight
    ============================================ */
-/* Contoh:
-.prose .file-tree li[data-ext="astro"] span.tree-file::before {
-  mask-image: var(--ic-ft-astro);
-  -webkit-mask-image: var(--ic-ft-astro);
+.prose .file-tree .tree-label[data-highlight] {
+  padding: 0.1rem 0.75rem;
+  color: var(--accent) !important;
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  border-radius: var(--radius-sm);
 }
-*/
+
+.prose .file-tree .tree-label[data-highlight] span.tree-file::before,
+.prose .file-tree .tree-label[data-highlight] span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-label[data-highlight] span strong {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
 
 /* ============================================
-   PLACEHOLDER — via data-placeholder di <li>
+   PLACEHOLDER — PAKAI ATRIBUT data-placeholder
    ============================================ */
-
-.prose .file-tree span.tree-placeholder::before {
-  display: none !important;
-}
-.prose .file-tree li[data-placeholder] > div {
+.prose .file-tree .tree-label[data-placeholder] {
   opacity: 0.5;
   font-style: italic;
   color: var(--fg-muted);
 }
 
-/* ============================================
-   KOMENTAR — span.tree-comment sudah bisa di-set class via satteri
-   ============================================ */
+.prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
+  display: none !important;
+}
 
-.prose .file-tree span.tree-comment {
-  @apply text-code-12;
+/* ============================================
+   KOMENTAR
+   ============================================ */
+.prose .file-tree .tree-comment {
   color: var(--fg-muted);
   font-size: 0.75rem;
   font-style: italic;
@@ -202,42 +210,42 @@
 }
 
 /* ============================================
-   HIGHLIGHT — via data-highlighted di <li>
+   HOVER — IKON & TEKS BERUBAH
    ============================================ */
-
-.prose .file-tree li[data-highlighted] > div,
-.prose .file-tree li[data-highlighted] > details > summary {
-  padding: 0.1rem 0.75rem;
-  color: var(--accent) !important;
-  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
-  border-radius: var(--radius-sm);
-}
-.prose .file-tree li[data-highlighted] > div span.tree-file::before,
-.prose .file-tree li[data-highlighted] > div span.tree-folder::before,
-.prose .file-tree li[data-highlighted] > details > summary span.tree-file::before,
-.prose .file-tree li[data-highlighted] > details > summary span.tree-folder::before {
+.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
   background-color: var(--accent) !important;
 }
-.prose .file-tree li[data-highlighted] > div span strong,
-.prose .file-tree li[data-highlighted] > details > summary span strong {
-  color: var(--accent) !important;
-  font-weight: 600;
-}
-
-/* ============================================
-   HOVER
-   ============================================ */
-
-.prose .file-tree li.tree-file:hover > div span.tree-file::before {
-  background-color: var(--accent) !important;
-}
-.prose .file-tree li.tree-file:hover > div {
+.prose .file-tree .tree-file:hover .tree-label {
   color: var(--accent);
   cursor: default;
 }
-.prose .file-tree li.tree-folder:hover > details > summary span.tree-folder::before {
+.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
   background-color: var(--accent) !important;
 }
-.prose .file-tree li.tree-folder:hover > details > summary {
+.prose .file-tree .tree-folder > details > summary:hover .tree-label {
   color: var(--accent);
+}
+
+/* ============================================
+   MARKER DEFAULT — PASTIKAN MUNCUL
+   ============================================ */
+.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  display: initial !important;
+  color: inherit !important;
+  margin-right: 0.25rem;
+}
+
+.prose .file-tree .tree-folder > details > summary::marker {
+  content: normal !important;
+  color: inherit !important;
+}
+
+.prose .file-tree .tree-folder > details > summary {
+  list-style: disclosure-closed !important;
+  display: flex;
+  align-items: center;
+}
+
+.prose .file-tree .tree-folder > details[open] > summary {
+  list-style: disclosure-open !important;
 }
