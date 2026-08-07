@@ -15,6 +15,9 @@
   border-radius: var(--radius-md);
   padding: 0.75rem 2rem;
   margin: 2rem 0;
+  width: 100%;
+  max-width: 100%;
+  display: "block";
   overflow-x: auto;
 }
 
@@ -113,8 +116,8 @@
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 0.9rem;
+  height: 0.9rem;
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
@@ -189,9 +192,4 @@
 }
 .prose .file-tree .tree-folder > details > summary:hover .tree-label {
   color: var(--accent);
-}
-
-.prose .file-tree .tree-folder > details > summary::marker,
-.prose .file-tree .tree-folder > details > summary::-webkit-details-marker { 
-  color: inherit !important;
 }
