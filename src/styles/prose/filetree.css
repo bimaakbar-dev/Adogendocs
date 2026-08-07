@@ -1,49 +1,20 @@
 /* src/styles/prose/filetree.css */
 
+/* ============================================
+   ROOT VARIABLE — ISI IKON DI SINI
+   ============================================ */
 :root {
-  /* ===== IKON DASAR (WAJIB DIISI) ===== */
+  /* Ikon dasar (WAJIB diisi) */
   --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
   --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
 
-  /* ===== IKON EKSTENSI (TAMBAHKAN SENDIRI) ===== */
+  /* Tambahkan ikon ekstensi di sini */
   /* --ic-ft-astro: url("..."); */
-  /* --ic-ft-ts: url("..."); */
-  /* --ic-ft-js: url("..."); */
-  /* --ic-ft-css: url("..."); */
-  /* --ic-ft-json: url("..."); */
-  /* --ic-ft-md: url("..."); */
-  /* --ic-ft-mdx: url("..."); */
-  /* --ic-ft-html: url("..."); */
-  /* --ic-ft-vue: url("..."); */
-  /* --ic-ft-svelte: url("..."); */
-  /* --ic-ft-react: url("..."); */
-  /* --ic-ft-php: url("..."); */
-  /* --ic-ft-py: url("..."); */
-  /* --ic-ft-go: url("..."); */
-  /* --ic-ft-rust: url("..."); */
-  /* --ic-ft-sh: url("..."); */
-  /* --ic-ft-yaml: url("..."); */
-  /* --ic-ft-toml: url("..."); */
-  /* --ic-ft-xml: url("..."); */
-  /* --ic-ft-svg: url("..."); */
-  /* --ic-ft-png: url("..."); */
-  /* --ic-ft-jpg: url("..."); */
-  /* --ic-ft-gif: url("..."); */
-  /* --ic-ft-webp: url("..."); */
-  /* --ic-ft-ico: url("..."); */
-  /* --ic-ft-pdf: url("..."); */
-  /* --ic-ft-zip: url("..."); */
-  /* --ic-ft-tar: url("..."); */
-  /* --ic-ft-gz: url("..."); */
-  /* --ic-ft-lock: url("..."); */
-  /* --ic-ft-gitignore: url("..."); */
-  /* --ic-ft-dockerfile: url("..."); */
-  /* --ic-ft-makefile: url("..."); */
-  /* --ic-ft-env: url("..."); */
-  /* --ic-ft-log: url("..."); */
-  /* --ic-ft-txt: url("..."); */
 }
 
+/* ============================================
+   CONTAINER
+   ============================================ */
 .prose .file-tree {
   background-color: var(--bg-muted);
   border: 1px solid rgb(from var(--border) r g b / 80%);
@@ -58,27 +29,35 @@
 
 .prose .file-tree,
 .prose .file-tree * {
-  @apply text-code-14;
-  font-size: 14px !important; 
+  font-size: 14px !important;
+  font-family: var(--font-mono);
 }
 
+/* ============================================
+   LIST
+   ============================================ */
 .prose .file-tree ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .prose .file-tree ul ul {
   margin: 0;
   padding-inline-start: 1.5rem;
 }
 
+/* ============================================
+   ITEM
+   ============================================ */
 .prose .file-tree li {
   position: relative;
   margin: 0;
   padding-block: 0.15rem;
 }
 
+/* ============================================
+   DEPTH
+   ============================================ */
 .prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
 .prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
 .prose .file-tree li.tree-depth-2,
@@ -89,6 +68,9 @@
   padding-left: 0.5rem !important;
 }
 
+/* ============================================
+   GARIS TREE
+   ============================================ */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
@@ -98,7 +80,6 @@
   border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
   transition: border-color 0.2s;
 }
-
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
@@ -110,18 +91,17 @@
   border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
   transition: border-color 0.2s;
 }
-
 .prose .file-tree ul ul > li:last-child::after {
   height: 1rem;
 }
 
+/* ============================================
+   HOVER — BORDER BERUBAH
+   ============================================ */
 .prose .file-tree li.tree-file:hover ~ .tree-file::before,
 .prose .file-tree li.tree-file:hover ~ .tree-file::after,
 .prose .file-tree li.tree-file:hover::before,
-.prose .file-tree li.tree-file:hover::after {
-  border-color: var(--accent) !important;
-}
-
+.prose .file-tree li.tree-file:hover::after,
 .prose .file-tree li.tree-folder:hover ~ .tree-folder::before,
 .prose .file-tree li.tree-folder:hover ~ .tree-folder::after,
 .prose .file-tree li.tree-folder:hover::before,
@@ -129,6 +109,9 @@
   border-color: var(--accent) !important;
 }
 
+/* ============================================
+   WRAPPER (summary atau div) — PASTI ADA tree-label
+   ============================================ */
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
@@ -141,6 +124,9 @@
   box-sizing: border-box;
 }
 
+/* ============================================
+   SPAN UTAMA
+   ============================================ */
 .prose .file-tree .tree-label span {
   display: inline-flex;
   align-items: center;
@@ -150,6 +136,9 @@
   text-overflow: ellipsis;
 }
 
+/* ============================================
+   IKON FOLDER & FILE
+   ============================================ */
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
@@ -167,76 +156,68 @@
   -webkit-mask-position: center;
   transition: background-color 0.2s;
 }
-
 .prose .file-tree span.tree-folder::before {
   mask-image: var(--ic-ft-folder);
   -webkit-mask-image: var(--ic-ft-folder);
 }
-
 .prose .file-tree span.tree-file::before {
   mask-image: var(--ic-ft-file);
   -webkit-mask-image: var(--ic-ft-file);
 }
 
 /* ============================================
-   IKON EKSTENSI — TAMBAHKAN SENDIRI
+   IKON EKSTENSI (TAMBAHKAN SENDIRI)
    ============================================ */
-/*
-  Cara menambahkan:
-  1. Di :root, tambahkan variable: --ic-ft-<ekstensi>: url("...");
-  2. Di sini, tambahkan selector:
-
+/* Contoh:
 .prose .file-tree span.tree-file[data-ext="astro"]::before {
   mask-image: var(--ic-ft-astro);
   -webkit-mask-image: var(--ic-ft-astro);
 }
-.prose .file-tree span.tree-file[data-ext="ts"]::before {
-  mask-image: var(--ic-ft-ts);
-  -webkit-mask-image: var(--ic-ft-ts);
-}
-.prose .file-tree span.tree-file[data-ext="js"]::before {
-  mask-image: var(--ic-ft-js);
-  -webkit-mask-image: var(--ic-ft-js);
-}
-.prose .file-tree span.tree-file[data-ext="css"]::before {
-  mask-image: var(--ic-ft-css);
-  -webkit-mask-image: var(--ic-ft-css);
-}
 */
 
+/* ============================================
+   PLACEHOLDER
+   ============================================ */
 .prose .file-tree span.tree-placeholder::before {
   display: none !important;
 }
-
 .prose .file-tree .tree-placeholder {
   opacity: 0.5;
   font-style: italic;
   color: var(--fg-muted);
 }
 
+/* ============================================
+   KOMENTAR
+   ============================================ */
 .prose .file-tree .tree-comment {
-  @apply text-code-12;
   color: var(--fg-muted);
+  font-size: 0.75rem;
+  font-style: italic;
   margin-left: 0.25rem;
 }
 
+/* ============================================
+   HIGHLIGHT
+   ============================================ */
 .prose .file-tree .tree-label.tree-highlight {
   padding: 0.1rem 0.75rem;
   color: var(--accent) !important;
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
   border-radius: var(--radius-sm);
 }
-
 .prose .file-tree .tree-label.tree-highlight span.tree-file::before,
 .prose .file-tree .tree-label.tree-highlight span.tree-folder::before {
   background-color: var(--accent) !important;
 }
-
 .prose .file-tree .tree-label.tree-highlight span strong {
   color: var(--accent) !important;
   font-weight: 600;
 }
 
+/* ============================================
+   HOVER — IKON & TEKS BERUBAH
+   ============================================ */
 .prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
   background-color: var(--accent) !important;
 }
@@ -244,7 +225,6 @@
   color: var(--accent);
   cursor: default;
 }
-
 .prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
   background-color: var(--accent) !important;
 }
@@ -252,9 +232,14 @@
   color: var(--accent);
 }
 
-/*.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
-  display: none !important;
+/* ============================================
+   MARKER DEFAULT — MUNCUL
+   ============================================ */
+.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  display: initial !important;
+  color: inherit !important;
 }
 .prose .file-tree .tree-folder > details > summary::marker {
-  content: none !important;
-}*/
+  content: normal !important;
+  color: inherit !important;
+}
