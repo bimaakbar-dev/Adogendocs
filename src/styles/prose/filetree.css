@@ -108,14 +108,14 @@
 }
 
 /* Sembunyikan marker default details/summary */
-.prose .file-tree details > summary {
+/*.prose .file-tree details > summary {
   list-style: none;
   cursor: default;
 }
 .prose .file-tree details > summary::marker,
 .prose .file-tree details > summary::-webkit-details-marker {
   display: none;
-}
+}*/
 
 .prose .file-tree li > div span,
 .prose .file-tree li > details > summary span {
