@@ -1,251 +1,234 @@
-// src/lib/mdx/satteri-filetree.ts
-import { defineMdastPlugin } from 'satteri';
+/* src/styles/prose/filetree.css */
 
-function splitComment(raw: string): { name: string; comment: string } {
-  const idxSlash = raw.search(/\s\/\/\s?/);
-  const idxHash = raw.search(/\s#\s?/);
-  let idx = -1;
-  if (idxSlash !== -1 && idxHash !== -1) {
-    idx = Math.min(idxSlash, idxHash);
-  } else if (idxSlash !== -1) {
-    idx = idxSlash;
-  } else if (idxHash !== -1) {
-    idx = idxHash;
-  }
-  if (idx === -1) {
-    return { name: raw.trim(), comment: '' };
-  }
-  const name = raw.slice(0, idx).trim();
-  const comment = raw.slice(idx).trim();
-  return { name, comment };
+:root {
+  --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
+  --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* Tambahkan ikon ekstensi di sini */
+  /* --ic-ft-astro: url("..."); */
 }
 
-function isPlaceholderName(name: string): boolean {
-  const trimmed = name.trim();
-  return trimmed === '...' || trimmed === '…';
+.prose .file-tree {
+  background-color: var(--bg-muted);
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 2rem;
+  margin: 2rem 0;
+  overflow-x: auto;
 }
 
-function getFileExtension(fileName: string): string {
-  const trimmed = fileName.trim();
-  if (trimmed.endsWith('/')) return 'folder';
-  if (trimmed.startsWith('.')) {
-    const parts = trimmed.split('.');
-    if (parts.length > 1) {
-      return parts.slice(1).join('.').toLowerCase();
-    }
-    return '';
-  }
-  const parts = trimmed.split('.');
-  if (parts.length > 1) {
-    return parts[parts.length - 1].toLowerCase();
-  }
-  return '';
+.prose .file-tree *:first-child { margin-top: 0; }
+.prose .file-tree *:last-child { margin-bottom: 0; }
+
+.prose .file-tree,
+.prose .file-tree * {
+  @apply text-code-14;
+  font-size: 14px !important;
 }
 
-function normalizeFileName(raw: string): string {
-  return raw.trim();
+.prose .file-tree ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.prose .file-tree ul ul {
+  margin: 0;
+  padding-inline-start: 1.5rem;
 }
 
-export const satteriFileTree = defineMdastPlugin({
-  name: 'satteri-filetree',
+.prose .file-tree li {
+  position: relative;
+  margin: 0;
+  padding-block: 0.15rem;
+}
 
-  containerDirective(node: any, ctx: any) {
-    if (node.name !== 'filetree') return;
-    const baseData = node.data || {};
-    ctx.setProperty(node, 'data', {
-      ...baseData,
-      hName: 'div',
-      hProperties: {
-        ...(baseData.hProperties || {}),
-        className: ['file-tree'],
-      },
-    });
-  },
+.prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
+.prose .file-tree li.tree-depth-1 { padding-left: 0 !important; }
+.prose .file-tree li.tree-depth-2,
+.prose .file-tree li.tree-depth-3,
+.prose .file-tree li.tree-depth-4,
+.prose .file-tree li.tree-depth-5,
+.prose .file-tree li.tree-depth-6 {
+  padding-left: 0.5rem !important;
+}
 
-  listItem(node: any, ctx: any) {
-    let current: any = node;
-    let isInside = false;
-    let depth = 0;
+.prose .file-tree ul ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 1rem;
+  width: 0.5rem;
+  border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
+  transition: border-color 0.2s;
+}
+.prose .file-tree ul ul > li::after {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  height: 100%;
+  border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
+  transition: border-color 0.2s;
+}
+.prose .file-tree ul ul > li:last-child::after {
+  height: 1rem;
+}
 
-    while (true) {
-      const parent = ctx.parent(current);
-      if (!parent) break;
+.prose .file-tree li.tree-file:hover ~ .tree-file::before,
+.prose .file-tree li.tree-file:hover ~ .tree-file::after,
+.prose .file-tree li.tree-file:hover::before,
+.prose .file-tree li.tree-file:hover::after,
+.prose .file-tree li.tree-folder:hover ~ .tree-folder::before,
+.prose .file-tree li.tree-folder:hover ~ .tree-folder::after,
+.prose .file-tree li.tree-folder:hover::before,
+.prose .file-tree li.tree-folder:hover::after {
+  border-color: var(--accent) !important;
+}
 
-      if (parent.type === 'list') {
-        depth++;
-      }
+/* ============================================
+   LABEL WRAPPER — div (file/placeholder) dan summary (folder)
+   Karena class tidak bisa di-set pada child node buatan manual di satteri,
+   kita target langsung via child selector dari <li>
+   ============================================ */
 
-      if (parent.type === 'containerDirective' && (parent as any).name === 'filetree') {
-        isInside = true;
-        break;
-      }
+.prose .file-tree li > div,
+.prose .file-tree li > details > summary {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0.15rem 0;
+  padding-left: 0 !important;
+  color: var(--fg);
+  box-sizing: border-box;
+  list-style: none;
+}
 
-      current = parent;
-    }
+/* Sembunyikan marker default details/summary */
+.prose .file-tree details > summary {
+  list-style: none;
+  cursor: default;
+}
+.prose .file-tree details > summary::marker,
+.prose .file-tree details > summary::-webkit-details-marker {
+  display: none;
+}
 
-    if (!isInside) return;
+.prose .file-tree li > div span,
+.prose .file-tree li > details > summary span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    const firstChild = node.children[0];
-    const hasNestedList = node.children.some((c: any) => c.type === 'list');
+/* ============================================
+   IKON FILE & FOLDER
+   ============================================ */
 
-    let fileName = '';
-    let isHighlighted = false;
-    let comment = '';
-    let strongNode: any = null;
-    let isPlaceholder = false;
+.prose .file-tree span.tree-folder::before,
+.prose .file-tree span.tree-file::before {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: background-color 0.2s;
+}
+.prose .file-tree span.tree-folder::before {
+  mask-image: var(--ic-ft-folder);
+  -webkit-mask-image: var(--ic-ft-folder);
+}
+.prose .file-tree span.tree-file::before {
+  mask-image: var(--ic-ft-file);
+  -webkit-mask-image: var(--ic-ft-file);
+}
 
-    if (firstChild && firstChild.type === 'paragraph' && Array.isArray(firstChild.children)) {
-      const children = firstChild.children as any[];
-      if (children.length > 0) {
-        strongNode = children.find((c: any) => c.type === 'strong');
-        if (strongNode) {
-          isHighlighted = true;
-          const textChild = strongNode.children?.[0];
-          if (textChild?.type === 'text') {
-            const raw = textChild.value || '';
-            const { name, comment: cmt } = splitComment(raw);
-            fileName = normalizeFileName(name);
-            comment = cmt;
-          }
-          const rest = children.filter((c: any) => c !== strongNode);
-          for (const child of rest) {
-            if (child.type === 'text') {
-              const { comment: cmt } = splitComment(child.value);
-              if (cmt) {
-                const trimmed = cmt.trim();
-                if (trimmed) comment = comment ? comment + ' ' + trimmed : trimmed;
-              }
-            }
-          }
-        } else {
-          const textNode = children.find((c: any) => c.type === 'text');
-          if (textNode) {
-            const raw = textNode.value || '';
-            const { name, comment: cmt } = splitComment(raw);
-            fileName = normalizeFileName(name);
-            comment = cmt;
-          } else {
-            let fullText = '';
-            for (const child of children) {
-              if (child.type === 'text') fullText += child.value;
-              else if (child.type === 'inlineCode' && child.value) fullText += child.value;
-            }
-            const { name, comment: cmt } = splitComment(fullText);
-            fileName = normalizeFileName(name);
-            comment = cmt;
-          }
-        }
-      }
-    }
+/* ============================================
+   IKON EKSTENSI
+   ============================================ */
+/* Contoh:
+.prose .file-tree span.tree-file[data-ext="astro"]::before {
+  mask-image: var(--ic-ft-astro);
+  -webkit-mask-image: var(--ic-ft-astro);
+}
+*/
 
-    if (!fileName) {
-      fileName = 'untitled';
-    }
+/* ============================================
+   PLACEHOLDER
+   ============================================ */
 
-    isPlaceholder = isPlaceholderName(fileName);
+.prose .file-tree span.tree-placeholder::before {
+  display: none !important;
+}
+.prose .file-tree .tree-placeholder {
+  opacity: 0.5;
+  font-style: italic;
+  color: var(--fg-muted);
+}
 
-    const isFolder = !isPlaceholder && (fileName.endsWith('/') || hasNestedList);
-    const isFile = !isPlaceholder && !isFolder;
+/* ============================================
+   KOMENTAR
+   ============================================ */
 
-    const displayName = isFolder ? fileName.replace(/\/$/, '').trim() : fileName.trim();
+.prose .file-tree span.tree-comment {
+  @apply text-code-12;
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-left: 0.25rem;
+}
 
-    let ext = '';
-    if (isFolder) {
-      ext = 'folder';
-    } else if (isFile) {
-      ext = getFileExtension(fileName);
-    }
+/* ============================================
+   HIGHLIGHT — target li.tree-highlight > div/summary langsung
+   ============================================ */
 
-    const spanClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
+.prose .file-tree li.tree-highlight > div,
+.prose .file-tree li.tree-highlight > details > summary {
+  padding: 0.1rem 0.75rem;
+  color: var(--accent) !important;
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  border-radius: var(--radius-sm);
+}
+.prose .file-tree li.tree-highlight > div span.tree-file::before,
+.prose .file-tree li.tree-highlight > div span.tree-folder::before,
+.prose .file-tree li.tree-highlight > details > summary span.tree-file::before,
+.prose .file-tree li.tree-highlight > details > summary span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+.prose .file-tree li.tree-highlight > div span strong,
+.prose .file-tree li.tree-highlight > details > summary span strong {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
 
-    const spanChildren: any[] = [];
+/* ============================================
+   HOVER
+   ============================================ */
 
-    if (isPlaceholder) {
-      spanChildren.push({ type: 'text', value: '…' });
-    } else {
-      if (isHighlighted && strongNode) {
-        const strongClone = {
-          ...strongNode,
-          children: strongNode.children?.map((c: any) => ({
-            ...c,
-            value: c.value?.trim(),
-          })),
-        };
-        spanChildren.push(strongClone);
-      } else {
-        spanChildren.push({ type: 'text', value: displayName });
-      }
-      if (comment) {
-        const trimmedComment = comment.trim();
-        if (trimmedComment) {
-          spanChildren.push({ type: 'text', value: ' ' });
-          spanChildren.push({
-            type: 'containerDirective',
-            data: {
-              hName: 'span',
-              hProperties: { className: ['tree-comment'] },
-            },
-            children: [{ type: 'text', value: trimmedComment }],
-          });
-        }
-      }
-    }
-
-    const contentSpan = {
-      type: 'containerDirective',
-      data: {
-        hName: 'span',
-        hProperties: { className: [spanClass] },
-      },
-      children: spanChildren,
-    };
-
-    // Tidak lagi pakai wrapperClasses — class tree-label dan tree-highlight
-    // dipindah ke <li> dan ditarget via CSS child selector
-
-    const existingClasses = (node.data?.hProperties?.className as string[]) || [];
-    const depthClass = `tree-depth-${depth}`;
-    const typeClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
-    const highlightClass = isHighlighted ? 'tree-highlight' : '';
-    const finalLiClasses = [depthClass, typeClass, highlightClass, ...existingClasses].filter(Boolean);
-
-    if (isPlaceholder) {
-      const labelNode = {
-        type: 'paragraph',
-        data: { hName: 'div' },
-        children: [contentSpan],
-      };
-      ctx.setProperty(node, 'children', [labelNode as any]);
-    } else if (isFolder && hasNestedList) {
-      const summaryNode = {
-        type: 'paragraph',
-        data: { hName: 'summary' },
-        children: [contentSpan],
-      };
-      const restChildren = node.children.slice(1);
-      const detailsNode = {
-        type: 'containerDirective',
-        data: { hName: 'details', hProperties: { open: true } },
-        children: [summaryNode, ...restChildren],
-      };
-      ctx.setProperty(node, 'children', [detailsNode as any]);
-    } else {
-      const labelNode = {
-        type: 'paragraph',
-        data: { hName: 'div' },
-        children: [contentSpan],
-      };
-      ctx.setProperty(node, 'children', [labelNode as any]);
-    }
-
-    const bData = node.data || {};
-    const liProps: any = { className: finalLiClasses };
-    if (ext) {
-      liProps['data-ext'] = ext;
-    }
-    ctx.setProperty(node, 'data', {
-      ...bData,
-      hProperties: liProps,
-    });
-  },
-});
+.prose .file-tree li.tree-file:hover > div span.tree-file::before {
+  background-color: var(--accent) !important;
+}
+.prose .file-tree li.tree-file:hover > div {
+  color: var(--accent);
+  cursor: default;
+}
+.prose .file-tree li.tree-folder:hover > details > summary span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+.prose .file-tree li.tree-folder:hover > details > summary {
+  color: var(--accent);
+}
