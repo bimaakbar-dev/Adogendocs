@@ -72,7 +72,7 @@ export default defineConfig({
         satteriCallout,
         satteriSteps,
         satteriChangelog,
-        satteriDetails,
+        //satteriDetails,
         satteriFileTree,
         satteriTabs
       ],
