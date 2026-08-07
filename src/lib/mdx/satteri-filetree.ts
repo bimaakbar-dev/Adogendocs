@@ -25,7 +25,6 @@ function splitComment(raw: string): { name: string; comment: string } {
 }
 
 function isPlaceholderName(name: string): boolean {
-  // ONLY true if EXACTLY "..." or "…" (not part of [...slug])
   const trimmed = name.trim();
   return trimmed === '...' || trimmed === '…';
 }
@@ -50,7 +49,7 @@ function getDepth(ctx: any, node: any): number {
 function getFileExtension(fileName: string): string {
   const trimmed = fileName.trim();
   if (trimmed.endsWith('/')) return 'folder';
-  // Handle files with no extension (like .env, .gitignore)
+  // Handle dotfiles like .env, .gitignore
   if (trimmed.startsWith('.')) {
     const parts = trimmed.split('.');
     if (parts.length > 1) {
@@ -176,25 +175,22 @@ export const satteriFileTree = defineMdastPlugin({
     }
 
     // ============================================
-    // DETEKSI TIPE
+    // DETEKSI TIPE & EKSTENSI
     // ============================================
-    // Placeholder detection: only if fileName is exactly "..." or "…"
     isPlaceholder = isPlaceholderName(fileName);
 
     const isFolder = !isPlaceholder && (fileName.endsWith('/') || hasNestedList);
     const isFile = !isPlaceholder && !isFolder;
 
-    // Remove trailing slash for display
     const displayName = isFolder ? fileName.replace(/\/$/, '').trim() : fileName.trim();
 
-    // Determine extension
     let ext = '';
     if (isFolder) {
       ext = 'folder';
     } else if (isFile) {
       ext = getFileExtension(fileName);
     }
-    // Placeholder gets no ext (or empty string)
+    // Placeholder: ext tetap empty string, tidak akan ditambahkan ke data-ext
 
     // ============================================
     // BUILD SPAN UTAMA
@@ -208,8 +204,14 @@ export const satteriFileTree = defineMdastPlugin({
     } else {
       // Konten utama
       if (isHighlighted && strongNode) {
-        // Clone strong node and trim text inside
-        const strongClone = { ...strongNode, children: strongNode.children?.map((c: any) => ({ ...c, value: c.value?.trim() })) };
+        // Clone strong node dan trim teks
+        const strongClone = {
+          ...strongNode,
+          children: strongNode.children?.map((c: any) => ({
+            ...c,
+            value: c.value?.trim(),
+          })),
+        };
         spanChildren.push(strongClone);
       } else {
         spanChildren.push({ type: 'text', value: displayName });
@@ -241,7 +243,7 @@ export const satteriFileTree = defineMdastPlugin({
     };
 
     // ============================================
-    // WRAPPER (summary atau div) — PASTIKAN tree-label
+    // WRAPPER (summary atau div) — PASTIKAN ADA tree-label
     // ============================================
     const wrapperClasses: string[] = ['tree-label'];
     if (isHighlighted) wrapperClasses.push('tree-highlight');
