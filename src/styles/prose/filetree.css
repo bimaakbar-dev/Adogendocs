@@ -1,20 +1,62 @@
 :root {
-  --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
-  --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
+  --ic-ft-folder: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb25zLXRhYmxlci1maWxsZWQgaWNvbi10YWJsZXItZm9sZGVyIj48cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiIC8+PHBhdGggZD0iTTkgM2ExIDEgMCAwIDEgLjYwOCAuMjA2bC4xIC4wODdsMi43MDYgMi43MDdoNi41ODZhMyAzIDAgMCAxIDIuOTk1IDIuODI0bC4wMDUgLjE3NnY4YTMgMyAwIDAgMSAtMi44MjQgMi45OTVsLS4xNzYgLjAwNWgtMTRhMyAzIDAgMCAxIC0yLjk5NSAtMi44MjRsLS4wMDUgLS4xNzZ2LTExYTMgMyAwIDAgMSAyLjgyNCAtMi45OTVsLjE3NiAtLjAwNWg0eiIgLz48L3N2Zz4=");
+  --ic-ft-file: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb25zLXRhYmxlci1maWxsZWQgaWNvbi10YWJsZXItZmlsZSI+PHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9Ik0xMiAybC4xMTcgLjAwN2ExIDEgMCAwIDEgLjg3NiAuODc2bC4wMDcgLjExN3Y0bC4wMDUgLjE1YTIgMiAwIDAgMCAxLjgzOCAxLjg0NGwuMTU3IC4wMDZoNGwuMTE3IC4wMDdhMSAxIDAgMCAxIC44NzYgLjg3NmwuMDA3IC4xMTd2OWEzIDMgMCAwIDEgLTIuODI0IDIuOTk1bC0uMTc2IC4wMDVoLTEwYTMgMyAwIDAgMSAtMi45OTUgLTIuODI0bC0uMDA1IC0uMTc2di0xNGEzIDMgMCAwIDEgMi44MjQgLTIuOTk1bC4xNzYgLS4wMDVoNXoiIC8+PHBhdGggZD0iTTE5IDdoLTRsLS4wMDEgLTQuMDAxeiIgLz48L3N2Zz4=");
+  
+  --ic-ft-astro: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb25zLXRhYmxlci1vdXRsaW5lIGljb24tdGFibGVyLWJyYW5kLWFzdHJvIj48cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIC8+PHBhdGggZD0iTTE0Ljk3MiAzLjQ4M2MuMTYzIC4xOTYgLjI0NyAuNDYgLjQxMyAuOTg3bDMuNjQgMTEuNTNhMTUuNSAxNS41IDAgMCAwIC00LjM1MiAtMS40MmwtMi4zNyAtNy43MjNhLjMxIC4zMSAwIDAgMCAtLjI5NiAtLjIxM2EuMzEgLjMxIDAgMCAwIC0uMjk1IC4yMTRsLTIuMzQyIDcuNzE4YTE1LjUgMTUuNSAwIDAgMCAtNC4zNyAxLjQyMmwzLjY1NyAtMTEuNTNjLjE2OCAtLjUyNyAuMjUxIC0uNzkgLjQxNSAtLjk4NmMuMTQ0IC0uMTcyIC4zMzEgLS4zMDYgLjU0NCAtLjM4OGMuMjQyIC0uMDk0IC41MjcgLS4wOTQgMS4wOTkgLS4wOTRoMi42MTJjLjU3MiAwIC44NTggMCAxLjEgLjA5NGMuMjEzIC4wODIgLjQgLjIxNyAuNTQ1IC4zOSIgLz48cGF0aCBkPSJNOSAxOGMwIDEuNSAyIDMgMyA0YzEgLTEgMyAtMyAzIC00cSAtMyAxLjUgLTYgMCIgLz48L3N2Zz4=");
+  --ic-ft-ts: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMzE3OGM2Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMzE3OGM2Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-js: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjdkZjFlIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjdkZjFlIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-css: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMjk2NWYxIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMjk2NWYxIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-html: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZTM0ZjI2Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZTM0ZjI2Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-json: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNTA1MDUwIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjNTA1MDUwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-md: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNDJhNWY1Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjNDJhNWY1Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-svg: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmY5ODAwIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZmY5ODAwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-png: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZTkxZTYzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZTkxZTYzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-jpg: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZTkxZTYzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZTkxZTYzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-ico: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmY1NzIyIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZmY1NzIyIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-pdf: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjQ0MzM2Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjQ0MzM2Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-zip: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmZjMTA3Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZmZjMTA3Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-env: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNGNhZjUwIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjNGNhZjUwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-sh: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMzMzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMzMzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-py: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMzc3NmFiIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMzc3NmFiIi8+PHBhdGggZmlsbD0iI2ZmZGIzIiBkPSJNNyA2aDEwdjJIN3ptMCA0aDZ2Mkg3em0wIDRoMTB2Mkg3eiIvPjwvc3ZnPg==");
+  --ic-ft-go: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDBhZGQ4Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMDBhZGQ4Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-rs: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZGVhNTg0Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZGVhNTg0Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-vue: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNDJiODgzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjNDJiODgzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-svelte: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzZTAwIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZmYzZTAwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-jsx: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNjFkYWZiIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjNjFkYWZiIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-tsx: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMzE3OGM2Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMzE3OGM2Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-mjs: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjdkZjFlIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjdkZjFlIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-cjs: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjdkZjFlIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjdkZjFlIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-yaml: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjY2IxNzE3Ij48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjY2IxNzE3Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-toml: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjOWMzODRhIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjOWMzODRhIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-xml: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmY2NjAwIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZmY2NjAwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-sql: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjI5MTExIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjI5MTExIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-lock: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjYmRiZGJkIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjYmRiZGJkIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-log: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjYmRiZGJkIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjYmRiZGJkIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-txt: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjOWU5ZTllIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjOWU5ZTllIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-csv: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMmI4Y2JlIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMmI4Y2JlIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-gitignore: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZjA1MDMzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjZjA1MDMzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-dockerfile: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMGRiN2VkIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMGRiN2VkIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
+  --ic-ft-makefile: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMzMzIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiBmaWxsPSIjMzMzIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTcgNmgxMHYySDd6bTAgNGg2djJIN3ptMCA0aDEwdjJIN3oiLz48L3N2Zz4=");
 }
 
 .prose .file-tree {
   display: block !important;
   width: 100%;
   max-width: 100%;
+  padding: 0.75rem 2rem;
+  margin: 2rem 0;
+  background-color: var(--bg-subtle);
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
   overflow-x: auto !important;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  background-color: var(--bg-muted);
-  border: 1px solid rgb(from var(--border) r g b / 80%);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 2rem;
-  margin: 2rem 0;
+}
+
+.prose .file-tree,
+.prose .file-tree * {
+  @apply text-code-14;
+  font-size: 14px !important;
 }
 
 .prose .file-tree ul {
@@ -27,69 +69,46 @@
 
 .prose .file-tree ul ul {
   margin: 0;
-  padding-inline-start: 1.5rem;
+  padding: 0 !important;
 }
 
 .prose .file-tree *:first-child { margin-top: 0; }
 .prose .file-tree *:last-child { margin-bottom: 0; }
 
-.prose .file-tree,
-.prose .file-tree * {
-  font-size: 14px !important;
-  font-family: var(--font-mono);
-}
-
 .prose .file-tree li {
   position: relative;
   margin: 0;
-  padding-block: 0.15rem;
+  padding-block: 0.25rem;
 }
 
-.prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
-.prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
-.prose .file-tree li.tree-depth-2,
-.prose .file-tree li.tree-depth-3,
-.prose .file-tree li.tree-depth-4,
-.prose .file-tree li.tree-depth-5,
-.prose .file-tree li.tree-depth-6 {
-  padding-left: 0.5rem !important;
-}
+.prose .file-tree li.tree-depth-0 { padding-inline-start: 0 !important; }
+.prose .file-tree li.tree-depth-1 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-2 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-3 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-4 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-5 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-6 { padding-inline-start: 2.5rem !important; }
 
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
-  left: -1rem;
-  top: 1rem;
+  left: 0.55rem;
+  top: 0.9rem;
   width: 0.5rem;
   border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
-  transition: border-color 0.2s;
 }
 
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: -1rem;
+  left: 0.55rem;
   top: 0;
   bottom: 0;
-  width: 1.5px;
-  height: 100%;
   border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
-  transition: border-color 0.2s;
 }
 
 .prose .file-tree ul ul > li:last-child::after {
-  height: 1rem;
-}
-
-.prose .file-tree li.tree-file:hover ~ .tree-file::before,
-.prose .file-tree li.tree-file:hover ~ .tree-file::after,
-.prose .file-tree li.tree-file:hover::before,
-.prose .file-tree li.tree-file:hover::after,
-.prose .file-tree li.tree-folder:hover ~ .tree-folder::before,
-.prose .file-tree li.tree-folder:hover ~ .tree-folder::after,
-.prose .file-tree li.tree-folder:hover::before,
-.prose .file-tree li.tree-folder:hover::after {
-  border-color: var(--accent) !important;
+  height: 0.9rem;
 }
 
 .prose .file-tree .tree-label {
@@ -98,8 +117,7 @@
   width: 100%;
   min-width: 0;
   margin: 0 !important;
-  padding: 0.15rem 0;
-  padding-left: 0 !important;
+  padding: 0 0.25rem;
   color: var(--fg);
   box-sizing: border-box;
 }
@@ -111,42 +129,40 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  vertical-align: middle;
 }
 
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important;
   list-style: disclosure-closed !important;
-  padding-left: 1.5rem !important;
-  margin: 0 !important;
   cursor: pointer;
+  padding: 0 0.25rem;
+  margin: 0 !important;
 }
 
 .prose .file-tree .tree-folder > details[open] > summary {
   list-style: disclosure-open !important;
 }
 
+.prose .file-tree .tree-folder > details > summary::marker,
 .prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
-  display: initial !important;
   color: inherit !important;
-}
-
-.prose .file-tree .tree-folder > details > summary::marker {
-  content: normal !important;
-  color: inherit !important;
+  transform: translateY(0.5rem);
 }
 
 .prose .file-tree .tree-folder > details > summary span {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  padding: 0;
+  vertical-align: middle;
 }
 
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 1em;
+  height: 1em;
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
@@ -156,7 +172,6 @@
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  transition: background-color 0.2s;
 }
 
 .prose .file-tree span.tree-folder::before {
@@ -167,6 +182,147 @@
 .prose .file-tree span.tree-file::before {
   mask-image: var(--ic-ft-file);
   -webkit-mask-image: var(--ic-ft-file);
+}
+
+.prose .file-tree li[data-ext="astro"] span.tree-file::before {
+  mask-image: var(--ic-ft-astro);
+  -webkit-mask-image: var(--ic-ft-astro);
+}
+.prose .file-tree li[data-ext="ts"] span.tree-file::before {
+  mask-image: var(--ic-ft-ts);
+  -webkit-mask-image: var(--ic-ft-ts);
+}
+.prose .file-tree li[data-ext="js"] span.tree-file::before {
+  mask-image: var(--ic-ft-js);
+  -webkit-mask-image: var(--ic-ft-js);
+}
+.prose .file-tree li[data-ext="css"] span.tree-file::before {
+  mask-image: var(--ic-ft-css);
+  -webkit-mask-image: var(--ic-ft-css);
+}
+.prose .file-tree li[data-ext="html"] span.tree-file::before {
+  mask-image: var(--ic-ft-html);
+  -webkit-mask-image: var(--ic-ft-html);
+}
+.prose .file-tree li[data-ext="json"] span.tree-file::before {
+  mask-image: var(--ic-ft-json);
+  -webkit-mask-image: var(--ic-ft-json);
+}
+.prose .file-tree li[data-ext="md"] span.tree-file::before {
+  mask-image: var(--ic-ft-md);
+  -webkit-mask-image: var(--ic-ft-md);
+}
+.prose .file-tree li[data-ext="svg"] span.tree-file::before {
+  mask-image: var(--ic-ft-svg);
+  -webkit-mask-image: var(--ic-ft-svg);
+}
+.prose .file-tree li[data-ext="png"] span.tree-file::before {
+  mask-image: var(--ic-ft-png);
+  -webkit-mask-image: var(--ic-ft-png);
+}
+.prose .file-tree li[data-ext="jpg"] span.tree-file::before {
+  mask-image: var(--ic-ft-jpg);
+  -webkit-mask-image: var(--ic-ft-jpg);
+}
+.prose .file-tree li[data-ext="ico"] span.tree-file::before {
+  mask-image: var(--ic-ft-ico);
+  -webkit-mask-image: var(--ic-ft-ico);
+}
+.prose .file-tree li[data-ext="pdf"] span.tree-file::before {
+  mask-image: var(--ic-ft-pdf);
+  -webkit-mask-image: var(--ic-ft-pdf);
+}
+.prose .file-tree li[data-ext="zip"] span.tree-file::before {
+  mask-image: var(--ic-ft-zip);
+  -webkit-mask-image: var(--ic-ft-zip);
+}
+.prose .file-tree li[data-ext="env"] span.tree-file::before {
+  mask-image: var(--ic-ft-env);
+  -webkit-mask-image: var(--ic-ft-env);
+}
+.prose .file-tree li[data-ext="sh"] span.tree-file::before {
+  mask-image: var(--ic-ft-sh);
+  -webkit-mask-image: var(--ic-ft-sh);
+}
+.prose .file-tree li[data-ext="py"] span.tree-file::before {
+  mask-image: var(--ic-ft-py);
+  -webkit-mask-image: var(--ic-ft-py);
+}
+.prose .file-tree li[data-ext="go"] span.tree-file::before {
+  mask-image: var(--ic-ft-go);
+  -webkit-mask-image: var(--ic-ft-go);
+}
+.prose .file-tree li[data-ext="rs"] span.tree-file::before {
+  mask-image: var(--ic-ft-rs);
+  -webkit-mask-image: var(--ic-ft-rs);
+}
+.prose .file-tree li[data-ext="vue"] span.tree-file::before {
+  mask-image: var(--ic-ft-vue);
+  -webkit-mask-image: var(--ic-ft-vue);
+}
+.prose .file-tree li[data-ext="svelte"] span.tree-file::before {
+  mask-image: var(--ic-ft-svelte);
+  -webkit-mask-image: var(--ic-ft-svelte);
+}
+.prose .file-tree li[data-ext="jsx"] span.tree-file::before {
+  mask-image: var(--ic-ft-jsx);
+  -webkit-mask-image: var(--ic-ft-jsx);
+}
+.prose .file-tree li[data-ext="tsx"] span.tree-file::before {
+  mask-image: var(--ic-ft-tsx);
+  -webkit-mask-image: var(--ic-ft-tsx);
+}
+.prose .file-tree li[data-ext="mjs"] span.tree-file::before {
+  mask-image: var(--ic-ft-mjs);
+  -webkit-mask-image: var(--ic-ft-mjs);
+}
+.prose .file-tree li[data-ext="cjs"] span.tree-file::before {
+  mask-image: var(--ic-ft-cjs);
+  -webkit-mask-image: var(--ic-ft-cjs);
+}
+.prose .file-tree li[data-ext="yaml"] span.tree-file::before {
+  mask-image: var(--ic-ft-yaml);
+  -webkit-mask-image: var(--ic-ft-yaml);
+}
+.prose .file-tree li[data-ext="toml"] span.tree-file::before {
+  mask-image: var(--ic-ft-toml);
+  -webkit-mask-image: var(--ic-ft-toml);
+}
+.prose .file-tree li[data-ext="xml"] span.tree-file::before {
+  mask-image: var(--ic-ft-xml);
+  -webkit-mask-image: var(--ic-ft-xml);
+}
+.prose .file-tree li[data-ext="sql"] span.tree-file::before {
+  mask-image: var(--ic-ft-sql);
+  -webkit-mask-image: var(--ic-ft-sql);
+}
+.prose .file-tree li[data-ext="lock"] span.tree-file::before {
+  mask-image: var(--ic-ft-lock);
+  -webkit-mask-image: var(--ic-ft-lock);
+}
+.prose .file-tree li[data-ext="log"] span.tree-file::before {
+  mask-image: var(--ic-ft-log);
+  -webkit-mask-image: var(--ic-ft-log);
+}
+.prose .file-tree li[data-ext="txt"] span.tree-file::before {
+  mask-image: var(--ic-ft-txt);
+  -webkit-mask-image: var(--ic-ft-txt);
+}
+.prose .file-tree li[data-ext="csv"] span.tree-file::before {
+  mask-image: var(--ic-ft-csv);
+  -webkit-mask-image: var(--ic-ft-csv);
+}
+.prose .file-tree li[data-ext="gitignore"] span.tree-file::before {
+  mask-image: var(--ic-ft-gitignore);
+  -webkit-mask-image: var(--ic-ft-gitignore);
+}
+.prose .file-tree li[data-ext="dockerfile"] span.tree-file::before {
+  mask-image: var(--ic-ft-dockerfile);
+  -webkit-mask-image: var(--ic-ft-dockerfile);
+}
+.prose .file-tree li[data-ext="makefile"] span.tree-file::before {
+  mask-image: var(--ic-ft-makefile);
+  -webkit-mask-image: var(--ic-ft-makefile);
 }
 
 .prose .file-tree div.tree-label[data-highlight] {
@@ -193,8 +349,8 @@
 
 .prose .file-tree .tree-label[data-placeholder] {
   opacity: 0.5;
-  font-style: italic;
   color: var(--fg-muted);
+  padding-right: 0 !important;
 }
 
 .prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
@@ -203,8 +359,7 @@
 
 .prose .file-tree .tree-comment {
   color: var(--fg-muted);
-  font-size: 0.75rem;
-  font-style: italic;
+  font-size: 13px !important;
   margin-left: 0.25rem;
 }
 
@@ -222,5 +377,5 @@
 }
 
 .prose .file-tree .tree-folder > details > summary:hover .tree-label {
-  color: var(--accent);
+  color: var(--accent) !important;
 }
