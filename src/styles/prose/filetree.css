@@ -1,6 +1,7 @@
-/* ============================================
-   FILETREE
-   ============================================ */
+:root {
+  --ic-ft-folder: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E");
+  --ic-ft-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E");
+}
 
 .prose .file-tree {
   display: block !important;
@@ -38,19 +39,11 @@
   font-family: var(--font-mono);
 }
 
-/* ============================================
-   ITEM
-   ============================================ */
-
 .prose .file-tree li {
   position: relative;
   margin: 0;
   padding-block: 0.15rem;
 }
-
-/* ============================================
-   DEPTH
-   ============================================ */
 
 .prose .file-tree li.tree-depth-0 { padding-left: 0 !important; }
 .prose .file-tree li.tree-depth-1 { padding-left: 0.25rem !important; }
@@ -61,10 +54,6 @@
 .prose .file-tree li.tree-depth-6 {
   padding-left: 0.5rem !important;
 }
-
-/* ============================================
-   GARIS TREE
-   ============================================ */
 
 .prose .file-tree ul ul > li::before {
   content: "";
@@ -92,10 +81,6 @@
   height: 1rem;
 }
 
-/* ============================================
-   HOVER BORDER
-   ============================================ */
-
 .prose .file-tree li.tree-file:hover ~ .tree-file::before,
 .prose .file-tree li.tree-file:hover ~ .tree-file::after,
 .prose .file-tree li.tree-file:hover::before,
@@ -106,10 +91,6 @@
 .prose .file-tree li.tree-folder:hover::after {
   border-color: var(--accent) !important;
 }
-
-/* ============================================
-   WRAPPER
-   ============================================ */
 
 .prose .file-tree .tree-label {
   display: flex;
@@ -131,10 +112,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* ============================================
-   FOLDER — DETAILS MARKER DEFAULT
-   ============================================ */
 
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important;
@@ -158,26 +135,18 @@
   color: inherit !important;
 }
 
-/* ============================================
-   FOLDER — SPAN DI DALAM SUMMARY
-   ============================================ */
-
 .prose .file-tree .tree-folder > details > summary span {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-/* ============================================
-   IKON FOLDER & FILE
-   ============================================ */
-
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
@@ -200,10 +169,6 @@
   -webkit-mask-image: var(--ic-ft-file);
 }
 
-/* ============================================
-   HIGHLIGHT
-   ============================================ */
-
 .prose .file-tree .tree-label[data-highlight] {
   padding: 0.1rem 0.75rem;
   color: var(--accent) !important;
@@ -221,10 +186,6 @@
   font-weight: 600;
 }
 
-/* ============================================
-   PLACEHOLDER
-   ============================================ */
-
 .prose .file-tree .tree-label[data-placeholder] {
   opacity: 0.5;
   font-style: italic;
@@ -235,20 +196,12 @@
   display: none !important;
 }
 
-/* ============================================
-   KOMENTAR
-   ============================================ */
-
 .prose .file-tree .tree-comment {
   color: var(--fg-muted);
   font-size: 0.75rem;
   font-style: italic;
   margin-left: 0.25rem;
 }
-
-/* ============================================
-   HOVER
-   ============================================ */
 
 .prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
   background-color: var(--accent) !important;
