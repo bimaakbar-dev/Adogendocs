@@ -39,7 +39,7 @@ function getDepth(ctx: any, node: any): number {
     }
     current = parent;
   }
-  return depth;
+  return Math.max(0, depth - 1);
 }
 
 function getFileExtension(fileName: string): string {
@@ -82,25 +82,20 @@ export const satteriFileTree = defineMdastPlugin({
   listItem(node: any, ctx: any) {
     let current: any = node;
     let isInside = false;
-    let depth = 0;
 
     while (true) {
       const parent = ctx.parent(current);
       if (!parent) break;
-
-      if (parent.type === 'list') {
-        depth++;
-      }
-
       if (parent.type === 'containerDirective' && (parent as any).name === 'filetree') {
         isInside = true;
         break;
       }
-
       current = parent;
     }
 
     if (!isInside) return;
+
+    const depth = getDepth(ctx, node);
 
     const firstChild = node.children[0];
     const hasNestedList = node.children.some((c: any) => c.type === 'list');
@@ -217,9 +212,6 @@ export const satteriFileTree = defineMdastPlugin({
       children: spanChildren,
     };
 
-    // ============================================
-    // WRAPPER (summary atau div) — PAKAI ATRIBUT
-    // ============================================
     const wrapperProps: any = {
       className: ['tree-label'],
     };
@@ -227,9 +219,6 @@ export const satteriFileTree = defineMdastPlugin({
     if (isHighlighted) wrapperProps['data-highlight'] = '';
     if (isPlaceholder) wrapperProps['data-placeholder'] = '';
 
-    // ============================================
-    // CLASSES UNTUK LI + DATA-EXT
-    // ============================================
     const existingClasses = (node.data?.hProperties?.className as string[]) || [];
     const depthClass = `tree-depth-${depth}`;
     const typeClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
@@ -277,9 +266,6 @@ export const satteriFileTree = defineMdastPlugin({
       ctx.setProperty(node, 'children', [labelNode as any]);
     }
 
-    // ============================================
-    // SET CLASS & DATA-EXT PADA LI
-    // ============================================
     const bData = node.data || {};
     const liProps: any = {
       className: finalLiClasses,
