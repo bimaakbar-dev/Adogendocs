@@ -177,7 +177,91 @@ Halaman ini berisi berbagai contoh **filetree** untuk menguji:
     - favicon.ico
 :::
 
-### 6. Kombinasi Semua Fitur
+## 6. Filetree Depth Test
+
+```md
+:::filetree
+- level-0-root-file.txt
+- level-0-root-folder/
+  - level-1-file.md
+  - level-1-folder/
+    - level-2-file.js
+    - level-2-folder/
+      - level-3-file.ts
+      - level-3-folder/
+        - level-4-file.astro
+        - level-4-folder/
+          - level-5-file.css
+          - level-5-folder/
+            - level-6-file.json
+            - ...
+- src/
+  - components/
+    - ui/
+      - Button.astro
+      - Card.astro
+      - forms/
+        - Input.astro
+        - Select.astro
+        - ...
+    - layout/
+      - BaseLayout.astro
+  - pages/
+    - docs/
+      - getting-started/
+        - index.astro
+        - installation.astro
+        - configuration/
+          - index.astro
+          - advanced/
+            - custom-theme.astro
+            - ...
+- package.json
+- **README.md** # highlight di root
+:::
+```
+
+:::filetree
+- level-0-root-file.txt
+- level-0-root-folder/
+  - level-1-file.md
+  - level-1-folder/
+    - level-2-file.js
+    - level-2-folder/
+      - level-3-file.ts
+      - level-3-folder/
+        - level-4-file.astro
+        - level-4-folder/
+          - level-5-file.css
+          - level-5-folder/
+            - level-6-file.json
+            - ...
+- src/
+  - components/
+    - ui/
+      - Button.astro
+      - Card.astro
+      - forms/
+        - Input.astro
+        - Select.astro
+        - ...
+    - layout/
+      - BaseLayout.astro
+  - pages/
+    - docs/
+      - getting-started/
+        - index.astro
+        - installation.astro
+        - configuration/
+          - index.astro
+          - advanced/
+            - custom-theme.astro
+            - ...
+- package.json
+- **README.md** # highlight di root
+:::
+
+### 7. Kombinasi Semua Fitur
 
 ```md
 :::filetree
