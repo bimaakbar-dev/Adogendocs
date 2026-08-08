@@ -169,10 +169,15 @@
   -webkit-mask-image: var(--ic-ft-file);
 }
 
-.prose .file-tree .tree-label[data-highlight] {
-  padding: 0.1rem 0.75rem;
-  color: var(--accent) !important;
+.prose .file-tree div.tree-label[data-highlight] {
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree summary.tree-label[data-highlight] {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
   border-radius: var(--radius-sm);
 }
 
